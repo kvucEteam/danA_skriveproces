@@ -195,8 +195,8 @@ function setupplayer() {
             'controls': 0,
             'showinfo': 0,
             'modestbranding': 1,
-            'html5':1,
-            'playsinline':1,
+            'html5': 1,
+            'playsinline': 1,
             'rel': 0,
             'autoplay': false,
             wmode: 'transparent',
@@ -243,7 +243,7 @@ function timerCheck() {
     if (playing == true) {
         $(".ipad").hide();
     }
-console.log($(".embed-responsive-16by9").width());
+    //console.log($(".embed-responsive-16by9").width());
     var playTime = Math.round(player.getCurrentTime());
 
     //Gør overlay og timebar responsive:
@@ -314,7 +314,7 @@ function introscreen() {
             $("#overlay").unbind();
         });
 
-          if (navigator.platform.indexOf("iPad") != -1 || navigator.platform.indexOf("iPhone") != -1) {
+        if (navigator.platform.indexOf("iPad") != -1 || navigator.platform.indexOf("iPhone") != -1) {
             showIosOverlay();
         } else {
             resumeVideo();
