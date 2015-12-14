@@ -1,0 +1,36 @@
+[{
+        "video": "NYgtT2tCoh4"
+    },
+
+    {
+        "intro_header": "Talemåder og ordsprog"
+    },
+
+    {
+        "intro_text": "Læg mærke til de talemåder og ordsprog, der anvendes i sketchen. Du vil blive bedt om at vælge den rigtige af flere talemåder og ordspeorg. Desuden skal du arbejde med hvad betydningen er."
+    },
+
+    {
+        "intro_knap": "Begynd opgaven"
+    },
+
+    {
+        "stops": [ {
+
+
+            "timestamp": 24,
+            "events": [{
+                "eventtype": "svarknap",
+                "tekst": "De er sandelig en dame med begge ben i næsen - vælg det rigtige svar:",
+                "svar": [
+
+                     "at tage benene over næsen", "at have ben i næsen", "at stikke hovedet mellem benene"
+                ],
+                "korrekt": [
+                    "1"
+                ],
+                "feedback": "feedback....."
+            }]
+        }]
+    }
+]
