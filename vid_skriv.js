@@ -160,10 +160,9 @@ function loadGenericData() {
     });
 
 }
-
-
-
+////////////////////////////////////////////////////////////////////
 /// PLAYER SCRIPT - SETUP tube
+////////////////////////////////////////////////////////////////////
 function setUpTube() {
     //console.log("sut");
     var tag = document.createElement('script');
@@ -181,6 +180,10 @@ function onYouTubeIframeAPIReady() {
     console.log("onYouTubeIframeAPIReady");
 
 }
+
+////////////////////////////////////////////////////////////////////
+///////////////////     PLAYER VARS HER: /////////////////////////// 
+////////////////////////////////////////////////////////////////////
 
 function setupplayer() {
     $("#overlay").toggle();
@@ -235,48 +238,58 @@ function setupplayer() {
     $(".popud").css("left", popud_left);
 }
 
-
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
 
 /// Herunder er scriptet identisk med vid_new_web.js
 
 function timerCheck() {
-    if (playing == true) {
-        $(".ipad").hide();
-    }
-    //console.log($(".embed-responsive-16by9").width());
+
     var playTime = Math.round(player.getCurrentTime());
 
-    //Gør overlay og timebar responsive:
+
+    ////////////////// MAIN CHECK AF STOPS: 
+
+    if (playTime >= timestamp_num && playing === true) {
+        clearInterval(checkTimer);
+        playing = false;
+        player.pauseVideo();
+        stop_event(runde, 0);
+    }
+    /////////////////////////////MAIN CHECK SLUT/////////
+
+
     var embed_height = $(".embed-responsive").css("height");
-    $("#overlay").css("height", embed_height); //                    $("#time_bar").css("width", player.getCurrentTime() * 10 + "px");
+
+    $("#overlay").css("height", embed_height);
     $("#time_bar").css("width", (player.getCurrentTime() / player.getDuration()) * $(".embed-responsive-16by9").width());
 
-    //Udregn minutter og sekunder til timebar:
+    ////////////////////Udregn minutter og sekunder til timebar:
     var s = playTime - (m * 60);
     if (s > 59) {
         m++;
     }
-
     var dec_s = s;
     if (dec_s < 10) {
         dec_s = "0" + dec_s;
     }
 
     var timestamp_num = parseInt(timestamp_Array[runde]);
-
     var tid_min_sek = timestamp_num - playTime;
-
     var tid_sek = tid_min_sek % 60;
 
     if (tid_sek < 10) {
         tid_sek = tid_sek.toString();
         tid_sek = "0" + tid_sek;
     }
-
     var tid_min = Math.floor(tid_min_sek / 60);
+    ////////////////////Udregning slut///////////////////////////
+
+
+
+    ///////////////////// Opdater timer og tid i html:
     if (playing === true) {
         if (runde >= stops.length) {
-
             $('#time').html(m + ":" + dec_s + "<span style ='color:#bbb'>/" + total_spille_tid + "  </span>");
         } else {
             $('#time').html(m + ":" + dec_s + "<span style ='color:#bbb'>/" + total_spille_tid + "  </span>(Næste spørgsmål om: " + tid_min + ":" + tid_sek + ")");
@@ -284,17 +297,19 @@ function timerCheck() {
     } else {
         $('#time').html("Video på pause");
     }
+    ///////////////////////////
 
-    //console.log(playTime + "," + timestamp_Array[runde] + ", " + player.getPlaybackRate());
-    if (playTime >= timestamp_num && playing === true) {
-        clearInterval(checkTimer);
-        playing = false;
-        player.pauseVideo();
-        stop_event(runde, 0);
+
+    ////////////////////////////////////////////////////////////////////
+    //HVIS DET ER Ipad.mode, så skjul info skærm (er det performance problem??)
+
+    if (playing == true) {
+        $(".ipad").hide();
     }
+    /// Ipad slut 
 }
 
-// 4. The API will call this function when the video player is ready.
+
 
 function resumeVideo() {
     player.playVideo();
@@ -302,9 +317,9 @@ function resumeVideo() {
     console.log("resume..");
 }
 
+
 function introscreen() {
     player.pauseVideo();
-
     $("#overlay").fadeIn(1000);
     $("#overlay").append("<div class='intro'><div class='h2'>" + intro_header + "</div><p class='h4 feed_txt'>" + intro_text + "</p><div class='btn btn-default btn-lg introknap'>" + intro_knap + "</div></div>");
     $("#overlay").click(function() {
@@ -324,13 +339,9 @@ function introscreen() {
 
 
 function stop_event(tal, taeller) {
-
     var chosen = false;
-
-    //console.log("HEJ FRA: stop_event");
-
+ 
     //Hvis det er første event --> fade overlay ind..!
-
     if (events_taeller === 0) {
         $("#overlay").fadeIn();
     }
@@ -371,17 +382,13 @@ function stop_event(tal, taeller) {
     $(".btn_videre").hide();
 
     if (spm.eventtype == "info") {
-        // FAULTY CODE:::
         $(".btn_videre").fadeIn()
         $(".btn_videre").click(function() {
-            //  $("#overlay").fadeOut(1000);
             next_event();
         });
 
     } else {
-
         $(".svar_btn").click(function() {
-
             if (spm.eventtype == "svarknap") {
                 $(".svar_btn").removeClass("btn_chosen btn-primary");
                 $(".svar_btn").addClass("btn-info");
@@ -397,10 +404,7 @@ function stop_event(tal, taeller) {
                 $(".btn_videre").fadeIn().click(commit_answers);
                 chosen = true;
             }
-
         });
-
-
     }
 
 }
