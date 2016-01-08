@@ -1,0 +1,56 @@
+{
+	"header" : "Overskrift til kursisten",
+	"subHeader" : "Du skal skrive en debatartikel",
+	"subjects" : ["Rygning", "Syrien", "Atomkraft", "Grafitti", "Spis mindre kød", "Doping", "Prostitution", "Lægeordineret heroin", "Fri hash"],
+	"steps" : [
+		{
+			"step" : 0,
+			"header" : "Guidet skriveproces - skriv en debatartikel.",
+			"img" : {"src" : "img/dummyImg_750x350.png", "alt" : "Billede af XXX"},
+			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+		},{
+			"step" : 1,
+			"subHeader" : "Vælg et af følgende emner (klik og vælg)",
+			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+		},{
+			"step" : 2,
+			"subHeader" : "Lav en brainstorm på dit valgte emne:",
+			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+		},{
+			"step" : 3,
+			"header" : "XXX header XXX",
+			"subHeader" : "XXX subHeader XXX",
+			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+		},{
+			"step" : 4,
+			"header" : "XXX header XXX",
+			"subHeader" : "XXX subHeader XXX",
+			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+		},{
+			"step" : 5,
+			"header" : "XXX header XXX",
+			"subHeader" : "XXX subHeader XXX",
+			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+		},{
+			"step" : 6,
+			"header" : "XXX header XXX",
+			"subHeader" : "XXX subHeader XXX",
+			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+		},{
+			"step" : 7,
+			"header" : "XXX header XXX",
+			"subHeader" : "XXX subHeader XXX",
+			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+		},{
+			"step" : 8,
+			"header" : "XXX header XXX",
+			"subHeader" : "XXX subHeader XXX",
+			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+		},{
+			"step" : 9,
+			"header" : "XXX header XXX",
+			"subHeader" : "XXX subHeader XXX",
+			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+		}
+	]
+}

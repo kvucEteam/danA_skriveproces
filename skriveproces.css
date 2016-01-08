@@ -1,0 +1,34 @@
+.row .btn-info, .row .btn-primary{
+	margin: 0px 15px 15px 0px;
+}
+
+#SubjectContainer .btn-primary:hover, 
+#subjectWordContainer .btn-primary:hover,
+#subjectWordContainer_btn .btn-primary:hover{
+    background-color: #969696;
+    border: 1px solid #969696;
+    color: #FFF;
+}
+
+#SubjectContainer .btn-primary, 
+#subjectWordContainer .btn-primary, 
+#subjectWordContainer_btn .btn-primary {
+    background-color: #666666;
+    border: 1px solid #666666;
+    color: #fff;
+}
+
+audio {
+/*
+	position: relative;
+	top: 10px;
+*/
+}
+
+.input-group {
+	margin: 0px 15px 15px 20px;
+}
+
+.step .input-group {
+	display: inline-flex;
+}
