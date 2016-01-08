@@ -1,5 +1,6 @@
 
 
+
 /* 
 Funktionalitet gem word-fil: 
 */
@@ -10,7 +11,9 @@ Funktionalitet gem word-fil:
 
 
     $(".saveFile").click(function() {
+
         saveAs(converted, 'test.docx');
     });
+
 
 

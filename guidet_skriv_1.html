@@ -14,7 +14,18 @@
 <body>
     <div class="container-fluid">
         <div class="col-xs-12">
-            <div class="h1">Save as Word file</div>
+            <div class="h1">Find de rigtige talemåder</div>
+            <div class="embed-responsive embed-responsive-16by9 col-xs-12 col-md-12">
+                <div id="player" class="embed-responsive-item"> </div>
+                <div id="time">
+                </div>
+                <div id="time_bar"></div>
+            </div>
+            <div id="overlay">
+                <div class="popud">
+                </div>
+            </div>
+        </div>
         <div class="saveFile btn btn-default">Save File </div>
     </div>
     <script src="../library/vendor_scripts.js"></script>
@@ -23,9 +34,7 @@
     </script>
     <script src="filesaver.js"></script>
     <script src="vid_skriv.js"></script>
-    <script>
-    loadData("guidet_skriv_1.json");
-    </script>
+
     <script type="text/javascript">
     $(document).ready(function() {
         one_line_footer();
