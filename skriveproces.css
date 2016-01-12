@@ -1,10 +1,16 @@
+.container-fluid {
+    background-color: #FFF;
+}
+
 .row .btn-info, .row .btn-primary{
 	margin: 0px 15px 15px 0px;
 }
 
 #SubjectContainer .btn-primary:hover, 
 #subjectWordContainer .btn-primary:hover,
-#subjectWordContainer_btn .btn-primary:hover{
+#subjectWordContainer_btn .btn-primary:hover,
+#subjectWordField_btn_Container .btn-primary:hover,
+#subjectWordSentenceContainer .btn-primary:hover{
     background-color: #969696;
     border: 1px solid #969696;
     color: #FFF;
@@ -12,7 +18,9 @@
 
 #SubjectContainer .btn-primary, 
 #subjectWordContainer .btn-primary, 
-#subjectWordContainer_btn .btn-primary {
+#subjectWordContainer_btn .btn-primary, 
+#subjectWordField_btn_Container .btn-primary,
+#subjectWordSentenceContainer .btn-primary{
     background-color: #666666;
     border: 1px solid #666666;
     color: #fff;
@@ -31,4 +39,10 @@ audio {
 
 .step .input-group {
 	display: inline-flex;
+}
+
+.Sortable{
+    background-color: #f8f8f6;
+    padding: 10px;
+    margin-bottom: 10px;
 }

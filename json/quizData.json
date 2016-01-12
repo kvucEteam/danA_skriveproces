@@ -2,53 +2,62 @@
 	"header" : "Overskrift til kursisten",
 	"subHeader" : "Du skal skrive en debatartikel",
 	"subjects" : ["Rygning", "Syrien", "Atomkraft", "Grafitti", "Spis mindre kød", "Doping", "Prostitution", "Lægeordineret heroin", "Fri hash"],
+	"numOfChoosenWords" : 3,
+	"sentenceStarters" : 
+		{"id":"Dropdown1", "class":"Dropdown", 
+            "options":[
+                {"id":"id0", "class":"class0", "value":"Sætningsstarter 0: Lorem ipsum dolor sit amet..."},
+                {"id":"id1", "class":"class1", "value":"Sætningsstarter 1: Lorem ipsum dolor sit amet..."},
+                {"id":"id2", "class":"class2", "value":"Sætningsstarter 2: Lorem ipsum dolor sit amet..."},
+                {"id":"id3", "class":"class3", "value":"Sætningsstarter 3: Lorem ipsum dolor sit amet..."},
+                {"id":"id4", "class":"class4", "value":"Sætningsstarter 4: Lorem ipsum dolor sit amet..."},
+                {"id":"id5", "class":"class5", "value":"Sætningsstarter 5: Lorem ipsum dolor sit amet..."}
+            ]
+        },
 	"steps" : [
 		{
 			"step" : 0,
-			"header" : "Guidet skriveproces - skriv en debatartikel.",
-			"img" : {"src" : "img/dummyImg_750x350.png", "alt" : "Billede af XXX"},
+			"header" : "(step 0) Guidet skriveproces - skriv en debatartikel.",
+			"img" : {"src" : "img/start_img_750x350.jpg", "alt" : "Billede af XXX"},
 			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
 		},{
 			"step" : 1,
-			"subHeader" : "Vælg et af følgende emner (klik og vælg)",
+			"subHeader" : "(step 1) Vælg et af følgende emner (klik og vælg)",
 			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
 		},{
 			"step" : 2,
-			"subHeader" : "Lav en brainstorm på dit valgte emne:",
+			"subHeader" : "(step 2) Lav en brainstorm på dit valgte emne:",
 			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
 		},{
 			"step" : 3,
-			"header" : "XXX header XXX",
-			"subHeader" : "XXX subHeader XXX",
+			"subHeader" : "(step 3) Udvælg tre ord fra din brainstorm.",
 			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
 		},{
 			"step" : 4,
-			"header" : "XXX header XXX",
-			"subHeader" : "XXX subHeader XXX",
+			"subHeader" : "(step 4) Lav ord til sætninger - et ad gangen",
+			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+		},{
+			"step" : "4b",
+			"subHeader" : "(step 4b) Træk dine tre sætninger i rette rækkefølge.",
 			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
 		},{
 			"step" : 5,
-			"header" : "XXX header XXX",
+			"header" : "(step 6) XXX header XXX",
 			"subHeader" : "XXX subHeader XXX",
 			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
 		},{
 			"step" : 6,
-			"header" : "XXX header XXX",
+			"header" : "(step 7) XXX header XXX",
+			"subHeader" : "XXX subHeader XXX",
+			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+		},{
+			"step" : "6b",
+			"header" : "(step 8) XXX header XXX",
 			"subHeader" : "XXX subHeader XXX",
 			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
 		},{
 			"step" : 7,
-			"header" : "XXX header XXX",
-			"subHeader" : "XXX subHeader XXX",
-			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
-		},{
-			"step" : 8,
-			"header" : "XXX header XXX",
-			"subHeader" : "XXX subHeader XXX",
-			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
-		},{
-			"step" : 9,
-			"header" : "XXX header XXX",
+			"header" : "(step 9) XXX header XXX", 
 			"subHeader" : "XXX subHeader XXX",
 			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
 		}
