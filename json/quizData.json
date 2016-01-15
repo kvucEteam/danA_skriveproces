@@ -1,17 +1,37 @@
 {
-	"header" : "Overskrift til kursisten",
-	"subHeader" : "Du skal skrive en debatartikel",
 	"subjects" : ["Rygning", "Syrien", "Atomkraft", "Grafitti", "Spis mindre kød", "Doping", "Prostitution", "Lægeordineret heroin", "Fri hash"],
 	"numOfChoosenWords" : 3,
-	"sentenceStarters" : 
+	"sentenceStarters_word" : 
 		{"id":"Dropdown1", "class":"Dropdown", 
             "options":[
-                {"id":"id0", "class":"class0", "value":"Sætningsstarter 0: Lorem ipsum dolor sit amet..."},
-                {"id":"id1", "class":"class1", "value":"Sætningsstarter 1: Lorem ipsum dolor sit amet..."},
-                {"id":"id2", "class":"class2", "value":"Sætningsstarter 2: Lorem ipsum dolor sit amet..."},
-                {"id":"id3", "class":"class3", "value":"Sætningsstarter 3: Lorem ipsum dolor sit amet..."},
-                {"id":"id4", "class":"class4", "value":"Sætningsstarter 4: Lorem ipsum dolor sit amet..."},
-                {"id":"id5", "class":"class5", "value":"Sætningsstarter 5: Lorem ipsum dolor sit amet..."}
+                {"id":"id0", "class":"class0", "value":"Sætningsstarter - ord - 0: Lorem ipsum dolor sit amet..."},
+                {"id":"id1", "class":"class1", "value":"Sætningsstarter - ord -  1: Lorem ipsum dolor sit amet..."},
+                {"id":"id2", "class":"class2", "value":"Sætningsstarter - ord -  2: Lorem ipsum dolor sit amet..."},
+                {"id":"id3", "class":"class3", "value":"Sætningsstarter - ord -  3: Lorem ipsum dolor sit amet..."},
+                {"id":"id4", "class":"class4", "value":"Sætningsstarter - ord -  4: Lorem ipsum dolor sit amet..."},
+                {"id":"id5", "class":"class5", "value":"Sætningsstarter - ord -  5: Lorem ipsum dolor sit amet..."}
+            ]
+        },
+    "sentenceStarters_begin" : 
+		{"id":"Dropdown2", "class":"Dropdown", 
+            "options":[
+                {"id":"id0", "class":"class0", "value":"Sætningsstarter - start - 0: Lorem ipsum dolor sit amet..."},
+                {"id":"id1", "class":"class1", "value":"Sætningsstarter - start - 1: Lorem ipsum dolor sit amet..."},
+                {"id":"id2", "class":"class2", "value":"Sætningsstarter - start - 2: Lorem ipsum dolor sit amet..."},
+                {"id":"id3", "class":"class3", "value":"Sætningsstarter - start - 3: Lorem ipsum dolor sit amet..."},
+                {"id":"id4", "class":"class4", "value":"Sætningsstarter - start - 4: Lorem ipsum dolor sit amet..."},
+                {"id":"id5", "class":"class5", "value":"Sætningsstarter - start - 5: Lorem ipsum dolor sit amet..."}
+            ]
+        },
+    "sentenceStarters_end" : 
+		{"id":"Dropdown3", "class":"Dropdown", 
+            "options":[
+                {"id":"id0", "class":"class0", "value":"Sætningsstarter - slut - 0: Lorem ipsum dolor sit amet..."},
+                {"id":"id1", "class":"class1", "value":"Sætningsstarter - slut - 1: Lorem ipsum dolor sit amet..."},
+                {"id":"id2", "class":"class2", "value":"Sætningsstarter - slut - 2: Lorem ipsum dolor sit amet..."},
+                {"id":"id3", "class":"class3", "value":"Sætningsstarter - slut - 3: Lorem ipsum dolor sit amet..."},
+                {"id":"id4", "class":"class4", "value":"Sætningsstarter - slut - 4: Lorem ipsum dolor sit amet..."},
+                {"id":"id5", "class":"class5", "value":"Sætningsstarter - slut - 5: Lorem ipsum dolor sit amet..."}
             ]
         },
 	"steps" : [
@@ -19,47 +39,53 @@
 			"step" : 0,
 			"header" : "(step 0) Guidet skriveproces - skriv en debatartikel.",
 			"img" : {"src" : "img/start_img_750x350.jpg", "alt" : "Billede af XXX"},
-			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/step_0.mp3", "type": "mpeg"}]
 		},{
 			"step" : 1,
-			"subHeader" : "(step 1) Vælg et af følgende emner (klik og vælg)",
-			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+			"header" : "(step 1) Guidet skriveproces - skriv en debatartikel.",
+			"instruction" : "Vælg et af følgende emner (klik og vælg)",
+			"audioFiles" : [{"name": "audio/step_1.mp3", "type": "mpeg"}]
 		},{
 			"step" : 2,
-			"subHeader" : "(step 2) Lav en brainstorm på dit valgte emne:",
-			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+			"header" : "(step 2) Guidet skriveproces - skriv en debatartikel.",
+			"instruction" : "Lav en brainstorm på dit valgte emne: ",
+			"audioFiles" : [{"name": "audio/step_2.mp3", "type": "mpeg"}]
 		},{
 			"step" : 3,
-			"subHeader" : "(step 3) Udvælg tre ord fra din brainstorm.",
-			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+			"header" : "(step 3) Guidet skriveproces - skriv en debatartikel.",
+			"instruction" : "(step 3) Udvælg ??? ord fra din brainstorm.",
+			"audioFiles" : [{"name": "audio/step_3.mp3", "type": "mpeg"}]
 		},{
 			"step" : 4,
-			"subHeader" : "(step 4) Lav ord til sætninger - et ad gangen",
-			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+			"header" : "(step 4) Guidet skriveproces - skriv en debatartikel.",
+			"instruction" : "Lav ord til sætninger - et ad gangen",
+			"audioFiles" : [{"name": "audio/step_4.mp3", "type": "mpeg"}]
 		},{
 			"step" : "4b",
-			"subHeader" : "(step 4b) Træk dine tre sætninger i rette rækkefølge.",
-			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+			"header" : "(step 4b) Guidet skriveproces - skriv en debatartikel.",
+			"instruction" : "Træk dine ??? sætninger i rette rækkefølge.",
+			"audioFiles" : [{"name": "audio/step_4b.mp3", "type": "mpeg"}]
 		},{
 			"step" : 5,
-			"header" : "(step 6) XXX header XXX",
-			"subHeader" : "XXX subHeader XXX",
-			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+			"header" : "(step 5) Guidet skriveproces - skriv en debatartikel.",
+			"instruction" : "Nu skal du skrive en <b>indledende</b> sætning",
+			"audioFiles" : [{"name": "audio/step_5.mp3", "type": "mpeg"}]
 		},{
 			"step" : 6,
-			"header" : "(step 7) XXX header XXX",
-			"subHeader" : "XXX subHeader XXX",
-			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+			"header" : "(step 6) Guidet skriveproces - skriv en debatartikel.",
+			"instruction" : "Nu skal du skrive en <b>afsluttende</b> sætning",
+			"audioFiles" : [{"name": "audio/step_6.mp3", "type": "mpeg"}]
 		},{
 			"step" : "6b",
-			"header" : "(step 8) XXX header XXX",
-			"subHeader" : "XXX subHeader XXX",
-			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+			"header" : "(step 6b) Guidet skriveproces - skriv en debatartikel.",
+			"instruction" : "Skriv en <b>overskrift</b> til din debatartikel",
+			"audioFiles" : [{"name": "audio/step_6b.mp3", "type": "mpeg"}]
 		},{
 			"step" : 7,
-			"header" : "(step 9) XXX header XXX", 
-			"subHeader" : "XXX subHeader XXX",
-			"audioFiles" : [{"name": "audio/horse.mp3", "type": "mpeg"}]
+			"header" : "(step 7) Guidet skriveproces - skriv en debatartikel.",
+			"instruction" : "Her er dine 5 sætninger som du skal arbejde videre med.",
+			"explanation" : "Download Word-filen med instruktion til hvordan du kan arbejde videre med din debatartikel.",
+			"audioFiles" : [{"name": "audio/step_7.mp3", "type": "mpeg"}]
 		}
 	]
 }
