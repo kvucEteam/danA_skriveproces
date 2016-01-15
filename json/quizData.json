@@ -4,34 +4,29 @@
 	"sentenceStarters_word" : 
 		{"id":"Dropdown1", "class":"Dropdown", 
             "options":[
-                {"id":"id0", "class":"class0", "value":"Sætningsstarter - ord - 0: Lorem ipsum dolor sit amet..."},
-                {"id":"id1", "class":"class1", "value":"Sætningsstarter - ord -  1: Lorem ipsum dolor sit amet..."},
-                {"id":"id2", "class":"class2", "value":"Sætningsstarter - ord -  2: Lorem ipsum dolor sit amet..."},
-                {"id":"id3", "class":"class3", "value":"Sætningsstarter - ord -  3: Lorem ipsum dolor sit amet..."},
-                {"id":"id4", "class":"class4", "value":"Sætningsstarter - ord -  4: Lorem ipsum dolor sit amet..."},
-                {"id":"id5", "class":"class5", "value":"Sætningsstarter - ord -  5: Lorem ipsum dolor sit amet..."}
+                {"value":"Hvis nogen skulle være i tvivl om at det er et problem at ..., så bør man tænke på at ..."},
+                {"value":"Debatten handler om ..."},
+                {"value":"For det første er det vigtigt at huske på ..."},
+                {"value":"Mange mener at ..., men man kan også argumentere for ..."},
+                {"value":"Mit hovedsynspunkt er ..."},
+                {"value":"På den ene side ..., men på den anden side ..."},
+                {"value":"Det er vigtigt at ..., men det er også vigtigt ..."}
             ]
         },
     "sentenceStarters_begin" : 
 		{"id":"Dropdown2", "class":"Dropdown", 
             "options":[
-                {"id":"id0", "class":"class0", "value":"Sætningsstarter - start - 0: Lorem ipsum dolor sit amet..."},
-                {"id":"id1", "class":"class1", "value":"Sætningsstarter - start - 1: Lorem ipsum dolor sit amet..."},
-                {"id":"id2", "class":"class2", "value":"Sætningsstarter - start - 2: Lorem ipsum dolor sit amet..."},
-                {"id":"id3", "class":"class3", "value":"Sætningsstarter - start - 3: Lorem ipsum dolor sit amet..."},
-                {"id":"id4", "class":"class4", "value":"Sætningsstarter - start - 4: Lorem ipsum dolor sit amet..."},
-                {"id":"id5", "class":"class5", "value":"Sætningsstarter - start - 5: Lorem ipsum dolor sit amet..."}
+                {"value":"Alle kan blive enige om at det er et problem at ... (generel vinkel)"},
+                {"value":"Det er et velkendt standpunkt i debatten om ..., at .... (generel vinkel)"},
+                {"value":"Sidst jeg var i supermarkedet overhørte jeg en samtale omkring ..., hvilket fik mig til at tænke på, at det er et stort problem at vi .... (konkret vinkel)"}
             ]
         },
     "sentenceStarters_end" : 
 		{"id":"Dropdown3", "class":"Dropdown", 
             "options":[
-                {"id":"id0", "class":"class0", "value":"Sætningsstarter - slut - 0: Lorem ipsum dolor sit amet..."},
-                {"id":"id1", "class":"class1", "value":"Sætningsstarter - slut - 1: Lorem ipsum dolor sit amet..."},
-                {"id":"id2", "class":"class2", "value":"Sætningsstarter - slut - 2: Lorem ipsum dolor sit amet..."},
-                {"id":"id3", "class":"class3", "value":"Sætningsstarter - slut - 3: Lorem ipsum dolor sit amet..."},
-                {"id":"id4", "class":"class4", "value":"Sætningsstarter - slut - 4: Lorem ipsum dolor sit amet..."},
-                {"id":"id5", "class":"class5", "value":"Sætningsstarter - slut - 5: Lorem ipsum dolor sit amet..."}
+                {"value":"Afslutningsvis kan man sige at ..."},
+                {"value":"Når alt kommer til alt er der meget som taler for at ..."},
+                {"value":"Til sidst vil jeg bare sige at jeg synes at det er totalt for dårligt at ..."}
             ]
         },
 	"steps" : [
