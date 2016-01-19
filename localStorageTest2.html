@@ -1,0 +1,295 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Local Storage test</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" href="../library/css/styles.css" type="text/css" />
+        <style type="text/css">
+        /*
+            #objectStorageClass_yes, #objectStorageClass_no{
+                position: fixed;
+                z-index: 100;
+            }
+        */
+        /*
+            .objectStorageClass{
+                position: relative;
+                z-index: 100;
+            }
+        */ 
+        </style>
+    </head>
+
+    <body>    
+        <div class="container-fluid">
+            <div class="col-xs-12">
+
+                <input id="testLocalStorage" type="value" value="Test LocalStorage"/>
+                <!-- <div id="testLocalStorage">Test LocalStorage</div> -->
+
+                <br/><br/>
+
+                <b>Values from local storage:</b><br/>
+                <div id="response">
+                    var: <span id="testVar"></span><br/>
+                    array: <span id="testArray"></span><br/>
+                    objekt: <span id="testJsonObj"></span>
+                </div>
+
+            </div>
+        </div>
+        <script src="../library/vendor_scripts.js"></script>
+        <script src="../library/custom_scripts.js"></script>
+        <script type="text/javascript">
+
+            //====================================================== 
+            //      Test local storage
+            //======================================================
+
+            var testVar = "Hi there :-)";
+            var testJsonObj = {"A": {"A1": 1, "A2": 2, "A3": 3}, "B": {"B1": 1, "B2": 2, "B3": 3}};
+            var testArray = [1,2,3,4,5];
+
+            function checkForLocalStoargeSupport(){
+                var TtestJsonObj; var TtestArray; var TtestVar;
+
+                localStorage.setItem("testVar", testVar);   // This is how to save an object in "LocalStorage"
+                TtestVar = localStorage.getItem("testVar")      // This is how to get an object in "LocalStorage"
+                console.log("checkForLocalStoargeSupport - getItem 1: " + TtestVar);
+
+                localStorage.setItem("testJsonObj", JSON.stringify(testJsonObj));   // This is how to save an object in "LocalStorage"
+                TtestJsonObj = JSON.parse(localStorage.getItem("testJsonObj"))      // This is how to get an object in "LocalStorage"
+                console.log("checkForLocalStoargeSupport - getItem 1: " + JSON.stringify(TtestJsonObj));
+
+                localStorage.setItem("testArray", JSON.stringify(testArray));   // This is how to save an array in "LocalStorage" - same as above
+                TtestArray = JSON.parse(localStorage.getItem("testArray"))      // This is how to get an array in "LocalStorage" - same as above
+                console.log("checkForLocalStoargeSupport - getItem 1: " + JSON.stringify(TtestArray));
+
+
+                if(typeof(Storage) !== "undefined") {
+                    $('#testVar').text(TtestVar);
+                    $('#testArray').text(JSON.stringify(TtestArray));
+                    $('#testJsonObj').text(JSON.stringify(TtestJsonObj));
+                } else {
+                    alert("LocalStorage NOT supported!");
+                    console.log("LocalStorage NOT supported!");
+                }
+            }
+
+            $( document ).on('click', "#testLocalStorage", function(event){
+                checkForLocalStoargeSupport();
+                console.log("testLocalStorage - PRESSED");
+            });
+
+            $(document).ready(function() {
+            });
+
+
+            //====================================================== 
+            //      local storage test
+            //======================================================
+
+
+            var objectStorageClass = {
+                defaultMsg : 'Du har lavet denne øvelse før. Ønsker du at fortsætte hvor du slap?',
+                localStorageObjName : null, // The name of the storage object.
+                localStorageObjData : {timeStamp: 0},  // The default storage object.
+                init : function(localStorageObjName){
+                    if(typeof(Storage) !== "undefined"){
+                        this.localStorageObjName = localStorageObjName;
+                        var localStorageObjData = localStorage.getItem(this.localStorageObjName);;
+                        console.log("objectStorageClass.init - localStorageObjName: " + this.localStorageObjName + ", localStorageObjData: " + JSON.stringify(localStorageObjData));
+                        if (localStorageObjData !== null) {  // If the variable exists, then return it:
+                            console.log('objectStorageClass.init - localStorageObjName: "'+localStorageObjName+'" exist - you have been here before...');
+
+                            this.localStorageObjData = localStorageObjData;
+
+                            var HTML = '';
+                            HTML += this.defaultMsg;
+                            HTML += '<div> <span id=“objectStorageClass_yes“ class="objectStorageClass btn btn-success">ja</span> <span id=“objectStorageClass_no“ class="objectStorageClass btn btn-danger">nej</span> </div>';
+                            UserMsgBox("body", HTML);
+
+                            xthis = this;
+
+                            $(document).ready(function() {
+
+                                $( document ).on('click', "#UserMsgBox", function(event){
+                                    console.log("objectStorageClass.init - UserMsgBox - CLICK" );
+                                    // alert('objectStorageClass_no');
+                                    xthis.exist(1);
+                                    xthis.delete(xthis.localStorageObjName);
+                                    xthis.exist(2);
+                                    return xthis.localStorageObjData;
+                                });
+
+                                $( document ).on('click', "#objectStorageClass_yes", function(event){
+                                    console.log("objectStorageClass.init - objectStorageClass_yes - CLICK" );
+                                    return xthis.localStorageObjData;
+                                });
+
+                                $( document ).on('click', "#objectStorageClass_no", function(event){
+                                    console.log("objectStorageClass.init - objectStorageClass_no - CLICK" );
+                                    // alert('objectStorageClass_no');
+                                    xthis.exist(1);
+                                    xthis.delete(xthis.localStorageObjName);
+                                    xthis.exist(2);
+                                    return xthis.localStorageObjData;
+                                });
+
+                            });
+
+                        } else {    // If the variable does not exists, then return an error:
+                            console.log('objectStorageClass.init - localStorageObjName: "'+localStorageObjName+'" does not exist - first run!');
+                            // var defaultObj = {timeStamp: 0};
+                            // this.localStorageObjData = defaultObj;
+                            // this.save(this.localStorageObjName, defaultObj);
+
+                            this.save(this.localStorageObjName, this.localStorageObjData);
+                            return this.localStorageObjData;          
+                        }
+                    } else {
+                        console.log("objectStorageClass.init - LocalStorage NOT supported!");
+                    } 
+                },
+                save : function(varName, varData) {
+                    if(typeof(Storage) !== "undefined"){
+                        console.log("objectStorageClass.save - LocalStorage supported!");
+
+                        if (!this.localStorageObjData.hasOwnProperty(varName)) {
+                            this.localStorageObjData[varName] = {};
+                        } 
+
+                        // console.log('objectStorageClass.save - localStorageObjData: '+JSON.stringify(this.localStorageObjData));
+
+                        this.localStorageObjData[varName] = varData;
+
+                        try {
+                            localStorage.setItem(this.localStorageObjName, this.localStorageObjData);
+                        }
+
+                        catch(error) {
+                            console.log("objectStorageClass.save - LocalStorage error: " + error.message);
+                        }
+                        
+                    } else {
+                        console.log("objectStorageClass.save - LocalStorage NOT supported!");
+                    }
+                },
+                load : function(varName) {
+                    if(typeof(Storage) !== "undefined"){
+                        var localStorageObjData = localStorage.getItem(this.localStorageObjName);;
+                        console.log("objectStorageClass.load - localStorageObjName: " + this.localStorageObjName + ", localStorageObjData: " + JSON.stringify(localStorageObjData));
+                        if (localStorageObjData !== null) {  // If the variable exists, then return it:
+                
+                            // this.localStorageObjData = localStorageObjData;  // only needs overwriting when saving.
+                            if (this.localStorageObjData.hasOwnProperty(varName)){
+                                return this.localStorageObjData[varName];       
+                            } else {
+                                return null;
+                            }   
+                        }
+                    } else {
+                        console.log("objectStorageClass.load - LocalStorage NOT supported!");
+                        return null;
+                    } 
+                },
+                delete : function(localStorageVarName) {
+                    if(typeof(Storage) !== "undefined"){
+                        console.log("objectStorageClass.delete - LocalStorage supported!");
+                        localStorage.removeItem(localStorageVarName);
+                    } else {
+                        console.log("objectStorageClass.delete - LocalStorage NOT supported!");
+                    }
+                },
+                exist : function(num){
+                    if(typeof(Storage) !== "undefined"){
+                        console.log("objectStorageClass.delete - LocalStorage supported!");
+                        if (localStorage.getItem(this.localStorageObjName) !== null){
+                            console.log("objectStorageClass.exist("+String(num)+") - TRUE: ");
+                        } else {
+                            console.log("objectStorageClass.exist("+String(num)+") - FALSE: ");
+                        }
+                    } else {
+                        console.log("objectStorageClass.exisi - LocalStorage NOT supported!");
+                    }
+                },
+                setTimeStamp : function(){
+                    return new Date().getTime(); 
+                },
+                setTimeToLive : function(){
+                    var second = 1000;
+                    var minute = second * 60;
+                    var hour = minute * 60;
+                    var day = hour * 24;
+                    var year = day * 365;
+
+                    var d = new Date();
+                    var t = d.getTime();
+
+                    return Math.round(t / day);
+                } 
+            }
+
+
+            var osc = Object.create(objectStorageClass);
+
+            var testObj = osc.init('testObj4');
+            console.log('testObj 1: ' + JSON.stringify(testObj));
+            osc.save('tal', 123);
+            // console.log('testObj 2: ' + JSON.stringify(testObj));
+            // console.log("testObj - osc.load('tal'): "+osc.load('tal'));
+
+            console.log("Date().getTime(): " + new Date().getTime());
+
+
+            // year:month:day:hour:min:sec
+            function setTimeToLive(timeFormat){
+                var formatArray = timeFormat.split(':').reverse();
+                console.log("setTimeToLive - formatArray: " + formatArray + ", typeof(formatArray): " + typeof(formatArray));
+                if (formatArray.length > 0){
+                    var timeInsec = 0;
+                    var t = parseInt(formatArray[n]);
+                    for (var n in formatArray){
+                        if (n == 0) timeInsec += t*1000;              // seconds
+                        if (n == 1) timeInsec += t*1000*60;           // minutes
+                        if (n == 2) timeInsec += t*1000*60*60;        // hours
+                        if (n == 3) timeInsec += t*1000*60*60*24;     // days
+                        if (n == 3) timeInsec += t*1000*60*60*24*365; // years
+                        console.log("setTimeToLive - n: " + setTimeToLive("1:5"));
+                    }
+                    return timeInsec;
+                } else {
+                    return parseInt(timeFormat)*1000; // seconds
+                }
+            }
+
+            console.log("setTimeToLive: " + setTimeToLive("1:5"));
+
+
+
+            // $(document).ready(function() {
+
+            //     $( document ).on('click', "#UserMsgBox", function(event){
+            //         console.log("objectStorageClass.init - UserMsgBox - CLICK" );
+            //     });
+
+            //     $( document ).on('click', "#objectStorageClass_yes", function(event){
+            //         console.log("objectStorageClass.init - objectStorageClass_yes - CLICK" );
+            //         return this.localStorageObjData;
+            //     });
+
+            //     $( document ).on('click', "#objectStorageClass_no", function(event){
+            //         console.log("objectStorageClass.init - objectStorageClass_no - CLICK" );
+            //         alert('objectStorageClass_no');
+            //         this.exist(1);
+            //         this.delete(this.localStorageObjName);
+            //         this.exist(2);
+            //         return null;
+            //     });
+            // });
+        </script>
+    </body>
+
+</html>

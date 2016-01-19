@@ -81,6 +81,11 @@ function explanation(explanationText) {
 // Bootstrap input fields
 // http://getbootstrap.com/components/#input-groups
 
+// BUGS 18-01-2016:
+// STEP 1: 	Hvis man først har valgt et emne (via btn), og senere skriver et emne selv, så er btn stadig selected - ret dettet! <--- OK!!
+// STEP 1: 	Hvis man først har valgt et emne, og givet dette emne data i step 2, 3, ..., så skal der komme en advarsel hvis man 
+//			går tilbage og vælger et andet emne.  <--- OK!! Objektet husker nu alle emner emner - også dem man selv skriver.
+// STEP 7: 	Download word-fil viker ikke i safari!!!
 
 
 var jsonData = "<h1>OK</h1>";
@@ -300,57 +305,9 @@ function htmlEntities(str) {
 }
 
 
-function xxxx() {
-	if((typeof(Storage) !== "undefined") && (localStorage.getItem("danA_skriveproces") !== null)) {
-
-		var danA_skriveproces = localStorage.getItem("danA_skriveproces");
-	    // alert("LocalStorage supported!");
-	    console.log("checkForLocalStoargeSupport - LocalStorage supported!");
-
-	    if (danA_skriveproces.hasOwnProperty('currentStep')){
-	    	var HTML = '';
-	    	HTML += 'Ønsker du at fortsætte hvor du slap?';
-	    	HTML += '<span class="btn btn-sucess">ja</span> <span class="btn btn-danger">nej</span>';
-	    	UserMsgBox("body", HTML);
-	    	// $('#DataInput').html(eval('step_'+danA_skriveproces.currentStep+'_template'));
-	    }
-	} else {
-	    // alert("LocalStorage NOT supported!");
-	    console.log("checkForLocalStoargeSupport - LocalStorage NOT supported!");
-	}
-}
 
 
-var objectStorageClass = {
-	save : function(localStorageVarName) {
-		if(typeof(Storage) !== "undefined"){
-			console.log("objectStorageClass.save - LocalStorage supported!");
-			
-		} else {
-			console.log("objectStorageClass.save - LocalStorage NOT supported!");
-		}
-	},
-	load : function(localStorageVarName) {
-		if(typeof(Storage) !== "undefined"){
-			console.log("objectStorageClass.load - LocalStorage supported!");
-			var localStorageVar = localStorage.getItem(localStorageVarName);
-			if (localStorageVar !== null) {  // If the variable exists, then return it:
-				return JSON.parse(localStorageVar);
-			} else {   	// If the variable does not exists, then return an error:
-				alert('objectStorageClass.load - localStorageVarName: "' + localStorageVarName + '"" does not exist!');
-				console.log('objectStorageClass.load - localStorageVarName: ' + localStorageVarName + ' does not exist!');
-			}
-		} else {
-			console.log("objectStorageClass.load - LocalStorage NOT supported!");
-		}
-	} 
-}
 
-
-var os = Object.create(objectStorageClass);
-
-
-// os.load('test');
 
 
 
@@ -429,11 +386,69 @@ function step_1_template(){
 	return HTML;
 }
 
+
+function studentChangeSubject(newSubjectName) {
+	if (jsonData.hasOwnProperty("studentSelectedSubject")){
+    	for (var n in jsonData.studentSelectedSubject){
+	    	if (jsonData.studentSelectedSubject[n].selected){
+	    		if ((jsonData.studentSelectedSubject[n].subjectTexts.length > 0) && (jsonData.studentSelectedSubject[n].subjectName != newSubjectName)){
+	    			var HTML = 'ADVARSEL: Du er ved at skifte emne fra: "'+jsonData.studentSelectedSubject[n].subjectName+'" til "'+newSubjectName+'" - du vi miste alle de indtastede data til det gamle emne! <br/> <br/> Vil du skifte emne?';
+	    			HTML += '<div><span class="btn btn-success">ja</span><span class="btn btn-danger">nej</span></div>';
+	    			UserMsgBox('body',HTML);
+
+	    			$('#UserMsgBox').unbind('click');
+	    			$('.MsgBox_bgr').unbind('click');
+
+	    			$( document ).on('click', ".btn-success", function(event){
+                        console.log("objectStorageClass.init - btn-success - CLICK" ); 
+                        console.log("studentChangeSubject - jsonData.studentSelectedSubject 1: " + JSON.stringify(jsonData.studentSelectedSubject));
+                        for (var n in jsonData.studentSelectedSubject){
+
+                        	// jsonData.studentSelectedSubject[n] = {subjectName: newSubjectName, selected: false, subjectTexts: [] };
+
+					    	if (newSubjectName == jsonData.studentSelectedSubject[n].subjectName){
+					    		jsonData.studentSelectedSubject[n].selected = true;
+					    	} else {
+					    		jsonData.studentSelectedSubject[n].selected = false;
+					    	}
+					    }
+					    console.log("studentChangeSubject - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
+
+				        $(".MsgBox_bgr").fadeOut(200, function() {
+				            $(".MsgBox_bgr").remove();
+				        });
+					    
+                    });
+
+                    $( document ).on('click', ".btn-danger", function(event){
+                        console.log("objectStorageClass.init - btn-danger - CLICK" ); 
+
+                        $(".MsgBox_bgr").fadeOut(200, function() {
+				            $(".MsgBox_bgr").remove();
+				        });
+                    });
+
+	    			return true;
+	    		}
+	    	}
+	    }
+    } 
+    return false;
+}
+
+
+$( document ).on('focusin', ".studentSubject", function(event){
+	$('.Subjects').removeClass('btn-primary').addClass('btn-info');
+});
+
+
 $( document ).on('click', ".Subjects", function(event){
 	window.studentSubjectPressed = true;
     console.log("Subjects - PRESSED");
     $('.Subjects').removeClass('btn-primary').addClass('btn-info');
     $(this).addClass('btn-primary');
+
+    $('.studentSubject').val('');
 
     var studentSelectedSubject = $(this).text();
 
@@ -447,13 +462,18 @@ $( document ).on('click', ".Subjects", function(event){
 
     console.log("Subjects - jsonData.studentSelectedSubject 1: " + JSON.stringify(jsonData.studentSelectedSubject)); 
 
-    for (var n in jsonData.studentSelectedSubject){
-    	if (studentSelectedSubject == jsonData.studentSelectedSubject[n].subjectName){
-    		jsonData.studentSelectedSubject[n].selected = true;
-    	} else {
-    		jsonData.studentSelectedSubject[n].selected = false;
-    	}
-    }
+    // if (!studentChangeSubject(studentSelectedSubject)){
+	    for (var n in jsonData.studentSelectedSubject){
+	    	if (studentSelectedSubject == jsonData.studentSelectedSubject[n].subjectName){
+	    		jsonData.studentSelectedSubject[n].selected = true;
+	    	} else {
+	    		jsonData.studentSelectedSubject[n].selected = false;
+	    	}
+	    }
+	// }
+
+	jsonData.selectedSubjectElementNum = returnElementNumInArray(returnStudentSubjectArray(), studentSelectedSubject);
+	console.log("Subjects - jsonData.selectedSubjectElementNum: " + jsonData.selectedSubjectElementNum);  // <------- ########  SE HER !!! ##############
 
     console.log("Subjects - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject)); 
 
@@ -461,53 +481,52 @@ $( document ).on('click', ".Subjects", function(event){
 
 $( document ).on('click', "#step_1_goOn", function(event){
 
-	window.fallbackStudentSubject = null;
+	if (typeof(fallbackStudentSubject) === 'undefined'){
+		window.fallbackStudentSubject = null;
+	}
 
 	var studentSubject = htmlEntities($('.studentSubject').val());
+	console.log("step_1_goOn - studentSubject: " + studentSubject + ", studentSubject.length: " + studentSubject.length);
 
-	if (studentSubject.length > 0){
+		if (studentSubject.length > 0){
 
-		console.log("step_1_goOn - jsonData 1: " + JSON.stringify(jsonData)); 
+			console.log("step_1_goOn - jsonData 1: " + JSON.stringify(jsonData)); 
 
-		if (!jsonData.hasOwnProperty("studentSelectedSubject")){
-	    	jsonData.studentSelectedSubject = [];
-	    }
+		    if (!elementInArray(returnStudentSubjectArray(), studentSubject)){
 
-		for (var n in jsonData.studentSelectedSubject){
-	    	jsonData.studentSelectedSubject[n].selected = false;
-	    }
+				if (!jsonData.hasOwnProperty("studentSelectedSubject")){
+			    	jsonData.studentSelectedSubject = [];
+			    }
 
-		jsonData.studentSelectedSubject.push({subjectName: studentSubject, selected: true, subjectTexts: [] });
-		// jsonData.subjects.push(studentSubject);  // Commented out 08-01-2016: We desided against saveing all subjects.
+				for (var n in jsonData.studentSelectedSubject){
+			    	jsonData.studentSelectedSubject[n].selected = false;
+			    }
 
-		if (!hasUniqueElements( jsonData.subjects )) {
-
-			jsonData.studentSelectedSubject.pop();  
-			jsonData.subjects.pop();				
-
-			studentSubject = ''; // Reset studentSubject.length to zero, so the studen stays at step 1.
-			studentSubjectPressed = false; // Set to false, so the studen stays at step 1.
-
-			if (fallbackStudentSubject !== null) { // Sets the last choosen subjectName as selected.
-				if (!elementInArray(jsonData.subjects, fallbackStudentSubject)) {
-					jsonData.studentSelectedSubject.push({subjectName: fallbackStudentSubject, selected: true, subjectTexts: [] });
-					// jsonData.subjects.push(fallbackStudentSubject);  // Commented out 08-01-2016: We desided against saveing all subjects.
-				}
+				jsonData.studentSelectedSubject.push({subjectName: studentSubject, selected: true, subjectTexts: [] });
 			}
+			// jsonData.subjects.push(studentSubject);  // Commented out 08-01-2016: We desided against saveing all subjects.
 
-			UserMsgBox("body", "Emnet du har tilføjet eksistere allerede - prøv igen!");
+			jsonData.selectedSubjectElementNum = returnElementNumInArray(returnStudentSubjectArray(), studentSubject);
+			console.log("step_1_goOn - jsonData.selectedSubjectElementNum: " + jsonData.selectedSubjectElementNum);  // <------- ########  SE HER !!! ##############
+			jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum].selected = true;
+			console.log("step_1_goOn - jsonData.studentSelectedSubject 0: " + JSON.stringify(jsonData.studentSelectedSubject));
+
 		}
-	}
 
-	console.log("step_1_goOn - fallbackStudentSubject: " + fallbackStudentSubject); 
-	console.log("step_1_goOn - jsonData.studentSelectedSubject 1: " + JSON.stringify(jsonData.studentSelectedSubject)); 
+		console.log("step_1_goOn - fallbackStudentSubject: " + fallbackStudentSubject); 
+		console.log("step_1_goOn - jsonData.studentSelectedSubject 1: " + JSON.stringify(jsonData.studentSelectedSubject)); 
 
-	if (((typeof(studentSubjectPressed) !== "undefined") && (studentSubjectPressed == true)) || (studentSubject.length > 0)){
-		fallbackStudentSubject = studentSubject;
-	    $('#DataInput').html(step_2_template());
-	} else {
-		UserMsgBox("body", "Du skal vælge et emne, eller skrive et valfrit emne, før du kan gå videre!");
-	}
+		console.log("step_1_goOn - fallbackStudentSubject: " + fallbackStudentSubject + ", studentSubject: " + studentSubject);
+
+		if (((typeof(studentSubjectPressed) !== "undefined") && (studentSubjectPressed == true)) || (studentSubject.length > 0)){
+
+		    // ORGINAL KODE:
+			fallbackStudentSubject = studentSubject;
+		 	$('#DataInput').html(step_2_template());
+		} else {
+			UserMsgBox("body", "Du skal vælge et emne, eller skrive et valfrit emne, før du kan gå videre!");
+		}
+	// }
 });
 
 
@@ -536,8 +555,10 @@ function step_2_template(){
 				
 				if (jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum].subjectTexts.length > 0){
 					var subjectTexts = getSelected('subjectTexts');
+					subjectTexts = removeEmptyElements(subjectTexts);
 					HTML += returnInputBoxes3(subjectTexts.length, 'subjectWordField', subjectTexts);
-					HTML += returnInputBoxes3(1, 'subjectWordField', 'Skriv ord her...');
+					var numOfEmptyFields = (jsonData.numOfChoosenWords - subjectTexts.length <= 0)? 1 : jsonData.numOfChoosenWords - subjectTexts.length;
+					HTML += returnInputBoxes3(numOfEmptyFields, 'subjectWordField', 'Skriv ord her...');
 					console.log('step_2_template - 1');
 				} else {
 					HTML += returnInputBoxes3(3, 'subjectWordField', 'Skriv ord her...');
@@ -1252,8 +1273,8 @@ function wordTemplate() {
 	HTML += 			'<h3>Dine sætninger skal nu udbygges til 5 afsnit. Skriv videre på din tekst herunder:</h3>';
 	HTML += 			'<ol>';
 	HTML += 				'<li>Forklar og uddyb hvad du mener med hver enkelt sætning</li>';
-	HTML += 				'<li>Hurtigskriv et par minutter.</li>';
-	HTML += 				'<li>Så er du kommet fra sætning til afsnit.</li>';
+	HTML += 				'<li>Hurtigskriv et par minutter, hvor du skriver så meget du kan uden at standse op og rette i det du skriver.</li>';
+	HTML += 				'<li>Arbejd med sætningerne på denne måde indtil du har 5 afsnit.</li>';
 	HTML += 			'</ol>';
 	HTML += 		'</div>';
 	HTML += 		'<hr/>';
@@ -1268,12 +1289,11 @@ function wordTemplate() {
 	HTML += 		'<div class="instruktion">';
 	HTML += 			'<h3>Gennemlæs din tekst. Hænger den sammen i forhold til:</h3>';
 	HTML += 			'<ol>';
-	HTML += 				'<li>Afsnit og overgange</li>';
-	HTML += 				'<li>Sætning til sætning</li>';
-	HTML += 				'<li>Afsnit til afsnit</li>';
-	HTML += 				'<li>Emnesætning</li>';
-	HTML += 				'<li>Forbindelsesord og sammenbindingsord</li>';
-	HTML += 				'<li>Almindelig korrektur: komma, stavning</li>';
+	HTML += 				'<li>Tydelige overgange mellem afsnit.</li>';
+	HTML += 				'<li>Sammenhæng mellem sætningerne.</li>';
+	HTML += 				'<li>Godt og levende sprog.</li>';
+	HTML += 				'<li>Korrekt brug af punktum og komma.</li>';
+	HTML += 				'<li>Så få formuleringsmæssige uklarheder og stavefejl som muligt.</li>';
 	HTML += 			'</ol>';
 	HTML += 			'<h3>Når du har gennemgået disse trin, har du en rigtig god tekst!</h3>';
 	HTML += 			'<hr/>';
@@ -1334,9 +1354,9 @@ $(document).ready(function() {
 	// $('#DataInput').html(step_6b_template());
 
 	// STEP 7:
-	// jsonData = {"subjects":["Rygning","Syrien","Atomkraft","Grafitti","Spis mindre kød","Doping","Prostitution","Lægeordineret heroin","Fri hash"],"numOfChoosenWords":3,"sentenceStarters_word":{"id":"Dropdown1","class":"Dropdown","options":[{"value":"Hvis nogen skulle være i tvivl om at det er et problem at ..., så bør man tænke på at ..."},{"value":"Debatten handler om ..."},{"value":"For det første er det vigtigt at huske på ..."},{"value":"Mange mener at ..., men man kan også argumentere for ..."},{"value":"Mit hovedsynspunkt er ..."},{"value":"På den ene side ..., men på den anden side ..."},{"value":"Det er vigtigt at ..., men det er også vigtigt ..."}]},"sentenceStarters_begin":{"id":"Dropdown2","class":"Dropdown","options":[{"value":"Alle kan blive enige om at det er et problem at ... (generel vinkel)"},{"value":"Det er et velkendt standpunkt i debatten om ..., at .... (generel vinkel)"},{"value":"Sidst jeg var i supermarkedet overhørte jeg en samtale omkring ..., hvilket fik mig til at tænke på, at det er et stort problem at vi .... (konkret vinkel)"}]},"sentenceStarters_end":{"id":"Dropdown3","class":"Dropdown","options":[{"value":"Afslutningsvis kan man sige at ..."},{"value":"Når alt kommer til alt er der meget som taler for at ..."},{"value":"Til sidst vil jeg bare sige at jeg synes at det er totalt for dårligt at ..."}]},"steps":[{"step":0,"header":"(step 0) Guidet skriveproces - skriv en debatartikel.","img":{"src":"img/start_img_750x350.jpg","alt":"Billede af XXX"},"audioFiles":[{"name":"audio/step_0.mp3","type":"mpeg"}]},{"step":1,"header":"(step 1) Guidet skriveproces - skriv en debatartikel.","instruction":"Vælg et af følgende emner (klik og vælg)","audioFiles":[{"name":"audio/step_1.mp3","type":"mpeg"}]},{"step":2,"header":"(step 2) Guidet skriveproces - skriv en debatartikel.","instruction":"Lav en brainstorm på dit valgte emne: ","audioFiles":[{"name":"audio/step_2.mp3","type":"mpeg"}]},{"step":3,"header":"(step 3) Guidet skriveproces - skriv en debatartikel.","instruction":"(step 3) Udvælg ??? ord fra din brainstorm.","audioFiles":[{"name":"audio/step_3.mp3","type":"mpeg"}]},{"step":4,"header":"(step 4) Guidet skriveproces - skriv en debatartikel.","instruction":"Lav ord til sætninger - et ad gangen","audioFiles":[{"name":"audio/step_4.mp3","type":"mpeg"}]},{"step":"4b","header":"(step 4b) Guidet skriveproces - skriv en debatartikel.","instruction":"Træk dine ??? sætninger i rette rækkefølge.","audioFiles":[{"name":"audio/step_4b.mp3","type":"mpeg"}]},{"step":5,"header":"(step 5) Guidet skriveproces - skriv en debatartikel.","instruction":"Nu skal du skrive en <b>indledende</b> sætning","audioFiles":[{"name":"audio/step_5.mp3","type":"mpeg"}]},{"step":6,"header":"(step 6) Guidet skriveproces - skriv en debatartikel.","instruction":"Nu skal du skrive en <b>afsluttende</b> sætning","audioFiles":[{"name":"audio/step_6.mp3","type":"mpeg"}]},{"step":"6b","header":"(step 6b) Guidet skriveproces - skriv en debatartikel.","instruction":"Skriv en <b>overskrift</b> til din debatartikel","audioFiles":[{"name":"audio/step_6b.mp3","type":"mpeg"}]},{"step":7,"header":"(step 7) Guidet skriveproces - skriv en debatartikel.","instruction":"Her er dine 5 sætninger som du skal arbejde videre med.","explanation":"Download Word-filen med instruktion til hvordan du kan arbejde videre med din debatartikel.","audioFiles":[{"name":"audio/step_7.mp3","type":"mpeg"}]}],"currentStep":0,"studentSelectedSubject":[{"subjectName":"Kvantemekanik","selected":true,"subjectTexts":["Oscillator","Partikel i brønd","Bølgefunktioner","Diffrentialligninger","dualitet","singlet","triplet","Heisenberg","schrödinger"],"subjectTexts_selected":[0,3,7],"subjectTexts_sentences":["Ocillator sætninger","Diffrentialligning sætning","Heisenberg sætning"],"subjectTexts_sentences_2":["Diffrentialligning sætning","Ocillator sætninger","Heisenberg sætning"],"sentenceStarters_begin_text":"Niels Bohr betragtes som en af kvantemekanikkens fædre...","sentenceStarters_end_text":"Kvantemekanikken kan slutteligt siges at være ejendommelig.","studentSubjectTitel":["Kvantemekanikkens elementer"]}],"selectedSubjectElementNum":"0"};
+	jsonData = {"subjects":["Rygning","Syrien","Atomkraft","Grafitti","Spis mindre kød","Doping","Prostitution","Lægeordineret heroin","Fri hash"],"numOfChoosenWords":3,"sentenceStarters_word":{"id":"Dropdown1","class":"Dropdown","options":[{"value":"Hvis nogen skulle være i tvivl om at det er et problem at ..., så bør man tænke på at ..."},{"value":"Debatten handler om ..."},{"value":"For det første er det vigtigt at huske på ..."},{"value":"Mange mener at ..., men man kan også argumentere for ..."},{"value":"Mit hovedsynspunkt er ..."},{"value":"På den ene side ..., men på den anden side ..."},{"value":"Det er vigtigt at ..., men det er også vigtigt ..."}]},"sentenceStarters_begin":{"id":"Dropdown2","class":"Dropdown","options":[{"value":"Alle kan blive enige om at det er et problem at ... (generel vinkel)"},{"value":"Det er et velkendt standpunkt i debatten om ..., at .... (generel vinkel)"},{"value":"Sidst jeg var i supermarkedet overhørte jeg en samtale omkring ..., hvilket fik mig til at tænke på, at det er et stort problem at vi .... (konkret vinkel)"}]},"sentenceStarters_end":{"id":"Dropdown3","class":"Dropdown","options":[{"value":"Afslutningsvis kan man sige at ..."},{"value":"Når alt kommer til alt er der meget som taler for at ..."},{"value":"Til sidst vil jeg bare sige at jeg synes at det er totalt for dårligt at ..."}]},"steps":[{"step":0,"header":"(step 0) Guidet skriveproces - skriv en debatartikel.","img":{"src":"img/start_img_750x350.jpg","alt":"Billede af XXX"},"audioFiles":[{"name":"audio/step_0.mp3","type":"mpeg"}]},{"step":1,"header":"(step 1) Guidet skriveproces - skriv en debatartikel.","instruction":"Vælg et af følgende emner (klik og vælg)","audioFiles":[{"name":"audio/step_1.mp3","type":"mpeg"}]},{"step":2,"header":"(step 2) Guidet skriveproces - skriv en debatartikel.","instruction":"Lav en brainstorm på dit valgte emne: ","audioFiles":[{"name":"audio/step_2.mp3","type":"mpeg"}]},{"step":3,"header":"(step 3) Guidet skriveproces - skriv en debatartikel.","instruction":"(step 3) Udvælg ??? ord fra din brainstorm.","audioFiles":[{"name":"audio/step_3.mp3","type":"mpeg"}]},{"step":4,"header":"(step 4) Guidet skriveproces - skriv en debatartikel.","instruction":"Lav ord til sætninger - et ad gangen","audioFiles":[{"name":"audio/step_4.mp3","type":"mpeg"}]},{"step":"4b","header":"(step 4b) Guidet skriveproces - skriv en debatartikel.","instruction":"Træk dine ??? sætninger i rette rækkefølge.","audioFiles":[{"name":"audio/step_4b.mp3","type":"mpeg"}]},{"step":5,"header":"(step 5) Guidet skriveproces - skriv en debatartikel.","instruction":"Nu skal du skrive en <b>indledende</b> sætning","audioFiles":[{"name":"audio/step_5.mp3","type":"mpeg"}]},{"step":6,"header":"(step 6) Guidet skriveproces - skriv en debatartikel.","instruction":"Nu skal du skrive en <b>afsluttende</b> sætning","audioFiles":[{"name":"audio/step_6.mp3","type":"mpeg"}]},{"step":"6b","header":"(step 6b) Guidet skriveproces - skriv en debatartikel.","instruction":"Skriv en <b>overskrift</b> til din debatartikel","audioFiles":[{"name":"audio/step_6b.mp3","type":"mpeg"}]},{"step":7,"header":"(step 7) Guidet skriveproces - skriv en debatartikel.","instruction":"Her er dine 5 sætninger som du skal arbejde videre med.","explanation":"Download Word-filen med instruktion til hvordan du kan arbejde videre med din debatartikel.","audioFiles":[{"name":"audio/step_7.mp3","type":"mpeg"}]}],"currentStep":0,"studentSelectedSubject":[{"subjectName":"Kvantemekanik","selected":true,"subjectTexts":["Oscillator","Partikel i brønd","Bølgefunktioner","Diffrentialligninger","dualitet","singlet","triplet","Heisenberg","schrödinger"],"subjectTexts_selected":[0,3,7],"subjectTexts_sentences":["Ocillator sætninger","Diffrentialligning sætning","Heisenberg sætning"],"subjectTexts_sentences_2":["Diffrentialligning sætning","Ocillator sætninger","Heisenberg sætning"],"sentenceStarters_begin_text":"Niels Bohr betragtes som en af kvantemekanikkens fædre...","sentenceStarters_end_text":"Kvantemekanikken kan slutteligt siges at være ejendommelig.","studentSubjectTitel":["Kvantemekanikkens elementer"]}],"selectedSubjectElementNum":"0"};
 	// jsonData = {"subjects":["Rygning","Syrien","Atomkraft","Grafitti","Spis mindre kød","Doping","Prostitution","Lægeordineret heroin","Fri hash"],"numOfChoosenWords":3,"sentenceStarters_word":{"id":"Dropdown1","class":"Dropdown","options":[{"id":"id0","class":"class0","value":"Sætningsstarter - ord - 0: Lorem ipsum dolor sit amet..."},{"id":"id1","class":"class1","value":"Sætningsstarter - ord -  1: Lorem ipsum dolor sit amet..."},{"id":"id2","class":"class2","value":"Sætningsstarter - ord -  2: Lorem ipsum dolor sit amet..."},{"id":"id3","class":"class3","value":"Sætningsstarter - ord -  3: Lorem ipsum dolor sit amet..."},{"id":"id4","class":"class4","value":"Sætningsstarter - ord -  4: Lorem ipsum dolor sit amet..."},{"id":"id5","class":"class5","value":"Sætningsstarter - ord -  5: Lorem ipsum dolor sit amet..."}]},"sentenceStarters_begin":{"id":"Dropdown2","class":"Dropdown","options":[{"id":"id0","class":"class0","value":"Sætningsstarter - start - 0: Lorem ipsum dolor sit amet..."},{"id":"id1","class":"class1","value":"Sætningsstarter - start - 1: Lorem ipsum dolor sit amet..."},{"id":"id2","class":"class2","value":"Sætningsstarter - start - 2: Lorem ipsum dolor sit amet..."},{"id":"id3","class":"class3","value":"Sætningsstarter - start - 3: Lorem ipsum dolor sit amet..."},{"id":"id4","class":"class4","value":"Sætningsstarter - start - 4: Lorem ipsum dolor sit amet..."},{"id":"id5","class":"class5","value":"Sætningsstarter - start - 5: Lorem ipsum dolor sit amet..."}]},"sentenceStarters_end":{"id":"Dropdown3","class":"Dropdown","options":[{"id":"id0","class":"class0","value":"Sætningsstarter - slut - 0: Lorem ipsum dolor sit amet..."},{"id":"id1","class":"class1","value":"Sætningsstarter - slut - 1: Lorem ipsum dolor sit amet..."},{"id":"id2","class":"class2","value":"Sætningsstarter - slut - 2: Lorem ipsum dolor sit amet..."},{"id":"id3","class":"class3","value":"Sætningsstarter - slut - 3: Lorem ipsum dolor sit amet..."},{"id":"id4","class":"class4","value":"Sætningsstarter - slut - 4: Lorem ipsum dolor sit amet..."},{"id":"id5","class":"class5","value":"Sætningsstarter - slut - 5: Lorem ipsum dolor sit amet..."}]},"steps":[{"step":0,"header":"(step 0) Guidet skriveproces - skriv en debatartikel.","img":{"src":"img/start_img_750x350.jpg","alt":"Billede af XXX"},"audioFiles":[{"name":"audio/step_0.mp3","type":"mpeg"}]},{"step":1,"header":"(step 1) Guidet skriveproces - skriv en debatartikel.","instruction":"Vælg et af følgende emner (klik og vælg)","audioFiles":[{"name":"audio/step_1.mp3","type":"mpeg"}]},{"step":2,"header":"(step 2) Guidet skriveproces - skriv en debatartikel.","instruction":"Lav en brainstorm på dit valgte emne: ","audioFiles":[{"name":"audio/step_2.mp3","type":"mpeg"}]},{"step":3,"header":"(step 3) Guidet skriveproces - skriv en debatartikel.","instruction":"(step 3) Udvælg ??? ord fra din brainstorm.","audioFiles":[{"name":"audio/step_3.mp3","type":"mpeg"}]},{"step":4,"header":"(step 4) Guidet skriveproces - skriv en debatartikel.","instruction":"Lav ord til sætninger - et ad gangen","audioFiles":[{"name":"audio/step_4.mp3","type":"mpeg"}]},{"step":"4b","header":"(step 4b) Guidet skriveproces - skriv en debatartikel.","instruction":"Træk dine ??? sætninger i rette rækkefølge.","audioFiles":[{"name":"audio/step_4b.mp3","type":"mpeg"}]},{"step":5,"header":"(step 5) Guidet skriveproces - skriv en debatartikel.","instruction":"Nu skal du skrive en <b>indledende</b> sætning","audioFiles":[{"name":"audio/step_5.mp3","type":"mpeg"}]},{"step":6,"header":"(step 6) Guidet skriveproces - skriv en debatartikel.","instruction":"Nu skal du skrive en <b>afsluttende</b> sætning","audioFiles":[{"name":"audio/step_6.mp3","type":"mpeg"}]},{"step":"6b","header":"(step 6b) Guidet skriveproces - skriv en debatartikel.","instruction":"Skriv en <b>overskrift</b> til din debatartikel","audioFiles":[{"name":"audio/step_6b.mp3","type":"mpeg"}]},{"step":7,"header":"(step 7) Guidet skriveproces - skriv en debatartikel.","instruction":"Her er dine 5 sætninger som du skal arbejde videre med.","explanation":"Download Word-filen med instruktion til hvordan du kan arbejde videre med din debatartikel.","audioFiles":[{"name":"audio/step_7.mp3","type":"mpeg"}]}],"studentSelectedSubject":[{"subjectName":"aaa","selected":true,"subjectTexts":["bbb","ccc","ddd","eee","fff","ggg","hhh","iii","jjj"],"subjectTexts_selected":[5,6,7],"subjectTexts_sentences":["aaa","bbb","ccc"],"subjectTexts_sentences_2":["aaa","ccc","bbb"],"sentenceStarters_begin_text":"indledende sætning","sentenceStarters_end_text":"afsluttende sætning","studentSubjectTitel":["overskrift"]}],"selectedSubjectElementNum":"0"};
-	// $('#DataInput').html(step_7_template());
+	$('#DataInput').html(step_7_template());
 
 
 	//#####################  DESIGN  #####################

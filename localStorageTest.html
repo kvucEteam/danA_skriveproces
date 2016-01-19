@@ -71,6 +71,133 @@
 
             $(document).ready(function() {
             });
+
+
+            //====================================================== 
+            //      local storage test
+            //======================================================
+
+            function xxxx() {
+                if((typeof(Storage) !== "undefined") && (localStorage.getItem("danA_skriveproces") !== null)) {
+
+                    var danA_skriveproces = localStorage.getItem("danA_skriveproces");
+                    // alert("LocalStorage supported!");
+                    console.log("checkForLocalStoargeSupport - LocalStorage supported!");
+
+                    if (danA_skriveproces.hasOwnProperty('currentStep')){
+                        var HTML = '';
+                        HTML += 'Ønsker du at fortsætte hvor du slap?';
+                        HTML += '<span class="btn btn-sucess">ja</span> <span class="btn btn-danger">nej</span>';
+                        UserMsgBox("body", HTML);
+                        // $('#DataInput').html(eval('step_'+danA_skriveproces.currentStep+'_template'));
+                    }
+                } else {
+                    // alert("LocalStorage NOT supported!");
+                    console.log("checkForLocalStoargeSupport - LocalStorage NOT supported!");
+                }
+            }
+
+
+            var objectStorageClass = {
+                defaultMsg : 'Du har lavet denne øvelse før. Ønsker du at fortsætte hvor du slap?',
+                localStorageObjName : null,
+                localStorageObjData : null,
+                init : function(localStorageObjName){
+                    this.localStorageObjName = localStorageObjName;
+                    this.localStorageObjData = this.load(localStorageObjName);
+                    console.log("objectStorageClass.init - localStorageObjName: " + this.localStorageObjName + ", localStorageObjData: " + JSON.stringify(this.localStorageObjData));
+                    if (this.localStorageObjData !== null) {  // If the variable exists, then return it:
+                        console.log('objectStorageClass.init - localStorageObjName: "'+localStorageObjName+'" exist - you have been here before...');
+
+                        var HTML = '';
+                        HTML += this.defaultMsg;
+                        HTML += '<div> <span id=“objectStorageClass_yes“ class="btn btn-success">ja</span> <span id=“objectStorageClass_no“ class="btn btn-danger">nej</span> </div>';
+                        UserMsgBox("body", HTML);
+
+                        $( document ).on('click', "#objectStorageClass_yes“", function(event){
+                            return this.localStorageObjData;
+                        });
+
+                        $( document ).on('click', "#objectStorageClass_no“", function(event){
+                            this.delete(localStorageObjName);
+                            return null;
+                        });
+
+                    } else {    // If the variable does not exists, then return an error:
+                        console.log('objectStorageClass.init - localStorageObjName: "'+localStorageObjName+'" does not exist - first run!');
+                        return {};          
+                    }
+                },
+                save : function(varName, varData) {
+                    if(typeof(Storage) !== "undefined"){
+                        console.log("objectStorageClass.save - LocalStorage supported!");
+
+                        if (!this.localStorageObjData.hasOwnProperty(varName)) {
+                            this.localStorageObjData[varName] = {};
+                        } 
+
+                        this.localStorageObjData[varName] = varData;
+
+                        try {
+                            localStorage.setItem(this.localStorageObjName, this.localStorageObjData);
+                        }
+
+                        catch(error) {
+                            console.log("objectStorageClass.save - LocalStorage error: " + error.message);
+                        }
+                        
+                    } else {
+                        console.log("objectStorageClass.save - LocalStorage NOT supported!");
+                    }
+                },
+                load : function(varName) {
+                    if(typeof(Storage) !== "undefined"){
+                        console.log("objectStorageClass.load - LocalStorage supported!");
+                        if (this.localStorageObjName !== null){ // If the name of the local stoarge object is defined...
+                                var localStorageObjData = localStorage.getItem(this.localStorageObjName);
+                                if (localStorageObjData !== null) {  // If the variable exists, then...
+                                    console.log('objectStorageClass.load - varName: "'+varName+'" exist!');
+                                    this.localStorageObjData = localStorageObjData;
+                                    if (varName == this.localStorageObjName){ // If 
+                                        return JSON.parse(localStorageObjData);
+                                    } else {
+                                        if (localStorageObjData.hasOwnProperty(varName)){
+                                            return JSON.parse(localStorageObjData[varName]);
+                                        } else {
+                                            alert('objectStorageClass.load ERROR: property "'+varName+'" does not exist in object "'+this.localStorageObjName);
+                                        }
+                                    } 
+                                } else {    // If the variable does not exists, then return null:
+                                    console.log('objectStorageClass.load - object: "'+varName+'" does not exist!');
+                                    return null;
+                                }
+
+                        } else { // If the name of the local stoarge object is NOT defined, then "init()" has not been called...
+                            alert('objectStorageClass.load ERROR: "init()" has to be called before "load()"');
+                        }
+                    } else {
+                        console.log("objectStorageClass.load - LocalStorage NOT supported!");
+                    }
+                },
+                delete : function(localStorageVarName) {
+                    if(typeof(Storage) !== "undefined"){
+                        console.log("objectStorageClass.delete - LocalStorage supported!");
+                        localStorage.removeItem(localStorageVarName);
+                    } else {
+                        console.log("objectStorageClass.delete - LocalStorage NOT supported!");
+                    }
+                }
+            }
+
+
+            var osc = Object.create(objectStorageClass);
+
+
+            // var testObj = osc.init('testObj');
+            // console.log('testObj 1: ' + JSON.stringify(testObj));
+            // osc.save('tal', 123);
+            // console.log('testObj 2: ' + JSON.stringify(testObj));
+            // console.log("testObj - osc.load('tal'): "+osc.load('tal'));
         </script>
     </body>
 
