@@ -44,6 +44,8 @@ $( document ).on('click', "#testLocalStorage", function(event){
     console.log("testLocalStorage - PRESSED");
 });
 
+checkForLocalStoargeSupport();
+
 
 //====================================================== 
 //		Funktioner til shared_functions.js
@@ -86,6 +88,10 @@ function explanation(explanationText) {
 // STEP 1: 	Hvis man først har valgt et emne, og givet dette emne data i step 2, 3, ..., så skal der komme en advarsel hvis man 
 //			går tilbage og vælger et andet emne.  <--- OK!! Objektet husker nu alle emner emner - også dem man selv skriver.
 // STEP 7: 	Download word-fil viker ikke i safari!!!
+
+// STEP 4: 	Autoplay på playeren gør at afspilningen starter forfra når der trykkes på en af ordene - det skal den ikke.
+
+// ALLE STEPS: Sæt nogle events på playerens play symbol - (se "paused" og "ended" property): http://www.w3schools.com/tags/ref_av_dom.asp
 
 
 var jsonData = "<h1>OK</h1>";
@@ -138,10 +144,15 @@ function setSelected(varType, varValue){
 
 
 function returnAdioControls(audioData){
+	if (typeof(autoPlay) === 'undefined'){
+		window.autoPlay = true;
+	}
+
 	var HTML = '';
 	// HTML += '<span class="btn btn-info">TEST</span>';
 	// HTML += '<audio controls="controls">';
-	HTML += '<audio controls="controls" '+' '+'autoplay="autoplay">';
+	console.log("returnAdioControls - autoPlay: " + autoPlay);
+	HTML += '<audio id="audioPlayer" controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+'>';
 	for (var n in audioData) {
 		HTML += '<source src="'+audioData[n].name+'" type="audio/'+audioData[n].type+'">';
 	}
@@ -305,6 +316,22 @@ function htmlEntities(str) {
 }
 
 
+function returnLastStudentSession() {
+	window.osc = Object.create(objectStorageClass);
+	var testObj = osc.init('studentSession');
+	var TjsonData = osc.load('jsonData');
+	console.log('returnLastStudentSession - TjsonData: ' + JSON.stringify(TjsonData));
+	// if ((TjsonData !== null) && (typeof(TjsonData) !== 'undefined')){
+	if ((TjsonData !== null)){
+		console.log('returnLastStudentSession - B1');
+		jsonData = TjsonData;
+		$('#DataInput').html(eval('step_'+TjsonData.currentStep+'_template()'));
+	} else {
+		console.log('returnLastStudentSession - B2');
+		$('#DataInput').html(step_0_template());
+	}
+}
+
 
 
 
@@ -318,6 +345,9 @@ function htmlEntities(str) {
 
 function step_0_template(){
 	console.log("step_0_template - jsonData 1: " + JSON.stringify(jsonData)); 
+	jsonData.currentStep = 0;
+	jsonData.autoPlay = true;
+	// osc.save('jsonData', jsonData);
 	var stepNo = 0;
 	var HTML = '';
 	HTML += '<div id="step_0" class="step">';
@@ -351,6 +381,8 @@ $( document ).on('click', "#step_0_goOn", function(event){
 
 function step_1_template(){
 	console.log("step_1_template - jsonData 1: " + JSON.stringify(jsonData)); 
+	jsonData.currentStep = 1;
+	// osc.save('jsonData', jsonData);
 	var stepNo = 1;
 	var subjectName = null;
 	if (jsonData.hasOwnProperty("studentSelectedSubject")){
@@ -537,6 +569,8 @@ $( document ).on('click', "#step_1_goOn", function(event){
 
 function step_2_template(){
 	console.log("step_2_template - jsonData 1: " + JSON.stringify(jsonData)); 
+	jsonData.currentStep = 2;
+	// osc.save('jsonData', jsonData);
 	var studentSubjectArray = returnStudentSubjectArray();
 	var subjectName = getSelected('subjectName');
 	jsonData.selectedSubjectElementNum = returnElementNumInArray(studentSubjectArray, subjectName);  // Save selectedSubjectElementNum in jsonData
@@ -644,6 +678,8 @@ $( document ).on('click', "#step_2_goOn", function(event){
 
 function step_3_template(){
 	console.log("step_3_template - jsonData 1: " + JSON.stringify(jsonData)); 
+	jsonData.currentStep = 3;
+	// osc.save('jsonData', jsonData);
 	var stepNo = 3;
 	var HTML = '';
 	HTML += '<div id="step_3" class="step">';
@@ -730,6 +766,8 @@ $( document ).on('click', "#step_3_goOn", function(event){
 
 
 function step_4_template(){
+	jsonData.currentStep = 4;
+	// osc.save('jsonData', jsonData);
 	console.log("step_4_template - wordCount: " + ((typeof(wordCount) !== 'undefined')?wordCount:'undefined'));
 	console.log("step_4_template - jsonData 1: " + JSON.stringify(jsonData)); 
 	console.log("step_4_template - jsonData.studentSelectedSubject 1: " + JSON.stringify(jsonData.studentSelectedSubject)); 
@@ -737,6 +775,16 @@ function step_4_template(){
 		window.wordCount = 0;
 	} else {
 		++wordCount;
+	}
+	if (typeof(autoPlay) === 'undefined'){
+		window.autoPlay = true;
+	} 
+	if (typeof(TautoPlay) === 'undefined'){
+		window.TautoPlay = autoPlay;  // This remembers the state before step 4.
+		console.log("step_4_template - TautoPlay: " + TautoPlay);
+	}
+	if (wordCount > 0) {  // This ensures that the player does not start when the word-buttons > 0 are pressed.
+		autoPlay = false;
 	}
 	console.log("step_4_template - wordCount: " + wordCount);
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
@@ -863,8 +911,8 @@ $( document ).on('click', "#step_4_goOn", function(event){
 			if (!hasNonEmptyStrElm( JSN.subjectTexts_sentences )){
 				// JSN.subjectTexts_sentences[wordCount] = sentence;
 				console.log("step_4_goOn - jsonData.studentSelectedSubject 4: " + JSON.stringify(jsonData.studentSelectedSubject));
+				autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
 				$('#DataInput').html(step_4b_template());
-				
 				makeSortable();
 			} else {
 				UserMsgBox("body", "Du skal skrive noget tekst i alle tekstboksene.");
@@ -886,6 +934,8 @@ $( document ).on('click', "#step_4_goOn", function(event){
 
 function step_4b_template(){
 	console.log("step_4b_template - jsonData 1: " + JSON.stringify(jsonData));
+	jsonData.currentStep = "4b";
+	// osc.save('jsonData', jsonData);
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var JSNS = (JSN.hasOwnProperty('subjectTexts_sentences_2'))? JSN.subjectTexts_sentences_2 : JSN.subjectTexts_sentences;
 	var stepNo = "4b";
@@ -988,6 +1038,8 @@ $( document ).on('click', "#step_4b_goOn", function(event){
 
 function step_5_template(){
 	console.log("step_5_template - jsonData 1: " + JSON.stringify(jsonData));
+	jsonData.currentStep = 5;
+	// osc.save('jsonData', jsonData);
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = 5;
 	stepNo = getJsonDataArrayIndex(stepNo);
@@ -1052,6 +1104,7 @@ $( document ).on('click', "#step_5_goOn", function(event){
 
 function step_6_template(){
 	console.log("step_6_template - jsonData 1: " + JSON.stringify(jsonData));
+	jsonData.currentStep = 6;
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = 6;
 	stepNo = getJsonDataArrayIndex(stepNo);
@@ -1115,6 +1168,8 @@ $( document ).on('click', "#step_6_goOn", function(event){
 
 function step_6b_template(){
 	console.log("step_6b_template - jsonData 1: " + JSON.stringify(jsonData));
+	jsonData.currentStep = "6b";
+	// osc.save('jsonData', jsonData);
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = "6b";
 	stepNo = getJsonDataArrayIndex(stepNo);
@@ -1168,6 +1223,8 @@ $( document ).on('click', "#step_6b_goOn", function(event){
 
 function step_7_template(){
 	console.log("step_7_template - jsonData 1: " + JSON.stringify(jsonData));
+	jsonData.currentStep = 7;
+	// osc.save('jsonData', jsonData);
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = "7";
 	stepNo = getJsonDataArrayIndex(stepNo);
@@ -1305,17 +1362,226 @@ function wordTemplate() {
 }
 
 
+//====================================================== 
+//      local storage test
+//======================================================
+
+
+var objectStorageClass = {
+    defaultMsg : 'Du har lavet denne øvelse før.',
+    localStorageObjName : null, // The name of the storage object.
+    localStorageObjData : {timeStamp: 0},  // The default storage object.
+    init : function(localStorageObjName){
+        if(typeof(Storage) !== "undefined"){
+        	console.log("objectStorageClass.init - C0");
+            this.localStorageObjName = localStorageObjName;
+            var localStorageObjData =  JSON.parse(localStorage.getItem(this.localStorageObjName));
+            console.log("objectStorageClass.init - localStorageObjName: " + this.localStorageObjName + ", localStorageObjData: " + JSON.stringify(localStorageObjData));
+            if (localStorageObjData !== null) {  // If the variable exists, then return it:
+                console.log("objectStorageClass.init - C1");
+                console.log('objectStorageClass.init - localStorageObjName: "'+localStorageObjName+'" exist - you have been here before...');
+
+                this.localStorageObjData = localStorageObjData;
+
+                var HTML = '';
+                HTML += this.defaultMsg;
+                HTML += '<div> <span id="objectStorageClass_yes" class="objectStorageClass btn btn-info">Jeg ønsker at fortsætte</span> <span id="objectStorageClass_no" class="objectStorageClass btn btn-info">Jeg ønsker ikke at fortsætte</span> </div>';
+                UserMsgBox("body", HTML);
+
+                xthis = this;
+
+                $(document).ready(function() {
+
+                    $('#UserMsgBox').unbind('click');
+                    $('.MsgBox_bgr').unbind('click');
+
+                    // $( document ).on('click', "#UserMsgBox", function(event){
+                    //     console.log("objectStorageClass.init - UserMsgBox - CLICK" );
+                        
+                    //     // xthis.exist(1);
+                    //     // xthis.delete(xthis.localStorageObjName);
+                    //     // xthis.exist(2);
+                    //     // return xthis.localStorageObjData;
+                    // });
+
+                    $( document ).on('click', "#objectStorageClass_yes", function(event){
+                        console.log("objectStorageClass.init - objectStorageClass_yes - CLICK" );
+                        $(".MsgBox_bgr").fadeOut(200, function() {
+				            $(this).remove();
+				        });
+                        return xthis.localStorageObjData;
+                    });
+
+                    $( document ).on('click', "#objectStorageClass_no", function(event){
+                        console.log("objectStorageClass.init - objectStorageClass_no - CLICK" );
+                        // alert('objectStorageClass_no');
+                        // xthis.exist(1);
+                        xthis.delete(xthis.localStorageObjName);
+                        // xthis.exist(2);
+                        $(".MsgBox_bgr").fadeOut(200, function() {
+				            $(this).remove();
+				        });
+                        return xthis.localStorageObjData;
+                    });
+
+                });
+
+            } else {    // If the variable does not exists, then return an error:
+            	console.log("objectStorageClass.init - C2");
+                console.log('objectStorageClass.init - localStorageObjName: "'+localStorageObjName+'" does not exist - first run!');
+                // var defaultObj = {timeStamp: 0};
+                // this.localStorageObjData = defaultObj;
+                // this.save(this.localStorageObjName, defaultObj);
+
+                // this.save(this.localStorageObjName, JSON.stringify(this.localStorageObjData));
+                this.save(this.localStorageObjName, this.localStorageObjData);
+                return this.localStorageObjData;          
+            }
+        } else {
+            console.log("objectStorageClass.init - LocalStorage NOT supported!");
+        } 
+    },
+    save : function(varName, varData) {
+        if(typeof(Storage) !== "undefined"){
+            console.log("objectStorageClass.save - LocalStorage supported!");
+
+            if (!this.localStorageObjData.hasOwnProperty(varName)) {
+            	console.log("objectStorageClass.save - 0");
+                this.localStorageObjData[varName] = {};
+            } 
+
+            // console.log('objectStorageClass.save - localStorageObjData: '+JSON.stringify(this.localStorageObjData));
+
+            // console.log("objectStorageClass.save - this.localStorageObjData 1 : " + JSON.stringify(this.localStorageObjData));
+            this.localStorageObjData[varName] = varData;
+            // console.log("objectStorageClass.save - this.localStorageObjData 2 : " + JSON.stringify(this.localStorageObjData));
+
+
+            try {
+                localStorage.setItem(this.localStorageObjName, JSON.stringify(varData));
+            }
+
+            catch(error) {
+                console.log("objectStorageClass.save - LocalStorage error: " + error.message);
+            }
+            
+        } else {
+            console.log("objectStorageClass.save - LocalStorage NOT supported!");
+        }
+    },
+    load : function(varName) {
+        if(typeof(Storage) !== "undefined"){
+        	console.log("objectStorageClass.load - 0");
+            var localStorageObjData = JSON.parse(localStorage.getItem(this.localStorageObjName));
+            console.log("objectStorageClass.load - localStorageObjName: " + this.localStorageObjName + ", localStorageObjData: " + JSON.stringify(localStorageObjData));
+            if (localStorageObjData !== null) {  // If the variable exists, then return it:
+            	console.log("objectStorageClass.load - A1");
+            	// alert(JSON.stringify(localStorageObjData));
+            	
+            	// localStorageObjData = '"'+ localStorageObjData + '"';
+            	// localStorageObjData = JSON.parse(localStorageObjData);
+            	// localStorageObjData = String(localStorageObjData);
+            	console.log("objectStorageClass.load - typeof(localStorageObjData):" + typeof(localStorageObjData) + 
+            		", localStorageObjData.length: " + localStorageObjData.length +
+            		", localStorageObjData: " + JSON.stringify(localStorageObjData) + 
+            		", localStorageObjData: " + localStorageObjData);
+
+                // this.localStorageObjData = localStorageObjData;  // only needs overwriting when saving.
+                if (localStorageObjData.hasOwnProperty(varName)){
+                	console.log("objectStorageClass.load - A2");
+                    return localStorageObjData[varName];       
+                } else {
+                	console.log("objectStorageClass.load - A3");
+                    return null;
+                }   
+            } else {
+            	return null;
+            }
+        } else {
+            console.log("objectStorageClass.load - LocalStorage NOT supported!");
+            return null;
+        } 
+    },
+    delete : function(localStorageVarName) {
+        if(typeof(Storage) !== "undefined"){
+            console.log("objectStorageClass.delete - LocalStorage supported!");
+            localStorage.removeItem(localStorageVarName);
+        } else {
+            console.log("objectStorageClass.delete - LocalStorage NOT supported!");
+        }
+    },
+    exist : function(num){
+        if(typeof(Storage) !== "undefined"){
+            console.log("objectStorageClass.delete - LocalStorage supported!");
+            if (JSON.parse(localStorage.getItem(this.localStorageObjName) !== null)) {
+                console.log("objectStorageClass.exist("+String(num)+") - TRUE: ");
+            } else {
+                console.log("objectStorageClass.exist("+String(num)+") - FALSE: ");
+            }
+        } else {
+            console.log("objectStorageClass.exisi - LocalStorage NOT supported!");
+        }
+    },
+    setTimeStamp : function(){
+        return new Date().getTime(); 
+    },
+    setTimeToLive : function(){
+        var second = 1000;
+        var minute = second * 60;
+        var hour = minute * 60;
+        var day = hour * 24;
+        var year = day * 365;
+
+        var d = new Date();
+        var t = d.getTime();
+
+        return Math.round(t / day);
+    } 
+}
+
+
+// VIRKER OK:
+// var testJsonObj_2 = {"A": {"A1": 1, "A2": 2, "A3": 3}, "B": {"B1": 1, "B2": 2, "B3": 3}};
+// var osc = Object.create(objectStorageClass);
+// osc.init('TEST_testJsonObj_2');
+// osc.save('testJsonObj_2', testJsonObj_2);
+// var testJsonObj = osc.load('A');
+// console.log("testJsonObj_2: " + JSON.stringify(testJsonObj));
+
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  							RUN CODE...
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 $(document).ready(function() {
 	
+	// returnLastStudentSession();
+
+
+	// JSON.parse('{"instruction":"Nu skal du skrive en <b> XXXXX </b> stning"}');
 	
 	$('#DataInput').html(step_0_template());
-	jsonData.currentStep = 0;
 
-	
+
+	////////////////////////////////////////////
+	//  	GLOBAL EVENT LISTNERS		
+	////////////////////////////////////////////
+
+
+	$( document ).on('click', "audio", function(event){ 
+		console.log("audio - CLICKED");
+		var audioObj = $("#audioPlayer")[0];
+		// var audioObj2 = document.getElementById("audioPlayer");
+		console.log("audio - audioObj.paused: " + audioObj.paused);
+		autoPlay = audioObj.paused;
+	});
+
+
+	////////////////////////////////////////////
+	//  	TEST	
+	////////////////////////////////////////////
+
 
 	// STEP 0:
 	// $('#DataInput').html(step_0_template());

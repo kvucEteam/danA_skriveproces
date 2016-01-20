@@ -18,7 +18,7 @@
                 position: relative;
                 z-index: 100;
             }
-        */ 
+         */
         </style>
     </head>
 
@@ -108,33 +108,40 @@
 
                             var HTML = '';
                             HTML += this.defaultMsg;
-                            HTML += '<div> <span id=“objectStorageClass_yes“ class="objectStorageClass btn btn-success">ja</span> <span id=“objectStorageClass_no“ class="objectStorageClass btn btn-danger">nej</span> </div>';
+                            HTML += '<div> <span id="objectStorageClass_yes" class="objectStorageClass btn btn-success">ja</span> <span id="objectStorageClass_no" class="objectStorageClass btn btn-danger">nej</span> </div>';
                             UserMsgBox("body", HTML);
 
                             xthis = this;
 
                             $(document).ready(function() {
 
-                                $( document ).on('click', "#UserMsgBox", function(event){
-                                    console.log("objectStorageClass.init - UserMsgBox - CLICK" );
-                                    // alert('objectStorageClass_no');
-                                    xthis.exist(1);
-                                    xthis.delete(xthis.localStorageObjName);
-                                    xthis.exist(2);
-                                    return xthis.localStorageObjData;
-                                });
+                                $('#UserMsgBox').unbind('click');
+                                $('.MsgBox_bgr').unbind('click');
+
+                                // $( document ).on('click', "#UserMsgBox", function(event){
+                                //     console.log("objectStorageClass.init - UserMsgBox - CLICK" );
+                                    
+                                //     // xthis.exist(1);
+                                //     // xthis.delete(xthis.localStorageObjName);
+                                //     // xthis.exist(2);
+                                //     // return xthis.localStorageObjData;
+                                // });
 
                                 $( document ).on('click', "#objectStorageClass_yes", function(event){
                                     console.log("objectStorageClass.init - objectStorageClass_yes - CLICK" );
+                                    $(".MsgBox_bgr").fadeOut(200, function() {
+                                        $(this).remove();
+                                    });
                                     return xthis.localStorageObjData;
                                 });
 
                                 $( document ).on('click', "#objectStorageClass_no", function(event){
                                     console.log("objectStorageClass.init - objectStorageClass_no - CLICK" );
                                     // alert('objectStorageClass_no');
-                                    xthis.exist(1);
                                     xthis.delete(xthis.localStorageObjName);
-                                    xthis.exist(2);
+                                    $(".MsgBox_bgr").fadeOut(200, function() {
+                                        $(this).remove();
+                                    });
                                     return xthis.localStorageObjData;
                                 });
 
@@ -241,7 +248,7 @@
             // console.log('testObj 2: ' + JSON.stringify(testObj));
             // console.log("testObj - osc.load('tal'): "+osc.load('tal'));
 
-            console.log("Date().getTime(): " + new Date().getTime());
+            // console.log("Date().getTime(): " + new Date().getTime());
 
 
             // year:month:day:hour:min:sec
@@ -265,7 +272,7 @@
                 }
             }
 
-            console.log("setTimeToLive: " + setTimeToLive("1:5"));
+            // console.log("setTimeToLive: " + setTimeToLive("1:5"));
 
 
 
