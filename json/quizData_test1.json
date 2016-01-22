@@ -33,52 +33,52 @@
 	"steps" : [
 		{
 			"step" : 0,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 0) Guidet skriveproces",
 			"img" : {"src" : "img/start_img_750x350.jpg", "alt" : "Billede af XXX"},
 			"audioFiles" : [{"name": "audio/step_0.mp3", "type": "mpeg"}]
 		},{
 			"step" : 1,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 1) Guidet skriveproces",
 			"instruction" : "Vælg et af følgende emner (klik og vælg)",
 			"audioFiles" : [{"name": "audio/step_1.mp3", "type": "mpeg"}]
 		},{
 			"step" : 2,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 2) Guidet skriveproces",
 			"instruction" : "Lav en brainstorm på dit valgte emne: ",
 			"audioFiles" : [{"name": "audio/step_2.mp3", "type": "mpeg"}]
 		},{
 			"step" : 3,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 3) Guidet skriveproces",
 			"instruction" : "(step 3) Udvælg ??? ord fra din brainstorm.",
 			"audioFiles" : [{"name": "audio/step_3.mp3", "type": "mpeg"}]
 		},{
 			"step" : 4,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 4) Guidet skriveproces",
 			"instruction" : "Lav ord til sætninger - et ad gangen",
 			"audioFiles" : [{"name": "audio/step_4.mp3", "type": "mpeg"}]
 		},{
 			"step" : "4b",
-			"header" : "Guidet skriveproces",
+			"header" : "(step 4b) Guidet skriveproces",
 			"instruction" : "Træk dine ??? sætninger i rette rækkefølge.",
 			"audioFiles" : [{"name": "audio/step_4b.mp3", "type": "mpeg"}]
 		},{
 			"step" : 5,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 5) Guidet skriveproces",
 			"instruction" : "Nu skal du skrive en <b>indledende</b> sætning",
 			"audioFiles" : [{"name": "audio/step_5.mp3", "type": "mpeg"}]
 		},{
 			"step" : 6,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 6) Guidet skriveproces",
 			"instruction" : "Nu skal du skrive en <b>afsluttende</b> sætning",
 			"audioFiles" : [{"name": "audio/step_6.mp3", "type": "mpeg"}]
 		},{
 			"step" : "6b",
-			"header" : "Guidet skriveproces",
+			"header" : "(step 6b) Guidet skriveproces",
 			"instruction" : "Skriv en <b>overskrift</b> til din debatartikel",
 			"audioFiles" : [{"name": "audio/step_6b.mp3", "type": "mpeg"}]
 		},{
 			"step" : 7,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 7) Guidet skriveproces",
 			"instruction" : "Her er dine 5 sætninger som du skal arbejde videre med.",
 			"explanation" : "Download Word-filen med instruktion til hvordan du kan arbejde videre med din debatartikel.",
 			"audioFiles" : [{"name": "audio/step_7.mp3", "type": "mpeg"}]

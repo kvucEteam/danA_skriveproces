@@ -83,7 +83,9 @@ function explanation(explanationText) {
 // Bootstrap input fields
 // http://getbootstrap.com/components/#input-groups
 
+
 // BUGS 18-01-2016:
+// ----------------
 // STEP 1: 	Hvis man først har valgt et emne (via btn), og senere skriver et emne selv, så er btn stadig selected - ret dettet! <--- OK!!
 // STEP 1: 	Hvis man først har valgt et emne, og givet dette emne data i step 2, 3, ..., så skal der komme en advarsel hvis man 
 //			går tilbage og vælger et andet emne.  <--- OK!! Objektet husker nu alle emner emner - også dem man selv skriver.
@@ -92,6 +94,13 @@ function explanation(explanationText) {
 // STEP 4: 	Autoplay på playeren gør at afspilningen starter forfra når der trykkes på en af ordene - det skal den ikke.
 
 // ALLE STEPS: Sæt nogle events på playerens play symbol - (se "paused" og "ended" property): http://www.w3schools.com/tags/ref_av_dom.asp
+
+
+// BUGS 21-01-2016:
+// ----------------
+// STEP 4: 	"Gå videre" skal _KUN_ bruges til at gå til step 5. 
+
+// TIL KVALITETSCIRKLEN: Lav en skabelon til objekt #2b
 
 
 var jsonData = "<h1>OK</h1>";
@@ -318,22 +327,56 @@ function htmlEntities(str) {
 
 function returnLastStudentSession() {
 	window.osc = Object.create(objectStorageClass);
-	var testObj = osc.init('studentSession');
+	osc.init('studentSession');
+	osc.exist('jsonData');
+
+	// osc.startAutoSave('test1', [1,2,3], 500);
+	// osc.setAutoSaveMaxCount('test1', 5);
+
+	// osc.startAutoSave('test2', [4,5,6], 1000);
+	// osc.setAutoSaveMaxCount('test2', 10);
+
+	// osc.startAutoSave('test3', [7,8,9], 1500);
+	// osc.setAutoSaveMaxCount('test3', 15);
+
 	var TjsonData = osc.load('jsonData');
 	console.log('returnLastStudentSession - TjsonData: ' + JSON.stringify(TjsonData));
-	// if ((TjsonData !== null) && (typeof(TjsonData) !== 'undefined')){
-	if ((TjsonData !== null)){
-		console.log('returnLastStudentSession - B1');
-		jsonData = TjsonData;
-		$('#DataInput').html(eval('step_'+TjsonData.currentStep+'_template()'));
+	
+	if ((TjsonData !== null) && (typeof(TjsonData) !== 'undefined')){
+		console.log('returnLastStudentSession - getTimeStamp: ' + osc.getTimeStamp());
+	// if (TjsonData !== null){
+		var HTML = '';
+		HTML += 'Du har lavet denne øvelse før, og indtastet data i øvelsen.';
+		HTML += '<div> <span id="objectStorageClass_yes" class="objectStorageClass btn btn-info">Jeg ønsker at fortsætte hvor jeg slap</span> <span id="objectStorageClass_no" class="objectStorageClass btn btn-info">Jeg ønsker starte forfra</span> </div>';
+		UserMsgBox("body", HTML);
+
+	    $('#UserMsgBox').unbind('click');
+	    $('.MsgBox_bgr').unbind('click');
+
+	    $( document ).on('click', "#objectStorageClass_yes", function(event){
+	        console.log("objectStorageClass.init - objectStorageClass_yes - CLICK" );
+	        $(".MsgBox_bgr").fadeOut(200, function() {
+	            $(this).remove();
+	        });
+	       
+	        jsonData = TjsonData;
+			$('#DataInput').html(eval('step_'+TjsonData.currentStep+'_template()'));
+	    });
+
+	    $( document ).on('click', "#objectStorageClass_no", function(event){
+	    	// osc.stopAutoSave('test1');
+	        console.log("objectStorageClass.init - objectStorageClass_no - CLICK" );
+	        osc.delete(osc.localStorageObjName);
+	        $(".MsgBox_bgr").fadeOut(200, function() {
+	            $(this).remove();
+	        });
+
+	        $('#DataInput').html(step_0_template());
+	    });
 	} else {
-		console.log('returnLastStudentSession - B2');
 		$('#DataInput').html(step_0_template());
 	}
 }
-
-
-
 
 
 
@@ -347,13 +390,14 @@ function step_0_template(){
 	console.log("step_0_template - jsonData 1: " + JSON.stringify(jsonData)); 
 	jsonData.currentStep = 0;
 	jsonData.autoPlay = true;
-	// osc.save('jsonData', jsonData);
+	// osc.save('jsonData', jsonData);  // Not necessary to save step 0!
+	// osc.exist('jsonData');	// Not necessary to save step 0!
 	var stepNo = 0;
 	var HTML = '';
 	HTML += '<div id="step_0" class="step">';
 	HTML +=     '<div class="row">';
 	HTML += 		'<div class="col-xs-12 col-md-8">';
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_0" class="stepHeader">'+jsonData.steps[stepNo].header+'</h1>':'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_0" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('img'))?'<img id="stepImg_0" class="img-responsive" src="'+jsonData.steps[stepNo].img.src+'" alt="'+jsonData.steps[stepNo].img.alt+'"/>':'');
@@ -382,7 +426,7 @@ $( document ).on('click', "#step_0_goOn", function(event){
 function step_1_template(){
 	console.log("step_1_template - jsonData 1: " + JSON.stringify(jsonData)); 
 	jsonData.currentStep = 1;
-	// osc.save('jsonData', jsonData);
+	osc.save('jsonData', jsonData);
 	var stepNo = 1;
 	var subjectName = null;
 	if (jsonData.hasOwnProperty("studentSelectedSubject")){
@@ -393,7 +437,7 @@ function step_1_template(){
 	HTML +=     '<div class="row">';
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_1" class="stepHeader">'+jsonData.steps[stepNo].header+'</h1>':'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_1" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 	HTML += 			'<div id="SubjectContainer" class="btnActions">';
@@ -570,7 +614,7 @@ $( document ).on('click', "#step_1_goOn", function(event){
 function step_2_template(){
 	console.log("step_2_template - jsonData 1: " + JSON.stringify(jsonData)); 
 	jsonData.currentStep = 2;
-	// osc.save('jsonData', jsonData);
+	osc.save('jsonData', jsonData);
 	var studentSubjectArray = returnStudentSubjectArray();
 	var subjectName = getSelected('subjectName');
 	jsonData.selectedSubjectElementNum = returnElementNumInArray(studentSubjectArray, subjectName);  // Save selectedSubjectElementNum in jsonData
@@ -580,7 +624,7 @@ function step_2_template(){
 	HTML +=     '<div class="row">';
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_2" class="stepHeader">'+jsonData.steps[stepNo].header+'</h1>':'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_2" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction + subjectName):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
@@ -679,14 +723,14 @@ $( document ).on('click', "#step_2_goOn", function(event){
 function step_3_template(){
 	console.log("step_3_template - jsonData 1: " + JSON.stringify(jsonData)); 
 	jsonData.currentStep = 3;
-	// osc.save('jsonData', jsonData);
+	osc.save('jsonData', jsonData);
 	var stepNo = 3;
 	var HTML = '';
 	HTML += '<div id="step_3" class="step">';
 	HTML +=     '<div class="row">';
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_3" class="stepHeader">'+jsonData.steps[stepNo].header+'</h1>':'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_3" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
@@ -767,7 +811,7 @@ $( document ).on('click', "#step_3_goOn", function(event){
 
 function step_4_template(){
 	jsonData.currentStep = 4;
-	// osc.save('jsonData', jsonData);
+	osc.save('jsonData', jsonData);
 	console.log("step_4_template - wordCount: " + ((typeof(wordCount) !== 'undefined')?wordCount:'undefined'));
 	console.log("step_4_template - jsonData 1: " + JSON.stringify(jsonData)); 
 	console.log("step_4_template - jsonData.studentSelectedSubject 1: " + JSON.stringify(jsonData.studentSelectedSubject)); 
@@ -794,7 +838,7 @@ function step_4_template(){
 	HTML +=     '<div class="row">';
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_4" class="stepHeader">'+jsonData.steps[stepNo].header+'</h1>':'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_4" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
@@ -895,17 +939,19 @@ $( document ).on('click', "#step_4_goOn", function(event){
 		};
 	}
 
+	var btnPrimaryText = $("#subjectWordSentenceContainer .btn-primary").text();
+
 	var sentence = htmlEntities($('#textInput_'+wordCount).val());
 	console.log("step_4_goOn - wordCount: " + wordCount + ", sentence: " + sentence);
 	console.log("step_4_goOn - $('#textInput_'+wordCount).val(): " + $('#textInput_'+wordCount).val());
 	if (sentence.length > 0) {
-		if (wordCount < jsonData.numOfChoosenWords-1){
-			JSN.subjectTexts_sentences[wordCount] = sentence;
-			console.log("step_4_goOn - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
+		// if (wordCount < jsonData.numOfChoosenWords-1){
+		// 	JSN.subjectTexts_sentences[wordCount] = sentence;
+		// 	console.log("step_4_goOn - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
 			
-			$('#DataInput').html(step_4_template());
+		// 	$('#DataInput').html(step_4_template());
 			
-		} else {
+		// } else {
 			JSN.subjectTexts_sentences[wordCount] = sentence;
 			console.log("step_4_goOn - jsonData.studentSelectedSubject 3: " + JSON.stringify(jsonData.studentSelectedSubject));
 			if (!hasNonEmptyStrElm( JSN.subjectTexts_sentences )){
@@ -915,9 +961,9 @@ $( document ).on('click', "#step_4_goOn", function(event){
 				$('#DataInput').html(step_4b_template());
 				makeSortable();
 			} else {
-				UserMsgBox("body", "Du skal skrive noget tekst i alle tekstboksene.");
+				UserMsgBox("body", 'Du skal skrive noget tekst i alle tekstboksene til hver ord - du mangler at skrive tekst til '+returnMissingWords(btnPrimaryText)+'. Tryk på dine ord og skriv sætninger til dem.');
 			}
-		}
+		// }
 
 	} else {
 		UserMsgBox("body", "Du skal skrive noget tekst i tekstboksen - brug evt en sætningsstarter fra dropdownen.");
@@ -925,6 +971,30 @@ $( document ).on('click', "#step_4_goOn", function(event){
 
 });
 
+
+function returnMissingWords(btnPrimaryText){
+	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
+	var wordArray = [];
+	for (var n in JSN.subjectTexts_selected){  // Find the missing words:
+		var t = JSN.subjectTexts_selected[n];
+		if ((typeof(JSN.subjectTexts_sentences[t]) === 'undefined') || (JSN.subjectTexts_sentences[t] == '')){
+			wordArray.push(JSN.subjectTexts[t]);
+		}
+	}
+	var l = wordArray.length;
+	var HTML = '"';
+	console.log("returnMissingTexts - wordArray: " + wordArray );
+	for (var i = 0; i < wordArray.length; i++) {  // Construct a sentence containing the missing words:
+		console.log("returnMissingTexts - wordArray["+i+"]: " + wordArray[i] + ", btnPrimaryText: " + btnPrimaryText);
+		if (wordArray[i] != btnPrimaryText){
+			if (l-i > 2) HTML += wordArray[i] + '", "';
+			if (l-i == 2) HTML += wordArray[i] + '" og "';
+			if (l-i == 1) HTML += wordArray[i];
+		}
+	};
+	HTML += '"';
+	return HTML;
+}
 
 
 //////////////////////
@@ -935,7 +1005,7 @@ $( document ).on('click', "#step_4_goOn", function(event){
 function step_4b_template(){
 	console.log("step_4b_template - jsonData 1: " + JSON.stringify(jsonData));
 	jsonData.currentStep = "4b";
-	// osc.save('jsonData', jsonData);
+	osc.save('jsonData', jsonData);
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var JSNS = (JSN.hasOwnProperty('subjectTexts_sentences_2'))? JSN.subjectTexts_sentences_2 : JSN.subjectTexts_sentences;
 	var stepNo = "4b";
@@ -946,7 +1016,7 @@ function step_4b_template(){
 	HTML +=     '<div class="row">';
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_4b" class="stepHeader">'+jsonData.steps[stepNo].header+'</h1>':'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_4b" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 	HTML += 			'<div id="subjectSentenceSortableContainer" class="btnActions">';
@@ -1039,7 +1109,7 @@ $( document ).on('click', "#step_4b_goOn", function(event){
 function step_5_template(){
 	console.log("step_5_template - jsonData 1: " + JSON.stringify(jsonData));
 	jsonData.currentStep = 5;
-	// osc.save('jsonData', jsonData);
+	osc.save('jsonData', jsonData);
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = 5;
 	stepNo = getJsonDataArrayIndex(stepNo);
@@ -1048,7 +1118,7 @@ function step_5_template(){
 	HTML +=     '<div class="row">';
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_5" class="stepHeader">'+jsonData.steps[stepNo].header+'</h1>':'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_5" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
@@ -1113,7 +1183,7 @@ function step_6_template(){
 	HTML +=     '<div class="row">';
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_6" class="stepHeader">'+jsonData.steps[stepNo].header+'</h1>':'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_6" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
@@ -1169,7 +1239,7 @@ $( document ).on('click', "#step_6_goOn", function(event){
 function step_6b_template(){
 	console.log("step_6b_template - jsonData 1: " + JSON.stringify(jsonData));
 	jsonData.currentStep = "6b";
-	// osc.save('jsonData', jsonData);
+	osc.save('jsonData', jsonData);
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = "6b";
 	stepNo = getJsonDataArrayIndex(stepNo);
@@ -1178,7 +1248,7 @@ function step_6b_template(){
 	HTML +=     '<div class="row">';
 	HTML += 		'<div id="subjectHeadingContainer" class="col-xs-12 col-md-8">';
 	
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_6b" class="stepHeader">'+jsonData.steps[stepNo].header+'</h1>':'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_6b" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
@@ -1224,7 +1294,7 @@ $( document ).on('click', "#step_6b_goOn", function(event){
 function step_7_template(){
 	console.log("step_7_template - jsonData 1: " + JSON.stringify(jsonData));
 	jsonData.currentStep = 7;
-	// osc.save('jsonData', jsonData);
+	osc.save('jsonData', jsonData);
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = "7";
 	stepNo = getJsonDataArrayIndex(stepNo);
@@ -1233,7 +1303,7 @@ function step_7_template(){
 	HTML +=     '<div class="row">';
 	HTML += 		'<div id="XXXXXXX" class="col-xs-12 col-md-8">';
 
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_7" class="stepHeader">'+jsonData.steps[stepNo].header+'</h1>':'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_7" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
@@ -1315,7 +1385,7 @@ function wordTemplate() {
 	HTML += 		'</style>';
 	HTML += 	'</head>';
 	HTML += 	'<body>';
-	HTML += 		'<h1>Skriv en debatartikel</h1>';
+	HTML += 		'<h1>'+jsonData.headerAndWordTemplateHeader+'</h1>';
 	HTML += 		'<hr/>';
 	HTML += 		'<div class="instruktion">';
 	HTML += 			'<h3>Dit valgte emne: </h3>';
@@ -1367,76 +1437,96 @@ function wordTemplate() {
 //======================================================
 
 
+
+/*******************************************************
+ * 		objectStorageClass documentation
+ *******************************************************
+ *
+ * BASIC USAGE:
+ * ============
+ *
+ *	1.	Initialize a local storage object "lsObj" by using the two commands:
+ *
+ *			var lsObj = Object.create(objectStorageClass);
+ *			lsObj.init("my_local_storage_object_name");
+ *
+ *		- where "my_local_storage_object_name" is a name of the object of your own choosing.
+ *		You always need to initialize a local storage object before you can use any commands like "load", "save", "delete" etc. You only need to
+ *		initialize a local storage object (eg. "lsObj") once in your program.
+ *
+ *	2.	Next, load the name of a PREVIOUSLY stored/saved variable - e.g. "myVarName1":
+ *
+ *			var myVarName1 = lsObj.load("myVarName1");
+ *
+ *	3.	If myVarName1 == null, then the student has not made the e-learning exercise before: load your e-learning exercise start-scenario. 
+ *		If myVarName1 != null, then the student has made the e-learning exercise before: myVarName1 has whatever value you have stored 
+ *		in it from the last/previous "session" - load therefor the appropriate e-learning exercise scenario.
+ *
+ *	4.	To save a variable like "myVarName1" (do that at a appropriate point in your e-learning exercise), you do:
+ *	
+ *			lsObj.save("myVarName1", myVarName1);
+ *
+ *		"myVarName1" is now stored in "my_local_storage_object_name", and can be retrieved by the "load" shown step 2 above. You can save 
+ *		as many variables inside "my_local_storage_object_name" as you nedd – you just do: 
+ *
+ *			lsObj.save("myVarName1", myVarName1);
+ *			lsObj.save("myVarName2", myVarName2);
+ *				...
+ *			lsObj.save("myVarNameN", myVarNameN);
+ *
+ *	5.	If you need to remove/delete the session, you do:
+ *
+ *			lsObj.delete():
+ *
+ *		- which will remove/delete the local storage object "my_local_storage_object_name".
+ *
+ * AUTOSAVE:
+ * =========
+ *
+ *	1.	Initialize a local storage object "lsObj" by using the two commands:
+ *
+ *			var lsObj = Object.create(objectStorageClass);
+ *			lsObj.init("my_local_storage_object_name");
+ *
+ *		- where "my_local_storage_object_name" is a name of the object of your own choosing.
+ *		You always need to initialize a local storage object before you can use any commands like "load", "save", "delete" etc. You only need to
+ *		initialize a local storage object (eg. "lsObj") once in your program.
+ *
+ *	2.	To start autosaving a variable "myVarName1", you do:
+ *			
+ *			lsObj.startAutoSave("myVarName1", myVarName1, timeInMilliSec);
+ * 		
+ *		- where "timeInMilliSec" is the time (in milliseconds) between each saving action of "myVarName1". You can have autosave on as many 
+ *		variables as you need - you just do: 
+ *
+ *			lsObj.startAutoSave("myVarName1", myVarName1, timeInMilliSec1);
+ *			lsObj.startAutoSave("myVarName2", myVarName2, timeInMilliSec2);
+ *				...
+ *			lsObj.startAutoSave("myVarNameN", myVarNameN, timeInMilliSecN);
+ *
+ *	3.	If you for some reason need to limit the duration/number of times the startAutoSave-function is performs its saving-action on a given 
+ *		variable, you do:
+ *
+ *			lsObj.setAutoSaveMaxCount("myVarName1", maxSaveCount);
+ *
+ *		- where maxSaveCount is the maximum number of times the startAutoSave-function performs its saving-action.
+ *
+ *	4.	To stop the startAutoSave-function, you do:
+ *
+ *			lsObj.stopAutoSave("myVarName1");
+ */
+
 var objectStorageClass = {
-    defaultMsg : 'Du har lavet denne øvelse før.',
+    // defaultMsg : 'Du har lavet denne øvelse før.',
     localStorageObjName : null, // The name of the storage object.
-    localStorageObjData : {timeStamp: 0},  // The default storage object.
+    localStorageObjData : {timeStamp: null},  // The default storage object.
     init : function(localStorageObjName){
         if(typeof(Storage) !== "undefined"){
-        	console.log("objectStorageClass.init - C0");
+        	console.log("objectStorageClass.init - LocalStorage supported!");
             this.localStorageObjName = localStorageObjName;
+            this.localStorageObjData.timeStamp = this.setTimeStamp();
             var localStorageObjData =  JSON.parse(localStorage.getItem(this.localStorageObjName));
             console.log("objectStorageClass.init - localStorageObjName: " + this.localStorageObjName + ", localStorageObjData: " + JSON.stringify(localStorageObjData));
-            if (localStorageObjData !== null) {  // If the variable exists, then return it:
-                console.log("objectStorageClass.init - C1");
-                console.log('objectStorageClass.init - localStorageObjName: "'+localStorageObjName+'" exist - you have been here before...');
-
-                this.localStorageObjData = localStorageObjData;
-
-                var HTML = '';
-                HTML += this.defaultMsg;
-                HTML += '<div> <span id="objectStorageClass_yes" class="objectStorageClass btn btn-info">Jeg ønsker at fortsætte</span> <span id="objectStorageClass_no" class="objectStorageClass btn btn-info">Jeg ønsker ikke at fortsætte</span> </div>';
-                UserMsgBox("body", HTML);
-
-                xthis = this;
-
-                $(document).ready(function() {
-
-                    $('#UserMsgBox').unbind('click');
-                    $('.MsgBox_bgr').unbind('click');
-
-                    // $( document ).on('click', "#UserMsgBox", function(event){
-                    //     console.log("objectStorageClass.init - UserMsgBox - CLICK" );
-                        
-                    //     // xthis.exist(1);
-                    //     // xthis.delete(xthis.localStorageObjName);
-                    //     // xthis.exist(2);
-                    //     // return xthis.localStorageObjData;
-                    // });
-
-                    $( document ).on('click', "#objectStorageClass_yes", function(event){
-                        console.log("objectStorageClass.init - objectStorageClass_yes - CLICK" );
-                        $(".MsgBox_bgr").fadeOut(200, function() {
-				            $(this).remove();
-				        });
-                        return xthis.localStorageObjData;
-                    });
-
-                    $( document ).on('click', "#objectStorageClass_no", function(event){
-                        console.log("objectStorageClass.init - objectStorageClass_no - CLICK" );
-                        // alert('objectStorageClass_no');
-                        // xthis.exist(1);
-                        xthis.delete(xthis.localStorageObjName);
-                        // xthis.exist(2);
-                        $(".MsgBox_bgr").fadeOut(200, function() {
-				            $(this).remove();
-				        });
-                        return xthis.localStorageObjData;
-                    });
-
-                });
-
-            } else {    // If the variable does not exists, then return an error:
-            	console.log("objectStorageClass.init - C2");
-                console.log('objectStorageClass.init - localStorageObjName: "'+localStorageObjName+'" does not exist - first run!');
-                // var defaultObj = {timeStamp: 0};
-                // this.localStorageObjData = defaultObj;
-                // this.save(this.localStorageObjName, defaultObj);
-
-                // this.save(this.localStorageObjName, JSON.stringify(this.localStorageObjData));
-                this.save(this.localStorageObjName, this.localStorageObjData);
-                return this.localStorageObjData;          
-            }
         } else {
             console.log("objectStorageClass.init - LocalStorage NOT supported!");
         } 
@@ -1445,20 +1535,24 @@ var objectStorageClass = {
         if(typeof(Storage) !== "undefined"){
             console.log("objectStorageClass.save - LocalStorage supported!");
 
+            this.localStorageObjData.timeStamp = this.setTimeStamp();
+            console.log('objectStorageClass.save - timeStamp: ' + this.localStorageObjData.timeStamp);
+
             if (!this.localStorageObjData.hasOwnProperty(varName)) {
             	console.log("objectStorageClass.save - 0");
-                this.localStorageObjData[varName] = {};
+                this.localStorageObjData[varName] = '';
             } 
 
-            // console.log('objectStorageClass.save - localStorageObjData: '+JSON.stringify(this.localStorageObjData));
+            console.log('objectStorageClass.save - varData: '+JSON.stringify(varData));
 
-            // console.log("objectStorageClass.save - this.localStorageObjData 1 : " + JSON.stringify(this.localStorageObjData));
+            console.log("objectStorageClass.save - this.localStorageObjData 1 : " + JSON.stringify(this.localStorageObjData));
             this.localStorageObjData[varName] = varData;
-            // console.log("objectStorageClass.save - this.localStorageObjData 2 : " + JSON.stringify(this.localStorageObjData));
+            console.log("objectStorageClass.save - this.localStorageObjData 2 : " + JSON.stringify(this.localStorageObjData));
+            console.log("objectStorageClass.save - typeof(this.localStorageObjData): " + typeof(this.localStorageObjData));
 
 
             try {
-                localStorage.setItem(this.localStorageObjName, JSON.stringify(varData));
+                localStorage.setItem(this.localStorageObjName, JSON.stringify(this.localStorageObjData));
             }
 
             catch(error) {
@@ -1476,11 +1570,6 @@ var objectStorageClass = {
             console.log("objectStorageClass.load - localStorageObjName: " + this.localStorageObjName + ", localStorageObjData: " + JSON.stringify(localStorageObjData));
             if (localStorageObjData !== null) {  // If the variable exists, then return it:
             	console.log("objectStorageClass.load - A1");
-            	// alert(JSON.stringify(localStorageObjData));
-            	
-            	// localStorageObjData = '"'+ localStorageObjData + '"';
-            	// localStorageObjData = JSON.parse(localStorageObjData);
-            	// localStorageObjData = String(localStorageObjData);
             	console.log("objectStorageClass.load - typeof(localStorageObjData):" + typeof(localStorageObjData) + 
             		", localStorageObjData.length: " + localStorageObjData.length +
             		", localStorageObjData: " + JSON.stringify(localStorageObjData) + 
@@ -1495,6 +1584,7 @@ var objectStorageClass = {
                     return null;
                 }   
             } else {
+            	console.log("objectStorageClass.load - A4");
             	return null;
             }
         } else {
@@ -1510,34 +1600,72 @@ var objectStorageClass = {
             console.log("objectStorageClass.delete - LocalStorage NOT supported!");
         }
     },
-    exist : function(num){
+    exist : function(varName){
         if(typeof(Storage) !== "undefined"){
-            console.log("objectStorageClass.delete - LocalStorage supported!");
-            if (JSON.parse(localStorage.getItem(this.localStorageObjName) !== null)) {
-                console.log("objectStorageClass.exist("+String(num)+") - TRUE: ");
+            console.log("objectStorageClass.exist - LocalStorage supported!");
+            var localStorageObjData = JSON.parse(localStorage.getItem(this.localStorageObjName));
+            if (localStorageObjData !== null) {
+            	console.log("objectStorageClass.exist - this.localStorageObjName exist!!!");
+            	console.log('objectStorageClass.exist - typeof(localStorageObjData): '+typeof(localStorageObjData)+', localStorageObjData: '+JSON.stringify(localStorageObjData));
+                if (localStorageObjData.hasOwnProperty(varName)) {
+	                console.log("objectStorageClass.exist."+varName+" - TRUE ");
+	            } else {
+	                console.log("objectStorageClass.exist."+varName+" - FALSE ");
+	            }
             } else {
-                console.log("objectStorageClass.exist("+String(num)+") - FALSE: ");
+                console.log("objectStorageClass.exist - this.localStorageObjName does NOT exist!!!");
             }
         } else {
-            console.log("objectStorageClass.exisi - LocalStorage NOT supported!");
+            console.log("objectStorageClass.exist - LocalStorage NOT supported!");
         }
     },
     setTimeStamp : function(){
         return new Date().getTime(); 
     },
-    setTimeToLive : function(){
-        var second = 1000;
-        var minute = second * 60;
-        var hour = minute * 60;
-        var day = hour * 24;
-        var year = day * 365;
-
-        var d = new Date();
-        var t = d.getTime();
-
-        return Math.round(t / day);
-    } 
+    getTimeStamp : function(){
+        return this.localStorageObjData.timeStamp;
+    },
+    startAutoSave : function(varName, varData, timeInMilliSec){  // Starts "auto save" of a variable "varName".
+    	console.log("objectStorageClass.startAutoSave - localStorageObjData 1: " + JSON.stringify(this.localStorageObjData));
+    	if (!this.localStorageObjData.hasOwnProperty('autoSaveTimeIdObj')) {
+        	console.log("objectStorageClass.startAutoSave - autoSaveTimeIdObj - OK!!");
+            this.localStorageObjData.autoSaveTimeIdObj = {};
+        } 
+        if (!this.localStorageObjData.autoSaveTimeIdObj.hasOwnProperty(varName)) {
+        	console.log("objectStorageClass.startAutoSave - autoSaveTimeIdObj."+varName+" - OK!");
+            this.localStorageObjData.autoSaveTimeIdObj[varName] = {id: 0, saveCount: 0, maxSaveCount : null};  // "maxSaveCount = null" makes it save indefinitely.
+        } 
+        console.log("objectStorageClass.startAutoSave - jsonData 2: " + JSON.stringify(this.localStorageObjData));
+        console.log("objectStorageClass.startAutoSave - autoSaveTimeIdObj."+varName+" - START");
+        var xthis = this;
+        var LSA = this.localStorageObjData.autoSaveTimeIdObj[varName];
+    	LSA.id = setInterval(function(){ 
+    		xthis.save(varName, varData); 
+    		++LSA.saveCount;
+    		console.log("objectStorageClass.startAutoSave - autoSaveTimeIdObj."+varName+" - SAVE "+ LSA.saveCount);
+    		if ((LSA.maxSaveCount !== null) && (LSA.saveCount >= LSA.maxSaveCount)){
+    			xthis.stopAutoSave(varName);
+    		}
+    	}, timeInMilliSec);
+    }, 
+    stopAutoSave : function(varName){  // Stops "auto save" of a variable "varName".
+    	if (this.localStorageObjData.hasOwnProperty('autoSaveTimeIdObj')) {
+        	if (this.localStorageObjData.autoSaveTimeIdObj.hasOwnProperty(varName)) {
+	        	console.log("objectStorageClass.stopAutoSave - autoSaveTimeIdObj."+varName+" - STOP");
+	            clearInterval(this.localStorageObjData.autoSaveTimeIdObj[varName].id);
+	        } 
+        }
+    },
+    setAutoSaveMaxCount : function(varName, maxSaveCount){  // Sets the maximum number of times the function startAutoSave saves the variable varName. Set maxSaveCount to null for making it save indefinitely.
+    	if (this.localStorageObjData.hasOwnProperty('autoSaveTimeIdObj')) {
+        	if (this.localStorageObjData.autoSaveTimeIdObj.hasOwnProperty(varName)) {
+	        	console.log("objectStorageClass.setAutoSaveMaxCount - autoSaveTimeIdObj."+varName+".maxSaveCount - SET");
+	            this.localStorageObjData.autoSaveTimeIdObj[varName].maxSaveCount = maxSaveCount;
+	        } 
+        }
+    }
 }
+
 
 
 // VIRKER OK:
@@ -1556,12 +1684,8 @@ var objectStorageClass = {
 
 $(document).ready(function() {
 	
-	// returnLastStudentSession();
 
-
-	// JSON.parse('{"instruction":"Nu skal du skrive en <b> XXXXX </b> stning"}');
-	
-	$('#DataInput').html(step_0_template());
+	returnLastStudentSession(); // This function gives the student the possibility of loading the last "session".
 
 
 	////////////////////////////////////////////
