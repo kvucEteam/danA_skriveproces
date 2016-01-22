@@ -1154,6 +1154,7 @@ $(document).on('change', '#Dropdown2', function(){
 
 $( document ).on('click', "#step_5_goBack", function(event){
 	$('#DataInput').html(step_4b_template());
+	makeSortable();
 });
 
 $( document ).on('click', "#step_5_goOn", function(event){
