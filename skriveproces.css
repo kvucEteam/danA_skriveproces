@@ -95,6 +95,13 @@ audio {
 */
 }
 
+#testAudio{
+/*
+    position: relative;
+    z-index: 20;
+*/    
+}
+
 textarea {
     height: 120px;
     width: 100%;
@@ -161,6 +168,7 @@ textarea {
     overflow: auto;
     padding: 20px 10% 20px 20px;
 }
+
 
 #step_7_download {
     text-transform: none;

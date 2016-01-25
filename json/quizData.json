@@ -49,7 +49,7 @@
 		},{
 			"step" : 3,
 			"header" : "Guidet skriveproces",
-			"instruction" : "(step 3) Udvælg ??? ord fra din brainstorm.",
+			"instruction" : "Udvælg ??? ord fra din brainstorm.",
 			"audioFiles" : [{"name": "audio/step_3.mp3", "type": "mpeg"}]
 		},{
 			"step" : 4,

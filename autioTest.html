@@ -1,0 +1,94 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Skriveproces</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" href="../library/css/styles.css" type="text/css" />
+
+        <!-- <link rel="stylesheet" href="vid_skriv.css" type="text/css" /> -->
+<!-- 
+        <link rel="stylesheet" href="skriveproces.css" type="text/css" />
+ -->
+    <style type="text/css">
+        #testAudio{
+            position: relative;
+            z-index: 20;
+        }
+
+        /*#audioPlayer{
+            position: relative;
+            z-index: 20;
+        }*/
+    </style>
+
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div class="col-xs-12">
+<!-- 
+                <div id="DataInput"></div>
+ -->                
+
+<span id="testAudio">
+    <audio autoplay="autoplay" controls="controls" id="audioPlayer">
+        <source type="audio/mpeg" src="audio/step_0.mp3"> Your browser does not support the audio element.
+    </audio>
+</span>
+
+
+            </div>
+        </div>
+        <script src="../library/vendor_scripts.js"></script>
+        <script src="../library/custom_scripts.js"></script>
+        <script type="text/javascript">
+
+            // $( document ).on('click', "#audioPlayer", function(event){ 
+            //     console.log("audio - CLICKED");
+            //     var audioObj = $("#audioPlayer")[0];
+            //     var audioObj = document.getElementById("audioPlayer");
+            //     // var audioObj2 = document.getElementById("audioPlayer");
+            //     console.log("audio - audioObj.paused: " + audioObj.paused);
+            //     autoPlay = audioObj.paused;
+            //     // alert("AutoPlay: " + autoPlay);
+            // });
+
+            $( document ).on('click', "#testAudio", function(event){ 
+                console.log("testAudio - CLICKED");
+
+                // var audioObj = $("#audioPlayer")[0];
+                var audioObj = document.getElementById("audioPlayer");
+
+                // audioObj.src = jsonData.steps[jsonData.currentStep].audioFiles.name;  // VIRKER IKKE!!!
+                // console.log("audio - .name: " + JSON.stringify(jsonData.steps[jsonData.currentStep].audioFiles.name));
+                // audioObj.src = "audio/step_0.mp3";
+                
+                // var audioObj2 = document.getElementById("audioPlayer");
+                console.log("audio - audioObj.paused: " + audioObj.paused);
+                // autoPlay = audioObj.paused;
+                
+            });
+
+        </script>
+<!-- 
+        <script src="html-docx.js">
+        </script>
+        <script src="filesaver.js"></script>
+        <script src="skriveproces.js"></script>
+  -->       
+<!-- 
+        <script type="text/javascript">
+            ReturnAjaxData("GET", "json/quizData.json", false, "json");   
+        </script>
+  -->       
+        <script type="text/javascript">
+        $(document).ready(function() {
+            one_line_footer();
+        });
+        </script>
+    </body>
+
+</html>
+

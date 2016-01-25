@@ -152,24 +152,27 @@ function setSelected(varType, varValue){
 }
 
 
-function returnAdioControls(audioData){
+function returnAudioControls(audioData){
 	if (typeof(autoPlay) === 'undefined'){
 		window.autoPlay = true;
+		console.log("returnAudioControls - autoPlay - SET");
 	}
 
 	var HTML = '';
 	// HTML += '<span class="btn btn-info">TEST</span>';
 	// HTML += '<audio controls="controls">';
-	console.log("returnAdioControls - autoPlay: " + autoPlay);
+	console.log("returnAudioControls - autoPlay: " + autoPlay);
 	HTML += '<audio id="audioPlayer" controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+'>';
+	// HTML += '<audio controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+' onclick="autoPlayControl(this);">';
 	for (var n in audioData) {
-		HTML += '<source src="'+audioData[n].name+'" type="audio/'+audioData[n].type+'">';
+		HTML += '<source src="'+audioData[n].name+'" type="audio/'+audioData[n].type+'"/>';
 	}
 	HTML += 	'Your browser does not support the audio element.';
 	HTML += '</audio>';
 	return HTML;
 }
-// console.log("returnAdioControls: " + returnAdioControls([{"name": "step_0.mp3", "type": "mpeg"}, {"name": "step_0.ogg", "type": "ogg"}]));
+// console.log("returnAudioControls: " + returnAudioControls([{"name": "step_0.mp3", "type": "mpeg"}, {"name": "step_0.ogg", "type": "ogg"}]));
+
 
 
 function returnInputBoxes3(numOfBoxes, Class, placeholderText){
@@ -403,7 +406,7 @@ function step_0_template(){
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('img'))?'<img id="stepImg_0" class="img-responsive" src="'+jsonData.steps[stepNo].img.src+'" alt="'+jsonData.steps[stepNo].img.alt+'"/>':'');
 	HTML += 			'<div class="stepNav">';
 	HTML += 				'<span id="step_0_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAdioControls(jsonData.steps[stepNo].audioFiles);
+	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
 	HTML +=					'<div class="Clear"></div>';
 	HTML += 			'</div>';
 	HTML += 		'</div>';
@@ -452,7 +455,7 @@ function step_1_template(){
 	HTML += 			'</div>';
 	HTML += 			'<div class="stepNav">';
 	HTML += 				'<span id="step_1_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAdioControls(jsonData.steps[stepNo].audioFiles);
+	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
 	HTML +=					'<div class="Clear"></div>';
 	HTML += 			'</div>';
 	HTML += 		'</div>';
@@ -646,7 +649,7 @@ function step_2_template(){
 	HTML += 			'<div class="stepNav">';
 	HTML += 				'<span id="step_2_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
 	HTML += 				'<span id="step_2_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAdioControls(jsonData.steps[stepNo].audioFiles);
+	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
 	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
@@ -750,7 +753,7 @@ function step_3_template(){
 	HTML += 			'<div class="stepNav">';
 	HTML += 				'<span id="step_3_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
 	HTML += 				'<span id="step_3_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAdioControls(jsonData.steps[stepNo].audioFiles);
+	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
 	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
@@ -863,7 +866,7 @@ function step_4_template(){
 	HTML += 			'<div class="stepNav">';
 	HTML += 				'<span id="step_4_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
 	HTML += 				'<span id="step_4_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAdioControls(jsonData.steps[stepNo].audioFiles);
+	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
 	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
@@ -977,23 +980,40 @@ function returnMissingWords(btnPrimaryText){
 	var wordArray = [];
 	for (var n in JSN.subjectTexts_selected){  // Find the missing words:
 		var t = JSN.subjectTexts_selected[n];
-		if ((typeof(JSN.subjectTexts_sentences[t]) === 'undefined') || (JSN.subjectTexts_sentences[t] == '')){
-			wordArray.push(JSN.subjectTexts[t]);
+		if ((typeof(JSN.subjectTexts_sentences[n]) === 'undefined') || (JSN.subjectTexts_sentences[n] == '')){
+			// if (JSN.subjectTexts[t] != btnPrimaryText){
+				wordArray.push(JSN.subjectTexts[t]);
+			// }
 		}
 	}
-	var l = wordArray.length;
+	console.log("returnMissingWords - wordArray 1: " + wordArray );
+	// wordArray = removeElement(wordArray, btnPrimaryText);
+	wordArray = removeEmptyElements(wordArray);
+	var k = wordArray.length;
+	var count = 0;
 	var HTML = '"';
-	console.log("returnMissingTexts - wordArray: " + wordArray );
-	for (var i = 0; i < wordArray.length; i++) {  // Construct a sentence containing the missing words:
-		console.log("returnMissingTexts - wordArray["+i+"]: " + wordArray[i] + ", btnPrimaryText: " + btnPrimaryText);
-		if (wordArray[i] != btnPrimaryText){
-			if (l-i > 2) HTML += wordArray[i] + '", "';
-			if (l-i == 2) HTML += wordArray[i] + '" og "';
-			if (l-i == 1) HTML += wordArray[i];
-		}
+	console.log("returnMissingWords - k: "+k+", wordArray 2: " + wordArray );
+	for (var i in wordArray) {  // Construct a sentence containing the missing words:
+		console.log("returnMissingWords - wordArray["+i+"]: " + wordArray[i] + ", btnPrimaryText: " + btnPrimaryText);
+
+		// if (wordArray[i] != btnPrimaryText){
+			if (k-count > 2) HTML += wordArray[i] + '", "';
+			if (k-count == 2) HTML += wordArray[i] + '" og "';
+			if (k-count == 1) HTML += wordArray[i];
+		// }
+		++count;
 	};
 	HTML += '"';
 	return HTML;
+}
+
+
+function removeElement(Tarray, element){
+	var Sarray = [];
+	for (var n in Tarray){
+		if (Tarray[n] !== element) Sarray.push(Tarray[n]);
+	}
+	return Sarray;
 }
 
 
@@ -1027,7 +1047,7 @@ function step_4b_template(){
 	HTML += 			'<div class="stepNav">';
 	HTML += 				'<span id="step_4b_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
 	HTML += 				'<span id="step_4b_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAdioControls(jsonData.steps[stepNo].audioFiles);
+	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
 	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
@@ -1134,7 +1154,7 @@ function step_5_template(){
 	HTML += 			'<div class="stepNav">';
 	HTML += 				'<span id="step_5_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
 	HTML += 				'<span id="step_5_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAdioControls(jsonData.steps[stepNo].audioFiles);
+	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
 	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
@@ -1200,7 +1220,7 @@ function step_6_template(){
 	HTML += 			'<div class="stepNav">';
 	HTML += 				'<span id="step_6_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
 	HTML += 				'<span id="step_6_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAdioControls(jsonData.steps[stepNo].audioFiles);
+	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
 	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
@@ -1260,7 +1280,7 @@ function step_6b_template(){
 	HTML += 			'<div class="stepNav">';
 	HTML += 				'<span id="step_6b_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
 	HTML += 				'<span id="step_6b_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAdioControls(jsonData.steps[stepNo].audioFiles);
+	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
 	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
@@ -1321,7 +1341,7 @@ function step_7_template(){
 	HTML += 			'<div class="stepNav">';
 	HTML += 				'<span id="step_7_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
 	HTML += 				'<span id="step_7_download" class="btn btn-lg btn-primary">DOWNLOAD Word fil (.docx)</span>';
-	// HTML += 				returnAdioControls(jsonData.steps[stepNo].audioFiles);
+	// HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
 	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
@@ -1679,6 +1699,17 @@ var objectStorageClass = {
 
 
 
+
+// VIRKER IKKE I CHROME OG SAFARI - SE: EVENT LISTNER ONCLICK "#audioPlayer" FORNEDEN - og se funktionen returnAudioControls()!!
+function autoPlayControl(xthis) {
+	console.log("audio - CLICKED");
+	// var audioObj2 = document.getElementById("audioPlayer");
+	console.log("audio - audioObj.paused: " + xthis.paused);
+	autoPlay = xthis.paused;
+	alert("AutoPlay 2: " + autoPlay);
+}
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  							RUN CODE...
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1694,13 +1725,30 @@ $(document).ready(function() {
 	////////////////////////////////////////////
 
 
-	$( document ).on('click', "audio", function(event){ 
+	// VIRKER IKKE I CHROME OG SAFARI - SE: FUNKTIONEN "autoPlayControl(xthis)" FOROVEN - og se funktionen returnAudioControls()!!
+	$( document ).on('click', "#audioPlayer", function(event){ 
 		console.log("audio - CLICKED");
 		var audioObj = $("#audioPlayer")[0];
 		// var audioObj2 = document.getElementById("audioPlayer");
 		console.log("audio - audioObj.paused: " + audioObj.paused);
 		autoPlay = audioObj.paused;
+		// alert("AutoPlay: " + autoPlay);
 	});
+
+
+	// $( document ).on('click', "#testAudio", function(event){ 
+	// 	console.log("testAudio - CLICKED");
+	// 	var audioObj = $("#audioPlayer")[0];
+	// 	// audioObj.src = jsonData.steps[jsonData.currentStep].audioFiles.name;  // VIRKER IKKE!!!
+	// 	// console.log("audio - .name: " + JSON.stringify(jsonData.steps[jsonData.currentStep].audioFiles.name));
+	// 	audioObj.src = "audio/step_0.mp3";
+		
+	// 	// var audioObj2 = document.getElementById("audioPlayer");
+	// 	console.log("audio - audioObj.paused: " + audioObj.paused);
+	// 	autoPlay = audioObj.paused;
+		
+	// });
+	
 
 
 	////////////////////////////////////////////
