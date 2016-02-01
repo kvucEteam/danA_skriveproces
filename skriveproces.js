@@ -20,6 +20,7 @@
 var testJsonObj = {"A": {"A1": 1, "A2": 2, "A3": 3}, "B": {"B1": 1, "B2": 2, "B3": 3}};
 var testArray = [1,2,3,4,5];
 
+
 function checkForLocalStoargeSupport(){
 	var TtestJsonObj; var TtestArray;
 	if(typeof(Storage) !== "undefined") {
@@ -52,23 +53,23 @@ checkForLocalStoargeSupport();
 //======================================================
 
 
-function instruction(instructionText) {
-	HTML =  '<h4 class="instruktion">';
-	HTML += 	'<div class="left glyphicon glyphicon-arrow-right"></div>';
-	HTML += 	'<div class="left instructionText">'+instructionText+'</div>';
-	HTML += '</h4>';
-	HTML += '<div class="Clear"></div>';
-	return HTML;
-}
+// function instruction(instructionText) {
+// 	HTML =  '<h4 class="instruktion">';
+// 	HTML += 	'<div class="left glyphicon glyphicon-arrow-right"></div>';
+// 	HTML += 	'<div class="left instructionText">'+instructionText+'</div>';
+// 	HTML += '</h4>';
+// 	HTML += '<div class="Clear"></div>';
+// 	return HTML;
+// }
 
-function explanation(explanationText) {
-	HTML =  '<div class="explanation">';
-	HTML += 	'<div class="left glyphicon glyphicon-bookmark"></div>';
-	HTML += 	'<div class="left explanationText">'+explanationText+'</div>';
-	HTML += 	'<div class="Clear"></div>';
-	HTML += '</div>';
-	return HTML;
-}
+// function explanation(explanationText) {
+// 	HTML =  '<div class="explanation">';
+// 	HTML += 	'<div class="left glyphicon glyphicon-bookmark"></div>';
+// 	HTML += 	'<div class="left explanationText">'+explanationText+'</div>';
+// 	HTML += 	'<div class="Clear"></div>';
+// 	HTML += '</div>';
+// 	return HTML;
+// }
 
 
 //################################################################################################################################
@@ -174,6 +175,19 @@ function returnAudioControls(audioData){
 // console.log("returnAudioControls: " + returnAudioControls([{"name": "step_0.mp3", "type": "mpeg"}, {"name": "step_0.ogg", "type": "ogg"}]));
 
 
+function setJsAudioEventLitsner(){
+	var audioObj = document.getElementById("audioPlayer");
+    audioObj.onpause = function() {
+    	autoPlay = false;
+        console.log("setJsAudioEventLitsner - PAUSE");
+    }
+    audioObj.onplay = function() {
+    	autoPlay = true;
+        console.log("setJsAudioEventLitsner - PLAY");
+    }
+}
+
+
 
 function returnInputBoxes3(numOfBoxes, Class, placeholderText){
 	var HTML = '';
@@ -274,6 +288,9 @@ function replaceWildcard(strToReplace, num){
 console.log('replaceWildcard: ' + replaceWildcard('Dun har ??? gode cykler tilrådighed, eller ??? dårlige?', 20)); 
 
 
+
+
+
 function returnDropdownMarkup(DropdownObj){
     var Selected = -1;
     var DO = DropdownObj;
@@ -307,6 +324,7 @@ var TDropdown2 = {options:[
                 };
 // console.log("returnDropdownMarkup: " + returnDropdownMarkup(TDropdown));
 // console.log("returnDropdownMarkup: " + returnDropdownMarkup(TDropdown2));
+
 
 
 
@@ -364,6 +382,7 @@ function returnLastStudentSession() {
 	       
 	        jsonData = TjsonData;
 			$('#DataInput').html(eval('step_'+TjsonData.currentStep+'_template()'));
+			setJsAudioEventLitsner();
 	    });
 
 	    $( document ).on('click', "#objectStorageClass_no", function(event){
@@ -375,9 +394,11 @@ function returnLastStudentSession() {
 	        });
 
 	        $('#DataInput').html(step_0_template());
+	        setJsAudioEventLitsner();
 	    });
 	} else {
 		$('#DataInput').html(step_0_template());
+		setJsAudioEventLitsner();
 	}
 }
 
@@ -418,6 +439,7 @@ function step_0_template(){
 
 $( document ).on('click', "#step_0_goOn", function(event){
 	$('#DataInput').html(step_1_template());
+	setJsAudioEventLitsner();
 });
 
 
@@ -602,6 +624,7 @@ $( document ).on('click', "#step_1_goOn", function(event){
 		    // ORGINAL KODE:
 			fallbackStudentSubject = studentSubject;
 		 	$('#DataInput').html(step_2_template());
+		 	setJsAudioEventLitsner();
 		} else {
 			UserMsgBox("body", "Du skal vælge et emne, eller skrive et valfrit emne, før du kan gå videre!");
 		}
@@ -696,6 +719,7 @@ $( document ).on('focusin', ".subjectWordField", function(event){
 
 $( document ).on('click', "#step_2_goBack", function(event){
 	$('#DataInput').html(step_1_template());
+	setJsAudioEventLitsner();
 
 	var subjectNameSelected = getSelected('subjectName');
 	if (!elementInArray(jsonData.subjects, subjectNameSelected)) {  // If subjectNameSelected is NOT in jsonData.subjects, then subjectNameSelected is written in the input-text-field... 
@@ -711,6 +735,7 @@ $( document ).on('click', "#step_2_goOn", function(event){
 
 	if (subjectTextsArray.length >= jsonData.numOfChoosenWords){
 		$('#DataInput').html(step_3_template());
+		setJsAudioEventLitsner();
 	} else {
 		UserMsgBox("body", 'Du skal skrive mindst '+jsonData.numOfChoosenWords+' ord før du kan gå videre. Du har kun skrevet '+subjectTextsArray.length+' ord.');
 	}
@@ -784,6 +809,7 @@ $( document ).on('click', ".subjectWordField_btn", function(event){
 
 $( document ).on('click', "#step_3_goBack", function(event){
 	$('#DataInput').html(step_2_template());
+	setJsAudioEventLitsner();
 });
 
 
@@ -799,6 +825,7 @@ $( document ).on('click', "#step_3_goOn", function(event){
 
 	if (numOfWords >= jsonData.numOfChoosenWords){
 		$('#DataInput').html(step_4_template());
+		setJsAudioEventLitsner();
 	} else {
 		UserMsgBox("body", 'Du skal vælge '+jsonData.numOfChoosenWords+' ord før du kan gå videre. Du har valgt ' + numOfWords + ' ord.');
 	}
@@ -917,18 +944,21 @@ $( document ).on('click', ".subjectWordField_btn_text", function(event){
 	// -----------------------
 	wordCount = index-1; 
 	$('#DataInput').html(step_4_template());   // 12-01-2016  <-----------  DATA SKAL GEMMENS HER!!!
+	setJsAudioEventLitsner();
 });
 
 
 $( document ).on('click', "#step_4_goBack", function(event){
 	if ((typeof(wordCount) === 'undefined') || (wordCount == 0)){
 		$('#DataInput').html(step_3_template());
+		setJsAudioEventLitsner();
 		wordCount = null;
 		console.log("step_4_goBack - wordCount: " + wordCount);
 	} else {
 		--wordCount;  	// Once...
 		--wordCount;	// twice... because of the inscreasement inside step_4_template
 		$('#DataInput').html(step_4_template());
+		setJsAudioEventLitsner();
 	}
 });
 
@@ -962,6 +992,7 @@ $( document ).on('click', "#step_4_goOn", function(event){
 				console.log("step_4_goOn - jsonData.studentSelectedSubject 4: " + JSON.stringify(jsonData.studentSelectedSubject));
 				autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
 				$('#DataInput').html(step_4b_template());
+				setJsAudioEventLitsner();
 				makeSortable();
 			} else {
 				UserMsgBox("body", 'Du skal skrive noget tekst i alle tekstboksene til hver ord - du mangler at skrive tekst til '+returnMissingWords(btnPrimaryText)+'. Tryk på dine ord og skriv sætninger til dem.');
@@ -1105,6 +1136,7 @@ $( document ).on('click', "#step_4b_goBack", function(event){
 		window.wordCount = jsonData.numOfChoosenWords-2;  // Sets the state to the last btn of step 4. 
 		console.log("step_4b_goBack - wordCount: " + wordCount); 
 		$('#DataInput').html(step_4_template());
+		setJsAudioEventLitsner();
 	}
 	if ((JSN.hasOwnProperty('subjectTexts_sentences_2')) && (step_4b_hasBeenSorted == false)) {
 		$( ".Sortable" ).each(function( index, element ) {
@@ -1117,6 +1149,7 @@ $( document ).on('click', "#step_4b_goBack", function(event){
 
 $( document ).on('click', "#step_4b_goOn", function(event){
 	$('#DataInput').html(step_5_template());
+	setJsAudioEventLitsner();
 });
 
 
@@ -1174,6 +1207,7 @@ $(document).on('change', '#Dropdown2', function(){
 
 $( document ).on('click', "#step_5_goBack", function(event){
 	$('#DataInput').html(step_4b_template());
+	setJsAudioEventLitsner();
 	makeSortable();
 });
 
@@ -1184,6 +1218,7 @@ $( document ).on('click', "#step_5_goOn", function(event){
 		var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 		JSN.sentenceStarters_begin_text = textInputText;
 		$('#DataInput').html(step_6_template());
+		setJsAudioEventLitsner();
 	}
 	console.log("step_5_goOn - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
 });
@@ -1239,6 +1274,7 @@ $(document).on('change', '#Dropdown3', function(){
 
 $( document ).on('click', "#step_6_goBack", function(event){
 	$('#DataInput').html(step_5_template());
+	setJsAudioEventLitsner();
 });
 
 $( document ).on('click', "#step_6_goOn", function(event){
@@ -1248,6 +1284,7 @@ $( document ).on('click', "#step_6_goOn", function(event){
 		var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 		JSN.sentenceStarters_end_text = textInputText;
 		$('#DataInput').html(step_6b_template());
+		setJsAudioEventLitsner();
 	}
 	console.log("step_6_goOn - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
 });
@@ -1292,6 +1329,7 @@ function step_6b_template(){
 
 $( document ).on('click', "#step_6b_goBack", function(event){
 	$('#DataInput').html(step_6_template());
+	setJsAudioEventLitsner();
 });
 
 $( document ).on('click', "#step_6b_goOn", function(event){
@@ -1302,6 +1340,7 @@ $( document ).on('click', "#step_6b_goOn", function(event){
 		JSN.studentSubjectTitel = [];
 		JSN.studentSubjectTitel[0] = textInputText;
 		$('#DataInput').html(step_7_template());
+		setJsAudioEventLitsner();
 	}
 	console.log("step_6b_goOn - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
 });
@@ -1353,6 +1392,7 @@ function step_7_template(){
 
 $( document ).on('click', "#step_7_goBack", function(event){
 	$('#DataInput').html(step_6b_template());
+	setJsAudioEventLitsner();
 });
 
 
@@ -1525,7 +1565,7 @@ function wordTemplate() {
  *				...
  *			lsObj.startAutoSave("myVarNameN", myVarNameN, timeInMilliSecN);
  *
- *	3.	If you for some reason need to limit the duration/number of times the startAutoSave-function is performs its saving-action on a given 
+ *	3.	If you for some reason need to limit the duration/number of times the startAutoSave-function performs its saving-action on a given 
  *		variable, you do:
  *
  *			lsObj.setAutoSaveMaxCount("myVarName1", maxSaveCount);
@@ -1699,17 +1739,6 @@ var objectStorageClass = {
 
 
 
-
-// VIRKER IKKE I CHROME OG SAFARI - SE: EVENT LISTNER ONCLICK "#audioPlayer" FORNEDEN - og se funktionen returnAudioControls()!!
-function autoPlayControl(xthis) {
-	console.log("audio - CLICKED");
-	// var audioObj2 = document.getElementById("audioPlayer");
-	console.log("audio - audioObj.paused: " + xthis.paused);
-	autoPlay = xthis.paused;
-	alert("AutoPlay 2: " + autoPlay);
-}
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  							RUN CODE...
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1720,37 +1749,7 @@ $(document).ready(function() {
 	returnLastStudentSession(); // This function gives the student the possibility of loading the last "session".
 
 
-	////////////////////////////////////////////
-	//  	GLOBAL EVENT LISTNERS		
-	////////////////////////////////////////////
-
-
-	// VIRKER IKKE I CHROME OG SAFARI - SE: FUNKTIONEN "autoPlayControl(xthis)" FOROVEN - og se funktionen returnAudioControls()!!
-	$( document ).on('click', "#audioPlayer", function(event){ 
-		console.log("audio - CLICKED");
-		var audioObj = $("#audioPlayer")[0];
-		// var audioObj2 = document.getElementById("audioPlayer");
-		console.log("audio - audioObj.paused: " + audioObj.paused);
-		autoPlay = audioObj.paused;
-		// alert("AutoPlay: " + autoPlay);
-	});
-
-
-	// $( document ).on('click', "#testAudio", function(event){ 
-	// 	console.log("testAudio - CLICKED");
-	// 	var audioObj = $("#audioPlayer")[0];
-	// 	// audioObj.src = jsonData.steps[jsonData.currentStep].audioFiles.name;  // VIRKER IKKE!!!
-	// 	// console.log("audio - .name: " + JSON.stringify(jsonData.steps[jsonData.currentStep].audioFiles.name));
-	// 	audioObj.src = "audio/step_0.mp3";
-		
-	// 	// var audioObj2 = document.getElementById("audioPlayer");
-	// 	console.log("audio - audioObj.paused: " + audioObj.paused);
-	// 	autoPlay = audioObj.paused;
-		
-	// });
 	
-
-
 	////////////////////////////////////////////
 	//  	TEST	
 	////////////////////////////////////////////
