@@ -55,11 +55,16 @@
             //     // alert("AutoPlay: " + autoPlay);
             // });
 
-            $( document ).on('click', "#testAudio", function(event){ 
+            $( document ).ready(function() {
+
                 console.log("testAudio - CLICKED");
 
                 // var audioObj = $("#audioPlayer")[0];
                 var audioObj = document.getElementById("audioPlayer");
+
+                audioObj.onpause = function() {
+    alert("The video has been paused");
+};
 
                 // audioObj.src = jsonData.steps[jsonData.currentStep].audioFiles.name;  // VIRKER IKKE!!!
                 // console.log("audio - .name: " + JSON.stringify(jsonData.steps[jsonData.currentStep].audioFiles.name));
