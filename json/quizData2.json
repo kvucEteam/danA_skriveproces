@@ -1,0 +1,119 @@
+{
+	"headerAndWordTemplateHeader" : "Skriv en skønlitterær analyse",
+	"texts" : [
+		{"author" : "Svend Åge Madsen", "title" : "Jagten på et menneske", "year": "1991", "src" : "..."},
+		{"author" : "Jonathan Swift", "title" : "Et beskedent forslag", "year": "1729", "src" : "..."},
+		{"author" : "Amanda Hertz", "title" : "Stjernedrengen", "year": "1989", "src" : "...", "url" : "https://www.fyldepennen.dk/tekster/61092/stjernedrengen"},
+		{"author" : "Laila Jørgensen", "title" : "Stormen", "year": "2016", "src" : "...", "url" : "https://www.fyldepennen.dk/tekster/61094/stormen"}
+	],
+	"themes" : ["Tema 1", "Tema 2", "Tema 3", "Tema 4", "Tema 5", "Tema 6", "Tema 7", "Tema 8", "Tema 9", "Tema 10"],
+	"sentenceStarters_theme" : 
+		{"id":"Dropdown0", "class":"Dropdown", 
+            "options":[
+                {"value":"Hvis nogen skulle være i tvivl om at det er et problem at ..., så bør man tænke på at ..."},
+                {"value":"Debatten handler om ..."},
+                {"value":"For det første er det vigtigt at huske på ..."},
+                {"value":"Mange mener at ..., men man kan også argumentere for ..."},
+                {"value":"Mit hovedsynspunkt er ..."},
+                {"value":"På den ene side ..., men på den anden side ..."},
+                {"value":"Det er vigtigt at ..., men det er også vigtigt ..."}
+            ]
+        }, 
+    "analyticalFocus" : ["Analytisk fokuspunkt 1", "Analytisk fokuspunkt 2", "Analytisk fokuspunkt 3", "Analytisk fokuspunkt 4", "Analytisk fokuspunkt 5", "Analytisk fokuspunkt 6", "Analytisk fokuspunkt 7", "Analytisk fokuspunkt 8", "Analytisk fokuspunkt 9", "Analytisk fokuspunkt 10"],
+	"numOfChoosenWords" : 3,
+	"sentenceStarters_quoteNote" : 
+		{"id":"Dropdown1", "class":"Dropdown", 
+            "options":[
+                {"value":"Hvis nogen skulle være i tvivl om at det er et problem at ..., så bør man tænke på at ..."},
+                {"value":"Debatten handler om ..."},
+                {"value":"For det første er det vigtigt at huske på ..."},
+                {"value":"Mange mener at ..., men man kan også argumentere for ..."},
+                {"value":"Mit hovedsynspunkt er ..."},
+                {"value":"På den ene side ..., men på den anden side ..."},
+                {"value":"Det er vigtigt at ..., men det er også vigtigt ..."}
+            ]
+        },
+    "sentenceStarters_conclusion" : 
+		{"id":"Dropdown2", "class":"Dropdown", 
+            "options":[
+                {"value":"Alle kan blive enige om at det er et problem at ... (generel vinkel)"},
+                {"value":"Det er et velkendt standpunkt i debatten om ..., at .... (generel vinkel)"},
+                {"value":"Sidst jeg var i supermarkedet overhørte jeg en samtale omkring ..., hvilket fik mig til at tænke på, at det er et stort problem at vi .... (konkret vinkel)"}
+            ]
+        },
+    "sentenceStarters_begin" : 
+		{"id":"Dropdown3", "class":"Dropdown", 
+            "options":[
+                {"value":"Alle kan blive enige om at det er et problem at ... (generel vinkel)"},
+                {"value":"Det er et velkendt standpunkt i debatten om ..., at .... (generel vinkel)"},
+                {"value":"Sidst jeg var i supermarkedet overhørte jeg en samtale omkring ..., hvilket fik mig til at tænke på, at det er et stort problem at vi .... (konkret vinkel)"}
+            ]
+        },
+    "sentenceStarters_end" : 
+		{"id":"Dropdown4", "class":"Dropdown", 
+            "options":[
+                {"value":"Afslutningsvis kan man sige at ..."},
+                {"value":"Når alt kommer til alt er der meget som taler for at ..."},
+                {"value":"Til sidst vil jeg bare sige at jeg synes at det er totalt for dårligt at ..."}
+            ]
+        },
+	"steps" : [
+		{
+			"step" : 0,
+			"header" : "(step 0) - Guidet skriveproces",
+			"img" : {"src" : "img/start_img_750x350.jpg", "alt" : "Billede af XXX"},
+			"audioFiles" : [{"name": "audio/step_0.mp3", "type": "mpeg"}]
+		},{
+			"step" : 1,
+			"header" : "(step 1) - Guidet skriveproces",
+			"instruction" : "Vælg den tekst du vil arbejde med (klik og vælg)",
+			"audioFiles" : [{"name": "audio/step_1.mp3", "type": "mpeg"}]
+		},{
+			"step" : 2,
+			"header" : "(step 2) - Guidet skriveproces",
+			"instruction" : "Vælg et tema til teksten: ",
+			"audioFiles" : [{"name": "audio/step_2.mp3", "type": "mpeg"}]
+		},{
+			"step" : 3,
+			"header" : "(step 3) - Guidet skriveproces",
+			"instruction" : "Formuler hvad dit tema handler om.",
+			"audioFiles" : [{"name": "audio/step_3.mp3", "type": "mpeg"}]
+		},{
+			"step" : 4,
+			"header" : "(step 4) - Guidet skriveproces",
+			"instruction" : "Vælg analytisk fokuspunkt",
+			"audioFiles" : [{"name": "audio/step_4.mp3", "type": "mpeg"}]
+		},{
+			"step" : 5,
+			"header" : "(step 5) - Guidet skriveproces",
+			"instruction" : "Find citater i teksten",
+			"audioFiles" : [{"name": "audio/step_5.mp3", "type": "mpeg"}]
+		},{
+			"step" : 6,
+			"header" : "(step 6) - Guidet skriveproces",
+			"instruction" : "Forklar dine citater",
+			"audioFiles" : [{"name": "audio/step_6.mp3", "type": "mpeg"}]
+		},{
+			"step" : 7,
+			"header" : "(step 7) - Guidet skriveproces",
+			"instruction" : "Skriv ???-1 sætninger, der forbinder dine tekstafsnit",
+			"audioFiles" : [{"name": "audio/step_7.mp3", "type": "mpeg"}]
+		},{
+			"step" : 8,
+			"header" : "(step 8) - Guidet skriveproces",
+			"instruction" : "Skriv et par afsluttende sætninger",
+			"audioFiles" : [{"name": "audio/step_7.mp3", "type": "mpeg"}]
+		},{
+			"step" : 9,
+			"header" : "(step 9) - Guidet skriveproces",
+			"instruction" : "Skriv en overskrift og indledning til din analyse",
+			"audioFiles" : [{"name": "audio/step_7.mp3", "type": "mpeg"}]
+		},{
+			"step" : 10,
+			"header" : "(step 10) - Guidet skriveproces",
+			"instruction" : "Skriv en overskrift og indledning til din analyse",
+			"explanation" : "Download Word-filen med instruktion til hvordan du kan arbejde videre med din skønlitterær analyse.",
+			"audioFiles" : [{"name": "audio/step_7.mp3", "type": "mpeg"}]
+		}
+	]
+}

@@ -1,0 +1,208 @@
+
+/*************************************
+        Generel styling
+*************************************/
+
+/*
+.TextHolder {
+    min-height: 100px; 
+    max-height: 550px;
+    width: 750px;
+    min-width: 360px;
+    padding: 20px 40px 20px 20px; 
+    margin: 0px 30px 30px 0px; 
+    background: #fff; 
+    border-radius: 6px;
+}
+
+.Clear{
+    clear: both;
+}
+
+
+.explanation {
+    margin-bottom: 20px;
+}
+
+.explanation div:nth-child(2){
+    width: 80%;
+}
+
+.explanation > .glyphicon{
+    color: #56bfc5;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.7;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+
+.instruktion {
+    width: 100%;
+}
+.instruktion div:nth-child(2){
+    width: 80%;
+}
+*/
+
+/*************************************
+        Objekt styling
+*************************************/
+
+.Dropdown {
+    width: 100%;
+    margin: 0px 15px 15px 0px;
+    /*height: 35px;*/
+}
+
+.TextHolder {
+    /*background-color: #f8f8f6;*/
+}
+
+.container-fluid {
+    /*background-color: #FFF;*/
+}
+
+.row .btn-info, .row .btn-primary{
+	margin: 0px 15px 15px 0px;
+}
+
+.textOverview{
+    margin-bottom: 15px;
+}
+
+.textOverviewSubHeading{
+    font-weight: 600;
+}
+
+.QuoteHolder{
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.btnActions .btn-primary:hover{
+    background-color: #969696;
+    border: 1px solid #969696;
+    color: #FFF;
+}
+
+.btnActions .btn-primary{
+    background-color: #666666;
+    border: 1px solid #666666;
+    color: #fff;
+}
+
+#TextContainer .btn-primary:hover, 
+#ThemeContainer .btn-primary:hover,
+#analyticalFocusContainer .btn-primary:hover,
+#subjectWordContainer .btn-primary:hover,
+#subjectWordContainer_btn .btn-primary:hover,
+#subjectWordField_btn_Container .btn-primary:hover,
+#subjectWordSentenceContainer .btn-primary:hover{
+    background-color: #969696;
+    border: 1px solid #969696;
+    color: #FFF;
+}
+
+#TextContainer .btn-primary, 
+#ThemeContainer .btn-primary, 
+#analyticalFocusContainer .btn-primary,
+#subjectWordContainer .btn-primary, 
+#subjectWordContainer_btn .btn-primary, 
+#subjectWordField_btn_Container .btn-primary,
+#subjectWordSentenceContainer .btn-primary{
+    background-color: #666666;
+    border: 1px solid #666666;
+    color: #fff;
+}
+
+audio {
+    width: 280px;  /* Ellers er audio for lang */
+/*
+	position: relative;
+	top: 10px;
+*/
+}
+
+#testAudio{ 
+/*
+    position: relative;
+    z-index: 20;
+*/    
+}
+
+textarea {
+    height: 120px;
+    width: 100%;
+}
+
+.stepNav {
+    margin: 30px 0px 30px 0px;
+}
+
+.stepNav audio{
+    float: right;
+    position: relative;
+    top: 10px;
+}
+
+.Clear{
+    clear: both;
+}
+
+#step_6b .input-group, #step_9 .input-group {
+    width: 100%;
+}
+
+#step_6b input, #step_9 input {
+    height: 60px;  /* Dette svare ca til padding paa 20 px */
+}
+
+.input-group input{
+    color: inherit;  /* Fjerner den graalige farve */ 
+}
+
+.form-control::-moz-placeholder{
+    color: inherit;  /* Fjerner den graalige farve */ 
+}
+
+#step_1 .input-group {
+    margin-left: 20px;
+}
+
+#step_2 .input-group {
+    margin: 0px 15px 15px 0px;
+}
+
+.step .input-group {
+	display: inline-flex;
+}
+
+/*
+.Sortable{
+    background-color: #f8f8f6;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+*/
+
+.sortable_text_container {
+    -moz-user-select: none;
+    background-color: #fff;
+    box-shadow: 1px 1px 1px #ddd;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 10px;
+    overflow: auto;
+    padding: 20px 10% 20px 20px;
+}
+
+
+#step_7_download {
+    text-transform: none;
+}
+
+
+

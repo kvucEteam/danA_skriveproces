@@ -265,6 +265,19 @@ function isSimilar(array1, array2){
 }
 
 
+function isLastStep(step) {
+	for (var i = 0; i < jsonData.steps.length; i++) {
+		if (jsonData.steps[i].step == step) {
+			if (jsonData.steps.length-1 == i) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+}
+
+
 function hasNonEmptyStrElm(Tarray) {
 	console.log("hasNonEmptyStrElm - Tarray: " + Tarray);
 	for (var n in Tarray) {
@@ -382,7 +395,12 @@ function returnLastStudentSession() {
 	       
 	        jsonData = TjsonData;
 			$('#DataInput').html(eval('step_'+TjsonData.currentStep+'_template()'));
-			setJsAudioEventLitsner();
+			if (!isLastStep(TjsonData.currentStep)) {
+				console.log('returnLastStudentSession - NOT LAST STEP');
+				setJsAudioEventLitsner();
+			} else {
+				console.log('returnLastStudentSession - LAST STEP');
+			}
 	    });
 
 	    $( document ).on('click', "#objectStorageClass_no", function(event){
@@ -1340,7 +1358,7 @@ $( document ).on('click', "#step_6b_goOn", function(event){
 		JSN.studentSubjectTitel = [];
 		JSN.studentSubjectTitel[0] = textInputText;
 		$('#DataInput').html(step_7_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 	}
 	console.log("step_6b_goOn - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
 });
