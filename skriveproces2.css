@@ -135,7 +135,45 @@ audio {
 textarea {
     height: 120px;
     width: 100%;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
 }
+
+
+
+/***********************************************************************    
+            Fjerner den graalige farve fra textarea
+***********************************************************************/ 
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: inherit; 
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color: inherit;   
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color: inherit;  
+   opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: inherit;  
+}
+:placeholder-shown { /* Standard (https://drafts.csswg.org/selectors-4/#placeholder) */
+  color: inherit;  
+}
+
+/***********************************************************************    
+        Fjerner den graalige farve fra input-felter 
+***********************************************************************/
+.input-group input{
+    color: inherit;  
+}
+
+.form-control::-moz-placeholder{
+    color: inherit;  
+}
+/**********************************************************************/ 
+
 
 .stepNav {
     margin: 30px 0px 30px 0px;
@@ -159,13 +197,11 @@ textarea {
     height: 60px;  /* Dette svare ca til padding paa 20 px */
 }
 
-.input-group input{
-    color: inherit;  /* Fjerner den graalige farve */ 
-}
 
-.form-control::-moz-placeholder{
-    color: inherit;  /* Fjerner den graalige farve */ 
-}
+
+
+
+
 
 #step_1 .input-group {
     margin-left: 20px;
@@ -178,6 +214,11 @@ textarea {
 .step .input-group {
 	display: inline-flex;
 }
+
+.introField {
+    margin-top: 20px;
+}
+
 
 /*
 .Sortable{

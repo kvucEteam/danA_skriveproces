@@ -1,10 +1,10 @@
 {
 	"headerAndWordTemplateHeader" : "Skriv en skønlitterær analyse",
 	"texts" : [
-		{"author" : "Svend Åge Madsen", "title" : "Jagten på et menneske", "year": "1991", "src" : "..."},
-		{"author" : "Jonathan Swift", "title" : "Et beskedent forslag", "year": "1729", "src" : "..."},
-		{"author" : "Amanda Hertz", "title" : "Stjernedrengen", "year": "1989", "src" : "...", "url" : "https://www.fyldepennen.dk/tekster/61092/stjernedrengen"},
-		{"author" : "Laila Jørgensen", "title" : "Stormen", "year": "2016", "src" : "...", "url" : "https://www.fyldepennen.dk/tekster/61094/stormen"}
+		{"author" : "Peter Seeberg", "title" : "Patienten", "year": "1962", "src" : "pdf/Patienten.pdf", "themes": ["Tema 1a", "Tema 2a", "Tema 3a", "Tema 4a", "Tema 5a", "Tema 6a"], "textSnippet" : "<p>Da lægerne første gang stiftede bekendtskab med min sygdom, beroligede de mig meget in- derligt og erklærede, at et amputeret ben ikke var noget at snakke om i vor tid, hvor prote- serne jo ikke mere var en lidelse, som i træbe- nenes dage, men snarere en lettelse. De love- de mig, at jeg skulle komme til at gå nærmest bedre end før, idet de påstod, at iveren efter at gå igen ville tilføre mig kæmpekræfter. De fik ret. Da jeg først var kommet i gang, gik jeg bedre end nogen sinde, men længe varede det ikke, så dukkede sygdommen, som lægerne nu betegnede som den uhyre sjældne ,,alminde- ligt bortfald” op i det andet ben, der også måtte sættes af. Heller ikke denne gang fornægtede lægekunsten sig. Det viste sig, at jeg gik bedre med to kunstige ben end med to naturlige.</p><p>Derpå havde jeg en kort frist, så dukkede sygdommen op i den højre arm og bredte sig hastigt helt op til skulderen, hvad lægerne badmig om ikke at tage alt for tungt på, for også arme lå det inden for protesekunstens mulig- heder at fremstille bedre end naturen, og snart var jeg da udstyret ikke blot med en, men med to kunstige arme, som var mig til udmærket nyt- te. Ved den højre arm var lægerne nogle dage i et dilemma, for her begyndte syg¬dommen ved albuen, og det faldt dem først ind at bort- save dette led og derpå forbinde de to dele med det kunstige led, men da sygdommen så tog fart, således at det havde været skulderen og hånden, der måtte forbindes, blev denne tanke straks opgivet...</p>"},
+		{"author" : "Jonathan Swift", "title" : "Et beskedent forslag", "year": "1729", "src" : "pdf/test.pdf", "themes": ["Tema 1b", "Tema 2b", "Tema 3b", "Tema 4b", "Tema 5b", "Tema 6b"], "textSnippet" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..."},
+		{"author" : "Amanda Hertz", "title" : "Stjernedrengen", "year": "1989", "src" : "pdf/test.pdf", "url" : "https://www.fyldepennen.dk/tekster/61092/stjernedrengen", "themes": ["Tema 1c", "Tema 2c", "Tema 3c", "Tema 4c", "Tema 5c", "Tema 6c"], "textSnippet" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..."},
+		{"author" : "Laila Jørgensen", "title" : "Stormen", "year": "2016", "src" : "pdf/test.pdf", "url" : "https://www.fyldepennen.dk/tekster/61094/stormen", "themes": ["Tema 1d", "Tema 2d", "Tema 3d", "Tema 4d", "Tema 5d", "Tema 6d"], "textSnippet" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..."}
 	],
 	"themes" : ["Tema 1", "Tema 2", "Tema 3", "Tema 4", "Tema 5", "Tema 6", "Tema 7", "Tema 8", "Tema 9", "Tema 10"],
 	"sentenceStarters_theme" : 
@@ -19,7 +19,13 @@
                 {"value":"Det er vigtigt at ..., men det er også vigtigt ..."}
             ]
         }, 
-    "analyticalFocus" : ["Analytisk fokuspunkt 1", "Analytisk fokuspunkt 2", "Analytisk fokuspunkt 3", "Analytisk fokuspunkt 4", "Analytisk fokuspunkt 5", "Analytisk fokuspunkt 6", "Analytisk fokuspunkt 7", "Analytisk fokuspunkt 8", "Analytisk fokuspunkt 9", "Analytisk fokuspunkt 10"],
+    "analyticalFocus" : [
+    	{"name" : "Analytisk fokuspunkt 1", "description" : "<b>Analytisk fokuspunkt 1</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"}, 
+    	{"name" : "Analytisk fokuspunkt 2", "description" : "<b>Analytisk fokuspunkt 2</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"},
+    	{"name" : "Analytisk fokuspunkt 3", "description" : "<b>Analytisk fokuspunkt 3</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"},
+    	{"name" : "Analytisk fokuspunkt 4", "description" : "<b>Analytisk fokuspunkt 4</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"},
+    	{"name" : "Analytisk fokuspunkt 5", "description" : "<b>Analytisk fokuspunkt 5</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"}
+    ],
 	"numOfChoosenWords" : 3,
 	"sentenceStarters_quoteNote" : 
 		{"id":"Dropdown1", "class":"Dropdown", 
@@ -76,7 +82,7 @@
 		},{
 			"step" : 3,
 			"header" : "(step 3) - Guidet skriveproces",
-			"instruction" : "Formuler hvad dit tema handler om.",
+			"instruction" : "Formuler hvad dit tema handler om. Brug evt. sætningsstarterne herunder",
 			"audioFiles" : [{"name": "audio/step_3.mp3", "type": "mpeg"}]
 		},{
 			"step" : 4,
@@ -86,7 +92,7 @@
 		},{
 			"step" : 5,
 			"header" : "(step 5) - Guidet skriveproces",
-			"instruction" : "Find citater i teksten",
+			"instruction" : "Find og indsæt ??? citater fra teksten",
 			"audioFiles" : [{"name": "audio/step_5.mp3", "type": "mpeg"}]
 		},{
 			"step" : 6,

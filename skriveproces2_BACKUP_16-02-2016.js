@@ -194,22 +194,6 @@ function returnInputBoxes3(numOfBoxes, Class, placeholderText){
 }
 
 
-function returnInputBoxes4(numOfBoxes, Class, savedValues, placeholderText){
-	var HTML = '';
-	for (var i = 0; i < numOfBoxes; i++) {
-		HTML += '<span class="input-group">';
-		// HTML += 	'<span class="input-group-addon" id="sizing-addon2">@</span>';
-		if (typeof(placeholderText) == 'string')
-			// HTML += 	'<input type="text" class="'+Class+' form-control" placeholder="'+placeholderText+'" aria-describedby="sizing-addon2">';                               // 16-02-2016        
-			HTML += 	'<input type="text" class="'+Class+' form-control"'+((savedValues!=='')?' value="'+savedValues+'"':'')+' placeholder="'+placeholderText+'" aria-describedby="sizing-addon2">';   // 16-02-2016
-		if ((Array.isArray(savedValues)) && (savedValues.length == numOfBoxes) && (Array.isArray(placeholderText)) && (placeholderText.length == numOfBoxes))
-			HTML += 	'<input type="text" class="'+Class+' form-control"'+((savedValues[i]!=='')?' value="'+savedValues[i]+'"':'')+' placeholder="'+placeholderText[i]+'" aria-describedby="sizing-addon2">';
-		HTML += '</span>';
-	};
-	return HTML;
-}
-
-
 function hasUniqueElements(Tarray){
 	for (var i in Tarray){
 		for (var j in Tarray){
@@ -1774,37 +1758,35 @@ $( document ).on('click', "#step_8_goOn", function(event){
 function step_9_template(){
 	jsonData.currentStep = 9;
 	osc.save('jsonData', jsonData);
-	// console.log("step_9_template - headAndIntroCount: " + ((typeof(headAndIntroCount) !== 'undefined')?headAndIntroCount:'undefined'));
+	console.log("step_9_template - headAndIntroCount: " + ((typeof(headAndIntroCount) !== 'undefined')?headAndIntroCount:'undefined'));
 	console.log("step_9_template - jsonData 1: " + JSON.stringify(jsonData)); 
 	console.log("step_9_template - jsonData.studentSelectedTexts 1: " + JSON.stringify(jsonData.studentSelectedTexts)); 
-	// if ((typeof(headAndIntroCount) === 'undefined') || (headAndIntroCount === null)) { 
-	// 	window.headAndIntroCount = 0;
-	// } else {
-	// 	++headAndIntroCount;
-	// }
+	if ((typeof(headAndIntroCount) === 'undefined') || (headAndIntroCount === null)) { 
+		window.headAndIntroCount = 0;
+	} else {
+		++headAndIntroCount;
+	}
 	if (typeof(autoPlay) === 'undefined'){
 		window.autoPlay = true;
 	} 
-	// if (typeof(TautoPlay) === 'undefined'){
-	// 	window.TautoPlay = autoPlay;  // This remembers the state before step 4.
-	// 	console.log("step_9_template - TautoPlay: " + TautoPlay);
-	// }
-	// if (headAndIntroCount > 0) {  // This ensures that the player does not start when the word-buttons > 0 are pressed.
-	// 	autoPlay = false;
-	// }
-	// console.log("step_9_template - headAndIntroCount: " + headAndIntroCount);
+	if (typeof(TautoPlay) === 'undefined'){
+		window.TautoPlay = autoPlay;  // This remembers the state before step 4.
+		console.log("step_9_template - TautoPlay: " + TautoPlay);
+	}
+	if (headAndIntroCount > 0) {  // This ensures that the player does not start when the word-buttons > 0 are pressed.
+		autoPlay = false;
+	}
+	console.log("step_9_template - headAndIntroCount: " + headAndIntroCount);
 
 	// var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];  // <-----  NEW!
-	var headAndIntro = ['', ''];
+	var headAndIntro = [];
 	if (JST.hasOwnProperty("headAndIntro")){
 		// textNo = getSelected('textNo');
 		headAndIntro = JST.headAndIntro;
-	} else {
-		JST.headAndIntro = headAndIntro;
 	}
 	console.log("step_9_template - headAndIntro: " + headAndIntro);
-	// var headAndIntroArray = ["Overskrift", "Indledning"];
+	var headAndIntroArray = ["Overskrift", "Indledning"];
 	var stepNo = 9;
 	var HTML = '';
 	HTML += '<div id="step_9" class="step">';
@@ -1815,28 +1797,28 @@ function step_9_template(){
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
-	// HTML += 			'<div id="TextAndQuoteContainer">';
-	// HTML += 				'<div id="headAndIntroContainer" class="btnActions">';
-	// 			for (var i = 0; i < 2; i++) {
-	// 				HTML += 	'<span class="headAndIntroBtn btn btn-'+((i==headAndIntroCount)?'primary':'info')+'">'+headAndIntroArray[i].toLowerCase()+'</span>';
-	// 			}
-	// HTML += 				'</div>';
-	// HTML += 			'</div>';
+	HTML += 			'<div id="TextAndQuoteContainer">';
+	HTML += 				'<div id="headAndIntroContainer" class="btnActions">';
+				for (var i = 0; i < 2; i++) {
+					HTML += 	'<span class="headAndIntroBtn btn btn-'+((i==headAndIntroCount)?'primary':'info')+'">'+headAndIntroArray[i].toLowerCase()+'</span>';
+				}
+	HTML += 				'</div>';
+	HTML += 			'</div>';
 
 	// HTML +=					returnInputBoxes3(1, 'studentSubject', 'Skriv din overskrift her...');
 
-	// if (headAndIntroCount == 0) {
+	if (headAndIntroCount == 0) {
 			// var TheadAndIntro = removeEmptyElements(headAndIntro);
 			// HTML += returnInputBoxes3(TheadAndIntro.length, 'headerField', TheadAndIntro);
-			HTML +=					returnInputBoxes4(1, 'headerField', ((typeof(headAndIntro[0])!=='undefined') && (headAndIntro[0]!==''))?headAndIntro[0]:'', 'Skriv din overskrift her...');
-	// }
-	// if (headAndIntroCount == 1) {
-			HTML += 	'<textarea class="introField" val="" placeholder="Skriv din indledning her..." >';
-					if ((typeof(headAndIntro[1])!=='undefined') && (headAndIntro[1]!=='')) {
-						HTML += headAndIntro[1];
+			HTML +=					returnInputBoxes3(1, 'headerField', ((typeof(headAndIntro[0])!=='undefined') && (headAndIntro[0]!==''))?headAndIntro[0]:'Skriv din overskrift her...');
+	}
+	if (headAndIntroCount == 1) {
+			HTML += 	'<textarea class="headerField" val="">';
+					if ((JST.hasOwnProperty('headAndIntro')) && (typeof(JST.headAndIntro[headAndIntroCount]) !== 'undefined')) {
+						HTML += JST.headAndIntro[headAndIntroCount];
 					}			
 			HTML += 	'</textarea>';
-	// }
+	}
 
 	HTML += 			'<div class="stepNav">';
 	HTML += 				'<span id="step_9_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
@@ -1852,60 +1834,40 @@ function step_9_template(){
 
 
 
-// $( document ).on('click', ".headAndIntroBtn", function(event){
-// 	var index = $(this).index();
-// 	console.log("headAndIntroBtn - index: " + index);
+$( document ).on('click', ".headAndIntroBtn", function(event){
+	var index = $(this).index();
+	console.log("headAndIntroBtn - index: " + index);
 	 
-// 	// -----------------------
-// 	console.log("headAndIntroBtn - jsonData.studentSelectedTexts 1: " + JSON.stringify(jsonData.studentSelectedTexts)); 
-// 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
-// 	if (!JST.hasOwnProperty('headAndIntro')){
-// 		JST.headAndIntro = [];
-// 		for (var i = 0; i < 2; i++) {
-// 			JST.headAndIntro.push('');
-// 		};
-// 	}
+	// -----------------------
+	console.log("headAndIntroBtn - jsonData.studentSelectedTexts 1: " + JSON.stringify(jsonData.studentSelectedTexts)); 
+	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
+	if (!JST.hasOwnProperty('headAndIntro')){
+		JST.headAndIntro = [];
+		for (var i = 0; i < 2; i++) {
+			JST.headAndIntro.push('');
+		};
+	}
 
-// 	var sentence = $('.headerField').val();
-// 	console.log("headAndIntroBtn - headAndIntroCount: " + headAndIntroCount + ", sentence: " + sentence);
+	var sentence = $('.headerField').val();
+	console.log("headAndIntroBtn - headAndIntroCount: " + headAndIntroCount + ", sentence: " + sentence);
 	
-// 	if (headAndIntroCount < 2){
-// 		// JSN.subjectTexts_sentences.push(sentence);
-// 		JST.headAndIntro[headAndIntroCount] = sentence;
-// 		// $('#DataInput').html(step_4_template());
-// 		console.log("headAndIntroBtn - jsonData.studentSelectedTexts 2: " + JSON.stringify(jsonData.studentSelectedTexts)); 
-// 	} 
-// 	// else {
-// 	// 	JST.subjectTexts_sentences[textPassageCount] = sentence;
-// 	// 	// $('#DataInput').html(step_4b_template());
-// 	// 	console.log("quoteBtn - jsonData.studentSelectedTexts 3: " + JSON.stringify(jsonData.studentSelectedTexts));
-// 	// 	// makeSortable();
-// 	// }
-
-// 	// -----------------------
-// 	headAndIntroCount = index-1; 
-// 	$('#DataInput').html(step_9_template());  
-// 	setJsAudioEventLitsner();
-// });
-
-
-$( document ).on('focusout', ".headerField", function(event){
-// $( document ).on('focusin', ".studentTheme", function(event){  
-	var headerField = htmlEntities($('.headerField').val());
-	console.log("focusout - headerField: _" + headerField + "_");
-	// if (headerField.length > 0) {
-		// var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
-		jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum].headAndIntro[0] = headerField;
+	if (headAndIntroCount < 2){
+		// JSN.subjectTexts_sentences.push(sentence);
+		JST.headAndIntro[headAndIntroCount] = sentence;
+		// $('#DataInput').html(step_4_template());
+		console.log("headAndIntroBtn - jsonData.studentSelectedTexts 2: " + JSON.stringify(jsonData.studentSelectedTexts)); 
+	} 
+	// else {
+	// 	JST.subjectTexts_sentences[textPassageCount] = sentence;
+	// 	// $('#DataInput').html(step_4b_template());
+	// 	console.log("quoteBtn - jsonData.studentSelectedTexts 3: " + JSON.stringify(jsonData.studentSelectedTexts));
+	// 	// makeSortable();
 	// }
-});
 
-$( document ).on('focusout', ".introField", function(event){
-// $( document ).on('focusin', ".studentTheme", function(event){  
-	var introField = htmlEntities($('.introField').val());
-	console.log("focusout - introField: _" + introField + "_");
-	// if (introField.length > 0) {
-		jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum].headAndIntro[1] = introField;
-	// }
+	// -----------------------
+	headAndIntroCount = index-1; 
+	$('#DataInput').html(step_9_template());  
+	setJsAudioEventLitsner();
 });
 
 
@@ -1926,20 +1888,18 @@ $( document ).on('click', "#step_9_goBack", function(event){
 $( document ).on('click', "#step_9_goOn", function(event){
 	console.log("step_9_goOn - jsonData.studentSelectedTexts 1: " + JSON.stringify(jsonData.studentSelectedTexts)); 
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
-	// if (!JST.hasOwnProperty('headAndIntro')){
-	// 	JST.headAndIntro = [];
-	// 	for (var i = 0; i < 2; i++) {
-	// 		JST.headAndIntro.push('');
-	// 	};
-	// }
+	if (!JST.hasOwnProperty('headAndIntro')){
+		JST.headAndIntro = [];
+		for (var i = 0; i < 2; i++) {
+			JST.headAndIntro.push('');
+		};
+	}
 
-	// var btnPrimaryText = $("#subjectWordSentenceContainer .btn-primary").text();
+	var btnPrimaryText = $("#subjectWordSentenceContainer .btn-primary").text();
 
-	// var headerField = htmlEntities($('.headerField').val());
-	// var introField = htmlEntities($('.introField').val());
-	// console.log("step_9_goOn - headerField: _" + headerField + "_, introField: _" + introField + "_");
-	// if (((headerField.length > 0) || (JST.headAndIntro[0]!=='')) && ((introField.length > 0) || (JST.headAndIntro[0]!==''))) {
-	// if ((JST.headAndIntro[0].length > 0) && (JST.headAndIntro[1].length > 0)) {
+	var sentence = htmlEntities($('.headerField').val());
+	console.log("step_9_goOn - headAndIntroCount: " + headAndIntroCount + ", sentence: " + sentence);
+	if ((sentence.length > 0) || (JST.headAndIntro[headAndIntroCount]!=='')) {
 		// if (quoteCount < jsonData.numOfChoosenWords-1){
 		// 	JSN.subjectTexts_sentences[quoteCount] = sentence;
 		// 	console.log("step_4_goOn - jsonData.studentSelectedTexts 2: " + JSON.stringify(jsonData.studentSelectedTexts));
@@ -1947,28 +1907,25 @@ $( document ).on('click', "#step_9_goOn", function(event){
 		// 	$('#DataInput').html(step_4_template());
 			
 		// } else {
-			// if (headerField.length > 0) {
-			// 	JST.headAndIntro[0] = headerField;
-			// }
-			// if (introField.length > 0) {
-			// 	JST.headAndIntro[1] = introField;
-			// }
+			if (sentence.length > 0) {
+				JST.headAndIntro[headAndIntroCount] = sentence;
+			}
 			console.log("step_9_goOn - jsonData.studentSelectedTexts 3: " + JSON.stringify(jsonData.studentSelectedTexts));
 			if (!hasNonEmptyStrElm( JST.headAndIntro )){
 				// JSN.subjectTexts_sentences[quoteCount] = sentence;
 				console.log("step_9_goOn - jsonData.studentSelectedTexts 4: " + JSON.stringify(jsonData.studentSelectedTexts));
-				// autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
+				autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
 				$('#DataInput').html(step_10_template());
 				// setJsAudioEventLitsner();
 				// makeSortable();
 			} else {
-				UserMsgBox("body", 'Du skal en overskrift og indledning til din analyse - du mangler at skrive tekst til '+returnMissingElements('headAndIntro', ["overskrift", "indledning"]));
+				UserMsgBox("body", 'Du skal en overskrift og indledning til din analyse - du mangler at skrive tekst til '+returnMissingElements('headAndIntro', ["overskrift", "indledning"])+'. Tryk på knapperne og skriv tekst i tekstboksene.');
 			}
 		// }
 
-	// } else {
-	// 	UserMsgBox("body", "Du skal en overskrift og indledning til din analyse før du kan gå videre!");
-	// }
+	} else {
+		UserMsgBox("body", "Du skal en overskrift og indledning til din analyse før du kan gå videre!");
+	}
 
 });
 
@@ -2023,8 +1980,7 @@ function step_10_template(){
 									'<span class="textOverviewSubHeading">Udlægning til citat '+String(parseInt(i)+1)+':</span> <br/>'+
 									JST.textQuoteNotes[i]+
 								'</div>';
-					// HTML += 	(typeof(JST.textPassages[i]!=='undefined'))?'<p id="textPassages_'+i+'">'+JST.textPassages[i]+'</p>':'';
-					HTML += 	(i < jsonData.numOfChoosenWords-1)?'<p id="textPassages_'+i+'">'+JST.textPassages[i]+'</p>':'';
+					HTML += 	(typeof(JST.textPassages[i]!=='undefined'))?'<p>'+JST.textPassages[i]+'</p>':'';
 				}
 				HTML += 		'<p>'+JST.conclusion+'</p>';
 	HTML += 				'</div>';
