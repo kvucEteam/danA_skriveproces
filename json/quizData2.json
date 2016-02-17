@@ -68,58 +68,58 @@
 			"step" : 0,
 			"header" : "(step 0) - Guidet skriveproces",
 			"img" : {"src" : "img/start_img_750x350.jpg", "alt" : "Billede af XXX"},
-			"audioFiles" : [{"name": "audio/step_0.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_0.mp3", "type": "mpeg"}]
 		},{
 			"step" : 1,
 			"header" : "(step 1) - Guidet skriveproces",
 			"instruction" : "Vælg den tekst du vil arbejde med (klik og vælg)",
-			"audioFiles" : [{"name": "audio/step_1.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_1.mp3", "type": "mpeg"}]
 		},{
 			"step" : 2,
 			"header" : "(step 2) - Guidet skriveproces",
 			"instruction" : "Vælg et tema til teksten: ",
-			"audioFiles" : [{"name": "audio/step_2.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_2.mp3", "type": "mpeg"}]
 		},{
 			"step" : 3,
 			"header" : "(step 3) - Guidet skriveproces",
 			"instruction" : "Formuler hvad dit tema handler om. Brug evt. sætningsstarterne herunder",
-			"audioFiles" : [{"name": "audio/step_3.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_3.mp3", "type": "mpeg"}]
 		},{
 			"step" : 4,
 			"header" : "(step 4) - Guidet skriveproces",
 			"instruction" : "Vælg analytisk fokuspunkt",
-			"audioFiles" : [{"name": "audio/step_4.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_4.mp3", "type": "mpeg"}]
 		},{
 			"step" : 5,
 			"header" : "(step 5) - Guidet skriveproces",
 			"instruction" : "Find og indsæt ??? citater fra teksten",
-			"audioFiles" : [{"name": "audio/step_5.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_5.mp3", "type": "mpeg"}]
 		},{
 			"step" : 6,
 			"header" : "(step 6) - Guidet skriveproces",
 			"instruction" : "Forklar dine citater",
-			"audioFiles" : [{"name": "audio/step_6.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_6.mp3", "type": "mpeg"}]
 		},{
 			"step" : 7,
 			"header" : "(step 7) - Guidet skriveproces",
-			"instruction" : "Skriv ???-1 sætninger, der forbinder dine tekstafsnit",
-			"audioFiles" : [{"name": "audio/step_7.mp3", "type": "mpeg"}]
+			"instruction" : "Skriv en fortolkning af teksten, via ???-1 sætninger, der forbinder dine tekstafsnit",
+			"audioFiles" : [{"name": "audio/_analyse/step_7.mp3", "type": "mpeg"}]
 		},{
 			"step" : 8,
 			"header" : "(step 8) - Guidet skriveproces",
 			"instruction" : "Skriv et par afsluttende sætninger",
-			"audioFiles" : [{"name": "audio/step_7.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_8.mp3", "type": "mpeg"}]
 		},{
 			"step" : 9,
 			"header" : "(step 9) - Guidet skriveproces",
 			"instruction" : "Skriv en overskrift og indledning til din analyse",
-			"audioFiles" : [{"name": "audio/step_7.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_9.mp3", "type": "mpeg"}]
 		},{
 			"step" : 10,
 			"header" : "(step 10) - Guidet skriveproces",
 			"instruction" : "Skriv en overskrift og indledning til din analyse",
 			"explanation" : "Download Word-filen med instruktion til hvordan du kan arbejde videre med din skønlitterær analyse.",
-			"audioFiles" : [{"name": "audio/step_7.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_10.mp3", "type": "mpeg"}]
 		}
 	]
 }

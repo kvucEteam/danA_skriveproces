@@ -153,8 +153,8 @@ function returnAudioControls(audioData){
 
 	var HTML = '';
 	console.log("returnAudioControls - autoPlay: " + autoPlay);
-	// HTML += '<audio id="audioPlayer" controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+'>';   	// <---- ORGINAL - SKAL VÆRE UKOMMENTERET I LIVE QUIZ
-	HTML += '<audio id="audioPlayer" controls="controls">';    												// <----- SLUK FOR AUTO PLAY
+	HTML += '<audio id="audioPlayer" controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+'>';   	// <---- ORGINAL - SKAL VÆRE UKOMMENTERET I LIVE QUIZ
+	// HTML += '<audio id="audioPlayer" controls="controls">';    												// <----- SLUK FOR AUTO PLAY
 	for (var n in audioData) {
 		HTML += '<source src="'+audioData[n].name+'" type="audio/'+audioData[n].type+'"/>';
 	}
@@ -781,12 +781,10 @@ function step_2_template(){
 	HTML += 			'<div class="stepInput">';
 	HTML += 				'<span class="helperText">Eller vælg dit eget tema: </span>';
 
-		// studentTheme = (((JST.hasOwnProperty('studentTheme')) && (!elementInArray(jsonData.themes, JST.studentTheme))))? JST.studentTheme : 'Skriv dit tema her...';
-		studentTheme = (((JST.hasOwnProperty('studentTheme')) && (!elementInArray(JTT, JST.studentTheme))))? JST.studentTheme : 'Skriv dit tema her...';
-		// if ((JST.hasOwnProperty('TextTheme')) && (!elementInArray(jsonData.themes, JST.TextTheme))) {
-
-		// }
-	HTML += 			returnInputBoxes3(1, 'studentTheme', studentTheme);
+		
+	// studentTheme = (((JST.hasOwnProperty('studentTheme')) && (!elementInArray(JTT, JST.studentTheme))))? JST.studentTheme : 'Skriv dit tema her...';
+	// HTML += 			returnInputBoxes3(1, 'studentTheme', studentTheme);
+	HTML +=				returnInputBoxes4(1, 'studentTheme', ((JST.hasOwnProperty('studentTheme')) && (!elementInArray(JTT, JST.studentTheme)))?JST.studentTheme:'', 'Skriv dit tema her...');
 
 	// HTML +=					returnInputBoxes3(1, 'studentTheme', 'Skriv dit tema her...');
 	HTML += 			'</div>';
@@ -810,8 +808,20 @@ $( document ).on('focusin', ".studentTheme", function(event){
 });
 
 
+$( document ).on('focusout', ".studentTheme", function(event){
+// $( document ).on('focusin', ".studentTheme", function(event){  
+	var studentTheme = htmlEntities($('.studentTheme').val());
+	console.log("focusout - studentTheme: _" + studentTheme + "_");
+	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
+    if (!JST.hasOwnProperty("studentTheme")){
+    	JST.studentTheme = null;
+    }
+    JST.studentTheme = studentTheme;
+});
+
+
 $( document ).on('click', ".Themes", function(event){
-	window.studentThemePressed = true;
+	// window.studentThemePressed = true;
     console.log("Subjects - PRESSED");
     $('.Themes').removeClass('btn-primary').addClass('btn-info');
     $(this).addClass('btn-primary');
@@ -869,7 +879,8 @@ $( document ).on('click', "#step_2_goOn", function(event){
 
 	console.log("step_2_goOn - fallbackStudentTheme: " + fallbackStudentTheme + ", studentTheme: " + studentTheme);
 
-	if (((typeof(studentThemePressed) !== "undefined") && (studentThemePressed == true)) || (studentTheme.length > 0)){
+	// if (((typeof(studentThemePressed) !== "undefined") && (studentThemePressed == true)) || (studentTheme.length > 0)){
+	if ((JST.studentTheme !== null) && (JST.studentTheme.length > 0)){
 
 	    // ORGINAL KODE:
 		fallbackStudentTheme = studentTheme;
@@ -1083,7 +1094,9 @@ function step_5_template(){
 	if ((typeof(quoteCount) === 'undefined') || (quoteCount === null)) { 
 		window.quoteCount = 0;
 	} else {
-		++quoteCount;
+		if (quoteCount < jsonData.numOfChoosenWords-1){
+			++quoteCount;
+		}
 	}
 	if (typeof(autoPlay) === 'undefined'){
 		window.autoPlay = true;
@@ -1095,7 +1108,6 @@ function step_5_template(){
 	if (quoteCount > 0) {  // This ensures that the player does not start when the word-buttons > 0 are pressed.
 		autoPlay = false;
 	}
-	console.log("step_5_template - quoteCount: " + quoteCount);
 
 	// var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];  // <-----  NEW!
@@ -1104,6 +1116,7 @@ function step_5_template(){
 		// textNo = getSelected('textNo');
 		textQuotes = JST.textQuotes;
 	}
+	console.log("step_5_template - textQuotes: " + textQuotes + ", quoteCount: " + quoteCount);
 	var stepNo = 5;
 	var HTML = '';
 	HTML += '<div id="step_5" class="step">';
@@ -1164,7 +1177,8 @@ $( document ).on('click', ".quoteBtn", function(event){
 	console.log("quoteBtn - quoteCount: " + quoteCount + ", sentence: " + sentence);
 	console.log("quoteBtn - $('#textInput_'+quoteCount).val(): " + $('#textInput_'+quoteCount).val());
 	
-	if (quoteCount < jsonData.numOfChoosenWords-1){
+	// if (quoteCount < jsonData.numOfChoosenWords-1){
+	if (quoteCount < jsonData.numOfChoosenWords){
 		// JSN.subjectTexts_sentences.push(sentence);
 		JST.textQuotes[quoteCount] = sentence;
 		// $('#DataInput').html(step_4_template());
@@ -1293,13 +1307,18 @@ function returnMissingWords(btnPrimaryText){
 function step_6_template(){
 	jsonData.currentStep = 6;
 	osc.save('jsonData', jsonData);
-	console.log("step_6_template - quoteCount: " + ((typeof(quoteNoteCount) !== 'undefined')?quoteNoteCount:'undefined'));
+	// var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
+	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];  // <-----  NEW!
+	console.log("step_6_template - textQuotes: " + JST.textQuotes + ", quoteCount: " + quoteCount);
+	console.log("step_6_template - quoteNoteCount: " + ((typeof(quoteNoteCount) !== 'undefined')?quoteNoteCount:'undefined'));
 	console.log("step_6_template - jsonData 1: " + JSON.stringify(jsonData)); 
 	console.log("step_6_template - jsonData.studentSelectedTexts 1: " + JSON.stringify(jsonData.studentSelectedTexts)); 
 	if ((typeof(quoteNoteCount) === 'undefined') || (quoteNoteCount === null)) { 
 		window.quoteNoteCount = 0;
 	} else {
-		++quoteNoteCount;
+		if (quoteNoteCount < jsonData.numOfChoosenWords-1){
+			++quoteNoteCount;
+		}
 	}
 	if (typeof(autoPlay) === 'undefined'){
 		window.autoPlay = true;
@@ -1313,8 +1332,6 @@ function step_6_template(){
 	}
 	console.log("step_6_template - quoteNoteCount: " + quoteNoteCount);
 
-	// var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
-	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];  // <-----  NEW!
 	var textQuoteNotes = [];
 	if (JST.hasOwnProperty("textQuoteNotes")){
 		// textNo = getSelected('textNo');
@@ -1419,8 +1436,10 @@ $( document ).on('click', "#step_6_goBack", function(event){
 	if ((typeof(quoteNoteCount) === 'undefined') || (quoteNoteCount == 0)){
 		$('#DataInput').html(step_5_template());
 		setJsAudioEventLitsner();
-		quoteNoteCount = null;
-		console.log("step_4_goBack - quoteCount: " + quoteCount);
+		// window.quoteCount = jsonData.numOfChoosenWords-2;   // Step 5 counter reset. Using "window.quoteCount" because it might not exist.
+		// quoteCount = null
+		quoteNoteCount = null;		// Step 6 counter reset
+		console.log("step_6_goBack - quoteCount: " + quoteCount);
 	} else {
 		--quoteNoteCount;  	// Once...
 		--quoteNoteCount;	// twice... because of the inscreasement inside step_XXX_template
@@ -1494,7 +1513,10 @@ function step_7_template(){
 		window.textPassageCount = 0;
 		console.log("step_7_template - textPassageCount DEFINED! ");
 	} else {
-		++textPassageCount;
+		if (textPassageCount < jsonData.numOfChoosenWords-2){
+			++textPassageCount;
+		}
+		// ++textPassageCount;
 	}
 	if (typeof(autoPlay) === 'undefined'){
 		window.autoPlay = true;
@@ -1910,17 +1932,17 @@ $( document ).on('focusout', ".introField", function(event){
 
 
 $( document ).on('click', "#step_9_goBack", function(event){
-	if ((typeof(headAndIntroCount) === 'undefined') || (headAndIntroCount == 0)){
+	// if ((typeof(headAndIntroCount) === 'undefined') || (headAndIntroCount == 0)){
 		$('#DataInput').html(step_8_template());
 		setJsAudioEventLitsner();
-		headAndIntroCount = null;
+		// headAndIntroCount = null;
 		console.log("step_9_goBack - headAndIntroCount: " + headAndIntroCount);
-	} else {
-		--headAndIntroCount; // Once...
-		--headAndIntroCount; // twice... because of the inscreasement inside step_XXX_template
-		$('#DataInput').html(step_9_template());
-		setJsAudioEventLitsner();
-	}
+	// } else {
+	// 	--headAndIntroCount; // Once...
+	// 	--headAndIntroCount; // twice... because of the inscreasement inside step_XXX_template
+	// 	$('#DataInput').html(step_9_template());
+	// 	setJsAudioEventLitsner();
+	// }
 });
 
 $( document ).on('click', "#step_9_goOn", function(event){
@@ -2831,6 +2853,10 @@ $(document).ready(function() {
 
 	returnLastStudentSession(); // This function gives the student the possibility of loading the last "session".
 
+
+	// STEP 5:
+	// jsonData = {"headerAndWordTemplateHeader":"Skriv en skønlitterær analyse","texts":[{"author":"Peter Seeberg","title":"Patienten","year":"1962","src":"pdf/Patienten.pdf","themes":["Tema 1a","Tema 2a","Tema 3a","Tema 4a","Tema 5a","Tema 6a"],"textSnippet":"<p>Da lægerne første gang stiftede bekendtskab med min sygdom, beroligede de mig meget in- derligt og erklærede, at et amputeret ben ikke var noget at snakke om i vor tid, hvor prote- serne jo ikke mere var en lidelse, som i træbe- nenes dage, men snarere en lettelse. De love- de mig, at jeg skulle komme til at gå nærmest bedre end før, idet de påstod, at iveren efter at gå igen ville tilføre mig kæmpekræfter. De fik ret. Da jeg først var kommet i gang, gik jeg bedre end nogen sinde, men længe varede det ikke, så dukkede sygdommen, som lægerne nu betegnede som den uhyre sjældne ,,alminde- ligt bortfald” op i det andet ben, der også måtte sættes af. Heller ikke denne gang fornægtede lægekunsten sig. Det viste sig, at jeg gik bedre med to kunstige ben end med to naturlige.</p><p>Derpå havde jeg en kort frist, så dukkede sygdommen op i den højre arm og bredte sig hastigt helt op til skulderen, hvad lægerne badmig om ikke at tage alt for tungt på, for også arme lå det inden for protesekunstens mulig- heder at fremstille bedre end naturen, og snart var jeg da udstyret ikke blot med en, men med to kunstige arme, som var mig til udmærket nyt- te. Ved den højre arm var lægerne nogle dage i et dilemma, for her begyndte syg¬dommen ved albuen, og det faldt dem først ind at bort- save dette led og derpå forbinde de to dele med det kunstige led, men da sygdommen så tog fart, således at det havde været skulderen og hånden, der måtte forbindes, blev denne tanke straks opgivet...</p>"},{"author":"Jonathan Swift","title":"Et beskedent forslag","year":"1729","src":"pdf/test.pdf","themes":["Tema 1b","Tema 2b","Tema 3b","Tema 4b","Tema 5b","Tema 6b"],"textSnippet":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..."},{"author":"Amanda Hertz","title":"Stjernedrengen","year":"1989","src":"pdf/test.pdf","url":"https://www.fyldepennen.dk/tekster/61092/stjernedrengen","themes":["Tema 1c","Tema 2c","Tema 3c","Tema 4c","Tema 5c","Tema 6c"],"textSnippet":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..."},{"author":"Laila Jørgensen","title":"Stormen","year":"2016","src":"pdf/test.pdf","url":"https://www.fyldepennen.dk/tekster/61094/stormen","themes":["Tema 1d","Tema 2d","Tema 3d","Tema 4d","Tema 5d","Tema 6d"],"textSnippet":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..."}],"themes":["Tema 1","Tema 2","Tema 3","Tema 4","Tema 5","Tema 6","Tema 7","Tema 8","Tema 9","Tema 10"],"sentenceStarters_theme":{"id":"Dropdown0","class":"Dropdown","options":[{"value":"Hvis nogen skulle være i tvivl om at det er et problem at ..., så bør man tænke på at ..."},{"value":"Debatten handler om ..."},{"value":"For det første er det vigtigt at huske på ..."},{"value":"Mange mener at ..., men man kan også argumentere for ..."},{"value":"Mit hovedsynspunkt er ..."},{"value":"På den ene side ..., men på den anden side ..."},{"value":"Det er vigtigt at ..., men det er også vigtigt ..."}]},"analyticalFocus":[{"name":"Analytisk fokuspunkt 1","description":"<b>Analytisk fokuspunkt 1</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"},{"name":"Analytisk fokuspunkt 2","description":"<b>Analytisk fokuspunkt 2</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"},{"name":"Analytisk fokuspunkt 3","description":"<b>Analytisk fokuspunkt 3</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"},{"name":"Analytisk fokuspunkt 4","description":"<b>Analytisk fokuspunkt 4</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"},{"name":"Analytisk fokuspunkt 5","description":"<b>Analytisk fokuspunkt 5</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"}],"numOfChoosenWords":3,"sentenceStarters_quoteNote":{"id":"Dropdown1","class":"Dropdown","options":[{"value":"Hvis nogen skulle være i tvivl om at det er et problem at ..., så bør man tænke på at ..."},{"value":"Debatten handler om ..."},{"value":"For det første er det vigtigt at huske på ..."},{"value":"Mange mener at ..., men man kan også argumentere for ..."},{"value":"Mit hovedsynspunkt er ..."},{"value":"På den ene side ..., men på den anden side ..."},{"value":"Det er vigtigt at ..., men det er også vigtigt ..."}]},"sentenceStarters_conclusion":{"id":"Dropdown2","class":"Dropdown","options":[{"value":"Alle kan blive enige om at det er et problem at ... (generel vinkel)"},{"value":"Det er et velkendt standpunkt i debatten om ..., at .... (generel vinkel)"},{"value":"Sidst jeg var i supermarkedet overhørte jeg en samtale omkring ..., hvilket fik mig til at tænke på, at det er et stort problem at vi .... (konkret vinkel)"}]},"sentenceStarters_begin":{"id":"Dropdown3","class":"Dropdown","options":[{"value":"Alle kan blive enige om at det er et problem at ... (generel vinkel)"},{"value":"Det er et velkendt standpunkt i debatten om ..., at .... (generel vinkel)"},{"value":"Sidst jeg var i supermarkedet overhørte jeg en samtale omkring ..., hvilket fik mig til at tænke på, at det er et stort problem at vi .... (konkret vinkel)"}]},"sentenceStarters_end":{"id":"Dropdown4","class":"Dropdown","options":[{"value":"Afslutningsvis kan man sige at ..."},{"value":"Når alt kommer til alt er der meget som taler for at ..."},{"value":"Til sidst vil jeg bare sige at jeg synes at det er totalt for dårligt at ..."}]},"steps":[{"step":0,"header":"(step 0) - Guidet skriveproces","img":{"src":"img/start_img_750x350.jpg","alt":"Billede af XXX"},"audioFiles":[{"name":"audio/_analyse/step_0.mp3","type":"mpeg"}]},{"step":1,"header":"(step 1) - Guidet skriveproces","instruction":"Vælg den tekst du vil arbejde med (klik og vælg)","audioFiles":[{"name":"audio/_analyse/step_1.mp3","type":"mpeg"}]},{"step":2,"header":"(step 2) - Guidet skriveproces","instruction":"Vælg et tema til teksten: ","audioFiles":[{"name":"audio/_analyse/step_2.mp3","type":"mpeg"}]},{"step":3,"header":"(step 3) - Guidet skriveproces","instruction":"Formuler hvad dit tema handler om. Brug evt. sætningsstarterne herunder","audioFiles":[{"name":"audio/_analyse/step_3.mp3","type":"mpeg"}]},{"step":4,"header":"(step 4) - Guidet skriveproces","instruction":"Vælg analytisk fokuspunkt","audioFiles":[{"name":"audio/_analyse/step_4.mp3","type":"mpeg"}]},{"step":5,"header":"(step 5) - Guidet skriveproces","instruction":"Find og indsæt ??? citater fra teksten","audioFiles":[{"name":"audio/_analyse/step_5.mp3","type":"mpeg"}]},{"step":6,"header":"(step 6) - Guidet skriveproces","instruction":"Forklar dine citater","audioFiles":[{"name":"audio/_analyse/step_6.mp3","type":"mpeg"}]},{"step":7,"header":"(step 7) - Guidet skriveproces","instruction":"Skriv ???-1 sætninger, der forbinder dine tekstafsnit","audioFiles":[{"name":"audio/_analyse/step_7.mp3","type":"mpeg"}]},{"step":8,"header":"(step 8) - Guidet skriveproces","instruction":"Skriv et par afsluttende sætninger","audioFiles":[{"name":"audio/_analyse/step_8.mp3","type":"mpeg"}]},{"step":9,"header":"(step 9) - Guidet skriveproces","instruction":"Skriv en overskrift og indledning til din analyse","audioFiles":[{"name":"audio/_analyse/step_9.mp3","type":"mpeg"}]},{"step":10,"header":"(step 10) - Guidet skriveproces","instruction":"Skriv en overskrift og indledning til din analyse","explanation":"Download Word-filen med instruktion til hvordan du kan arbejde videre med din skønlitterær analyse.","audioFiles":[{"name":"audio/_analyse/step_10.mp3","type":"mpeg"}]}],"currentStep":5,"autoPlay":true,"studentSelectedTexts":[{"textNo":2,"selected":true,"subjectTexts":[],"studentTheme":"Tema 2c","TextTheme":"aaaaaa","analyticalFocus":3}],"selectedTextIndexNum":"0"};
+	// $('#DataInput').html(step_5_template());
 
 	
 	////////////////////////////////////////////
