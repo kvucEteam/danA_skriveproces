@@ -85,6 +85,15 @@ checkForLocalStoargeSupport();
 // UX derefter
 
 
+// Kilder til tekster - 19-02-2016:
+// ================================
+// 
+// klaus rifbjerg: "Det er blevet os pålagt" , 1960
+// 			http://www.ekelut.dk/papyrus/klassiker/KR/
+//			http://www.ekelut.dk/papyrus/klassiker/KR/rifbjerg_det%20er%20blevet%20os%20paalagt.mp3
+
+
+
 
 
 var jsonData = "<h1>OK</h1>";
@@ -168,11 +177,11 @@ function returnAudioControls(audioData){
 function setJsAudioEventLitsner(){
 	var audioObj = document.getElementById("audioPlayer");
     audioObj.onpause = function() {
-    	autoPlay = false;
+    	if (!audioObj.ended) autoPlay = false;  // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
         console.log("setJsAudioEventLitsner - PAUSE");
     }
     audioObj.onplay = function() {
-    	autoPlay = true;
+    	if (!audioObj.ended) autoPlay = true;   // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
         console.log("setJsAudioEventLitsner - PLAY");
     }
 }
@@ -468,12 +477,13 @@ function returnLastStudentSession() {
 	       
 	        jsonData = TjsonData;
 			$('#DataInput').html(eval('step_'+TjsonData.currentStep+'_template()'));
-			if (!isLastStep(TjsonData.currentStep)) {
-				console.log('returnLastStudentSession - NOT LAST STEP');
-				setJsAudioEventLitsner();
-			} else {
-				console.log('returnLastStudentSession - LAST STEP');
-			}
+			// if (!isLastStep(TjsonData.currentStep)) {  <----  Commented out since this version "Skønlitterær analyse" has a soundfile at the last step.
+			// 	console.log('returnLastStudentSession - NOT LAST STEP');
+			// 	setJsAudioEventLitsner();
+			// } else {
+			// 	console.log('returnLastStudentSession - LAST STEP');
+			// }
+			setJsAudioEventLitsner();  // <----  Added since this version "Skønlitterær analyse" has a soundfile at the last step.
 			
 	    });
 
@@ -537,6 +547,33 @@ function returnMissingElements(arrayName, elementName){
 	return HTML;
 }
 
+
+// Due to the use of $(document).ready() and $(window).resize() inside the function, detectBootstrapBreakpoints needs to be called outside 
+// $(document).ready() and $(window).resize() statements and only once.
+function detectBootstrapBreakpoints(){  
+
+	window.bdv = function(displaySize){  // bdv = bootstrapDisplayValue
+		var bsArr = ['xs','sm','md','lg'];
+		for (var n in bsArr){
+			if (bsArr[n] == displaySize) return n;
+		}
+	}
+    
+    window.bootstrapBreakpointSize = null;
+ 
+    $(document).ready(function() {
+        console.log('detectBootstrapBreakpoints - document.ready.');
+        $('body').append('<div id="bootstrapBreakpointWrapper"> <span class="visible-xs-block"> </span> <span class="visible-sm-block"></span> <span class="visible-md-block"> </span> <span class="visible-lg-block"> </span> </div>');
+        bootstrapBreakpointSize = $( "#bootstrapBreakpointWrapper>span:visible" ).prop('class').split('-')[1];
+        console.log('detectBootstrapBreakpoints - bootstrapBreakpointSize: ' + bootstrapBreakpointSize);
+    });
+
+    $(window).on('resize', function () {
+        console.log('detectBootstrapBreakpoints - window.resize.');
+        bootstrapBreakpointSize = $( "#bootstrapBreakpointWrapper>span:visible" ).prop('class').split('-')[1];
+        console.log('detectBootstrapBreakpoints - bootstrapBreakpointSize: ' + bootstrapBreakpointSize + ', typeof(bootstrapBreakpointSize): ' + typeof(bootstrapBreakpointSize));
+    });
+}
 
 
 
@@ -860,15 +897,19 @@ $( document ).on('click', "#step_2_goOn", function(event){
 	var studentTheme = htmlEntities($('.studentTheme').val());
 	console.log("step_2_goOn - studentTheme: " + studentTheme + ", studentTheme.length: " + studentTheme.length);
 
+	if (!JST.hasOwnProperty("studentTheme")){
+    	JST.studentTheme = null;
+    }
+
 	if ((studentTheme.length > 0)){
 
 		console.log("step_2_goOn - jsonData 1: " + JSON.stringify(jsonData)); 
 
 	    if (!elementInArray(jsonData.themes, studentTheme)){
 
-			if (!JST.hasOwnProperty("studentTheme")){
-		    	JST.studentTheme = null;
-		    }
+		// if (!JST.hasOwnProperty("studentTheme")){
+		//    	JST.studentTheme = null;
+		// }
 
 			jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum].studentTheme = studentTheme;
 		}
@@ -1245,7 +1286,7 @@ $( document ).on('click', "#step_5_goOn", function(event){
 				setJsAudioEventLitsner();
 				// makeSortable();
 			} else {
-				UserMsgBox("body", 'Du skal skrive citater i alle tekstboksene til hver ord - du mangler at skrive citat til '+returnMissingElements('textQuotes', 'Citat')+'. Tryk på citatknapperne ord og skriv sætninger til dem.');
+				UserMsgBox("body", 'Du skal skrive citater i alle tekstboksene - du mangler at skrive citat til '+returnMissingElements('textQuotes', 'Citat')+'. Tryk på citatknapperne og skriv sætninger til dem.');
 			}
 		// }
 
@@ -1309,7 +1350,7 @@ function step_6_template(){
 	osc.save('jsonData', jsonData);
 	// var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];  // <-----  NEW!
-	console.log("step_6_template - textQuotes: " + JST.textQuotes + ", quoteCount: " + quoteCount);
+	// console.log("step_6_template - textQuotes: " + JST.textQuotes + ", quoteCount: " + quoteCount);
 	console.log("step_6_template - quoteNoteCount: " + ((typeof(quoteNoteCount) !== 'undefined')?quoteNoteCount:'undefined'));
 	console.log("step_6_template - jsonData 1: " + JSON.stringify(jsonData)); 
 	console.log("step_6_template - jsonData.studentSelectedTexts 1: " + JSON.stringify(jsonData.studentSelectedTexts)); 
@@ -1412,7 +1453,7 @@ $( document ).on('click', ".quoteNoteBtn", function(event){
 	console.log("quoteNoteBtn - quoteNoteCount: " + quoteNoteCount + ", sentence: " + sentence);
 	console.log("quoteNoteBtn - $('#textInput_'+quoteCount).val(): " + $('#textInput_'+quoteNoteCount).val());
 	
-	if (quoteNoteCount < jsonData.numOfChoosenWords-1){
+	if (quoteNoteCount < jsonData.numOfChoosenWords){
 		// JSN.subjectTexts_sentences.push(sentence);
 		JST.textQuoteNotes[quoteNoteCount] = sentence;
 		// $('#DataInput').html(step_4_template());
@@ -1481,7 +1522,7 @@ $( document ).on('click', "#step_6_goOn", function(event){
 				setJsAudioEventLitsner();
 				// makeSortable();
 			} else {
-				UserMsgBox("body", 'Du skal skrive en udlægning af alle citaterne i tekstboksene - du mangler at skrive en udlægning til '+returnMissingElements('textQuoteNotes', 'Udlægning')+'. Tryk på citatknapperne ord og skriv udlægninger til dem.');
+				UserMsgBox("body", 'Du skal skrive en udlægning af alle citaterne i tekstboksene - du mangler at skrive en udlægning til '+returnMissingElements('textQuoteNotes', 'Udlægning')+'. Tryk på udlægningsknapperne og skriv udlægninger til citaterne.');
 			}
 		// }
 
@@ -1579,6 +1620,10 @@ function step_7_template(){
 	// 			HTML += JST.textQuotes[textPassageCount];
 	// HTML += 			'<i>&quot; </div>';
 
+	HTML += 				'<div class="DropdownWrap">';
+	HTML += 					returnDropdownMarkup(jsonData.sentenceStarters_interpretation);
+	HTML += 				'</div>';
+
 	HTML += 			'<textarea id="textInput_'+textPassageCount+'" val="">';
 			if ((JST.hasOwnProperty('textPassages')) && (typeof(JST.textPassages[textPassageCount]) !== 'undefined')) {
 				HTML += JST.textPassages[textPassageCount];
@@ -1596,6 +1641,13 @@ function step_7_template(){
 	return HTML;
 }
 
+
+$(document).on('change', '#Dropdown1b', function(){
+	// var selectedText = $('#Dropdown1:selected').text();
+	var interpretation = $('#Dropdown1b').val();
+	console.log("textInputTheme - interpretation: " + interpretation);
+	$('#textInput_'+textPassageCount).val(interpretation);
+});
 
 
 $( document ).on('click', ".textPassageBtn", function(event){
@@ -1984,7 +2036,7 @@ $( document ).on('click', "#step_9_goOn", function(event){
 				// setJsAudioEventLitsner();
 				// makeSortable();
 			} else {
-				UserMsgBox("body", 'Du skal en overskrift og indledning til din analyse - du mangler at skrive tekst til '+returnMissingElements('headAndIntro', ["overskrift", "indledning"]));
+				UserMsgBox("body", 'Du skal en overskrift og indledning til din analyse - du mangler at skrive tekst til '+returnMissingElements('headAndIntro', ["overskriften", "indledningen"]));
 			}
 		// }
 
@@ -2057,8 +2109,8 @@ function step_10_template(){
 	
 	HTML += 			'<div class="stepNav">';
 	HTML += 				'<span id="step_10_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_10_download" class="btn btn-lg btn-primary">DOWNLOAD Word fil (.docx)</span>';
-	// HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
+	HTML += 				'<span id="step_10_download" class="btn btn-lg btn-primary">DOWNLOAD</span>';
+	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
 	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
@@ -2848,10 +2900,30 @@ var objectStorageClass = {
 //  							RUN CODE...
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+detectBootstrapBreakpoints();  // This function call has to be here, due to the use of $(document).ready() and $(window).resize() inside the function.
+
+
+$(window).on('resize', function() {
+	console.log('bootstrapBreakpointSize: '+bootstrapBreakpointSize+', bdv(bootstrapBreakpointSize): ' + bdv(bootstrapBreakpointSize));
+
+	// if (bdv(bootstrapBreakpointSize) < bdv('sm')){ 
+	// 	// $('audio').before('<br/>');
+	// 	// $('audio').addClass('left');
+	// 	$('audio').css('float','left');
+	// } else {
+	// 	// $('.stepNav br').remove();
+	// 	// $('audio').addClass('left');
+	// 	$('audio').css('float','right');
+	// }
+});
+
 $(document).ready(function() {
 	
 
 	returnLastStudentSession(); // This function gives the student the possibility of loading the last "session".
+
+	// if (bootstrapBreakpointSize )
 
 
 	// STEP 5:

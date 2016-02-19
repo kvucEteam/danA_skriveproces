@@ -178,11 +178,11 @@ function returnAudioControls(audioData){
 function setJsAudioEventLitsner(){
 	var audioObj = document.getElementById("audioPlayer");
     audioObj.onpause = function() {
-    	autoPlay = false;
+    	if (!audioObj.ended) autoPlay = false;  // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
         console.log("setJsAudioEventLitsner - PAUSE");
     }
     audioObj.onplay = function() {
-    	autoPlay = true;
+    	if (!audioObj.ended) autoPlay = true;   // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
         console.log("setJsAudioEventLitsner - PLAY");
     }
 }
@@ -1237,6 +1237,8 @@ $( document ).on('click', "#step_5_goOn", function(event){
 		JSN.sentenceStarters_begin_text = textInputText;
 		$('#DataInput').html(step_6_template());
 		setJsAudioEventLitsner();
+	} else {
+		UserMsgBox("body", 'Du skal skrive en indledning før du kan gå videre. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
 	}
 	console.log("step_5_goOn - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
 });
@@ -1249,6 +1251,7 @@ $( document ).on('click', "#step_5_goOn", function(event){
 function step_6_template(){
 	console.log("step_6_template - jsonData 1: " + JSON.stringify(jsonData));
 	jsonData.currentStep = 6;
+	osc.save('jsonData', jsonData);
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = 6;
 	stepNo = getJsonDataArrayIndex(stepNo);
@@ -1303,6 +1306,8 @@ $( document ).on('click', "#step_6_goOn", function(event){
 		JSN.sentenceStarters_end_text = textInputText;
 		$('#DataInput').html(step_6b_template());
 		setJsAudioEventLitsner();
+	}else {
+		UserMsgBox("body", 'Du skal skrive en afslutning før du kan gå videre. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
 	}
 	console.log("step_6_goOn - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
 });
@@ -1359,6 +1364,8 @@ $( document ).on('click', "#step_6b_goOn", function(event){
 		JSN.studentSubjectTitel[0] = textInputText;
 		$('#DataInput').html(step_7_template());
 		// setJsAudioEventLitsner();
+	}else {
+		UserMsgBox("body", 'Du skal skrive en overskrift før du kan gå videre.');
 	}
 	console.log("step_6b_goOn - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
 });

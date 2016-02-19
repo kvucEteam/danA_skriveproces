@@ -119,17 +119,9 @@
 
 audio {
     width: 280px;  /* Ellers er audio for lang */
-/*
-	position: relative;
-	top: 10px;
-*/
 }
 
 #testAudio{ 
-/*
-    position: relative;
-    z-index: 20;
-*/    
 }
 
 textarea {
@@ -203,12 +195,8 @@ textarea {
 
 
 
-#step_1 .input-group {
+.stepInput .input-group {
     margin-left: 20px;
-}
-
-#step_2 .input-group {
-    margin: 0px 15px 15px 0px;
 }
 
 .step .input-group {
