@@ -943,7 +943,7 @@ $( document ).on('click', ".subjectWordField_btn_text", function(event){
 		};
 	}
 
-	var sentence = $('#textInput_'+wordCount).val();
+	var sentence = htmlEntities($('#textInput_'+wordCount).val());
 	console.log("subjectWordField_btn_text - wordCount: " + wordCount + ", sentence: " + sentence);
 	console.log("subjectWordField_btn_text - $('#textInput_'+wordCount).val(): " + $('#textInput_'+wordCount).val());
 	
@@ -1455,6 +1455,7 @@ function wordTemplate() {
 	HTML += '<!DOCTYPE html>';
 	HTML += '<html>';
 	HTML += 	'<head>';
+	HTML += 	'<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';  // Fixes issue with danish characters on Internet Explore 
 	HTML += 		'<style type="text/css">';
 	HTML += 			'body {font-family: arial;}';
 	HTML += 			'h1 {}';

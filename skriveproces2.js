@@ -997,7 +997,7 @@ $( document ).on('click', "#step_3_goBack", function(event){
 
 $( document ).on('click', "#step_3_goOn", function(event){
 
-	var TextTheme = $('#textInputTheme').val();
+	var TextTheme = htmlEntities($('#textInputTheme').val());
 	if (TextTheme.length > 0){
 		var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
 		if (!JST.hasOwnProperty('TextTheme')){
@@ -1214,7 +1214,7 @@ $( document ).on('click', ".quoteBtn", function(event){
 		};
 	}
 
-	var sentence = $('#textInput_'+quoteCount).val();
+	var sentence = htmlEntities($('#textInput_'+quoteCount).val());
 	console.log("quoteBtn - quoteCount: " + quoteCount + ", sentence: " + sentence);
 	console.log("quoteBtn - $('#textInput_'+quoteCount).val(): " + $('#textInput_'+quoteCount).val());
 	
@@ -1449,7 +1449,7 @@ $( document ).on('click', ".quoteNoteBtn", function(event){
 		};
 	}
 
-	var sentence = $('#textInput_'+quoteNoteCount).val();
+	var sentence = htmlEntities($('#textInput_'+quoteNoteCount).val());
 	console.log("quoteNoteBtn - quoteNoteCount: " + quoteNoteCount + ", sentence: " + sentence);
 	console.log("quoteNoteBtn - $('#textInput_'+quoteCount).val(): " + $('#textInput_'+quoteNoteCount).val());
 	
@@ -1664,7 +1664,7 @@ $( document ).on('click', ".textPassageBtn", function(event){
 		};
 	}
 
-	var sentence = $('#textInput_'+textPassageCount).val();
+	var sentence = htmlEntities($('#textInput_'+textPassageCount).val());
 	console.log("quoteNoteBtn - textPassageCount: " + textPassageCount + ", sentence: " + sentence);
 	console.log("quoteNoteBtn - $('#textInput_'+textPassageCount).val(): " + $('#textInput_'+textPassageCount).val());
 	
@@ -1816,7 +1816,7 @@ $( document ).on('click', "#step_8_goBack", function(event){
 
 $( document ).on('click', "#step_8_goOn", function(event){
 
-	var conclusion = $('#textInputConclusion').val();
+	var conclusion = htmlEntities($('#textInputConclusion').val());
 	if (conclusion.length > 0){
 		var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
 		if (!JST.hasOwnProperty('conclusion')){
@@ -2141,6 +2141,7 @@ function wordTemplate() {
 	HTML += '<!DOCTYPE html>';
 	HTML += '<html>';
 	HTML += 	'<head>';
+	HTML += 	'<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';  // Fixes issue with danish characters on Internet Explore 
 	HTML += 		'<style type="text/css">';
 	HTML += 			'body {font-family: arial;}';
 	HTML += 			'h1 {}';
