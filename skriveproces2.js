@@ -959,7 +959,7 @@ function step_3_template(){
 	HTML += 			'<div id="subjectTextThemeContainer" class="btnActions">';
 			
 	HTML += 				'<div class="DropdownWrap">';
-	HTML += 					returnDropdownMarkup(jsonData.sentenceStarters_theme);
+	HTML += 					insertThemes(returnDropdownMarkup(jsonData.sentenceStarters_theme));
 	HTML += 				'</div>';
 
 	HTML += 				'<textarea id="textInputTheme" val="">';
@@ -980,6 +980,15 @@ function step_3_template(){
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
 	return HTML;
 }
+
+
+function insertThemes(dropdownMarkup){
+	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
+	console.log('insertThemes - studentTheme: ' + JST.studentTheme);
+	return dropdownMarkup.replace(/\?\?\?/g, JST.studentTheme.toLowerCase());
+}
+// console.log('insertThemes: '+insertThemes('Det valgte tema er ???, som er et tama der aktuelt ift...'));
+
 
 $(document).on('change', '#Dropdown0', function(){
 	// var selectedText = $('#Dropdown1:selected').text();
@@ -2128,6 +2137,9 @@ $( document ).on('click', "#step_10_goBack", function(event){
 $( document ).on('click', "#step_10_download", function(event){
 	
 	var HTML = wordTemplate();
+	console.log("step_10_download - wordTemplate: " + HTML);
+	UserMsgBox("body", HTML);
+
 	var converted = htmlDocx.asBlob(HTML);
     console.log("step_10_download - converted: " + JSON.stringify(converted));
 	saveAs(converted, 'test2.docx');
@@ -2136,7 +2148,7 @@ $( document ).on('click', "#step_10_download", function(event){
 
 function wordTemplate() {
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
-	var text = JST.texts[textNo];
+	var text = jsonData.texts[JST.textNo];
 	var HTML = '';
 	HTML += '<!DOCTYPE html>';
 	HTML += '<html>';
@@ -2151,7 +2163,7 @@ function wordTemplate() {
 	HTML += 			'h5 {}';
 	HTML += 			'h6 {}';
 	HTML += 			'.selected {color: #56bfc5; width: 25%;}';
-	HTML += 			'p {font-size: 14px;}';
+	HTML += 			'p {font-size: 14px; margin-bottom: 5px}';
 	HTML += 			'table {padding: 8px; width: 100%;}';
 	HTML += 			'td {width: 25%;}';
 	HTML += 			'ol {color: #717272;}';
@@ -2159,45 +2171,25 @@ function wordTemplate() {
 	HTML += 	'</head>';
 	HTML += 	'<body>';
 	HTML += 		'<h1>'+JST.headAndIntro[0]+'</h1>';
-	HTML += 		'<hr/>';
-	HTML += 		'<div class="instruktion">';
-	HTML += 			'<h3>Din valgte tekst: </h3>';
-	HTML += 			'<h4>'+text.title+'</h4>';
-	HTML += 			'<h3>Dine brainstorm-ord:</h3>';
+	// HTML += 		'<hr/>';
+	HTML += 		'<p><b>Indledning:</b> '+JST.headAndIntro[1]+'</p><br/>';
 
-						var subjectTexts = getSelected('subjectTexts');
-						var subjectTexts_selected = getSelected('subjectTexts_selected');
-	HTML += 			returnHtmlTable(subjectTexts, subjectTexts_selected, 4);
-	
-	HTML += 			'<hr/>';
-	HTML += 			'<h3>Dine sætninger skal nu udbygges til 5 afsnit. Skriv videre på din tekst herunder:</h3>';
-	HTML += 			'<ol>';
-	HTML += 				'<li>Forklar og uddyb hvad du mener med hver enkelt sætning</li>';
-	HTML += 				'<li>Hurtigskriv et par minutter, hvor du skriver så meget du kan uden at standse op og rette i det du skriver.</li>';
-	HTML += 				'<li>Arbejd med sætningerne på denne måde indtil du har 5 afsnit.</li>';
-	HTML += 			'</ol>';
-	HTML += 		'</div>';
+	// HTML += 			'<h3>Din valgte tekst: </h3>';
+	// HTML += 			'<h4>"'+text.title+'" af '+text.author+', '+text.year+'</h4>';
+
+	HTML += 		'<p><b>Temaudlægning:</b> '+JST.TextTheme+'</p>';
 	HTML += 		'<hr/>';
-	HTML += 		'<h3>Din tekst:</h3>';
-	HTML += 		'<h2>'+JSN.studentSubjectTitel[0]+'</h2>';
-	HTML += 		'<p>'+JSN.sentenceStarters_begin_text+'</p>';
-					for (var n in JSN.subjectTexts_sentences_2){
-						HTML += '<p>'+JSN.subjectTexts_sentences_2[n]+'</p>';
-					}
-	HTML += 		'<p>'+JSN.sentenceStarters_end_text+'</p>';
+	for (var n in JST.textQuotes){
+		HTML += 		'<p><b>citat '+String(parseInt(n)+1)+':</b> '+JST.textQuotes[n]+'</p>';
+		HTML += 		'<p><b>citatudlægning '+String(parseInt(n)+1)+':</b> '+JST.textQuoteNotes[n]+'</p>';
+		HTML += 		'<hr/>';
+	}
+	HTML += 		'<p><b>Fortolkning:</b> ';
+	for (var n in JST.textPassages){
+		HTML += 		JST.textPassages[n]+' ';
+	}
 	HTML += 		'<hr/>';
-	HTML += 		'<div class="instruktion">';
-	HTML += 			'<h3>Gennemlæs din tekst. Hænger den sammen i forhold til:</h3>';
-	HTML += 			'<ol>';
-	HTML += 				'<li>Tydelige overgange mellem afsnit.</li>';
-	HTML += 				'<li>Sammenhæng mellem sætningerne.</li>';
-	HTML += 				'<li>Godt og levende sprog.</li>';
-	HTML += 				'<li>Korrekt brug af punktum og komma.</li>';
-	HTML += 				'<li>Så få formuleringsmæssige uklarheder og stavefejl som muligt.</li>';
-	HTML += 			'</ol>';
-	HTML += 			'<h3>Når du har gennemgået disse trin, har du en rigtig god tekst!</h3>';
-	HTML += 			'<hr/>';
-	HTML += 		'</div>';
+	HTML += 		'<p><b>Afslutning:</b> '+JST.conclusion+'</p>';
 	HTML += 	'</body>';
 	HTML += '</html>';
 	// document.write(HTML);
@@ -2206,449 +2198,6 @@ function wordTemplate() {
 
 
 
-//////////////////////
-//  	STEP 4b 	//
-//////////////////////
-
-
-// function step_4b_template(){
-// 	console.log("step_4b_template - jsonData 1: " + JSON.stringify(jsonData));
-// 	jsonData.currentStep = "4b";
-// 	osc.save('jsonData', jsonData);
-// 	var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
-// 	var JSNS = (JSN.hasOwnProperty('subjectTexts_sentences_2'))? JSN.subjectTexts_sentences_2 : JSN.subjectTexts_sentences;
-// 	var stepNo = "4b";
-// 	stepNo = getJsonDataArrayIndex(stepNo);
-// 	console.log("step_4b_template - stepNo: " + stepNo);
-// 	var HTML = '';
-// 	HTML += '<div id="step_4b" class="step">';
-// 	HTML +=     '<div class="row">';
-// 	HTML += 		'<div class="col-xs-12 col-md-8">';
-
-// 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_4b" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-// 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
-// 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
-// 	HTML += 			'<div id="subjectSentenceSortableContainer" class="btnActions">';
-// 			for (var n in JSNS) {
-// 				HTML += 	'<div id="Sort_"'+n+' class="Sortable sortable_text_container">'+JSNS[n]+'</div>';
-// 			}
-// 	HTML += 			'</div>';
-// 	HTML += 			'<div class="stepNav">';
-// 	HTML += 				'<span id="step_4b_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-// 	HTML += 				'<span id="step_4b_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-// 	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-// 	HTML += 			'</div>';
-// 	HTML += 		'</div>';
-// 	HTML += 	'</div>';
-// 	HTML += '</div>';
-// 	HTML = replaceWildcard(HTML, jsonData.numOfChoosenWords);
-// 	return HTML;
-// }
-
-
-// function makeSortable() {
-// 	// Sort function are placed here due to readiness issues of the DOM:
-// 	$( "#subjectSentenceSortableContainer" ).sortable({
-// 		axis: 'y',
-// 		sortAnimateDuration: 500,
-// 	    sortAnimate: true,
-// 	    distance: 25,
-// 	    update: function(event, ui) {
-// 	    	console.log('makeSortable - UPDATE');
-// 	    	updateSubjectSentenceOrder();
-// 	    },
-// 	    start: function(event, ui) {
-// 	    	console.log('makeSortable - START');
-// 	        console.log('makeSortable - ui.item.index: ' + ui.item.index());
-// 	    },
-// 	    stop: function(event, ui) {
-// 	        console.log('makeSortable - STOP');
-// 	    }
-// 	});
-// }
-
-
-// function updateSubjectSentenceOrder(){
-// 	console.log("updateSubjectSentenceOrder - jsonData.studentSelectedTexts 1: " + JSON.stringify(jsonData.studentSelectedTexts));
-// 	var Tarray = [];
-// 	$( ".Sortable" ).each(function( index, element ) {
-// 		Tarray.push($(element).text());
-// 	});
-
-// 	var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
-// 	if (!JSN.hasOwnProperty('subjectTexts_sentences')){
-// 		JSN.subjectTexts_sentences_2 = [];
-// 	}
-// 	jsonData.studentSelectedTexts[jsonData.selectedTextNo].subjectTexts_sentences_2 = Tarray;
-// 	console.log("updateSubjectSentenceOrder - jsonData.studentSelectedTexts 2: " + JSON.stringify(jsonData.studentSelectedTexts));
-// 	console.log("updateSubjectSentenceOrder - jsonData 1: " + JSON.stringify(jsonData)); 
-// }
-
-
-// $( document ).on('click', "#step_4b_goBack", function(event){
-// 	if (typeof(step_4b_hasBeenSorted) === 'undefined'){
-// 		window.step_4b_hasBeenSorted = false;
-// 	}
-// 	var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
-// 	if ((!JSN.hasOwnProperty('subjectTexts_sentences_2')) || (step_4b_hasBeenSorted)) {
-// 		window.quoteCount = jsonData.numOfChoosenWords-2;  // Sets the state to the last btn of step 4. 
-// 		console.log("step_4b_goBack - quoteCount: " + quoteCount); 
-// 		$('#DataInput').html(step_4_template());
-// 		setJsAudioEventLitsner();
-// 	}
-// 	if ((JSN.hasOwnProperty('subjectTexts_sentences_2')) && (step_4b_hasBeenSorted == false)) {
-// 		$( ".Sortable" ).each(function( index, element ) {
-// 			$(element).text(JSN.subjectTexts_sentences[index]);
-// 		});
-// 		step_4b_hasBeenSorted = true;
-// 	} 
-
-// });
-
-// $( document ).on('click', "#step_4b_goOn", function(event){
-// 	$('#DataInput').html(step_5_template());
-// 	setJsAudioEventLitsner();
-// });
-
-
-
-//////////////////////
-//  	STEP 5 		//
-//////////////////////
-
-
-// function step_5_template(){
-// 	console.log("step_5_template - jsonData 1: " + JSON.stringify(jsonData));
-// 	jsonData.currentStep = 5;
-// 	osc.save('jsonData', jsonData);
-// 	var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
-// 	var stepNo = 5;
-// 	stepNo = getJsonDataArrayIndex(stepNo);
-// 	var HTML = '';
-// 	HTML += '<div id="step_5" class="step">';
-// 	HTML +=     '<div class="row">';
-// 	HTML += 		'<div class="col-xs-12 col-md-8">';
-	
-// 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_5" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-// 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
-// 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
-
-// 	HTML += 			'<h4>Brug evt. nedenstående sætningsstartere til at skrive videre ud fra:</h4>';
-
-// 	HTML += 			'<div class="DropdownWrap">';
-// 	HTML += 				returnDropdownMarkup(jsonData.sentenceStarters_begin);
-// 	HTML += 			'</div>';
-	
-// 	HTML += 			'<textarea id="textInput2" val="">';
-// 			HTML += (JSN.hasOwnProperty('sentenceStarters_begin_text'))? JSN.sentenceStarters_begin_text : '';
-// 	HTML += 			'</textarea>';
-// 	HTML += 			'<div class="stepNav">';
-// 	HTML += 				'<span id="step_5_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-// 	HTML += 				'<span id="step_5_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-// 	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-// 	HTML += 			'</div>';
-// 	HTML += 		'</div>';
-// 	HTML += 	'</div>';
-// 	HTML += '</div>';
-// 	HTML = replaceWildcard(HTML, jsonData.numOfChoosenWords);
-// 	return HTML;
-// }
-
-
-// $(document).on('change', '#Dropdown2', function(){
-// 	// var selectedText = $('#Dropdown1:selected').text();
-// 	var selectedText = $('#Dropdown2').val();
-// 	console.log("Dropdown1 - selectedText: " + selectedText);
-// 	$('#textInput2').val(selectedText);
-// 	jsonData.studentSelectedTexts[jsonData.selectedTextNo].JSN.sentenceStarters_begin_text = textInputText;
-// });
-
-// $( document ).on('click', "#step_5_goBack", function(event){
-// 	$('#DataInput').html(step_4b_template());
-// 	setJsAudioEventLitsner();
-// 	makeSortable();
-// });
-
-// $( document ).on('click', "#step_5_goOn", function(event){
-// 	console.log("step_5_goOn - jsonData.studentSelectedTexts 1: " + JSON.stringify(jsonData.studentSelectedTexts));
-// 	var textInputText = htmlEntities($('#textInput2').val());
-// 	if (textInputText.length > 0) {
-// 		var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
-// 		JSN.sentenceStarters_begin_text = textInputText;
-// 		$('#DataInput').html(step_6_template());
-// 		setJsAudioEventLitsner();
-// 	}
-// 	console.log("step_5_goOn - jsonData.studentSelectedTexts 2: " + JSON.stringify(jsonData.studentSelectedTexts));
-// });
-
-//////////////////////
-//  	STEP 6 		//
-//////////////////////
-
-
-// function step_6_template(){
-// 	console.log("step_6_template - jsonData 1: " + JSON.stringify(jsonData));
-// 	jsonData.currentStep = 6;
-// 	var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
-// 	var stepNo = 6;
-// 	stepNo = getJsonDataArrayIndex(stepNo);
-// 	var HTML = '';
-// 	HTML += '<div id="step_6" class="step">';
-// 	HTML +=     '<div class="row">';
-// 	HTML += 		'<div class="col-xs-12 col-md-8">';
-	
-// 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_6" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-// 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
-// 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
-
-// 	HTML += 			'<h4>Brug evt. nedenstående sætningsstartere til at skrive videre ud fra:</h4>';
-
-// 	HTML += 			'<div class="DropdownWrap">';
-// 	HTML += 				returnDropdownMarkup(jsonData.sentenceStarters_end);
-// 	HTML += 			'</div>';
-	
-// 	HTML += 			'<textarea id="textInput3" val="">';
-// 			HTML += (JSN.hasOwnProperty('sentenceStarters_end_text'))? JSN.sentenceStarters_end_text : '';
-// 	HTML += 			'</textarea>';
-// 	HTML += 			'<div class="stepNav">';
-// 	HTML += 				'<span id="step_6_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-// 	HTML += 				'<span id="step_6_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-// 	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-// 	HTML += 			'</div>';
-// 	HTML += 		'</div>';
-// 	HTML += 	'</div>';
-// 	HTML += '</div>';
-// 	return HTML;
-// }
-
-
-// $(document).on('change', '#Dropdown3', function(){
-// 	// var selectedText = $('#Dropdown1:selected').text();
-// 	var selectedText = $('#Dropdown3').val();
-// 	console.log("Dropdown3 - selectedText: " + selectedText);
-// 	$('#textInput3').text(selectedText);
-// 	jsonData.studentSelectedTexts[jsonData.selectedTextNo].JSN.sentenceStarters_end_text = textInputText;
-// });
-
-// $( document ).on('click', "#step_6_goBack", function(event){
-// 	$('#DataInput').html(step_5_template());
-// 	setJsAudioEventLitsner();
-// });
-
-// $( document ).on('click', "#step_6_goOn", function(event){
-// 	console.log("step_6_goOn - jsonData.studentSelectedTexts 1: " + JSON.stringify(jsonData.studentSelectedTexts));
-// 	var textInputText = htmlEntities($('#textInput3').val());
-// 	if (textInputText.length > 0) {
-// 		var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
-// 		JSN.sentenceStarters_end_text = textInputText;
-// 		$('#DataInput').html(step_6b_template());
-// 		setJsAudioEventLitsner();
-// 	}
-// 	console.log("step_6_goOn - jsonData.studentSelectedTexts 2: " + JSON.stringify(jsonData.studentSelectedTexts));
-// });
-
-//////////////////////
-//  	STEP 6b 	//
-//////////////////////
-
-
-// function step_6b_template(){
-// 	console.log("step_6b_template - jsonData 1: " + JSON.stringify(jsonData));
-// 	jsonData.currentStep = "6b";
-// 	osc.save('jsonData', jsonData);
-// 	var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
-// 	var stepNo = "6b";
-// 	stepNo = getJsonDataArrayIndex(stepNo);
-// 	var HTML = '';
-// 	HTML += '<div id="step_6b" class="step">';
-// 	HTML +=     '<div class="row">';
-// 	HTML += 		'<div id="subjectHeadingContainer" class="col-xs-12 col-md-8">';
-	
-// 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_6b" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-// 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
-// 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
-
-// 	// HTML += 			returnInputBoxes3(1, 'studentSubjectTitel', ' Skriv din overskrift her');
-// 			var studentSubjectTitel = (JSN.hasOwnProperty('studentSubjectTitel'))? JSN.studentSubjectTitel : 'Skriv din overskrift her';
-// 	HTML += 			returnInputBoxes3(1, 'studentSubjectTitel', studentSubjectTitel);
-	
-// 	HTML += 			'<div class="stepNav">';
-// 	HTML += 				'<span id="step_6b_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-// 	HTML += 				'<span id="step_6b_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-// 	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-// 	HTML += 			'</div>';
-// 	HTML += 		'</div>';
-// 	HTML += 	'</div>';
-// 	HTML += '</div>';
-// 	HTML = replaceWildcard(HTML, jsonData.numOfChoosenWords);
-// 	return HTML;
-// }
-
-
-// $( document ).on('click', "#step_6b_goBack", function(event){
-// 	$('#DataInput').html(step_6_template());
-// 	setJsAudioEventLitsner();
-// });
-
-// $( document ).on('click', "#step_6b_goOn", function(event){
-// 	console.log("step_6b_goOn - jsonData.studentSelectedTexts 1: " + JSON.stringify(jsonData.studentSelectedTexts));
-// 	var textInputText = htmlEntities($('.studentSubjectTitel').val());
-// 	if (textInputText.length > 0) {
-// 		var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
-// 		JSN.studentSubjectTitel = [];
-// 		JSN.studentSubjectTitel[0] = textInputText;
-// 		$('#DataInput').html(step_7_template());
-// 		setJsAudioEventLitsner();
-// 	}
-// 	console.log("step_6b_goOn - jsonData.studentSelectedTexts 2: " + JSON.stringify(jsonData.studentSelectedTexts));
-// });
-
-
-//////////////////////
-//  	STEP 7 		//
-//////////////////////
-
-
-// function step_7_template(){
-// 	console.log("step_7_template - jsonData 1: " + JSON.stringify(jsonData));
-// 	jsonData.currentStep = 7;
-// 	osc.save('jsonData', jsonData);
-// 	var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
-// 	var stepNo = "7";
-// 	stepNo = getJsonDataArrayIndex(stepNo);
-// 	var HTML = '';
-// 	HTML += '<div id="step_7" class="step">';
-// 	HTML +=     '<div class="row">';
-// 	HTML += 		'<div id="XXXXXXX" class="col-xs-12 col-md-8">';
-
-// 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_7" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-// 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
-// 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
-
-// 	HTML += 			'<div class="TextHolder">';
-// 	// HTML += 				'<h3>Titel står her</h3><p>Alle kan blive enige om at det er et problem at vi nu har opbygget så meget af verdens energiforbrug på atomkraft, da det har så stor risiko for fremtiden knyttet til sig.</p><p>Hvis nogen skulle være i tvivl om at det er et problem at vi får så meget energi fra atomkraft, så bør man tænke på ulykken i Tjernobyl.</p><p>Mit hovedsynspunkt er at det er uforsvarligt overfor fremtidens børn at bygge et energiforbrug op der har så ukendte konsekvenser for fremtiden.</p><p>På den ene side kan man være for atomkraft, da der reelt er mange fordele ved at skrue op for brugen af atomkraft og derved mindske forbruget af fossile brændstoffer, indtil vi har bedre og renere energikilder i det omfang det kræves til den voksende verdensbefolkning. På den anden siden kan man være i mod atomkraft da man med rette kan hævde at vi reelt ikke hvad der vil ske med det opbevarede atomaffald.</p><p>Afslutningsvis kan man sige at fremtiden nok vil afgøre atomkrafts skæbne. Enten vil der ske en voldsomulykke der gør at menneskeheden dropper det, eller så vil nye energikilder vinde hastigt frem.</p>';
-// 	HTML += 				'<h3>'+JSN.studentSubjectTitel[0]+'</h3>';
-// 	HTML += 				'<p>'+JSN.sentenceStarters_begin_text+'</p>';
-// 			for (var n in JSN.subjectTexts_sentences_2){
-// 				HTML += 	'<p>'+JSN.subjectTexts_sentences_2[n]+'</p>';
-// 			}
-// 	HTML += 				'<p>'+JSN.sentenceStarters_end_text+'</p>';
-
-// 	HTML += 			'</div>';
-// 	HTML += 			'<div class="stepNav">';
-// 	HTML += 				'<span id="step_7_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-// 	HTML += 				'<span id="step_7_download" class="btn btn-lg btn-primary">DOWNLOAD Word fil (.docx)</span>';
-// 	// HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-// 	HTML += 			'</div>';
-// 	HTML += 		'</div>';
-// 	HTML += 	'</div>';
-// 	HTML += '</div>';
-// 	HTML = replaceWildcard(HTML, jsonData.numOfChoosenWords);
-// 	return HTML;
-// }
-
-
-// $( document ).on('click', "#step_7_goBack", function(event){
-// 	$('#DataInput').html(step_6b_template());
-// 	setJsAudioEventLitsner();
-// });
-
-
-$( document ).on('click', "#step_7_download", function(event){
-	
-	var HTML = wordTemplate();
-	var converted = htmlDocx.asBlob(HTML);
-    console.log("step_7_download - converted: " + JSON.stringify(converted));
-	saveAs(converted, 'test.docx');
-});
-
-
-function returnHtmlTable(dataArray, selectedArray, numOfColumns) {
-	var length = dataArray.length;
-	var numOfRows = Math.ceil(length/numOfColumns);
-	var HTML = '';
-	HTML += '<table>';
-	for (var i = 0; i < numOfRows; i++) {
-		HTML += '<tr>';
-		for (var j = i*numOfColumns; j < (i+1)*numOfColumns; j++) {
-			HTML += '<td '+((elementInArray(selectedArray, j))?'class="selected"':'')+'>'+((typeof(dataArray[j]) !== 'undefined')?dataArray[j]:'&nbsp;')+'</td>';
-		}
-		HTML +=  '</tr>';
-	}
-	HTML += '</table>';
-	console.log("returnHtmlTable: " + HTML);
-	return HTML;
-}
-console.log("returnHtmlTable: " + returnHtmlTable([0,1,2,3,4,5,6,7,8,9,10,11,12,13], [], 3));
-
-
-// function wordTemplate() {
-// 	var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
-// 	var HTML = '';
-// 	HTML += '<!DOCTYPE html>';
-// 	HTML += '<html>';
-// 	HTML += 	'<head>';
-// 	HTML += 		'<style type="text/css">';
-// 	HTML += 			'body {font-family: arial;}';
-// 	HTML += 			'h1 {}';
-// 	HTML += 			'h2 {}';
-// 	HTML += 			'h3 {font-style: italic; color: #717272;}';
-// 	HTML += 			'h4 {color: #56bfc5;}';
-// 	HTML += 			'h5 {}';
-// 	HTML += 			'h6 {}';
-// 	HTML += 			'.selected {color: #56bfc5; width: 25%;}';
-// 	HTML += 			'p {font-size: 14px;}';
-// 	HTML += 			'table {padding: 8px; width: 100%;}';
-// 	HTML += 			'td {width: 25%;}';
-// 	HTML += 			'ol {color: #717272;}';
-// 	HTML += 		'</style>';
-// 	HTML += 	'</head>';
-// 	HTML += 	'<body>';
-// 	HTML += 		'<h1>'+jsonData.headerAndWordTemplateHeader+'</h1>';
-// 	HTML += 		'<hr/>';
-// 	HTML += 		'<div class="instruktion">';
-// 	HTML += 			'<h3>Dit valgte emne: </h3>';
-// 	HTML += 			'<h4>'+getSelected('textNo')+'</h4>';
-// 	HTML += 			'<h3>Dine brainstorm-ord:</h3>';
-
-// 						var subjectTexts = getSelected('subjectTexts');
-// 						var subjectTexts_selected = getSelected('subjectTexts_selected');
-// 	HTML += 			returnHtmlTable(subjectTexts, subjectTexts_selected, 4);
-	
-// 	HTML += 			'<hr/>';
-// 	HTML += 			'<h3>Dine sætninger skal nu udbygges til 5 afsnit. Skriv videre på din tekst herunder:</h3>';
-// 	HTML += 			'<ol>';
-// 	HTML += 				'<li>Forklar og uddyb hvad du mener med hver enkelt sætning</li>';
-// 	HTML += 				'<li>Hurtigskriv et par minutter, hvor du skriver så meget du kan uden at standse op og rette i det du skriver.</li>';
-// 	HTML += 				'<li>Arbejd med sætningerne på denne måde indtil du har 5 afsnit.</li>';
-// 	HTML += 			'</ol>';
-// 	HTML += 		'</div>';
-// 	HTML += 		'<hr/>';
-// 	HTML += 		'<h3>Din tekst:</h3>';
-// 	HTML += 		'<h2>'+JSN.studentSubjectTitel[0]+'</h2>';
-// 	HTML += 		'<p>'+JSN.sentenceStarters_begin_text+'</p>';
-// 					for (var n in JSN.subjectTexts_sentences_2){
-// 						HTML += '<p>'+JSN.subjectTexts_sentences_2[n]+'</p>';
-// 					}
-// 	HTML += 		'<p>'+JSN.sentenceStarters_end_text+'</p>';
-// 	HTML += 		'<hr/>';
-// 	HTML += 		'<div class="instruktion">';
-// 	HTML += 			'<h3>Gennemlæs din tekst. Hænger den sammen i forhold til:</h3>';
-// 	HTML += 			'<ol>';
-// 	HTML += 				'<li>Tydelige overgange mellem afsnit.</li>';
-// 	HTML += 				'<li>Sammenhæng mellem sætningerne.</li>';
-// 	HTML += 				'<li>Godt og levende sprog.</li>';
-// 	HTML += 				'<li>Korrekt brug af punktum og komma.</li>';
-// 	HTML += 				'<li>Så få formuleringsmæssige uklarheder og stavefejl som muligt.</li>';
-// 	HTML += 			'</ol>';
-// 	HTML += 			'<h3>Når du har gennemgået disse trin, har du en rigtig god tekst!</h3>';
-// 	HTML += 			'<hr/>';
-// 	HTML += 		'</div>';
-// 	HTML += 	'</body>';
-// 	HTML += '</html>';
-// 	// document.write(HTML);
-// 	return HTML;
-// }
 
 
 //====================================================== 

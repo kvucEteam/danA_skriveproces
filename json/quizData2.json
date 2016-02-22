@@ -1,63 +1,64 @@
 {
 	"headerAndWordTemplateHeader" : "Skriv en skønlitterær analyse",
 	"texts" : [
-		{"author" : "Peter Seeberg", "title" : "Patienten", "year": "1962", "src" : "pdf/Patienten.pdf", "themes": ["Tema 1a", "Tema 2a", "Tema 3a", "Tema 4a", "Tema 5a", "Tema 6a"], "textSnippet" : "<p>Da lægerne første gang stiftede bekendtskab med min sygdom, beroligede de mig meget in- derligt og erklærede, at et amputeret ben ikke var noget at snakke om i vor tid, hvor prote- serne jo ikke mere var en lidelse, som i træbe- nenes dage, men snarere en lettelse. De love- de mig, at jeg skulle komme til at gå nærmest bedre end før, idet de påstod, at iveren efter at gå igen ville tilføre mig kæmpekræfter. De fik ret. Da jeg først var kommet i gang, gik jeg bedre end nogen sinde, men længe varede det ikke, så dukkede sygdommen, som lægerne nu betegnede som den uhyre sjældne ,,alminde- ligt bortfald” op i det andet ben, der også måtte sættes af...</p>"},
-		{"author" : "Klaus Rifbjerg", "title" : "Det er blevet os pålagt", "year": "1960", "src" : "pdf/det_er_blevet_os_paalagt.pdf", "themes": ["Tema 1b", "Tema 2b", "Tema 3b", "Tema 4b", "Tema 5b", "Tema 6b"], "textSnippet" : "<p><br/> Det er blevet os p&aring;lagt<br/> af statistikken<br/> i et gennemsnitsliv<br/> at &aring;bne et meget stort antal<br/> d&oslash;re, konservesd&aring;ser,<br/> punge, tegneb&oslash;ger, check.konti<br/> at lukke et meget stort antal<br/> samme...</p>"},
-		{"author" : "Amanda Hertz", "title" : "Stjernedrengen", "year": "1989", "src" : "pdf/test.pdf", "url" : "https://www.fyldepennen.dk/tekster/61092/stjernedrengen", "themes": ["Tema 1c", "Tema 2c", "Tema 3c", "Tema 4c", "Tema 5c", "Tema 6c"], "textSnippet" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..."},
-		{"author" : "Laila Jørgensen", "title" : "Stormen", "year": "2016", "src" : "pdf/test.pdf", "url" : "https://www.fyldepennen.dk/tekster/61094/stormen", "themes": ["Tema 1d", "Tema 2d", "Tema 3d", "Tema 4d", "Tema 5d", "Tema 6d"], "textSnippet" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..."}
-	],
+		{"author" : "Peter Seeberg", "title" : "Patienten", "year": "1962", "src" : "pdf/Patienten.pdf", "themes": ["Sundhed", "Identitet", "Moderne videnskab"], "textSnippet" : "<p>Da lægerne første gang stiftede bekendtskab med min sygdom, beroligede de mig meget in- derligt og erklærede, at et amputeret ben ikke var noget at snakke om i vor tid, hvor prote- serne jo ikke mere var en lidelse, som i træbe- nenes dage, men snarere en lettelse. De love- de mig, at jeg skulle komme til at gå nærmest bedre end før, idet de påstod, at iveren efter at gå igen ville tilføre mig kæmpekræfter. De fik ret. Da jeg først var kommet i gang, gik jeg bedre end nogen sinde, men længe varede det ikke, så dukkede sygdommen, som lægerne nu betegnede som den uhyre sjældne ,,alminde- ligt bortfald” op i det andet ben, der også måtte sættes af...</p>"},
+		{"author" : "Klaus Rifbjerg", "title" : "Det er blevet os pålagt", "year": "1960", "src" : "pdf/det_er_blevet_os_paalagt.pdf", "themes": ["Tema 1b", "Tema 2b", "Tema 3b", "Tema 4b", "Tema 5b", "Tema 6b"], "textSnippet" : "<p><br/> Det er blevet os p&aring;lagt<br/> af statistikken<br/> i et gennemsnitsliv<br/> at &aring;bne et meget stort antal<br/> d&oslash;re, konservesd&aring;ser,<br/> punge, tegneb&oslash;ger, check.konti<br/> at lukke et meget stort antal<br/> samme...</p>"}	],
 	"themes" : ["Tema 1", "Tema 2", "Tema 3", "Tema 4", "Tema 5", "Tema 6", "Tema 7", "Tema 8", "Tema 9", "Tema 10"],
 	"sentenceStarters_theme" : 
 		{"id":"Dropdown0", "class":"Dropdown", 
             "options":[
-                {"value":"Hvis nogen skulle være i tvivl om at det er et problem at ..., så bør man tænke på at ..."},
-                {"value":"Debatten handler om ..."},
-                {"value":"For det første er det vigtigt at huske på ..."},
-                {"value":"Mange mener at ..., men man kan også argumentere for ..."},
-                {"value":"Mit hovedsynspunkt er ..."},
-                {"value":"På den ene side ..., men på den anden side ..."},
-                {"value":"Det er vigtigt at ..., men det er også vigtigt ..."}
+            	{"value":"Sætningsstater..."},
+                {"value":"Teksten giver flere vinkler på ???, fordi..."},
+                {"value":"Teksten forholder sig til kritisk til ???, ved at..."},
+                {"value":"Teksten kaster et tvetydigt blik på ???, fordi..."}
             ]
         }, 
     "analyticalFocus" : [
-    	{"name" : "Analytisk fokuspunkt 1", "description" : "<b>Analytisk fokuspunkt 1</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"}, 
-    	{"name" : "Analytisk fokuspunkt 2", "description" : "<b>Analytisk fokuspunkt 2</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"},
-    	{"name" : "Analytisk fokuspunkt 3", "description" : "<b>Analytisk fokuspunkt 3</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"},
-    	{"name" : "Analytisk fokuspunkt 4", "description" : "<b>Analytisk fokuspunkt 4</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"},
-    	{"name" : "Analytisk fokuspunkt 5", "description" : "<b>Analytisk fokuspunkt 5</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"}
+    	{"name" : "Fortælleforhold", "description" : "<b>Analytisk fokuspunkt 1</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"}, 
+    	{"name" : "Personkarakteristik", "description" : "<b>Analytisk fokuspunkt 2</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"},
+    	{"name" : "Komposition", "description" : "<b>Analytisk fokuspunkt 3</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"},
+    	{"name" : "Sprog", "description" : "<b>Analytisk fokuspunkt 4</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"}    
     ],
 	"numOfChoosenWords" : 3,
 	"sentenceStarters_quoteNote" : 
 		{"id":"Dropdown1", "class":"Dropdown", 
             "options":[
-                {"value":"Hvis nogen skulle være i tvivl om at det er et problem at ..., så bør man tænke på at ..."},
-                {"value":"Debatten handler om ..."},
-                {"value":"For det første er det vigtigt at huske på ..."},
-                {"value":"Mange mener at ..., men man kan også argumentere for ..."},
-                {"value":"Mit hovedsynspunkt er ..."},
-                {"value":"På den ene side ..., men på den anden side ..."},
-                {"value":"Det er vigtigt at ..., men det er også vigtigt ..."}
+            	{"value":"Sætningsstater..."},
+                {"value":"Citatet illustrerer det tvetydige ved..."},
+                {"value":"I citatet kommer fortællerens holdning til syne..."},
+                {"value":"Dette citat er interessant, fordi det viser hvordan..."},
+                {"value":"Ordet..., i det ovenstående citat, viser hvorledes/peger i retning af..."},
+                {"value":"Det følgende citat gør læseren opmærksom på, at..."},
+                {"value":"Formuleringen illustrerer det vilkår i det moderne liv, at..."},
+                {"value":"Brugen af ordene..., giver læseren billeder af..."}
             ]
         },
     "sentenceStarters_interpretation" : 
 		{"id":"Dropdown1b", "class":"Dropdown", 
             "options":[
-                {"value":"Afslutningsvis kan man sige at ..."},
-                {"value":"Når alt kommer til alt er der meget som taler for at ..."},
-                {"value":"Til sidst vil jeg bare sige at jeg synes at det er totalt for dårligt at ..."}
+            	{"value":"Sætningsstater..."},
+                {"value":"I alle tre citater kan man se et..."},
+                {"value":"Fælles for citaterne er at..."},
+                {"value":"Det overordnede emne kommer tydeligt til udtryk når vi kigger på citaterne, fordi..."},
+                {"value":"Analysen har vist..."}
             ]
         },
     "sentenceStarters_conclusion" : 
 		{"id":"Dropdown2", "class":"Dropdown", 
             "options":[
-                {"value":"Afslutningsvis kan man sige at ..."},
-                {"value":"Når alt kommer til alt er der meget som taler for at ..."},
-                {"value":"Til sidst vil jeg bare sige at jeg synes at det er totalt for dårligt at ..."}
+            	{"value":"Sætningsstater..."},
+                {"value":"ADet teksten siger, er..."},
+                {"value":"Selv om teksten er skrevet i..., kan den fortsat ..."},
+                {"value":"Teksten er fortsat aktuel, fordi den behandler nogle almengyldige emner, som det kommer til udtryk i..."},
+                {"value":"Forfatteren rejser debatten om..."},
+                {"value":"Budskabet i teksten er interessant, fordi..."},
+                {"value":"Selv om der ikke er noget tydeligt budskab i teksten, er den interessant, fordi..."}
             ]
         },
     "sentenceStarters_begin" : 
 		{"id":"Dropdown3", "class":"Dropdown", 
             "options":[
+            	{"value":"Sætningsstater..."},
                 {"value":"Alle kan blive enige om at det er et problem at ... (generel vinkel)"},
                 {"value":"Det er et velkendt standpunkt i debatten om ..., at .... (generel vinkel)"},
                 {"value":"Sidst jeg var i supermarkedet overhørte jeg en samtale omkring ..., hvilket fik mig til at tænke på, at det er et stort problem at vi .... (konkret vinkel)"}
@@ -66,6 +67,7 @@
     "sentenceStarters_end" : 
 		{"id":"Dropdown4", "class":"Dropdown", 
             "options":[
+            	{"value":"Sætningsstater..."},
                 {"value":"Afslutningsvis kan man sige at ..."},
                 {"value":"Når alt kommer til alt er der meget som taler for at ..."},
                 {"value":"Til sidst vil jeg bare sige at jeg synes at det er totalt for dårligt at ..."}
