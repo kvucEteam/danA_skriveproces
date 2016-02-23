@@ -2,22 +2,22 @@
 	"headerAndWordTemplateHeader" : "Skriv en skønlitterær analyse",
 	"texts" : [
 		{"author" : "Peter Seeberg", "title" : "Patienten", "year": "1962", "src" : "pdf/Patienten.pdf", "themes": ["Sundhed", "Identitet", "Moderne videnskab"], "textSnippet" : "<p>Da lægerne første gang stiftede bekendtskab med min sygdom, beroligede de mig meget in- derligt og erklærede, at et amputeret ben ikke var noget at snakke om i vor tid, hvor prote- serne jo ikke mere var en lidelse, som i træbe- nenes dage, men snarere en lettelse. De love- de mig, at jeg skulle komme til at gå nærmest bedre end før, idet de påstod, at iveren efter at gå igen ville tilføre mig kæmpekræfter. De fik ret. Da jeg først var kommet i gang, gik jeg bedre end nogen sinde, men længe varede det ikke, så dukkede sygdommen, som lægerne nu betegnede som den uhyre sjældne ,,alminde- ligt bortfald” op i det andet ben, der også måtte sættes af...</p>"},
-		{"author" : "Klaus Rifbjerg", "title" : "Det er blevet os pålagt", "year": "1960", "src" : "pdf/det_er_blevet_os_paalagt.pdf", "themes": ["Tema 1b", "Tema 2b", "Tema 3b", "Tema 4b", "Tema 5b", "Tema 6b"], "textSnippet" : "<p><br/> Det er blevet os p&aring;lagt<br/> af statistikken<br/> i et gennemsnitsliv<br/> at &aring;bne et meget stort antal<br/> d&oslash;re, konservesd&aring;ser,<br/> punge, tegneb&oslash;ger, check.konti<br/> at lukke et meget stort antal<br/> samme...</p>"}	],
+		{"author" : "Klaus Rifbjerg", "title" : "Det er blevet os pålagt", "year": "1960", "src" : "pdf/det_er_blevet_os_paalagt_2.pdf", "themes": ["En kritik af det moderne liv", "En kritik af velfærdsstaten", "Fremmedgørelse", "Kedsomhed"], "textSnippet" : "<p><br/> Det er blevet os p&aring;lagt<br/> af statistikken<br/> i et gennemsnitsliv<br/> at &aring;bne et meget stort antal<br/> d&oslash;re, konservesd&aring;ser,<br/> punge, tegneb&oslash;ger, check.konti<br/> at lukke et meget stort antal<br/> samme...</p>"}	],
 	"themes" : ["Tema 1", "Tema 2", "Tema 3", "Tema 4", "Tema 5", "Tema 6", "Tema 7", "Tema 8", "Tema 9", "Tema 10"],
 	"sentenceStarters_theme" : 
 		{"id":"Dropdown0", "class":"Dropdown", 
             "options":[
             	{"value":"Sætningsstater..."},
-                {"value":"Teksten giver flere vinkler på ???, fordi..."},
-                {"value":"Teksten forholder sig til kritisk til ???, ved at..."},
-                {"value":"Teksten kaster et tvetydigt blik på ???, fordi..."}
+                {"value":"Teksten giver flere vinkler på temaet &quot;???&quot;, fordi..."},
+                {"value":"Teksten forholder sig til kritisk til temaet &quot;???&quot;, ved at..."},
+                {"value":"Teksten kaster et tvetydigt blik på temaet &quot;???&quot;, fordi..."}
             ]
         }, 
     "analyticalFocus" : [
-    	{"name" : "Fortælleforhold", "description" : "<b>Analytisk fokuspunkt 1</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"}, 
-    	{"name" : "Personkarakteristik", "description" : "<b>Analytisk fokuspunkt 2</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"},
-    	{"name" : "Komposition", "description" : "<b>Analytisk fokuspunkt 3</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"},
-    	{"name" : "Sprog", "description" : "<b>Analytisk fokuspunkt 4</b> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>"}    
+    	{"name" : "Fortælleforhold", "description" : "<b>Fortælleforhold</b> <p>Hvem fortæller,  hvordan fortælles der, og hvorfor fortælles der på den måde?</p>"}, 
+    	{"name" : "Personkarakteristik", "description" : "<b>Personkarakteristik</b> <p>Hvem optræder, hvad får vi at vide om dem og deres handlinger, tanker og om deres forhold til omverden? </p>"},
+    	{"name" : "Komposition", "description" : "<b>Komposition</b> <p>Hvordan er teksten bygget op? Er den kronologisk eller ej? Falder den i nogle særlige afsnit, og er der en udvikling?</p>"},
+    	{"name" : "Sprog", "description" : "<b>Sprog</b> <p>Er der nogle særlige træk ved sproget, som virker vigtige i forhold til temaet? Er der et særligt billedsprog? Gentagelser? Fagsprog, slang og/eller dialekt?</p>"}    
     ],
 	"numOfChoosenWords" : 3,
 	"sentenceStarters_quoteNote" : 
