@@ -77,7 +77,7 @@
 		{
 			"step" : 0,
 			"header" : "(step 0) - Guidet skriveproces",
-			"img" : {"src" : "img/start_img_750x350.jpg", "alt" : "Billede af XXX"},
+			"img" : {"src" : "img/start_img_analyse.jpg", "alt" : "Billede af XXX"},
 			"audioFiles" : [{"name": "audio/_analyse/step_0.mp3", "type": "mpeg"}]
 		},{
 			"step" : 1,

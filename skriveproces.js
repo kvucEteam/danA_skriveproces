@@ -163,8 +163,8 @@ function returnAudioControls(audioData){
 	// HTML += '<span class="btn btn-info">TEST</span>';
 	// HTML += '<audio controls="controls">';
 	console.log("returnAudioControls - autoPlay: " + autoPlay);
-	// HTML += '<audio id="audioPlayer" controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+'>';   	// <---- ORGINAL - SKAL VÆRE UKOMMENTERET I LIVE QUIZ
-	HTML += '<audio id="audioPlayer" controls="controls">';    												// <----- SLUK FOR AUTO PLAY
+	HTML += '<audio id="audioPlayer" controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+'>';   	// <---- ORGINAL - SKAL VÆRE UKOMMENTERET I LIVE QUIZ
+	// HTML += '<audio id="audioPlayer" controls="controls">';    												// <----- SLUK FOR AUTO PLAY
 	for (var n in audioData) {
 		HTML += '<source src="'+audioData[n].name+'" type="audio/'+audioData[n].type+'"/>';
 	}

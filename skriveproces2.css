@@ -174,7 +174,7 @@ textarea {
 .stepNav audio{
     float: right;
     position: relative;
-    top: 10px; 
+    top: 10px;
 }
 
 .Clear{
@@ -189,7 +189,9 @@ textarea {
     height: 60px;  /* Dette svare ca til padding paa 20 px */
 }
 
-
+#step_1 .input-group{
+    margin-bottom: 10px;
+}
 
 
 .helperTextInput{

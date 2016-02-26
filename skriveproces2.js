@@ -162,8 +162,8 @@ function returnAudioControls(audioData){
 
 	var HTML = '';
 	console.log("returnAudioControls - autoPlay: " + autoPlay);
-	// HTML += '<audio id="audioPlayer" controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+'>';   	// <---- ORGINAL - SKAL VÆRE UKOMMENTERET I LIVE QUIZ
-	HTML += '<audio id="audioPlayer" controls="controls">';    												// <----- SLUK FOR AUTO PLAY
+	HTML += '<audio id="audioPlayer" controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+'>';   	// <---- ORGINAL - SKAL VÆRE UKOMMENTERET I LIVE QUIZ
+	// HTML += '<audio id="audioPlayer" controls="controls">';    												// <----- SLUK FOR AUTO PLAY
 	for (var n in audioData) {
 		HTML += '<source src="'+audioData[n].name+'" type="audio/'+audioData[n].type+'"/>';
 	}
@@ -671,14 +671,15 @@ function step_1_template(){
 			var JT = jsonData.texts;
 			for (var n in JT){
 			// for (var n = 0; n < jsonData.originalNumOfTexts; n++) {
-				HTML += 	'<span class="Texts btn btn-'+((textNo == n)?'primary':'info')+'" >'+((JT[n].author!='')?JT[n].author+': ':'')+'"'+JT[n].title+'" '+((JT[n].year!='')?', '+JT[n].year:'')+'</span>';
+				// HTML += 	'<span class="Texts btn btn-'+((textNo == n)?'primary':'info')+'" >'+((JT[n].author!='')?JT[n].author+': ':'')+'"'+JT[n].title+'" '+((JT[n].year!='')?', '+JT[n].year:'')+'</span>';
+				HTML += 	'<span class="Texts btn btn-'+((textNo == n)?'primary':'info')+'" >'+'"'+JT[n].title+'" '+', '+((JT[n].author!='')?JT[n].author:'')+((JT[n].year!='')?', '+JT[n].year:'')+'</span>';
 			}
 	HTML += 			'</div>';
 
 	HTML += 			'<div class="stepInput">';
 	HTML += 				'<div class="helperText helperTextInput">Eller vælg din egen tekst:</div>';
-	HTML +=					returnInputBoxes3(1, 'Text_author TextInputField', 'Skriv forfatteren her...');
 	HTML +=					returnInputBoxes3(1, 'Text_title TextInputField', 'Skriv titlen her...');
+	HTML +=					returnInputBoxes3(1, 'Text_author TextInputField', 'Skriv forfatteren her...');
 	HTML +=					returnInputBoxes3(1, 'Text_year TextInputField', 'Skriv året her...');
 	HTML += 			'</div>';
 
@@ -1333,7 +1334,8 @@ function step_5_template(){
 			
 	// HTML +=				'<span class="TextRef btn btn-info" >'+jsonData.texts[JST.textNo].author+': "'+jsonData.texts[JST.textNo].title+'", '+jsonData.texts[JST.textNo].year+'</span>';
 						var JT = jsonData.texts[JST.textNo];
-	HTML += 			'<span class="TextRef btn btn-info" >'+((JT.author!='')?JT.author+': ':'')+'"'+JT.title+'" '+((JT.year!='')?', '+JT.year:'')+'</span>';
+	// HTML += 			'<span class="TextRef btn btn-info" >'+((JT.author!='')?JT.author+': ':'')+'"'+JT.title+'" '+((JT.year!='')?', '+JT.year:'')+'</span>';
+	HTML += 			'<span class="Texts btn btn-info" >'+'"'+JT.title+'" '+', '+((JT.author!='')?JT.author:'')+((JT.year!='')?', '+JT.year:'')+'</span>';
 	
 	HTML += 				'<div id="QuoteContainer" class="btnActions">';
 				for (var i = 0; i < jsonData.numOfChoosenWords; i++) {
