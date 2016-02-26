@@ -163,8 +163,8 @@ function returnAudioControls(audioData){
 	// HTML += '<span class="btn btn-info">TEST</span>';
 	// HTML += '<audio controls="controls">';
 	console.log("returnAudioControls - autoPlay: " + autoPlay);
-	HTML += '<audio id="audioPlayer" controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+'>';
-	// HTML += '<audio controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+' onclick="autoPlayControl(this);">';
+	// HTML += '<audio id="audioPlayer" controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+'>';   	// <---- ORGINAL - SKAL VÆRE UKOMMENTERET I LIVE QUIZ
+	HTML += '<audio id="audioPlayer" controls="controls">';    												// <----- SLUK FOR AUTO PLAY
 	for (var n in audioData) {
 		HTML += '<source src="'+audioData[n].name+'" type="audio/'+audioData[n].type+'"/>';
 	}
@@ -458,6 +458,7 @@ function step_0_template(){
 $( document ).on('click', "#step_0_goOn", function(event){
 	$('#DataInput').html(step_1_template());
 	setJsAudioEventLitsner();
+	// $(".studentSubject").focus();  // Sets the focus in the textarea when the template loades.
 });
 
 
@@ -475,6 +476,7 @@ function step_1_template(){
 	if (jsonData.hasOwnProperty("studentSelectedSubject")){
 		subjectName = getSelected('subjectName');
 	}
+	console.log("step_1_template - subjectName: " + subjectName); 
 	var HTML = '';
 	HTML += '<div id="step_1" class="step">';
 	HTML +=     '<div class="row">';
@@ -486,7 +488,9 @@ function step_1_template(){
 	HTML += 			'<div id="SubjectContainer" class="btnActions">';
 			var JS = jsonData.subjects;
 			for (var n in JS){
+				console.log("step_1_template - typeof(subjectName): _" + typeof(subjectName) + '_ , typeof(JS['+n+']): _' + typeof(JS[n]) +'_'); 
 				HTML += 	'<span class="Subjects btn btn-'+((subjectName === JS[n])?'primary':'info')+'" >'+JS[n]+'</span>';
+				console.log("step_1_template - subjectName: _" + subjectName + '_ , JS['+n+']: _' + JS[n] +'_, ((subjectName === JS[n])?primary:info): ' +((subjectName === JS[n])?'primary':'info') );
 			}
 	HTML += 			'</div>';
 	HTML += 			'<div class="stepInput">';
@@ -554,6 +558,21 @@ function studentChangeSubject(newSubjectName) {
     } 
     return false;
 }
+
+
+// This keypress eventhandler listens for the press of the return-key. If a return-key event is encountered the 
+// first empty input-field is found and focus is given to that field.
+$( document ).on('keypress', ".subjectWordField", function(event){
+	if ( event.which == 13 ) {  // If a press on the return-key is encountered... (NOTE: "13" equals the "return" key)
+		event.preventDefault(); // ...prevents the normal action of the return-key.
+		$( ".subjectWordField" ).each(function( index, element ) { // for each input-field...
+			if ($(element).val().length == 0) { // If the input-field is empty...
+				$(element).focus(); // ...give the input-field focus...
+				return false;  // ... and break the each-loop.
+			}
+		});
+	}
+});
 
 
 $( document ).on('focusin', ".studentSubject", function(event){
@@ -637,7 +656,7 @@ $( document ).on('click', "#step_1_goOn", function(event){
 
 		console.log("step_1_goOn - fallbackStudentSubject: " + fallbackStudentSubject + ", studentSubject: " + studentSubject);
 
-		if (((typeof(studentSubjectPressed) !== "undefined") && (studentSubjectPressed == true)) || (studentSubject.length > 0)){
+		if (((typeof(studentSubjectPressed) !== "undefined") && (studentSubjectPressed == true)) || (studentSubject.length > 0)){  // <--- Commented out 24/2
 
 		    // ORGINAL KODE:
 			fallbackStudentSubject = studentSubject;
@@ -738,6 +757,7 @@ $( document ).on('focusin', ".subjectWordField", function(event){
 $( document ).on('click', "#step_2_goBack", function(event){
 	$('#DataInput').html(step_1_template());
 	setJsAudioEventLitsner();
+	// $(".studentSubject").focus();  // Sets the focus in the textarea when the template loades.
 
 	var subjectNameSelected = getSelected('subjectName');
 	if (!elementInArray(jsonData.subjects, subjectNameSelected)) {  // If subjectNameSelected is NOT in jsonData.subjects, then subjectNameSelected is written in the input-text-field... 
@@ -1426,7 +1446,7 @@ $( document ).on('click', "#step_7_download", function(event){
 	var HTML = wordTemplate();
 	var converted = htmlDocx.asBlob(HTML);
     console.log("step_7_download - converted: " + JSON.stringify(converted));
-	saveAs(converted, 'test.docx');
+	saveAs(converted, 'Debat.docx');
 });
 
 

@@ -162,8 +162,8 @@ function returnAudioControls(audioData){
 
 	var HTML = '';
 	console.log("returnAudioControls - autoPlay: " + autoPlay);
-	HTML += '<audio id="audioPlayer" controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+'>';   	// <---- ORGINAL - SKAL VÆRE UKOMMENTERET I LIVE QUIZ
-	// HTML += '<audio id="audioPlayer" controls="controls">';    												// <----- SLUK FOR AUTO PLAY
+	// HTML += '<audio id="audioPlayer" controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+'>';   	// <---- ORGINAL - SKAL VÆRE UKOMMENTERET I LIVE QUIZ
+	HTML += '<audio id="audioPlayer" controls="controls">';    												// <----- SLUK FOR AUTO PLAY
 	for (var n in audioData) {
 		HTML += '<source src="'+audioData[n].name+'" type="audio/'+audioData[n].type+'"/>';
 	}
@@ -293,6 +293,15 @@ function isLastStep(step) {
 }
 
 
+// see: http://stackoverflow.com/questions/1960473/unique-values-in-an-array
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+// usage example:
+var a = ['a', 1, 'a', 2, '1'];
+console.log('onlyUnique: ' + a.filter( onlyUnique )); // returns ['a', 1, 2, '1']
+
+
 function hasNonEmptyStrElm(Tarray) {
 	console.log("hasNonEmptyStrElm - Tarray: " + Tarray);
 	for (var n in Tarray) {
@@ -380,7 +389,7 @@ console.log('replaceWildcard2 - OUTPUT 1: ' + replaceWildcard2('Du har ???+3 god
 console.log('replaceWildcard2 - OUTPUT 2: ' + replaceWildcard2('Du har ???+3 gode cykler tilrådighed, eller ???-1 og ??? .', 20));
 console.log('replaceWildcard2 - OUTPUT 3: ' + replaceWildcard2('Du har ???-13 gode cykler tilrådighed, eller ???-9 dårlige?', 30));
 console.log('replaceWildcard2 - OUTPUT 4: ' + replaceWildcard2('Du har ???-23 gode cykler tilrådighed, eller ??? dårlige?', 30));
-console.log('replaceWildcard2 - OUTPUT 5: ' + replaceWildcard2('Du har ???-23 gode cykler tilrådighed, eller ???-32.', 50));
+console.log('replaceWildcard2 - OUTPUT 5: ' + replaceWildcard2('Du har ???-23 gode cykler tilrådighed, eller ???-32.', 50)); 
 
 
 
@@ -628,6 +637,7 @@ $( document ).on('click', "#step_0_goOn", function(event){
 // MARK 10:49 - COPY/REPLACE: studentSelectedSubject  --->  studentSelectedTexts
 
 function step_1_template(){
+	window.editText = false;
 	console.log("step_1_template - jsonData 1: " + JSON.stringify(jsonData)); 
 	jsonData.currentStep = 1;
 	osc.save('jsonData', jsonData);
@@ -643,6 +653,11 @@ function step_1_template(){
 	    	textNo = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum].textNo;
     }
 
+    if (!jsonData.hasOwnProperty("originalNumOfTexts")){ 
+    	jsonData.originalNumOfTexts = jsonData.texts.length;;
+    }
+    console.log('step_1_template - jsonData.originalNumOfTexts: ' + jsonData.originalNumOfTexts);
+
 	console.log("step_1_template - textNo: " + textNo); 
 	var HTML = '';
 	HTML += '<div id="step_1" class="step">';
@@ -655,13 +670,18 @@ function step_1_template(){
 	HTML += 			'<div id="TextContainer" class="btnActions">';
 			var JT = jsonData.texts;
 			for (var n in JT){
-				HTML += 	'<span class="Texts btn btn-'+((textNo == n)?'primary':'info')+'" >'+JT[n].author+': "'+JT[n].title+'", '+JT[n].year+'</span>';
+			// for (var n = 0; n < jsonData.originalNumOfTexts; n++) {
+				HTML += 	'<span class="Texts btn btn-'+((textNo == n)?'primary':'info')+'" >'+((JT[n].author!='')?JT[n].author+': ':'')+'"'+JT[n].title+'" '+((JT[n].year!='')?', '+JT[n].year:'')+'</span>';
 			}
 	HTML += 			'</div>';
-	// HTML += 			'<div class="stepInput">';
-	// HTML += 				'<span class="helperText">Eller vælg dit eget emne:</span>';
-	// HTML +=					returnInputBoxes3(1, 'studentSubject', 'Skriv dit emne her...');
-	// HTML += 			'</div>';
+
+	HTML += 			'<div class="stepInput">';
+	HTML += 				'<div class="helperText helperTextInput">Eller vælg din egen tekst:</div>';
+	HTML +=					returnInputBoxes3(1, 'Text_author TextInputField', 'Skriv forfatteren her...');
+	HTML +=					returnInputBoxes3(1, 'Text_title TextInputField', 'Skriv titlen her...');
+	HTML +=					returnInputBoxes3(1, 'Text_year TextInputField', 'Skriv året her...');
+	HTML += 			'</div>';
+
 	HTML += 			'<div class="stepNav">';
 	HTML += 				'<span id="step_1_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
 	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
@@ -676,13 +696,27 @@ function step_1_template(){
 
 
 
+$( document ).on('focusin', ".TextInputField", function(event){
+	$('.Texts').removeClass('btn-primary').addClass('btn-info');
+});
+
+$( document ).on('focusout', ".TextInputField", function(event){
+	if (jsonData.hasOwnProperty("studentSelectedTexts")){
+    	var textNo = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum].textNo;
+    	$('.Texts').eq(textNo).addClass('btn-primary').removeClass('btn-info');
+    }
+});
+
+
 $( document ).on('click', ".Texts", function(event){
 	window.studentTextPressed = true;
     console.log("Subjects - PRESSED");
     $('.Texts').removeClass('btn-primary').addClass('btn-info');
     $(this).addClass('btn-primary');
 
-    // $('.studentSubject').val('');
+    $('.Text_author').val('');
+    $('.Text_title').val('');
+    $('.Text_year').val('');
 
     var studentSelectedTexts = $(this).text();
     var textNo = $(this).index();
@@ -718,16 +752,44 @@ $( document ).on('click', ".Texts", function(event){
     var JT = jsonData.texts[textNo];
     console.log("Subjects - JT: " + JSON.stringify(JT));
 
+    var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
+
     var HTML = '';
-    HTML += '<h1>'+JT.title+'</h1> <i>Af '+JT.author+', '+JT.year+'</i> <br/><br/>';
-    HTML += '<h4>Tekstuddrag:</h4>'
-    HTML += JT.textSnippet;
-    HTML += '<br/> <a class="btn btn-lg btn-info" href="'+JT.src+'" target="_blank">Læs pdf i nyt browser vindue</a> <a class="btn btn-lg btn-info" href="'+JT.src+'" download="'+String(JT.src.split('/').pop())+'">Download pdf</a>';
+    if (JST.textNo < jsonData.originalNumOfTexts){
+	    HTML += '<h1>'+JT.title+'</h1> <i>Af '+JT.author+', '+JT.year+'</i> <br/><br/>';
+	    HTML += '<h4>Tekstuddrag:</h4>'
+	    HTML += JT.textSnippet;
+	    HTML += '<br/>' + ((JT.hasOwnProperty('studentMsg'))?JT.studentMsg:'')+((JT.hasOwnProperty('externalSrc'))?'<a href="'+JT.externalSrc+'" target="_blank">'+JT.externalSrc+'</a>':'');
+	    // HTML += '<br/> <a class="btn btn-lg btn-info" href="'+JT.src+'" target="_blank">Læs pdf i nyt browser vindue</a> <a class="btn btn-lg btn-info" href="'+JT.src+'" download="'+String(JT.src.split('/').pop())+'">Download pdf</a>';
+	} else {
+		HTML += 'Du har valgt at analysere din selvvalgte tekst: <br/><br/>';
+		HTML += ((JT.author!='')?JT.author+': ':'')+'"'+JT.title+'" '+((JT.year!='')?', '+JT.year:'') + '<br/><br/>';
+		HTML += '<span class="EditText btn btn-lg btn-info" >Ret kilde teksten</span>';
+	}
+
+    // var HTML = '';
+    // HTML += '<h1>'+JT.title+'</h1> <i>Af '+JT.author+', '+JT.year+'</i> <br/><br/>';
+    // HTML += '<h4>Tekstuddrag:</h4>'
+    // HTML += JT.textSnippet;
+    // HTML += '<br/> <a class="btn btn-lg btn-info" href="'+JT.src+'" target="_blank">Læs pdf i nyt browser vindue</a> <a class="btn btn-lg btn-info" href="'+JT.src+'" download="'+String(JT.src.split('/').pop())+'">Download pdf</a>';
 
     // UserMsgBox("body", '<h1>'+JT.title+'</h1> <i>Af '+JT.author+', '+JT.year+'</i><br/><br/>'+'<a href="test.pdf" target="_blank">test-pdf</a> <a href="test.pdf" download="test.pdf">Download the pdf</a> <br/> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> <br/> <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p> <br/> <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>');
     UserMsgBox("body", HTML);
 
 });
+
+
+$( document ).on('click', ".EditText", function(event){
+	editText = true;
+
+	var textNo = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum].textNo;
+	console.log('EditText - textNo : ' + textNo);
+
+	$('.Text_title').val(jsonData.texts[textNo].title);
+	$('.Text_author').val(jsonData.texts[textNo].author);
+	$('.Text_year').val(jsonData.texts[textNo].year);
+});
+
 
 $( document ).on('click', "#step_1_goOn", function(event){
 
@@ -735,49 +797,117 @@ $( document ).on('click', "#step_1_goOn", function(event){
 		window.fallbackStudentTextNo = null;
 	}
 
-	// var studentSubject = htmlEntities($('.studentSubject').val());
-	// console.log("step_1_goOn - studentSubject: " + studentSubject + ", studentSubject.length: " + studentSubject.length);
+	var Text_title = htmlEntities($('.Text_title').val());
+	var Text_author = htmlEntities($('.Text_author').val());
+	var Text_year = htmlEntities($('.Text_year').val()); 
+	var textNo = null;
+	
+	var studentHasEnteredData = ((Text_title.length>0)||(Text_author.length>0)||(Text_year.length>0))?true:false; // Check if some fields are entered...
+	var boolRes = /^\d{4}$/.test(Text_year);
+	console.log('step_1_goOn - boolRes : ' + boolRes);
+	var studentDataIsComplete = ((Text_title.length > 0)&&(Text_author.length > 0)&&(boolRes))?true:false;  // Check if all fields are entered.
+	
 
-	// 	if (studentSubject.length > 0){
+	if (studentHasEnteredData && studentDataIsComplete) {  // If the student enters a title...
 
-	// 		console.log("step_1_goOn - jsonData 1: " + JSON.stringify(jsonData)); 
+		var themes = [];
 
-	// 	    if (!elementInArray(returnStudentTextArray(), studentSubject)){
+		if (!editText) {  // If the student has NOT choosen to edit the text data...
+			for (var n in jsonData.texts){  // Find out if the text (eg. textNo) already exixts: put the index "n" in "textNo"
+				if (Text_title == jsonData.texts[n].title){
+					textNo = n;
+					console.log('step_1_goOn - textNo 1: ' + textNo);
+					// jsonData.selectedTextIndexNum = textNo;
+				}
+				themes = themes.concat(jsonData.texts[n].themes);
+			}
+			themes = themes.filter( onlyUnique ); // Filters away all duplicate themes, so that only unique themes are left.
 
-	// 			if (!jsonData.hasOwnProperty("studentSelectedTexts")){
-	// 		    	jsonData.studentSelectedTexts = [];
-	// 		    }
-
-	// 			for (var n in jsonData.studentSelectedTexts){
-	// 		    	jsonData.studentSelectedTexts[n].selected = false;
-	// 		    }
-
-	// 			jsonData.studentSelectedTexts.push({textNo: studentSubject, selected: true, subjectTexts: [] });
-	// 		}
-	// 		// jsonData.Themes.push(studentSubject);  // Commented out 08-01-2016: We desided against saveing all subjects.
-
-	// 		jsonData.selectedTextNo = returnElementNumInArray(returnStudentTextArray(), studentSubject);
-	// 		console.log("step_1_goOn - jsonData.selectedTextNo: " + jsonData.selectedTextNo);  // <------- ########  SE HER !!! ##############
-	// 		jsonData.studentSelectedTexts[jsonData.selectedTextNo].selected = true;
-	// 		console.log("step_1_goOn - jsonData.studentSelectedTexts 0: " + JSON.stringify(jsonData.studentSelectedTexts));
-
-	// 	}
-
-		console.log("step_1_goOn - fallbackStudentTextNo: " + fallbackStudentTextNo); 
-		console.log("step_1_goOn - jsonData.studentSelectedTexts 1: " + JSON.stringify(jsonData.studentSelectedTexts)); 
-
-		console.log("step_1_goOn - fallbackStudentTextNo: " + fallbackStudentTextNo);
-
-		if ((typeof(studentTextPressed) !== "undefined") && (studentTextPressed == true)){
-
-		    // ORGINAL KODE:
-			fallbackStudentTextNo = jsonData.selectedTextNo;
-		 	$('#DataInput').html(step_2_template());
-		 	setJsAudioEventLitsner();
-		} else {
-			UserMsgBox("body", "Du skal vælge en tekst før du kan gå videre!");
+		} else {  // The studen has choosen to edit the text data...
+			textNo = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum].textNo;
+			jsonData.texts[textNo].author = Text_author;
+			jsonData.texts[textNo].title = Text_title;
+			jsonData.texts[textNo].year = Text_year;
+			editText = false;
 		}
-	// }
+
+		if (textNo === null){  // If the text (eg. textNo) does NOT exixts...
+
+			if (!jsonData.hasOwnProperty("studentSelectedTexts")){ 
+		    	jsonData.studentSelectedTexts = [];
+		    }
+
+		    textNo = jsonData.texts.length;
+		    console.log('step_1_goOn - textNo 2: ' + textNo);
+
+		    // jsonData.texts.push({"author" : "", "title" : Text_title, "year": "", "themes": themes});
+		    jsonData.texts.push({"author" : Text_author, "title" : Text_title, "year": Text_year, "themes": themes});
+
+			if (!elementInArray(returnStudentTextArray(), textNo)) {  
+			   	jsonData.studentSelectedTexts.push({textNo: textNo, selected: false, subjectTexts: [] });
+			}
+
+			// jsonData.selectedTextIndexNum = textNo;
+		}
+
+		for (var n in jsonData.studentSelectedTexts){
+	    	if (textNo == jsonData.studentSelectedTexts[n].textNo){
+	    		jsonData.studentSelectedTexts[n].selected = true;
+	    	} else {
+	    		jsonData.studentSelectedTexts[n].selected = false;
+	    	}
+	    }
+
+	    jsonData.selectedTextIndexNum = getSelectedIndexNum();
+	}
+
+
+
+	console.log("step_1_goOn - jsonData: " + JSON.stringify(jsonData));
+	console.log("step_1_goOn - fallbackStudentTextNo: " + fallbackStudentTextNo); 
+	console.log("step_1_goOn - jsonData.studentSelectedTexts 1: " + JSON.stringify(jsonData.studentSelectedTexts)); 
+
+	console.log("step_1_goOn - fallbackStudentTextNo: " + fallbackStudentTextNo);
+
+	var error_noData = false;
+	var error_notEnoughstudentData = false;
+
+	// if ((typeof(studentTextPressed) !== "undefined") && (studentTextPressed == true) || (typeof(jsonData.selectedTextIndexNum) !== "undefined")){
+	if (!jsonData.hasOwnProperty("selectedTextIndexNum") && !studentHasEnteredData) {
+		error_noData = true;
+		UserMsgBox("body", "Du skal vælge en tekst, eller skrive titlen på en tekst, før du kan gå videre!");
+	}
+	
+	if (studentHasEnteredData && !studentDataIsComplete) { 
+		var HTML = '';
+		if ((Text_title.length == 0) || (Text_author.length == 0)) {
+			error_notEnoughstudentData = true;
+			// var HTML = '';
+			// if ((Text_title.length == 0) || (Text_author.length == 0)) {
+				HTML += 'Du skal skrive '+((Text_title.length == 0)?'en titel':'')+(((Text_title.length == 0) && (Text_author.length == 0))?' og ':'')+((Text_author.length == 0)?'en forfatter':'')+'. ';
+			// }
+		}
+
+		// if ((Text_title == '') || (Text_title.match(/^\d{4}$/).length != 1)){
+		if (!boolRes){
+			error_notEnoughstudentData = true;
+			HTML += ' Året skal være et årstal bestående af 4 tal.';
+		}
+
+		if (error_notEnoughstudentData){
+			UserMsgBox("body", HTML);
+		} 
+		
+	} 
+
+	if (!error_noData && !error_notEnoughstudentData) {
+	    // ORGINAL KODE:
+		fallbackStudentTextNo = jsonData.selectedTextNo;
+	 	$('#DataInput').html(step_2_template());
+	 	setJsAudioEventLitsner();
+	 	// $(".studentTheme").focus();  // Sets the focus in the inputfield when the template loades.
+	}
+
 });
 
 
@@ -791,6 +921,7 @@ function step_2_template(){
 	jsonData.currentStep = 2;
 	osc.save('jsonData', jsonData);
 	var stepNo = 2;
+	console.log("step_2_template - jsonData.selectedTextIndexNum: " + jsonData.selectedTextIndexNum);
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
 	console.log("step_2_template - JST: " + JSON.stringify(JST));
 	var studentTheme = null;
@@ -846,6 +977,19 @@ $( document ).on('focusin', ".studentTheme", function(event){
 
 
 $( document ).on('focusout', ".studentTheme", function(event){
+	if (jsonData.hasOwnProperty("studentSelectedTexts")){
+    	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
+    	$( ".Themes" ).each(function( index, element ) { 
+			if ($(element).text() == JST.studentTheme){
+				$('.Themes').eq(index).addClass('btn-primary').removeClass('btn-info');
+				return false;
+			}
+		});
+    }
+});
+
+
+$( document ).on('focusout', ".studentTheme", function(event){
 // $( document ).on('focusin', ".studentTheme", function(event){  
 	var studentTheme = htmlEntities($('.studentTheme').val());
 	console.log("focusout - studentTheme: _" + studentTheme + "_");
@@ -853,7 +997,9 @@ $( document ).on('focusout', ".studentTheme", function(event){
     if (!JST.hasOwnProperty("studentTheme")){
     	JST.studentTheme = null;
     }
-    JST.studentTheme = studentTheme;
+    if (studentTheme.length > 0) {
+    	JST.studentTheme = studentTheme;
+    }
 });
 
 
@@ -927,8 +1073,9 @@ $( document ).on('click', "#step_2_goOn", function(event){
 
 	    // ORGINAL KODE:
 		fallbackStudentTheme = studentTheme;
-	 	$('#DataInput').html(step_3_template());
+	 	$('#DataInput').html(step_3_template());   // $("#form [name='input1st']").focus();   $("textarea [name='textareaFocus']"").focus();
 	 	setJsAudioEventLitsner();
+	 	// $("#textInputTheme").focus();  // Sets the focus in the textarea when the template loades.
 	} else {
 		UserMsgBox("body", "Du skal vælge et tema, eller skrive et valfrit tema, før du kan gå videre!");
 	}
@@ -937,7 +1084,7 @@ $( document ).on('click', "#step_2_goOn", function(event){
 
 
 //////////////////////
-//  	STEP 3 		//  PUT WORDS ON YOUR THEME
+//  	STEP 3 		//  PUT WORDS ON YOUR THEME 
 //////////////////////
 
 
@@ -964,7 +1111,7 @@ function step_3_template(){
 	HTML += 					insertThemes(returnDropdownMarkup(jsonData.sentenceStarters_theme));
 	HTML += 				'</div>';
 
-	HTML += 				'<textarea id="textInputTheme" val="">';
+	HTML += 				'<textarea id="textInputTheme" val="" name="textareaFocus">';
 				if (JST.hasOwnProperty('TextTheme')) {
 					HTML += JST.TextTheme;
 				}			
@@ -1003,6 +1150,7 @@ $(document).on('change', '#Dropdown0', function(){
 $( document ).on('click', "#step_3_goBack", function(event){
 	$('#DataInput').html(step_2_template());
 	setJsAudioEventLitsner();
+	// $(".studentTheme").focus();  // Sets the focus in the inputfield when the template loades.
 });
 
 
@@ -1083,6 +1231,7 @@ function step_4_template(){
 $( document ).on('click', "#step_4_goBack", function(event){
 	$('#DataInput').html(step_3_template());
 	setJsAudioEventLitsner();
+	// $("#textInputTheme").focus();  // Sets the focus in the textarea when the template loades.
 });
 
 $( document ).on('click', ".AnalyticalFocus", function(event){
@@ -1120,6 +1269,7 @@ $( document ).on('click', "#step_4_goOn", function(event){
 
 	 	$('#DataInput').html(step_5_template());
 	 	setJsAudioEventLitsner();
+	 	// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 	} else {
 		UserMsgBox("body", "Du skal vælge et analytisk fokuspunkt før du kan gå videre!");
 	}
@@ -1181,7 +1331,9 @@ function step_5_template(){
 
 	HTML += 			'<div id="TextAndQuoteContainer">';
 			
-	HTML +=				'<span class="TextRef btn btn-info" >'+jsonData.texts[JST.textNo].author+': "'+jsonData.texts[JST.textNo].title+'", '+jsonData.texts[JST.textNo].year+'</span>';
+	// HTML +=				'<span class="TextRef btn btn-info" >'+jsonData.texts[JST.textNo].author+': "'+jsonData.texts[JST.textNo].title+'", '+jsonData.texts[JST.textNo].year+'</span>';
+						var JT = jsonData.texts[JST.textNo];
+	HTML += 			'<span class="TextRef btn btn-info" >'+((JT.author!='')?JT.author+': ':'')+'"'+JT.title+'" '+((JT.year!='')?', '+JT.year:'')+'</span>';
 	
 	HTML += 				'<div id="QuoteContainer" class="btnActions">';
 				for (var i = 0; i < jsonData.numOfChoosenWords; i++) {
@@ -1192,7 +1344,7 @@ function step_5_template(){
 
 	HTML += 			'</div>';
 
-	HTML += 			'<textarea id="textInput_'+quoteCount+'" val="">';
+	HTML += 			'<textarea id="textInput_'+quoteCount+'" class="textInput" val="">';
 			if ((JST.hasOwnProperty('textQuotes')) && (typeof(JST.textQuotes[quoteCount]) !== 'undefined')) {
 				HTML += JST.textQuotes[quoteCount];
 			}			
@@ -1215,15 +1367,22 @@ $( document ).on('click', ".TextRef", function(event){
 
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
 	var JT = jsonData.texts[JST.textNo];
-
 	var HTML = '';
-    HTML += '<h1>'+JT.title+'</h1> <i>Af '+JT.author+', '+JT.year+'</i> <br/><br/>';
-    HTML += '<h4>Tekstuddrag:</h4>'
-    HTML += JT.textSnippet;
-    HTML += '<br/> <a class="btn btn-lg btn-info" href="'+JT.src+'" target="_blank">Læs pdf i nyt browser vindue</a> <a class="btn btn-lg btn-info" href="'+JT.src+'" download="'+String(JT.src.split('/').pop())+'">Download pdf</a>';
 
-    // UserMsgBox("body", '<h1>'+JT.title+'</h1> <i>Af '+JT.author+', '+JT.year+'</i><br/><br/>'+'<a href="test.pdf" target="_blank">test-pdf</a> <a href="test.pdf" download="test.pdf">Download the pdf</a> <br/> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> <br/> <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p> <br/> <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>');
-    UserMsgBox("body", HTML);
+	if (JST.textNo < jsonData.originalNumOfTexts){
+	    HTML += '<h1>'+JT.title+'</h1> <i>Af '+JT.author+', '+JT.year+'</i> <br/><br/>';
+	    HTML += '<h4>Tekstuddrag:</h4>'
+	    HTML += JT.textSnippet;
+	    HTML += '<br/>' + ((JT.hasOwnProperty('studentMsg'))?JT.studentMsg:'')+((JT.hasOwnProperty('externalSrc'))?'<a href="'+JT.externalSrc+'" target="_blank">'+JT.externalSrc+'</a>':'');
+	    // HTML += '<br/> <a class="btn btn-lg btn-info" href="'+JT.src+'" target="_blank">Læs pdf i nyt browser vindue</a> <a class="btn btn-lg btn-info" href="'+JT.src+'" download="'+String(JT.src.split('/').pop())+'">Download pdf</a>';
+	} else {
+		HTML += 'Du har valgt at analysere din selvvalgte tekst: <br/><br/>';
+		HTML += ((JT.author!='')?JT.author+': ':'')+'"'+JT.title+'" '+((JT.year!='')?', '+JT.year:'') + '<br/><br/>';
+		HTML += 'Åben teksten i et andet vindue, eller i en pdf, så du kan kopiere citater fra teksten.';
+	}
+
+	// UserMsgBox("body", '<h1>'+JT.title+'</h1> <i>Af '+JT.author+', '+JT.year+'</i><br/><br/>'+'<a href="test.pdf" target="_blank">test-pdf</a> <a href="test.pdf" download="test.pdf">Download the pdf</a> <br/> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> <br/> <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p> <br/> <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>');
+	UserMsgBox("body", HTML);
 });
 
 
@@ -1263,6 +1422,7 @@ $( document ).on('click', ".quoteBtn", function(event){
 	quoteCount = index-1; 
 	$('#DataInput').html(step_5_template());   // 12-01-2016  <-----------  DATA SKAL GEMMENS HER!!!
 	setJsAudioEventLitsner();
+	// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 });
 
 
@@ -1277,6 +1437,7 @@ $( document ).on('click', "#step_5_goBack", function(event){
 		--quoteCount;	// twice... because of the inscreasement inside step_XXX_template
 		$('#DataInput').html(step_5_template());
 		setJsAudioEventLitsner();
+		// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 	}
 });
 
@@ -1311,6 +1472,7 @@ $( document ).on('click', "#step_5_goOn", function(event){
 				autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
 				$('#DataInput').html(step_6_template());
 				setJsAudioEventLitsner();
+				// $(".textInputQuoteNote").focus();  // Sets the focus in the textarea when the template loades.
 				// makeSortable();
 			} else {
 				UserMsgBox("body", 'Du skal skrive citater i alle tekstboksene - du mangler at skrive citat til '+returnMissingElements('textQuotes', 'Citat')+'. Tryk på citatknapperne og skriv sætninger til dem.');
@@ -1417,7 +1579,9 @@ function step_6_template(){
 
 	HTML += 			'<div id="TextAndQuoteContainer">';
 			
-	HTML +=				'<span class="TextRef btn btn-info" >'+jsonData.texts[JST.textNo].author+': "'+jsonData.texts[JST.textNo].title+'", '+jsonData.texts[JST.textNo].year+'</span>';
+	// HTML +=				'<span class="TextRef btn btn-info" >'+jsonData.texts[JST.textNo].author+': "'+jsonData.texts[JST.textNo].title+'", '+jsonData.texts[JST.textNo].year+'</span>';
+						var JT = jsonData.texts[JST.textNo];
+	HTML += 			'<span class="TextRef btn btn-info" >'+((JT.author!='')?JT.author+': ':'')+'"'+JT.title+'" '+((JT.year!='')?', '+JT.year:'')+'</span>';
 	
 	HTML += 				'<div id="QuoteContainer" class="btnActions">';
 				for (var i = 0; i < jsonData.numOfChoosenWords; i++) {
@@ -1497,6 +1661,7 @@ $( document ).on('click', ".quoteNoteBtn", function(event){
 	quoteNoteCount = index-1; 
 	$('#DataInput').html(step_6_template());   // 12-01-2016  <-----------  DATA SKAL GEMMENS HER!!!
 	setJsAudioEventLitsner();
+	// $(".textInputQuoteNote").focus();  // Sets the focus in the textarea when the template loades.
 });
 
 
@@ -1504,6 +1669,7 @@ $( document ).on('click', "#step_6_goBack", function(event){
 	if ((typeof(quoteNoteCount) === 'undefined') || (quoteNoteCount == 0)){
 		$('#DataInput').html(step_5_template());
 		setJsAudioEventLitsner();
+		// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 		// window.quoteCount = jsonData.numOfChoosenWords-2;   // Step 5 counter reset. Using "window.quoteCount" because it might not exist.
 		// quoteCount = null
 		quoteNoteCount = null;		// Step 6 counter reset
@@ -1513,6 +1679,7 @@ $( document ).on('click', "#step_6_goBack", function(event){
 		--quoteNoteCount;	// twice... because of the inscreasement inside step_XXX_template
 		$('#DataInput').html(step_6_template());
 		setJsAudioEventLitsner();
+		// $(".textInputQuoteNote").focus();  // Sets the focus in the textarea when the template loades.
 	}
 });
 
@@ -1547,6 +1714,7 @@ $( document ).on('click', "#step_6_goOn", function(event){
 				autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
 				$('#DataInput').html(step_7_template());
 				setJsAudioEventLitsner();
+				// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 				// makeSortable();
 			} else {
 				UserMsgBox("body", 'Du skal skrive en udlægning af alle citaterne i tekstboksene - du mangler at skrive en udlægning til '+returnMissingElements('textQuoteNotes', 'Udlægning')+'. Tryk på udlægningsknapperne og skriv udlægninger til citaterne.');
@@ -1651,7 +1819,7 @@ function step_7_template(){
 	HTML += 					returnDropdownMarkup(jsonData.sentenceStarters_interpretation);
 	HTML += 				'</div>';
 
-	HTML += 			'<textarea id="textInput_'+textPassageCount+'" val="">';
+	HTML += 			'<textarea id="textInput_'+textPassageCount+'" val="" class="textInput">';
 			if ((JST.hasOwnProperty('textPassages')) && (typeof(JST.textPassages[textPassageCount]) !== 'undefined')) {
 				HTML += JST.textPassages[textPassageCount];
 			}			
@@ -1712,6 +1880,7 @@ $( document ).on('click', ".textPassageBtn", function(event){
 	textPassageCount = index-1; 
 	$('#DataInput').html(step_7_template());  
 	setJsAudioEventLitsner();
+	// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 });
 
 
@@ -1719,6 +1888,7 @@ $( document ).on('click', "#step_7_goBack", function(event){
 	if ((typeof(textPassageCount) === 'undefined') || (textPassageCount == 0)){
 		$('#DataInput').html(step_6_template());
 		setJsAudioEventLitsner();
+		// $(".textInputQuoteNote").focus();  // Sets the focus in the textarea when the template loades.
 		textPassageCount = null;
 		console.log("step_4_goBack - textPassageCount: " + textPassageCount);
 	} else {
@@ -1726,6 +1896,7 @@ $( document ).on('click', "#step_7_goBack", function(event){
 		--textPassageCount;	// twice... because of the inscreasement inside step_XXX_template
 		$('#DataInput').html(step_7_template());
 		setJsAudioEventLitsner();
+		// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 	}
 });
 
@@ -1761,6 +1932,7 @@ $( document ).on('click', "#step_7_goOn", function(event){
 				autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
 				$('#DataInput').html(step_8_template());
 				setJsAudioEventLitsner();
+				// $("#textInputConclusion").focus();  // Sets the focus in the textarea when the template loades.
 				// makeSortable();
 			} else {
 				UserMsgBox("body", 'Du skal skrive sætninger i tekstboksene der forbinder dine tekstafsnit - du mangler at skrive tekst til '+returnMissingElements('textPassages', 'sætning')+'. Tryk på sætningsknapperne og skriv tekst i tekstboksene.');
@@ -1838,6 +2010,7 @@ $(document).on('change', '#Dropdown2', function(){
 $( document ).on('click', "#step_8_goBack", function(event){
 	$('#DataInput').html(step_7_template());
 	setJsAudioEventLitsner();
+	// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 });
 
 
@@ -1854,6 +2027,7 @@ $( document ).on('click', "#step_8_goOn", function(event){
 		
 		$('#DataInput').html(step_9_template());
 		setJsAudioEventLitsner();
+		// $(".headerField").focus();  // Sets the focus in the textarea when the template loades.
 		
 	} else {
 		UserMsgBox("body", 'Du skal du skrive et par afsluttende sætninger, der kort og præcist konkluderer, hvad du har fundet ud af. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til formulering af dine sætninger.');
@@ -2014,6 +2188,7 @@ $( document ).on('click', "#step_9_goBack", function(event){
 	// if ((typeof(headAndIntroCount) === 'undefined') || (headAndIntroCount == 0)){
 		$('#DataInput').html(step_8_template());
 		setJsAudioEventLitsner();
+		// $("#textInputConclusion").focus();  // Sets the focus in the textarea when the template loades.
 		// headAndIntroCount = null;
 		console.log("step_9_goBack - headAndIntroCount: " + headAndIntroCount);
 	// } else {
@@ -2112,6 +2287,7 @@ function step_10_template(){
 
 	HTML += 				'<div id="textOverviewContainer" >';
 				HTML += 		'<h3>'+JST.headAndIntro[0]+'</h3>';
+				HTML += 		'<span class="textOverviewSubHeading">Indledning:</span> <br/>';
 				HTML += 		'<p>'+JST.headAndIntro[1]+'</p>';
 				HTML += 		'<div class="textOverview textOverview_TextTheme">'+
 									'<span class="textOverviewSubHeading">Tema:</span> <br/>'+JST.studentTheme+'<br/>'+
@@ -2125,8 +2301,10 @@ function step_10_template(){
 									JST.textQuoteNotes[i]+
 								'</div>';
 					// HTML += 	(typeof(JST.textPassages[i]!=='undefined'))?'<p id="textPassages_'+i+'">'+JST.textPassages[i]+'</p>':'';
-					HTML += 	(i < jsonData.numOfChoosenWords-1)?'<p id="textPassages_'+i+'">'+JST.textPassages[i]+'</p>':'';
+					// HTML += 	'<span class="textOverviewSubHeading">Sætning '+String(parseInt(i)+1)+':</span> <br/>';
+					HTML += 	(i < jsonData.numOfChoosenWords-1)?'<span class="textOverviewSubHeading">Sætning '+String(parseInt(i)+1)+':</span> <br/><p id="textPassages_'+i+'">'+JST.textPassages[i]+'</p>':'';
 				}
+				HTML += 		'<span class="textOverviewSubHeading">Afslutning:</span> <br/>';
 				HTML += 		'<p>'+JST.conclusion+'</p>';
 	HTML += 				'</div>';
 
@@ -2150,17 +2328,18 @@ function step_10_template(){
 $( document ).on('click', "#step_10_goBack", function(event){
 	$('#DataInput').html(step_9_template());
 	setJsAudioEventLitsner();
+	// $(".headerField").focus();  // Sets the focus in the textarea when the template loades.
 });
 
 $( document ).on('click', "#step_10_download", function(event){
 	
 	var HTML = wordTemplate();
-	console.log("step_10_download - wordTemplate: " + HTML);
-	UserMsgBox("body", HTML);
+	// console.log("step_10_download - wordTemplate: " + HTML);
+	// UserMsgBox("body", HTML);
 
 	var converted = htmlDocx.asBlob(HTML);
     console.log("step_10_download - converted: " + JSON.stringify(converted));
-	saveAs(converted, 'test2.docx');
+	saveAs(converted, 'Analyse.docx');
 });
 
 
@@ -2198,9 +2377,11 @@ function wordTemplate() {
 	HTML += 		'<p><b>Temaudlægning:</b> '+JST.TextTheme+'</p>';
 	HTML += 		'<hr/>';
 	for (var n in JST.textQuotes){
-		HTML += 		'<p><b>citat '+String(parseInt(n)+1)+':</b> '+JST.textQuotes[n]+'</p>';
-		HTML += 		'<p><b>citatudlægning '+String(parseInt(n)+1)+':</b> '+JST.textQuoteNotes[n]+'</p>';
+		HTML += 		'<p><b>Citat '+String(parseInt(n)+1)+':</b> &quot;<i>'+JST.textQuotes[n]+'</i>&quot;</p>';
+		HTML += 		'<p><b>Citatudlægning '+String(parseInt(n)+1)+':</b> '+JST.textQuoteNotes[n]+'</p>';
 		HTML += 		'<hr/>';
+		HTML += 		(n < jsonData.numOfChoosenWords-1)?'<p><b>Sætning '+String(parseInt(n)+1)+':</b> '+JST.textQuoteNotes[n]+'</p><hr/>':'';
+		// HTML += 		'<hr/>';
 	}
 	HTML += 		'<p><b>Fortolkning:</b> ';
 	for (var n in JST.textPassages){
@@ -2208,6 +2389,19 @@ function wordTemplate() {
 	}
 	HTML += 		'<hr/>';
 	HTML += 		'<p><b>Afslutning:</b> '+JST.conclusion+'</p>';
+	HTML += 		'<hr/>';
+	HTML += 		'<div class="instruktion">';
+	HTML += 			'<h3>Gennemlæs din tekst. Hænger den sammen i forhold til:</h3>';
+	HTML += 			'<ol>';
+	HTML += 				'<li>Tydelige overgange mellem afsnit.</li>';
+	HTML += 				'<li>Sammenhæng mellem sætningerne.</li>';
+	HTML += 				'<li>Godt og levende sprog.</li>';
+	HTML += 				'<li>Korrekt brug af punktum og komma.</li>';
+	HTML += 				'<li>Så få formuleringsmæssige uklarheder og stavefejl som muligt.</li>';
+	HTML += 			'</ol>';
+	HTML += 			'<h3>Når du har gennemgået disse trin, har du en rigtig god tekst!</h3>';
+	HTML += 			'<hr/>';
+	HTML += 		'</div>';
 	HTML += 	'</body>';
 	HTML += '</html>';
 	// document.write(HTML);

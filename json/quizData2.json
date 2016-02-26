@@ -1,13 +1,13 @@
 {
 	"headerAndWordTemplateHeader" : "Skriv en skønlitterær analyse",
 	"texts" : [
-		{"author" : "Peter Seeberg", "title" : "Patienten", "year": "1962", "src" : "pdf/Patienten.pdf", "themes": ["Sundhed", "Identitet", "Moderne videnskab"], "textSnippet" : "<p>Da lægerne første gang stiftede bekendtskab med min sygdom, beroligede de mig meget in- derligt og erklærede, at et amputeret ben ikke var noget at snakke om i vor tid, hvor prote- serne jo ikke mere var en lidelse, som i træbe- nenes dage, men snarere en lettelse. De love- de mig, at jeg skulle komme til at gå nærmest bedre end før, idet de påstod, at iveren efter at gå igen ville tilføre mig kæmpekræfter. De fik ret. Da jeg først var kommet i gang, gik jeg bedre end nogen sinde, men længe varede det ikke, så dukkede sygdommen, som lægerne nu betegnede som den uhyre sjældne ,,alminde- ligt bortfald” op i det andet ben, der også måtte sættes af...</p>"},
-		{"author" : "Klaus Rifbjerg", "title" : "Det er blevet os pålagt", "year": "1960", "src" : "pdf/det_er_blevet_os_paalagt_2.pdf", "themes": ["En kritik af det moderne liv", "En kritik af velfærdsstaten", "Fremmedgørelse", "Kedsomhed"], "textSnippet" : "<p><br/> Det er blevet os p&aring;lagt<br/> af statistikken<br/> i et gennemsnitsliv<br/> at &aring;bne et meget stort antal<br/> d&oslash;re, konservesd&aring;ser,<br/> punge, tegneb&oslash;ger, check.konti<br/> at lukke et meget stort antal<br/> samme...</p>"}	],
+		{"author" : "Peter Seeberg", "title" : "Patienten", "year": "1962", "src" : "pdf/Patienten.pdf", "studentMsg" : "Din lære skal give dig en kopi af teksten.", "themes": ["Sundhed", "Identitet", "Moderne videnskab"], "textSnippet" : "<p>Da lægerne første gang stiftede bekendtskab med min sygdom, beroligede de mig meget inderligt og erklærede, at et amputeret ben ikke var noget at snakke om i vor tid, hvor proteserne jo ikke mere var en lidelse, som i træbenenes dage, men snarere en lettelse. De lovede mig, at jeg skulle komme til at gå nærmest bedre end før, idet de påstod, at iveren efter at gå igen ville tilføre mig kæmpekræfter. De fik ret. Da jeg først var kommet i gang, gik jeg bedre end nogen sinde, men længe varede det ikke, så dukkede sygdommen, som lægerne nu betegnede som den uhyre sjældne &quot;almindeligt bortfald&quot; op i det andet ben, der også måtte sættes af...</p>"},
+		{"author" : "Klaus Rifbjerg", "title" : "Det er blevet os pålagt", "year": "1960", "src" : "pdf/det_er_blevet_os_paalagt_2.pdf", "externalSrc": "https://materialeplatform.emu.dk/materialer/bogkort/86467329", "studentMsg" : "Link til materialet: ", "themes": ["En kritik af det moderne liv", "En kritik af velfærdsstaten", "Fremmedgørelse", "Kedsomhed"], "textSnippet" : "<p><br/> Det er blevet os p&aring;lagt<br/> af statistikken<br/> i et gennemsnitsliv<br/> at &aring;bne et meget stort antal<br/> d&oslash;re, konservesd&aring;ser,<br/> punge, tegneb&oslash;ger, check.konti<br/> at lukke et meget stort antal<br/> samme...</p>"}	],
 	"themes" : ["Tema 1", "Tema 2", "Tema 3", "Tema 4", "Tema 5", "Tema 6", "Tema 7", "Tema 8", "Tema 9", "Tema 10"],
 	"sentenceStarters_theme" : 
-		{"id":"Dropdown0", "class":"Dropdown", 
+		{"id":"Dropdown0", "class":"Dropdown", "selected": "0",
             "options":[
-            	{"value":"Sætningsstater..."},
+            	{"value":"Sætningsstartere:"},
                 {"value":"Teksten giver flere vinkler på temaet &quot;???&quot;, fordi..."},
                 {"value":"Teksten forholder sig til kritisk til temaet &quot;???&quot;, ved at..."},
                 {"value":"Teksten kaster et tvetydigt blik på temaet &quot;???&quot;, fordi..."}
@@ -21,9 +21,9 @@
     ],
 	"numOfChoosenWords" : 3,
 	"sentenceStarters_quoteNote" : 
-		{"id":"Dropdown1", "class":"Dropdown", 
+		{"id":"Dropdown1", "class":"Dropdown", "selected": "0",
             "options":[
-            	{"value":"Sætningsstater..."},
+            	{"value":"Sætningsstartere:"},
                 {"value":"Citatet illustrerer det tvetydige ved..."},
                 {"value":"I citatet kommer fortællerens holdning til syne..."},
                 {"value":"Dette citat er interessant, fordi det viser hvordan..."},
@@ -34,9 +34,9 @@
             ]
         },
     "sentenceStarters_interpretation" : 
-		{"id":"Dropdown1b", "class":"Dropdown", 
+		{"id":"Dropdown1b", "class":"Dropdown", "selected": "0", 
             "options":[
-            	{"value":"Sætningsstater..."},
+            	{"value":"Sætningsstartere:"},
                 {"value":"I alle tre citater kan man se et..."},
                 {"value":"Fælles for citaterne er at..."},
                 {"value":"Det overordnede emne kommer tydeligt til udtryk når vi kigger på citaterne, fordi..."},
@@ -44,10 +44,10 @@
             ]
         },
     "sentenceStarters_conclusion" : 
-		{"id":"Dropdown2", "class":"Dropdown", 
+		{"id":"Dropdown2", "class":"Dropdown", "selected": "0", 
             "options":[
-            	{"value":"Sætningsstater..."},
-                {"value":"ADet teksten siger, er..."},
+            	{"value":"Sætningsstartere:"},
+                {"value":"Det teksten siger, er..."},
                 {"value":"Selv om teksten er skrevet i..., kan den fortsat ..."},
                 {"value":"Teksten er fortsat aktuel, fordi den behandler nogle almengyldige emner, som det kommer til udtryk i..."},
                 {"value":"Forfatteren rejser debatten om..."},
@@ -56,18 +56,18 @@
             ]
         },
     "sentenceStarters_begin" : 
-		{"id":"Dropdown3", "class":"Dropdown", 
+		{"id":"Dropdown3", "class":"Dropdown", "selected": "0", 
             "options":[
-            	{"value":"Sætningsstater..."},
+            	{"value":"Sætningsstartere:"},
                 {"value":"Alle kan blive enige om at det er et problem at ... (generel vinkel)"},
                 {"value":"Det er et velkendt standpunkt i debatten om ..., at .... (generel vinkel)"},
                 {"value":"Sidst jeg var i supermarkedet overhørte jeg en samtale omkring ..., hvilket fik mig til at tænke på, at det er et stort problem at vi .... (konkret vinkel)"}
             ]
         },
     "sentenceStarters_end" : 
-		{"id":"Dropdown4", "class":"Dropdown", 
+		{"id":"Dropdown4", "class":"Dropdown", "selected": "0", 
             "options":[
-            	{"value":"Sætningsstater..."},
+            	{"value":"Sætningsstartere:"},
                 {"value":"Afslutningsvis kan man sige at ..."},
                 {"value":"Når alt kommer til alt er der meget som taler for at ..."},
                 {"value":"Til sidst vil jeg bare sige at jeg synes at det er totalt for dårligt at ..."}

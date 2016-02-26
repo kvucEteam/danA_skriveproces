@@ -174,7 +174,7 @@ textarea {
 .stepNav audio{
     float: right;
     position: relative;
-    top: 10px;
+    top: 10px; 
 }
 
 .Clear{
@@ -192,7 +192,9 @@ textarea {
 
 
 
-
+.helperTextInput{
+    margin-bottom: 20px;
+}
 
 
 .stepInput .input-group {
