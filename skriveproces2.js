@@ -96,6 +96,7 @@ checkForLocalStoargeSupport();
 
 
 
+
 var jsonData = "<h1>OK</h1>";
 
 
@@ -471,7 +472,7 @@ function returnLastStudentSession() {
 		console.log('returnLastStudentSession - getTimeStamp: ' + osc.getTimeStamp());
 	// if (TjsonData !== null){
 		var HTML = '';
-		HTML += 'Du har lavet denne øvelse før, og indtastet data i øvelsen.';
+		HTML += '<h2>OBS</h2> Du har lavet denne øvelse før, og indtastet data i øvelsen.';
 		HTML += '<div> <span id="objectStorageClass_yes" class="objectStorageClass btn btn-info">Jeg ønsker at fortsætte hvor jeg slap</span> <span id="objectStorageClass_no" class="objectStorageClass btn btn-info">Jeg ønsker starte forfra</span> </div>';
 		UserMsgBox("body", HTML);
 
@@ -757,7 +758,7 @@ $( document ).on('click', ".Texts", function(event){
 
     var HTML = '';
     if (JST.textNo < jsonData.originalNumOfTexts){
-	    HTML += '<h1>'+JT.title+'</h1> <i>Af '+JT.author+', '+JT.year+'</i> <br/><br/>';
+	    HTML += '<h2>'+JT.title+'</h2> <i>Af '+JT.author+', '+JT.year+'</i> <br/><br/>';
 	    HTML += '<h4>Tekstuddrag:</h4>'
 	    HTML += JT.textSnippet;
 	    HTML += '<br/>' + ((JT.hasOwnProperty('studentMsg'))?JT.studentMsg:'')+((JT.hasOwnProperty('externalSrc'))?'<a href="'+JT.externalSrc+'" target="_blank">'+JT.externalSrc+'</a>':'');
@@ -876,7 +877,7 @@ $( document ).on('click', "#step_1_goOn", function(event){
 	// if ((typeof(studentTextPressed) !== "undefined") && (studentTextPressed == true) || (typeof(jsonData.selectedTextIndexNum) !== "undefined")){
 	if (!jsonData.hasOwnProperty("selectedTextIndexNum") && !studentHasEnteredData) {
 		error_noData = true;
-		UserMsgBox("body", "Du skal vælge en tekst, eller skrive titlen på en tekst, før du kan gå videre!");
+		UserMsgBox("body", "<h2>OBS</h2> Du skal vælge en tekst, eller skrive titlen på en tekst, før du kan gå videre!");
 	}
 	
 	if (studentHasEnteredData && !studentDataIsComplete) { 
@@ -885,14 +886,14 @@ $( document ).on('click', "#step_1_goOn", function(event){
 			error_notEnoughstudentData = true;
 			// var HTML = '';
 			// if ((Text_title.length == 0) || (Text_author.length == 0)) {
-				HTML += 'Du skal skrive '+((Text_title.length == 0)?'en titel':'')+(((Text_title.length == 0) && (Text_author.length == 0))?' og ':'')+((Text_author.length == 0)?'en forfatter':'')+'. ';
+				HTML += '<h2>OBS</h2> Du skal skrive '+((Text_title.length == 0)?'en titel':'')+(((Text_title.length == 0) && (Text_author.length == 0))?' og ':'')+((Text_author.length == 0)?'en forfatter':'')+'. ';
 			// }
 		}
 
 		// if ((Text_title == '') || (Text_title.match(/^\d{4}$/).length != 1)){
 		if (!boolRes){
 			error_notEnoughstudentData = true;
-			HTML += ' Året skal være et årstal bestående af 4 tal.';
+			HTML += ((HTML == '')?'<h2>OBS</h2>':'') + ' Året skal være et årstal bestående af 4 tal.';
 		}
 
 		if (error_notEnoughstudentData){
@@ -967,6 +968,7 @@ function step_2_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
+	errObj.updateErrorObj("STEP 2 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -1078,7 +1080,7 @@ $( document ).on('click', "#step_2_goOn", function(event){
 	 	setJsAudioEventLitsner();
 	 	// $("#textInputTheme").focus();  // Sets the focus in the textarea when the template loades.
 	} else {
-		UserMsgBox("body", "Du skal vælge et tema, eller skrive et valfrit tema, før du kan gå videre!");
+		UserMsgBox("body", "<h2>OBS</h2> Du skal vælge et tema, eller skrive et valfrit tema, før du kan gå videre!");
 	}
 });
 
@@ -1103,7 +1105,7 @@ function step_3_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_3" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(insertThemes(jsonData.steps[stepNo].instruction)):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
 	HTML += 			'<div id="subjectTextThemeContainer" class="btnActions">';
@@ -1128,6 +1130,7 @@ function step_3_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
+	errObj.updateErrorObj("STEP 3 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -1170,7 +1173,7 @@ $( document ).on('click', "#step_3_goOn", function(event){
 		setJsAudioEventLitsner();
 		
 	} else {
-		UserMsgBox("body", 'Du skal formulere hvad dit tema handler om i tekstboksen. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
+		UserMsgBox("body", '<h2>OBS</h2> Du skal formulere hvad dit tema handler om i tekstboksen. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
 	}
 });
 
@@ -1225,6 +1228,7 @@ function step_4_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
+	errObj.updateErrorObj("STEP 4 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -1272,7 +1276,7 @@ $( document ).on('click', "#step_4_goOn", function(event){
 	 	setJsAudioEventLitsner();
 	 	// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 	} else {
-		UserMsgBox("body", "Du skal vælge et analytisk fokuspunkt før du kan gå videre!");
+		UserMsgBox("body", "<h2>OBS</h2> Du skal vælge et analytisk fokuspunkt før du kan gå videre!");
 	}
 });
 
@@ -1312,6 +1316,8 @@ function step_5_template(){
 		autoPlay = false;
 	}
 
+	// var textNo = getSelected('textNo'); // Needs no check, since it was added to the datastructure in step 1. 
+
 	// var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];  // <-----  NEW!
 	var textQuotes = [];
@@ -1334,8 +1340,9 @@ function step_5_template(){
 			
 	// HTML +=				'<span class="TextRef btn btn-info" >'+jsonData.texts[JST.textNo].author+': "'+jsonData.texts[JST.textNo].title+'", '+jsonData.texts[JST.textNo].year+'</span>';
 						var JT = jsonData.texts[JST.textNo];
+						console.log("step_5_template - JST.textNo: " + JST.textNo);
 	// HTML += 			'<span class="TextRef btn btn-info" >'+((JT.author!='')?JT.author+': ':'')+'"'+JT.title+'" '+((JT.year!='')?', '+JT.year:'')+'</span>';
-	HTML += 			'<span class="Texts btn btn-info" >'+'"'+JT.title+'" '+', '+((JT.author!='')?JT.author:'')+((JT.year!='')?', '+JT.year:'')+'</span>';
+	HTML += 			'<span class="TextRef btn btn-info" >'+'"'+JT.title+'" '+', '+((JT.author!='')?JT.author:'')+((JT.year!='')?', '+JT.year:'')+'</span>';
 	
 	HTML += 				'<div id="QuoteContainer" class="btnActions">';
 				for (var i = 0; i < jsonData.numOfChoosenWords; i++) {
@@ -1360,6 +1367,7 @@ function step_5_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
+	errObj.updateErrorObj("STEP 5 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -1477,12 +1485,12 @@ $( document ).on('click', "#step_5_goOn", function(event){
 				// $(".textInputQuoteNote").focus();  // Sets the focus in the textarea when the template loades.
 				// makeSortable();
 			} else {
-				UserMsgBox("body", 'Du skal skrive citater i alle tekstboksene - du mangler at skrive citat til '+returnMissingElements('textQuotes', 'Citat')+'. Tryk på citatknapperne og skriv sætninger til dem.');
+				UserMsgBox("body", '<h2>OBS</h2>Du skal skrive citater i alle tekstboksene. Du mangler at skrive citat til '+returnMissingElements('textQuotes', 'Citat')+'. <br/> <br/> Tryk på citatknapperne og skriv sætninger til dem.');
 			}
 		// }
 
 	} else {
-		UserMsgBox("body", "Du skal skrive citater i tekstboksene før du kan gå videre!");
+		UserMsgBox("body", "<h2>OBS</h2> Du skal skrive citater i tekstboksene før du kan gå videre!");
 	}
 
 });
@@ -1564,6 +1572,8 @@ function step_6_template(){
 	}
 	console.log("step_6_template - quoteNoteCount: " + quoteNoteCount);
 
+	// var textNo = getSelected('textNo'); // Needs no check, since it was added to the datastructure in step 1.
+
 	var textQuoteNotes = [];
 	if (JST.hasOwnProperty("textQuoteNotes")){
 		// textNo = getSelected('textNo');
@@ -1583,6 +1593,7 @@ function step_6_template(){
 			
 	// HTML +=				'<span class="TextRef btn btn-info" >'+jsonData.texts[JST.textNo].author+': "'+jsonData.texts[JST.textNo].title+'", '+jsonData.texts[JST.textNo].year+'</span>';
 						var JT = jsonData.texts[JST.textNo];
+						console.log("step_6_template - JST.textNo: " + JST.textNo);
 	HTML += 			'<span class="TextRef btn btn-info" >'+((JT.author!='')?JT.author+': ':'')+'"'+JT.title+'" '+((JT.year!='')?', '+JT.year:'')+'</span>';
 	
 	HTML += 				'<div id="QuoteContainer" class="btnActions">';
@@ -1616,6 +1627,7 @@ function step_6_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
+	errObj.updateErrorObj("STEP 6 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -1719,12 +1731,12 @@ $( document ).on('click', "#step_6_goOn", function(event){
 				// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 				// makeSortable();
 			} else {
-				UserMsgBox("body", 'Du skal skrive en udlægning af alle citaterne i tekstboksene - du mangler at skrive en udlægning til '+returnMissingElements('textQuoteNotes', 'Udlægning')+'. Tryk på udlægningsknapperne og skriv udlægninger til citaterne.');
+				UserMsgBox("body", '<h2>OBS</h2> Du skal skrive en udlægning af alle citaterne i tekstboksene - du mangler at skrive en udlægning til '+returnMissingElements('textQuoteNotes', 'Udlægning')+'. Tryk på udlægningsknapperne og skriv udlægninger til citaterne.');
 			}
 		// }
 
 	} else {
-		UserMsgBox("body", "Du skal skrive udlægninger til citaterne i tekstboksene før du kan gå videre!");
+		UserMsgBox("body", "<h2>OBS</h2> Du skal skrive udlægninger til citaterne i tekstboksene før du kan gå videre!");
 	}
 
 });
@@ -1797,14 +1809,14 @@ function step_7_template(){
 
 	HTML += 				'<div id="textOverviewContainer" >';
 				HTML += 		'<div class="textOverview textOverview_TextTheme">'+
-									'<span class="textOverviewSubHeading">Tema:</span> <br/>'+JST.studentTheme+'<br/>'+
-									'<span class="textOverviewSubHeading">Temaudlægning:</span> <br/>'+JST.TextTheme+
+									'<h4>Tema</h4>'+JST.studentTheme +'<br/><br/>'+
+									'<h4>Temaudlægning</h4>'+JST.TextTheme+
 								'</div>';
 				for (var i = 0; i < jsonData.numOfChoosenWords; i++) {
 					HTML += 	'<div class="textOverview textOverview_QuotesAndNotes">'+
-									'<span class="textOverviewSubHeading">Citat '+String(parseInt(i)+1)+':</span> <br/>'+
-									'&quot;<i>'+JST.textQuotes[i]+'</i>&quot;<br/>'+
-									'<span class="textOverviewSubHeading">Udlægning til citat '+String(parseInt(i)+1)+':</span> <br/>'+
+									'<h4>Citat '+String(parseInt(i)+1)+'</h4>'+
+									'&quot;<i>'+JST.textQuotes[i]+'</i>&quot;<br/><br/>'+
+									'<h4>Udlægning til citat '+String(parseInt(i)+1)+'</h4>'+
 									JST.textQuoteNotes[i]+
 								'</div>';
 				}
@@ -1835,6 +1847,7 @@ function step_7_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
+	errObj.updateErrorObj("STEP 7 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -1937,12 +1950,12 @@ $( document ).on('click', "#step_7_goOn", function(event){
 				// $("#textInputConclusion").focus();  // Sets the focus in the textarea when the template loades.
 				// makeSortable();
 			} else {
-				UserMsgBox("body", 'Du skal skrive sætninger i tekstboksene der forbinder dine tekstafsnit - du mangler at skrive tekst til '+returnMissingElements('textPassages', 'sætning')+'. Tryk på sætningsknapperne og skriv tekst i tekstboksene.');
+				UserMsgBox("body", '<h2>OBS</h2> Du skal skrive sætninger i tekstboksene der forbinder dine tekstafsnit - du mangler at skrive tekst til '+returnMissingElements('textPassages', 'sætning')+'. Tryk på sætningsknapperne og skriv tekst i tekstboksene.');
 			}
 		// }
 
 	} else {
-		UserMsgBox("body", "Du skal skrive sætninger i tekstboksene før du kan gå videre!");
+		UserMsgBox("body", "<h2>OBS</h2> Du skal skrive sætninger i tekstboksene før du kan gå videre!");
 	}
 
 });
@@ -1998,6 +2011,7 @@ function step_8_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
+	errObj.updateErrorObj("STEP 8 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -2032,7 +2046,7 @@ $( document ).on('click', "#step_8_goOn", function(event){
 		// $(".headerField").focus();  // Sets the focus in the textarea when the template loades.
 		
 	} else {
-		UserMsgBox("body", 'Du skal du skrive et par afsluttende sætninger, der kort og præcist konkluderer, hvad du har fundet ud af. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til formulering af dine sætninger.');
+		UserMsgBox("body", '<h2>OBS</h2> Du skal du skrive et par afsluttende sætninger, der kort og præcist konkluderer, hvad du har fundet ud af. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til formulering af dine sætninger.');
 	}
 });
 
@@ -2124,6 +2138,7 @@ function step_9_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
+	errObj.updateErrorObj("STEP 9 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -2240,7 +2255,7 @@ $( document ).on('click', "#step_9_goOn", function(event){
 				// setJsAudioEventLitsner();
 				// makeSortable();
 			} else {
-				UserMsgBox("body", 'Du skal en overskrift og indledning til din analyse - du mangler at skrive tekst til '+returnMissingElements('headAndIntro', ["overskriften", "indledningen"]));
+				UserMsgBox("body", '<h2>OBS</h2> Du skal en overskrift og indledning til din analyse - du mangler at skrive tekst til '+returnMissingElements('headAndIntro', ["overskriften", "indledningen"]));
 			}
 		// }
 
@@ -2289,24 +2304,24 @@ function step_10_template(){
 
 	HTML += 				'<div id="textOverviewContainer" >';
 				HTML += 		'<h3>'+JST.headAndIntro[0]+'</h3>';
-				HTML += 		'<span class="textOverviewSubHeading">Indledning:</span> <br/>';
+				HTML += 		'<h4>Indledning</h4> ';
 				HTML += 		'<p>'+JST.headAndIntro[1]+'</p>';
 				HTML += 		'<div class="textOverview textOverview_TextTheme">'+
-									'<span class="textOverviewSubHeading">Tema:</span> <br/>'+JST.studentTheme+'<br/>'+
-									'<span class="textOverviewSubHeading">Temaudlægning:</span> <br/>'+JST.TextTheme+
+									'<h4>Tema</h4>'+JST.studentTheme+'<br/><br/>'+
+									'<h4>Temaudlægning</h4>'+JST.TextTheme+'<br/>'+
 								'</div>';
 				for (var i = 0; i < jsonData.numOfChoosenWords; i++) {
 					HTML += 	'<div class="textOverview textOverview_QuotesAndNotes">'+
-									'<span class="textOverviewSubHeading">Citat '+String(parseInt(i)+1)+':</span> <br/>'+
-									'&quot;<i>'+JST.textQuotes[i]+'</i>&quot;<br/>'+
-									'<span class="textOverviewSubHeading">Udlægning til citat '+String(parseInt(i)+1)+':</span> <br/>'+
+									'<h4>Citat '+String(parseInt(i)+1)+'</h4>'+
+									'&quot;<i>'+JST.textQuotes[i]+'</i>&quot; <br/><br/>'+
+									'<h4>Udlægning til citat '+String(parseInt(i)+1)+'</h4>'+
 									JST.textQuoteNotes[i]+
 								'</div>';
 					// HTML += 	(typeof(JST.textPassages[i]!=='undefined'))?'<p id="textPassages_'+i+'">'+JST.textPassages[i]+'</p>':'';
 					// HTML += 	'<span class="textOverviewSubHeading">Sætning '+String(parseInt(i)+1)+':</span> <br/>';
-					HTML += 	(i < jsonData.numOfChoosenWords-1)?'<span class="textOverviewSubHeading">Sætning '+String(parseInt(i)+1)+':</span> <br/><p id="textPassages_'+i+'">'+JST.textPassages[i]+'</p>':'';
+					HTML += 	(i < jsonData.numOfChoosenWords-1)?'<div class="textOverview"><h4>Sætning '+String(parseInt(i)+1)+'</h4> <p id="textPassages_'+i+'">'+JST.textPassages[i]+'</p></div>':'';
 				}
-				HTML += 		'<span class="textOverviewSubHeading">Afslutning:</span> <br/>';
+				HTML += 		'<h4>Afslutning</h4>';
 				HTML += 		'<p>'+JST.conclusion+'</p>';
 	HTML += 				'</div>';
 
@@ -2323,6 +2338,7 @@ function step_10_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
+	errObj.updateErrorObj("STEP 10 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -2341,7 +2357,7 @@ $( document ).on('click', "#step_10_download", function(event){
 
 	var converted = htmlDocx.asBlob(HTML);
     console.log("step_10_download - converted: " + JSON.stringify(converted));
-	saveAs(converted, 'Analyse.docx');
+	saveAs(converted, 'Min analyse.docx');
 });
 
 
@@ -2591,14 +2607,18 @@ var objectStorageClass = {
             	console.log('objectStorageClass.exist - typeof(localStorageObjData): '+typeof(localStorageObjData)+', localStorageObjData: '+JSON.stringify(localStorageObjData));
                 if (localStorageObjData.hasOwnProperty(varName)) {
 	                console.log("objectStorageClass.exist."+varName+" - TRUE ");
+	                return true;
 	            } else {
 	                console.log("objectStorageClass.exist."+varName+" - FALSE ");
+	                return false;
 	            }
             } else {
                 console.log("objectStorageClass.exist - this.localStorageObjName does NOT exist!!!");
+                return false;
             }
         } else {
             console.log("objectStorageClass.exist - LocalStorage NOT supported!");
+            return false;
         }
     },
     setTimeStamp : function(){
@@ -2683,9 +2703,45 @@ $(window).on('resize', function() {
 });
 
 $(document).ready(function() {
-	
+
 
 	returnLastStudentSession(); // This function gives the student the possibility of loading the last "session".
+
+
+	//====================================================================================
+
+	console.log("====================  objectStorageClass  ====================");
+
+	window.errSO = Object.create(objectStorageClass);	// Create a new storage object errSO
+	errSO.init('errorStorage');  // initialize the new storage object errSO
+
+	window.errObj = Object.create(errorLogClass);
+	errObj.initErrorObj(errSO, 'Bugtest af errorLogClass.');  // Use the new storage object errSO to store the error-log-info.
+	// errObj.updateErrorObj("a", 1);
+	// errObj.updateErrorObj("b", 2);
+	// errObj.updateErrorObj("c", 3);
+	console.log('printErrorObj: ' + errObj.printErrorObj());
+	console.log('dumpErrorObj: ' + errObj.dumpErrorObj());
+
+	errObj.returnUrlPerameters();
+
+	errObj.saveErrorObj();
+	console.log('loadErrorObj: ' + JSON.stringify(errObj.loadErrorObj()));
+
+	// $('body').append('<span class="testErrorObj btn btn-info">Test errorObj</span> <span class="deleteErrorObj btn btn-info">delete errorObj</span>');
+
+	$( document ).on('click', ".testErrorObj", function(event){
+		errObj.updateErrorObj("c", 3);
+		console.log('testErrorObj - loadErrorObj: ' + JSON.stringify(errObj.loadErrorObj()));
+	});
+
+	$( document ).on('click', ".deleteErrorObj", function(event){
+		errObj.deleteErrorObj();
+		console.log('deleteErrorObj - loadErrorObj: ' + JSON.stringify(errObj.loadErrorObj()));
+	});
+
+	//====================================================================================
+
 
 	// if (bootstrapBreakpointSize )
 
@@ -2752,6 +2808,275 @@ $(document).ready(function() {
 	// $('#DataInput').html(step_7_template());
 	
 });
+
+
+errorLogClass = {
+	errorObj : {timeStr: null, timeStamp: null, note: null, logArray: []},
+	errorObjStorageArray : [],   // This array is stored in loacalStorage and will contain a number of errorObj's: each errorObj is generated each time the e-learning application is reloaded.
+	localStorageObj : null,
+	initErrorObj : function (localStorageObj, note){
+		this.errorObj.timeStamp = this.setTimeStamp();
+		this.errorObj.timeStr = this.setTimeStr();
+		this.errorObj.note = note;
+		this.localStorageObj = localStorageObj;
+		this.errorObjStorageArray = (this.loadErrorObj() !== null)?this.loadErrorObj():[]; // If this.loadErrorObj() == null, then the errorObjStorageArray does not exist. 
+		this.urlCommandHandler();  // init the urlCommandHandler, eg. listen to URL commands on load.
+	},
+	saveErrorObj : function(){
+		var l = this.errorObjStorageArray.length;
+		console.log('saveErrorObj - l: ' + l);
+		if (l > 0) { // if there are at least one errorObj in errorObjStorageArray ...
+			console.log('saveErrorObj - A1 ');
+			if (this.getTimeStamp() == this.errorObjStorageArray[l-1].timeStamp) { // If the timestamps on the last errorObj match current errorObj, then they are identical... 
+				console.log('saveErrorObj - A2 ');
+				this.errorObjStorageArray[l-1] = this.errorObj;
+				console.log('saveErrorObj - this.errorObjStorageArray[l-1]: '+ JSON.stringify(this.errorObjStorageArray[l-1]));
+			} else { // 
+				this.errorObjStorageArray.push(this.errorObj);
+				console.log('saveErrorObj - A3 ');
+			}
+		} else {  // else errorObjStorageArray is empty - this is the first run...
+			console.log('saveErrorObj - A4 ');
+			this.errorObjStorageArray.push(this.errorObj);
+		}
+		this.localStorageObj.save('errorObjStorageArray', this.errorObjStorageArray);  // Save to localStorage
+		console.log('saveErrorObj - errorObjStorageArray[l-1]: ' + JSON.stringify(this.errorObjStorageArray[l-1]));
+	},
+	loadErrorObj : function(){
+		return this.localStorageObj.load('errorObjStorageArray');
+	},
+	deleteErrorObj : function(){
+		this.errorObjStorageArray = [];
+		this.localStorageObj.delete('errorObjStorageArray');
+		this.localStorageObj.save('errorObjStorageArray', this.errorObjStorageArray);  // Save to localStorage
+	},
+	updateErrorObj : function (varName, varValue) {
+		console.log('updateErrorObj - varName: '+ varName + ', varValue: '+ JSON.stringify(varValue));
+		this.errorObj.logArray.push({logNo : this.errorObj.logArray.length+1, name: varName, value: JSON.stringify(varValue)});
+		console.log('updateErrorObj - this.errorObj.logArray: '+ JSON.stringify(this.errorObj.logArray));  // <---------------- FEJLEN SES HER!!! - FEJLEN ER RETTET!! - JSON.stringify(varValue) var løsningen i linjen foroven
+		this.saveErrorObj();
+	},
+	printErrorObj : function (n) {
+		console.log('printErrorObj - errorObjStorageArray.length: '+this.errorObjStorageArray.length);
+		var arrayOfObj = (typeof(this.errorObjStorageArray[n]) !== 'undefined')? this.errorObjStorageArray[n].logArray : null;
+		arrayOfObj = (typeof(n) === 'undefined')? this.errorObj.logArray : arrayOfObj;
+		if (arrayOfObj !== null){
+			console.log('printErrorObj - n: '+n+', arrayOfObj: ' + JSON.stringify(arrayOfObj));
+			return this.printTable(arrayOfObj);
+		} else {
+			return null;
+		}
+	},
+	tableStyling: '<style type="text/css"> #eObjs .column{float: left; border: 1px solid #000; margin: 0px 2px 0px 2px; padding: 2px;} #eObjs td {border-width: 1px; padding: 2px; border-style: inset; border-color: #000;} </style>',
+	printErrorObjStorageArray : function () {
+		var l = this.errorObjStorageArray.length;
+		var HTML = this.tableStyling;
+		HTML += '<div id="eObjs">';
+		HTML += 		'<div>Number of errorObjs: '+l+'</div>';
+		for (var n in this.errorObjStorageArray){
+			console.log('printErrorObjStorageArray - timeStamp: ' + this.errorObjStorageArray[n].timeStr);
+			var t = this.errorObjStorageArray[n].timeStr.split(' ');
+			HTML += 		'<div class="column">';
+			HTML += 			'<div>'+t[4]+'</div>'+'<div>'+t[1]+' '+t[2]+'</div>'+'<b>n = '+n+'</b>';
+			HTML += 			this.printTable(this.errorObjStorageArray[n].logArray);	
+								console.log('printErrorObjStorageArray - this.errorObjStorageArray['+n+'].logArray: ' + JSON.stringify(this.errorObjStorageArray[n].logArray));
+			HTML += 		'</div>';
+		}
+		HTML += 		'<div style="clear: both;"></div>';
+		HTML += '</div>';
+		return HTML;
+	},
+	printTable : function (arrayOfObj) {  // arrayOfObj = [{},{},{},... ,{}]
+		var HTML = '<table>';
+		for (var i in arrayOfObj){
+			HTML += '<tr>';
+			for (var j in arrayOfObj[i]){
+				console.log('printTable - i: '+i+', j: ' + j);
+				HTML += '<td>'+JSON.stringify(arrayOfObj[i][j])+'</td>';
+			}
+			HTML += '</tr>';
+		}
+		HTML += '</table>';
+		return HTML;
+	},
+	dumpErrorObj : function(){
+		return JSON.stringify(this.errorObj, null, 4);
+	},
+	dumpErrorObjStorageArray : function(){
+		return JSON.stringify(this.errorObjStorageArray, null, 4);
+	},
+    setTimeStamp : function(){
+        return new Date().getTime(); 
+    },
+    getTimeStamp : function(){
+        return this.errorObj.timeStamp;
+    },
+    setTimeStr : function (){  // Converts the timeStamp to the format-example: "Wed Jan 25 2016 15:42:46 GMT+0100 (CET)"
+    	var date = new Date(this.errorObj.timeStamp);
+		return date.toString(); 
+    },
+    returnUrlPerameters : function(){
+    	this.UlrVarObj = {}; 
+	    var UrlVarStr = window.location.search.substring(1);
+	    console.log("returnUrlPerameters - UrlVarStr: " + UrlVarStr);
+	    var UrlVarPairArray = decodeURIComponent(UrlVarStr).split("&");  // decodeURIComponent handles %26" for the char "&" AND "%3D" for the char "=".
+	    console.log("returnUrlPerameters - UrlVarPairArray: " + UrlVarPairArray);
+	    for (var i in UrlVarPairArray){
+	        var UrlVarSubPairArray = UrlVarPairArray[i].split("=");  // & = %3D
+	        if (UrlVarSubPairArray.length == 2){
+	            this.UlrVarObj[UrlVarSubPairArray[0]] = UrlVarSubPairArray[1];
+	        }
+	    }
+	    console.log("returnUrlPerameters - UlrVarObj: " + JSON.stringify( this.UlrVarObj ));
+	    return this.UlrVarObj;
+	},
+	urlCommandHandler : function(){
+		this.returnUrlPerameters();
+		if (this.UlrVarObj.hasOwnProperty('command')){  
+			if (this.UlrVarObj.command == 'delete') this.deleteErrorObj();
+			if (this.UlrVarObj.command == 'print') {   // EXAMPLES: "?command=print", "?command=print&n=3"
+				var l = this.errorObjStorageArray.length;
+				var HTML = this.tableStyling;
+				HTML += '<div>Number of errorObjs: '+l+'</div>';
+				HTML += '<div id="eObjs">';
+				if (this.UlrVarObj.hasOwnProperty('n')){ // If a parameter "n" specifying the index number of the n'th errorObj of errorObjStorageArray is supplied...
+					if ((0 <= this.UlrVarObj.n) && (this.UlrVarObj.n < l)){
+						var t = this.errorObjStorageArray[this.UlrVarObj.n].timeStr.split(' ');
+						HTML += '<div>'+t[4]+'</div>'+'<div>'+t[1]+' '+t[2]+'</div>'+'<b>n = '+this.UlrVarObj.n+'</b>';
+						HTML += this.printErrorObj(this.UlrVarObj.n);
+					}
+				} else {  // else no papameter is given - then return the privious errorObj:
+					console.log("urlCommandHandler - errorObjStorageArray[l-2].timeStr: " + this.errorObjStorageArray[l-2].timeStr);
+					var t = this.errorObjStorageArray[l-2].timeStr.split(' ');
+					HTML += 	'<div>'+t[4]+'</div>'+'<div>'+t[1]+' '+t[2]+'</div>'+'<b>n = '+String(l-2)+'</b>';
+					HTML +=		this.printErrorObj(l-2); // Load the privious errorObj. Note: since it requires a new reload to load the peramerters in the URL, the l-2 step needs to be loaded.
+				}
+				HTML += 	'</div>';
+				$('body').append(HTML);
+			}
+			if (this.UlrVarObj.command == 'printAll') {
+				var HTML = this.printErrorObjStorageArray();
+				$('body').append(HTML);
+			}
+			if (this.UlrVarObj.command == 'dump'){ 
+				var l = this.errorObjStorageArray.length;
+				if (this.UlrVarObj.hasOwnProperty('n')){
+					if ((0 <= this.UlrVarObj.n) && (this.UlrVarObj.n < l)){
+						alert(JSON.stringify(this.errorObjStorageArray[this.UlrVarObj.n], null, 4));
+					}
+				} else {
+					alert(JSON.stringify(this.errorObjStorageArray[l-2], null, 4));
+				}
+			}
+			if (this.UlrVarObj.command == 'dumpAll'){alert(this.dumpErrorObjStorageArray())}
+		}
+	}
+}
+
+
+var cookieClass = {
+	setCookie : function(cookieName, cookieValue, numOfDays){
+		var d = new Date();
+	    d.setTime(d.getTime() + (numOfDays*24*60*60*1000));
+	    var expires = "expires="+d.toUTCString();
+	    document.cookie = cookieName + "=" + cookieValue + "; " + expires;
+	},
+	getCookie : function(cookieName){
+		var name = cookieName + "=";
+	    var cookieArray = document.cookie.split(';');
+	    for(var n in cookieArray) {
+	        console.log('getCookie - cookieArray['+n+']: ' + cookieArray[n]);
+	        var cArr = cookieArray[n].split('=');
+	        if (cArr[0].trim() == cookieName) {
+	        	return cArr[1].trim();
+	        }
+	    }
+	    return null;
+	},
+	deleteCookie : function(cookieName){ 
+		document.cookie = cookieName+"=;expires=Wed; 01 Jan 1970";
+	},
+	existCookie : function(cookieName){  
+		return (this.getCookie(cookieName) !== null)? true : false;
+	}
+}
+
+
+// TESTS:
+var cObj = Object.create(cookieClass);
+cObj.setCookie('testCookie1', 123, 1);
+cObj.setCookie('testCookie2', 123, 1);
+cObj.setCookie('testCookie3', 123, 1);
+console.log('getCookie - value 1: ' + cObj.getCookie('testCookie1'));
+cObj.deleteCookie('testCookie1');
+console.log('getCookie - value 2: ' + cObj.getCookie('testCookie1'));
+
+
+
+// This function returns either "true" for activation of google analytics OR "false" for deactivating google analytics.
+// Important note about cookies: 
+// Cookies cannot be used across domains, due to security reasons... see: http://stackoverflow.com/questions/3342140/cross-domain-cookies
+// Therefore a "secrete" page is needed on vucdigital.dk for handing out "kvucEteam" 	cookies to kvucEteam member when needed.
+function activateGoogleAnalytics(){ 
+	console.log('deactivateGoogleAnalytics - location.host: ' + location.host);
+	if (location.host.indexOf('www.vucdigital.dk') !== -1) {  // If the hostname is "www.vucdigital.dk"...
+		if (cookieClass.existCookie('kvucEteam')){ 		// If the cookie "kvucEteam" is set / exist...
+			return false;  // The site "www.vucdigital.dk" is visited by a member of "kvucEteam", therefore return false - eg. do not activate google analytics.
+		} else {  
+			return true;  // The site "www.vucdigital.dk" is NOT visited by a member of "kvucEteam", therefore return true - eg. activate google analytics.
+		}
+	} else { // The the hostname is not "www.vucdigital.dk", therefore this script is located on a localhost / development PC of a kvucEteam member...
+		cookieClass.setCookie('kvucEteam', 'Follow the white rabbit...');  // Set a cookie in case the kvucEteam member does not have a "kvucEteam" cookie...
+		return false; // Return false - the google analytics on the localhost / development PC needs to be deactivated...
+	} 
+}
+console.log('activateGoogleAnalytics: ' + activateGoogleAnalytics());
+console.log('getCookie - kvucEteam: ' + cookieClass.getCookie('kvucEteam'));
+
+
+function activateGoogleAnalytics2(){ 
+	
+	window.GAO = Object.create(objectStorageClass);  // GAO = Google Analytics Object
+	console.log('deactivateGoogleAnalytics2 - lGAO.exist("kvucEteam") 0: ' + GAO.exist('kvucEteam'));
+	GAO.init('kvucEteamObj');
+	console.log('deactivateGoogleAnalytics2 - lGAO.exist("kvucEteam") 1: ' + GAO.exist('kvucEteam'));
+	// GAO.save('kvucEteam', 'Follow the white rabbit...');
+
+	var kvucEteam = GAO.load('kvucEteam');
+	console.log('returnLastStudentSession - kvucEteam: ' + JSON.stringify(kvucEteam));
+	
+	if ((kvucEteam !== null) && (typeof(kvucEteam) !== 'undefined')){
+		console.log('deactivateGoogleAnalytics2 - TRUE');
+
+		GAO.delete('kvucEteam');
+		kvucEteam = GAO.load('kvucEteam');
+
+		if ((kvucEteam !== null) && (typeof(kvucEteam) !== 'undefined')){
+			console.log('deactivateGoogleAnalytics2 - XXX TRUE');
+		
+		} else {
+			console.log('deactivateGoogleAnalytics2 - XXX FALSE');
+		}
+	} else {
+		console.log('deactivateGoogleAnalytics2 - FALSE');
+		GAO.save('kvucEteam', 'Follow the white rabbit...');
+	}
+	
+	console.log('deactivateGoogleAnalytics2 - lGAO.exist("kvucEteam") 2: ' + GAO.exist('kvucEteam'));
+	console.log('deactivateGoogleAnalytics2 - location.host: ' + location.host);
+	// if (location.host.indexOf('www.vucdigital.dk') !== -1) {  // If the hostname is "www.vucdigital.dk"...
+	// 	if (cookieClass.existCookie('kvucEteam')){ 		// If the cookie "kvucEteam" is set / exist...
+	// 		return false;  // The site "www.vucdigital.dk" is visited by a member of "kvucEteam", therefore return false - eg. do not activate google analytics.
+	// 	} else {  
+	// 		return true;  // The site "www.vucdigital.dk" is NOT visited by a member of "kvucEteam", therefore return true - eg. activate google analytics.
+	// 	}
+	// } else { // The the hostname is not "www.vucdigital.dk", therefore this script is located on a localhost / development PC of a kvucEteam member...
+	// 	cookieClass.setCookie('kvucEteam', 'Follow the white rabbit...');  // Set a cookie in case the kvucEteam member does not have a "kvucEteam" cookie...
+	// 	return false; // Return false - the google analytics on the localhost / development PC needs to be deactivated...
+	// } 
+}
+console.log('activateGoogleAnalytics2: ' + activateGoogleAnalytics2());
+console.log('getCookie - kvucEteam: ' + cookieClass.getCookie('kvucEteam'));
 
 
 

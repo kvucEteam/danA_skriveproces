@@ -1,8 +1,8 @@
 {
 	"headerAndWordTemplateHeader" : "Skriv en skønlitterær analyse",
 	"texts" : [
-		{"author" : "Peter Seeberg", "title" : "Patienten", "year": "1962", "src" : "pdf/Patienten.pdf", "studentMsg" : "Din lære skal give dig en kopi af teksten.", "themes": ["Sundhed", "Identitet", "Moderne videnskab"], "textSnippet" : "<p>Da lægerne første gang stiftede bekendtskab med min sygdom, beroligede de mig meget inderligt og erklærede, at et amputeret ben ikke var noget at snakke om i vor tid, hvor proteserne jo ikke mere var en lidelse, som i træbenenes dage, men snarere en lettelse. De lovede mig, at jeg skulle komme til at gå nærmest bedre end før, idet de påstod, at iveren efter at gå igen ville tilføre mig kæmpekræfter. De fik ret. Da jeg først var kommet i gang, gik jeg bedre end nogen sinde, men længe varede det ikke, så dukkede sygdommen, som lægerne nu betegnede som den uhyre sjældne &quot;almindeligt bortfald&quot; op i det andet ben, der også måtte sættes af...</p>"},
-		{"author" : "Klaus Rifbjerg", "title" : "Det er blevet os pålagt", "year": "1960", "src" : "pdf/det_er_blevet_os_paalagt_2.pdf", "externalSrc": "https://materialeplatform.emu.dk/materialer/bogkort/86467329", "studentMsg" : "Link til materialet: ", "themes": ["En kritik af det moderne liv", "En kritik af velfærdsstaten", "Fremmedgørelse", "Kedsomhed"], "textSnippet" : "<p><br/> Det er blevet os p&aring;lagt<br/> af statistikken<br/> i et gennemsnitsliv<br/> at &aring;bne et meget stort antal<br/> d&oslash;re, konservesd&aring;ser,<br/> punge, tegneb&oslash;ger, check.konti<br/> at lukke et meget stort antal<br/> samme...</p>"}	],
+		{"author" : "Peter Seeberg", "title" : "Patienten", "year": "1962", "src" : "pdf/Patienten.pdf", "studentMsg" : "<b>Din lærer skal give dig en kopi af teksten.</b>", "themes": ["Sundhed", "Identitet", "Moderne videnskab"], "textSnippet" : "<p>&quot;Da lægerne første gang stiftede bekendtskab med min sygdom, beroligede de mig meget inderligt og erklærede, at et amputeret ben ikke var noget at snakke om i vor tid, hvor proteserne jo ikke mere var en lidelse, som i træbenenes dage, men snarere en lettelse. De lovede mig, at jeg skulle komme til at gå nærmest bedre end før, idet de påstod, at iveren efter at gå igen ville tilføre mig kæmpekræfter. De fik ret. Da jeg først var kommet i gang, gik jeg bedre end nogen sinde, men længe varede det ikke, så dukkede sygdommen, som lægerne nu betegnede som den uhyre sjældne &quot;almindeligt bortfald&quot; op i det andet ben, der også måtte sættes af...&quot;</p>"},
+		{"author" : "Klaus Rifbjerg", "title" : "Det er blevet os pålagt", "year": "1960", "src" : "pdf/det_er_blevet_os_paalagt_2.pdf", "externalSrc": "https://materialeplatform.emu.dk/materialer/bogkort/86467329", "studentMsg" : "Link til materialet: ", "themes": ["En kritik af det moderne liv", "En kritik af velfærdsstaten", "Fremmedgørelse", "Kedsomhed"], "textSnippet" : "<p>&quot;Det er blevet os p&aring;lagt<br/> af statistikken<br/> i et gennemsnitsliv<br/> at &aring;bne et meget stort antal<br/> d&oslash;re, konservesd&aring;ser,<br/> punge, tegneb&oslash;ger, check.konti<br/> at lukke et meget stort antal<br/> samme...&quot;</p>"}	],
 	"themes" : ["Tema 1", "Tema 2", "Tema 3", "Tema 4", "Tema 5", "Tema 6", "Tema 7", "Tema 8", "Tema 9", "Tema 10"],
 	"sentenceStarters_theme" : 
 		{"id":"Dropdown0", "class":"Dropdown", "selected": "0",
@@ -14,10 +14,10 @@
             ]
         }, 
     "analyticalFocus" : [
-    	{"name" : "Fortælleforhold", "description" : "<b>Fortælleforhold</b> <p>Hvem fortæller,  hvordan fortælles der, og hvorfor fortælles der på den måde?</p>"}, 
-    	{"name" : "Personkarakteristik", "description" : "<b>Personkarakteristik</b> <p>Hvem optræder, hvad får vi at vide om dem og deres handlinger, tanker og om deres forhold til omverden? </p>"},
-    	{"name" : "Komposition", "description" : "<b>Komposition</b> <p>Hvordan er teksten bygget op? Er den kronologisk eller ej? Falder den i nogle særlige afsnit, og er der en udvikling?</p>"},
-    	{"name" : "Sprog", "description" : "<b>Sprog</b> <p>Er der nogle særlige træk ved sproget, som virker vigtige i forhold til temaet? Er der et særligt billedsprog? Gentagelser? Fagsprog, slang og/eller dialekt?</p>"}    
+    	{"name" : "Fortælleforhold", "description" : "<h4>Fortælleforhold</h4> <p>Hvem fortæller,  hvordan fortælles der, og hvorfor fortælles der på den måde?</p>"}, 
+    	{"name" : "Personkarakteristik", "description" : "<h4>Personkarakteristik</h4> <p>Hvem optræder, hvad får vi at vide om dem og deres handlinger, tanker og om deres forhold til omverden? </p>"},
+    	{"name" : "Komposition", "description" : "<h4>Komposition</h4> <p>Hvordan er teksten bygget op? Er den kronologisk eller ej? Falder den i nogle særlige afsnit, og er der en udvikling?</p>"},
+    	{"name" : "Sprog", "description" : "<h4>Sprog</h4> <p>Er der nogle særlige træk ved sproget, som virker vigtige i forhold til temaet? Er der et særligt billedsprog? Gentagelser? Fagsprog, slang og/eller dialekt?</p>"}    
     ],
 	"numOfChoosenWords" : 3,
 	"sentenceStarters_quoteNote" : 
@@ -92,7 +92,7 @@
 		},{
 			"step" : 3,
 			"header" : "(step 3) - Guidet skriveproces",
-			"instruction" : "Formuler hvad dit tema handler om. Brug evt. sætningsstarterne herunder",
+			"instruction" : "Du valgte temaet &quot;???&quot;. Formuler hvad temaet handler om. Brug evt. sætningsstarterne herunder",
 			"audioFiles" : [{"name": "audio/_analyse/step_3.mp3", "type": "mpeg"}]
 		},{
 			"step" : 4,
@@ -102,17 +102,17 @@
 		},{
 			"step" : 5,
 			"header" : "(step 5) - Guidet skriveproces",
-			"instruction" : "Find og indsæt ??? citater fra teksten",
+			"instruction" : "Find ??? citater fra teksten, der understøtter dit analytiske fokus. Indsæt citaterne i tekstfelterne",
 			"audioFiles" : [{"name": "audio/_analyse/step_5.mp3", "type": "mpeg"}]
 		},{
 			"step" : 6,
 			"header" : "(step 6) - Guidet skriveproces",
-			"instruction" : "Forklar dine citater",
+			"instruction" : "Forklar dine citater, og beskriv hvorfor de er relevante for din analyse.",
 			"audioFiles" : [{"name": "audio/_analyse/step_6.mp3", "type": "mpeg"}]
 		},{
 			"step" : 7,
 			"header" : "(step 7) - Guidet skriveproces",
-			"instruction" : "Skriv en fortolkning af teksten, via ???-1 sætninger, der forbinder dine tekstafsnit",
+			"instruction" : "Formuler ???-1 sætninger, der kobler tekstens tema med de udvalgte citater, og giver dit bud på en fortolkning.",
 			"audioFiles" : [{"name": "audio/_analyse/step_7.mp3", "type": "mpeg"}]
 		},{
 			"step" : 8,
@@ -128,7 +128,7 @@
 			"step" : 10,
 			"header" : "(step 10) - Guidet skriveproces",
 			"instruction" : "Download din analyse",
-			"explanation" : "Download Word-filen med instruktion til hvordan du kan arbejde videre med din skønlitterær analyse.",
+			"explanation" : "Download Word-filen. Den indeholder en vejledning til, hvordan du kan arbejde videre med din skønlitterære analyse.",
 			"audioFiles" : [{"name": "audio/_analyse/step_10.mp3", "type": "mpeg"}]
 		}
 	]
