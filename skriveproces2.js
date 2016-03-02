@@ -1310,7 +1310,7 @@ function step_5_template(){
 	} 
 	if (typeof(TautoPlay) === 'undefined'){
 		window.TautoPlay = autoPlay;  // This remembers the state before step 4.
-		console.log("step_4_template - TautoPlay: " + TautoPlay);
+		console.log("step_5_template - TautoPlay: " + TautoPlay);
 	}
 	if (quoteCount > 0) {  // This ensures that the player does not start when the word-buttons > 0 are pressed.
 		autoPlay = false;
@@ -1380,7 +1380,7 @@ $( document ).on('click', ".TextRef", function(event){
 	var HTML = '';
 
 	if (JST.textNo < jsonData.originalNumOfTexts){
-	    HTML += '<h1>'+JT.title+'</h1> <i>Af '+JT.author+', '+JT.year+'</i> <br/><br/>';
+	    HTML += '<h2>'+JT.title+'</h2> <i>Af '+JT.author+', '+JT.year+'</i> <br/><br/>';
 	    HTML += '<h4>Tekstuddrag:</h4>'
 	    HTML += JT.textSnippet;
 	    HTML += '<br/>' + ((JT.hasOwnProperty('studentMsg'))?JT.studentMsg:'')+((JT.hasOwnProperty('externalSrc'))?'<a href="'+JT.externalSrc+'" target="_blank">'+JT.externalSrc+'</a>':'');
@@ -1565,7 +1565,7 @@ function step_6_template(){
 	} 
 	if (typeof(TautoPlay) === 'undefined'){
 		window.TautoPlay = autoPlay;  // This remembers the state before step 4.
-		console.log("step_4_template - TautoPlay: " + TautoPlay);
+		console.log("step_6_template - TautoPlay: " + TautoPlay);
 	}
 	if (quoteNoteCount > 0) {  // This ensures that the player does not start when the word-buttons > 0 are pressed.
 		autoPlay = false;
@@ -2720,13 +2720,13 @@ $(document).ready(function() {
 	// errObj.updateErrorObj("a", 1);
 	// errObj.updateErrorObj("b", 2);
 	// errObj.updateErrorObj("c", 3);
-	console.log('printErrorObj: ' + errObj.printErrorObj());
-	console.log('dumpErrorObj: ' + errObj.dumpErrorObj());
+	// console.log('printErrorObj: ' + errObj.printErrorObj());
+	// console.log('dumpErrorObj: ' + errObj.dumpErrorObj());
 
-	errObj.returnUrlPerameters();
+	// errObj.returnUrlPerameters();
 
-	errObj.saveErrorObj();
-	console.log('loadErrorObj: ' + JSON.stringify(errObj.loadErrorObj()));
+	// errObj.saveErrorObj();
+	// console.log('loadErrorObj: ' + JSON.stringify(errObj.loadErrorObj()));
 
 	// $('body').append('<span class="testErrorObj btn btn-info">Test errorObj</span> <span class="deleteErrorObj btn btn-info">delete errorObj</span>');
 
@@ -2892,7 +2892,8 @@ errorLogClass = {
 			HTML += '<tr>';
 			for (var j in arrayOfObj[i]){
 				console.log('printTable - i: '+i+', j: ' + j);
-				HTML += '<td>'+JSON.stringify(arrayOfObj[i][j])+'</td>';
+				// HTML += '<td>'+JSON.stringify(arrayOfObj[i][j])+'</td>';
+				HTML += '<td>'+arrayOfObj[i][j]+'</td>';  // <--- There is no need for JSON.stringify() here, if it is added when the variable is stored in updateErrorObj
 			}
 			HTML += '</tr>';
 		}
@@ -2974,109 +2975,7 @@ errorLogClass = {
 }
 
 
-var cookieClass = {
-	setCookie : function(cookieName, cookieValue, numOfDays){
-		var d = new Date();
-	    d.setTime(d.getTime() + (numOfDays*24*60*60*1000));
-	    var expires = "expires="+d.toUTCString();
-	    document.cookie = cookieName + "=" + cookieValue + "; " + expires;
-	},
-	getCookie : function(cookieName){
-		var name = cookieName + "=";
-	    var cookieArray = document.cookie.split(';');
-	    for(var n in cookieArray) {
-	        console.log('getCookie - cookieArray['+n+']: ' + cookieArray[n]);
-	        var cArr = cookieArray[n].split('=');
-	        if (cArr[0].trim() == cookieName) {
-	        	return cArr[1].trim();
-	        }
-	    }
-	    return null;
-	},
-	deleteCookie : function(cookieName){ 
-		document.cookie = cookieName+"=;expires=Wed; 01 Jan 1970";
-	},
-	existCookie : function(cookieName){  
-		return (this.getCookie(cookieName) !== null)? true : false;
-	}
-}
 
-
-// TESTS:
-var cObj = Object.create(cookieClass);
-cObj.setCookie('testCookie1', 123, 1);
-cObj.setCookie('testCookie2', 123, 1);
-cObj.setCookie('testCookie3', 123, 1);
-console.log('getCookie - value 1: ' + cObj.getCookie('testCookie1'));
-cObj.deleteCookie('testCookie1');
-console.log('getCookie - value 2: ' + cObj.getCookie('testCookie1'));
-
-
-
-// This function returns either "true" for activation of google analytics OR "false" for deactivating google analytics.
-// Important note about cookies: 
-// Cookies cannot be used across domains, due to security reasons... see: http://stackoverflow.com/questions/3342140/cross-domain-cookies
-// Therefore a "secrete" page is needed on vucdigital.dk for handing out "kvucEteam" 	cookies to kvucEteam member when needed.
-function activateGoogleAnalytics(){ 
-	console.log('deactivateGoogleAnalytics - location.host: ' + location.host);
-	if (location.host.indexOf('www.vucdigital.dk') !== -1) {  // If the hostname is "www.vucdigital.dk"...
-		if (cookieClass.existCookie('kvucEteam')){ 		// If the cookie "kvucEteam" is set / exist...
-			return false;  // The site "www.vucdigital.dk" is visited by a member of "kvucEteam", therefore return false - eg. do not activate google analytics.
-		} else {  
-			return true;  // The site "www.vucdigital.dk" is NOT visited by a member of "kvucEteam", therefore return true - eg. activate google analytics.
-		}
-	} else { // The the hostname is not "www.vucdigital.dk", therefore this script is located on a localhost / development PC of a kvucEteam member...
-		cookieClass.setCookie('kvucEteam', 'Follow the white rabbit...');  // Set a cookie in case the kvucEteam member does not have a "kvucEteam" cookie...
-		return false; // Return false - the google analytics on the localhost / development PC needs to be deactivated...
-	} 
-}
-console.log('activateGoogleAnalytics: ' + activateGoogleAnalytics());
-console.log('getCookie - kvucEteam: ' + cookieClass.getCookie('kvucEteam'));
-
-
-function activateGoogleAnalytics2(){ 
-	
-	window.GAO = Object.create(objectStorageClass);  // GAO = Google Analytics Object
-	console.log('deactivateGoogleAnalytics2 - lGAO.exist("kvucEteam") 0: ' + GAO.exist('kvucEteam'));
-	GAO.init('kvucEteamObj');
-	console.log('deactivateGoogleAnalytics2 - lGAO.exist("kvucEteam") 1: ' + GAO.exist('kvucEteam'));
-	// GAO.save('kvucEteam', 'Follow the white rabbit...');
-
-	var kvucEteam = GAO.load('kvucEteam');
-	console.log('returnLastStudentSession - kvucEteam: ' + JSON.stringify(kvucEteam));
-	
-	if ((kvucEteam !== null) && (typeof(kvucEteam) !== 'undefined')){
-		console.log('deactivateGoogleAnalytics2 - TRUE');
-
-		GAO.delete('kvucEteam');
-		kvucEteam = GAO.load('kvucEteam');
-
-		if ((kvucEteam !== null) && (typeof(kvucEteam) !== 'undefined')){
-			console.log('deactivateGoogleAnalytics2 - XXX TRUE');
-		
-		} else {
-			console.log('deactivateGoogleAnalytics2 - XXX FALSE');
-		}
-	} else {
-		console.log('deactivateGoogleAnalytics2 - FALSE');
-		GAO.save('kvucEteam', 'Follow the white rabbit...');
-	}
-	
-	console.log('deactivateGoogleAnalytics2 - lGAO.exist("kvucEteam") 2: ' + GAO.exist('kvucEteam'));
-	console.log('deactivateGoogleAnalytics2 - location.host: ' + location.host);
-	// if (location.host.indexOf('www.vucdigital.dk') !== -1) {  // If the hostname is "www.vucdigital.dk"...
-	// 	if (cookieClass.existCookie('kvucEteam')){ 		// If the cookie "kvucEteam" is set / exist...
-	// 		return false;  // The site "www.vucdigital.dk" is visited by a member of "kvucEteam", therefore return false - eg. do not activate google analytics.
-	// 	} else {  
-	// 		return true;  // The site "www.vucdigital.dk" is NOT visited by a member of "kvucEteam", therefore return true - eg. activate google analytics.
-	// 	}
-	// } else { // The the hostname is not "www.vucdigital.dk", therefore this script is located on a localhost / development PC of a kvucEteam member...
-	// 	cookieClass.setCookie('kvucEteam', 'Follow the white rabbit...');  // Set a cookie in case the kvucEteam member does not have a "kvucEteam" cookie...
-	// 	return false; // Return false - the google analytics on the localhost / development PC needs to be deactivated...
-	// } 
-}
-console.log('activateGoogleAnalytics2: ' + activateGoogleAnalytics2());
-console.log('getCookie - kvucEteam: ' + cookieClass.getCookie('kvucEteam'));
 
 
 

@@ -204,6 +204,22 @@ function returnInputBoxes3(numOfBoxes, Class, placeholderText){
 }
 
 
+function returnInputBoxes4(numOfBoxes, Class, savedValues, placeholderText){
+	var HTML = '';
+	for (var i = 0; i < numOfBoxes; i++) {
+		HTML += '<span class="input-group">';
+		// HTML += 	'<span class="input-group-addon" id="sizing-addon2">@</span>';
+		if (typeof(placeholderText) == 'string')
+			// HTML += 	'<input type="text" class="'+Class+' form-control" placeholder="'+placeholderText+'" aria-describedby="sizing-addon2">';                               // 16-02-2016        
+			HTML += 	'<input type="text" class="'+Class+' form-control"'+((savedValues!=='')?' value="'+savedValues+'"':'')+' placeholder="'+placeholderText+'" aria-describedby="sizing-addon2">';   // 16-02-2016
+		if ((Array.isArray(savedValues)) && (savedValues.length == numOfBoxes) && (Array.isArray(placeholderText)) && (placeholderText.length == numOfBoxes))
+			HTML += 	'<input type="text" class="'+Class+' form-control"'+((savedValues[i]!=='')?' value="'+savedValues[i]+'"':'')+' placeholder="'+placeholderText[i]+'" aria-describedby="sizing-addon2">';
+		HTML += '</span>';
+	};
+	return HTML;
+}
+
+
 function hasUniqueElements(Tarray){
 	for (var i in Tarray){
 		for (var j in Tarray){
@@ -380,7 +396,7 @@ function returnLastStudentSession() {
 		console.log('returnLastStudentSession - getTimeStamp: ' + osc.getTimeStamp());
 	// if (TjsonData !== null){
 		var HTML = '';
-		HTML += 'Du har lavet denne øvelse før, og indtastet data i øvelsen.';
+		HTML += '<h2>OBS</h2> Du har lavet denne øvelse før, og indtastet data i øvelsen.';
 		HTML += '<div> <span id="objectStorageClass_yes" class="objectStorageClass btn btn-info">Jeg ønsker at fortsætte hvor jeg slap</span> <span id="objectStorageClass_no" class="objectStorageClass btn btn-info">Jeg ønsker starte forfra</span> </div>';
 		UserMsgBox("body", HTML);
 
@@ -663,7 +679,7 @@ $( document ).on('click', "#step_1_goOn", function(event){
 		 	$('#DataInput').html(step_2_template());
 		 	setJsAudioEventLitsner();
 		} else {
-			UserMsgBox("body", "Du skal vælge et emne, eller skrive et valfrit emne, før du kan gå videre!");
+			UserMsgBox("body", "<h2>OBS</h2> Du skal vælge et emne, eller skrive et valfrit emne, før du kan gå videre!");
 		}
 	// }
 });
@@ -775,7 +791,7 @@ $( document ).on('click', "#step_2_goOn", function(event){
 		$('#DataInput').html(step_3_template());
 		setJsAudioEventLitsner();
 	} else {
-		UserMsgBox("body", 'Du skal skrive mindst '+jsonData.numOfChoosenWords+' ord før du kan gå videre. Du har kun skrevet '+subjectTextsArray.length+' ord.');
+		UserMsgBox("body", '<h2>OBS</h2> Du skal skrive mindst '+jsonData.numOfChoosenWords+' ord før du kan gå videre. Du har kun skrevet '+subjectTextsArray.length+' ord.');
 	}
 
 });
@@ -865,7 +881,7 @@ $( document ).on('click', "#step_3_goOn", function(event){
 		$('#DataInput').html(step_4_template());
 		setJsAudioEventLitsner();
 	} else {
-		UserMsgBox("body", 'Du skal vælge '+jsonData.numOfChoosenWords+' ord før du kan gå videre. Du har valgt ' + numOfWords + ' ord.');
+		UserMsgBox("body", '<h2>OBS</h2> Du skal vælge '+jsonData.numOfChoosenWords+' ord før du kan gå videre. Du har valgt ' + numOfWords + ' ord.');
 	}
 });
 
@@ -1033,12 +1049,12 @@ $( document ).on('click', "#step_4_goOn", function(event){
 				setJsAudioEventLitsner();
 				makeSortable();
 			} else {
-				UserMsgBox("body", 'Du skal skrive noget tekst i alle tekstboksene til hver ord - du mangler at skrive tekst til '+returnMissingWords(btnPrimaryText)+'. Tryk på dine ord og skriv sætninger til dem.');
+				UserMsgBox("body", '<h2>OBS</h2> Du skal skrive noget tekst i alle tekstboksene til hver ord - du mangler at skrive tekst til '+returnMissingWords(btnPrimaryText)+'. Tryk på dine ord og skriv sætninger til dem.');
 			}
 		// }
 
 	} else {
-		UserMsgBox("body", "Du skal skrive noget tekst i tekstboksen - brug evt en sætningsstarter fra dropdownen.");
+		UserMsgBox("body", "<h2>OBS</h2> Du skal skrive noget tekst i tekstboksen - brug evt en sætningsstarter fra dropdownen.");
 	}
 
 });
@@ -1186,6 +1202,10 @@ $( document ).on('click', "#step_4b_goBack", function(event){
 });
 
 $( document ).on('click', "#step_4b_goOn", function(event){
+	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
+	if (!JSN.hasOwnProperty('subjectTexts_sentences_2')){  // Add subjectTexts_sentences_2 in case the sentences are not sorted.
+		updateSubjectSentenceOrder();
+	}
 	$('#DataInput').html(step_5_template());
 	setJsAudioEventLitsner();
 });
@@ -1258,7 +1278,7 @@ $( document ).on('click', "#step_5_goOn", function(event){
 		$('#DataInput').html(step_6_template());
 		setJsAudioEventLitsner();
 	} else {
-		UserMsgBox("body", 'Du skal skrive en indledning før du kan gå videre. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
+		UserMsgBox("body", '<h2>OBS</h2> Du skal skrive en indledning før du kan gå videre. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
 	}
 	console.log("step_5_goOn - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
 });
@@ -1327,7 +1347,7 @@ $( document ).on('click', "#step_6_goOn", function(event){
 		$('#DataInput').html(step_6b_template());
 		setJsAudioEventLitsner();
 	}else {
-		UserMsgBox("body", 'Du skal skrive en afslutning før du kan gå videre. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
+		UserMsgBox("body", '<h2>OBS</h2> Du skal skrive en afslutning før du kan gå videre. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
 	}
 	console.log("step_6_goOn - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
 });
@@ -1355,7 +1375,8 @@ function step_6b_template(){
 
 	// HTML += 			returnInputBoxes3(1, 'studentSubjectTitel', ' Skriv din overskrift her');
 			var studentSubjectTitel = (JSN.hasOwnProperty('studentSubjectTitel'))? JSN.studentSubjectTitel : 'Skriv din overskrift her';
-	HTML += 			returnInputBoxes3(1, 'studentSubjectTitel', studentSubjectTitel);
+	// HTML += 			returnInputBoxes3(1, 'studentSubjectTitel', studentSubjectTitel);
+	HTML +=				returnInputBoxes4(1, 'studentSubjectTitel', (JSN.hasOwnProperty('studentSubjectTitel') )?JSN.studentSubjectTitel:'', 'Skriv din overskrift her...');
 	
 	HTML += 			'<div class="stepNav">';
 	HTML += 				'<span id="step_6b_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
@@ -1385,7 +1406,7 @@ $( document ).on('click', "#step_6b_goOn", function(event){
 		$('#DataInput').html(step_7_template());
 		// setJsAudioEventLitsner();
 	}else {
-		UserMsgBox("body", 'Du skal skrive en overskrift før du kan gå videre.');
+		UserMsgBox("body", '<h2>OBS</h2> Du skal skrive en overskrift før du kan gå videre.');
 	}
 	console.log("step_6b_goOn - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
 });
@@ -1415,10 +1436,13 @@ function step_7_template(){
 	HTML += 			'<div class="TextHolder">';
 	// HTML += 				'<h3>Titel står her</h3><p>Alle kan blive enige om at det er et problem at vi nu har opbygget så meget af verdens energiforbrug på atomkraft, da det har så stor risiko for fremtiden knyttet til sig.</p><p>Hvis nogen skulle være i tvivl om at det er et problem at vi får så meget energi fra atomkraft, så bør man tænke på ulykken i Tjernobyl.</p><p>Mit hovedsynspunkt er at det er uforsvarligt overfor fremtidens børn at bygge et energiforbrug op der har så ukendte konsekvenser for fremtiden.</p><p>På den ene side kan man være for atomkraft, da der reelt er mange fordele ved at skrue op for brugen af atomkraft og derved mindske forbruget af fossile brændstoffer, indtil vi har bedre og renere energikilder i det omfang det kræves til den voksende verdensbefolkning. På den anden siden kan man være i mod atomkraft da man med rette kan hævde at vi reelt ikke hvad der vil ske med det opbevarede atomaffald.</p><p>Afslutningsvis kan man sige at fremtiden nok vil afgøre atomkrafts skæbne. Enten vil der ske en voldsomulykke der gør at menneskeheden dropper det, eller så vil nye energikilder vinde hastigt frem.</p>';
 	HTML += 				'<h3>'+JSN.studentSubjectTitel[0]+'</h3>';
+	HTML += 				'<h4>Indledning</h4> ';
 	HTML += 				'<p>'+JSN.sentenceStarters_begin_text+'</p>';
 			for (var n in JSN.subjectTexts_sentences_2){
+				HTML +=     '<h4>Sætning '+String(parseInt(n)+1)+'</h4>';
 				HTML += 	'<p>'+JSN.subjectTexts_sentences_2[n]+'</p>';
 			}
+	HTML += 				'<h4>Afslutning</h4>';
 	HTML += 				'<p>'+JSN.sentenceStarters_end_text+'</p>';
 
 	HTML += 			'</div>';
