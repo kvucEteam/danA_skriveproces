@@ -76,57 +76,57 @@
 	"steps" : [
 		{
 			"step" : 0,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 0) - Guidet skriveproces",
 			"img" : {"src" : "img/start_img_analyse.jpg", "alt" : "Billede af XXX"},
 			"audioFiles" : [{"name": "audio/_analyse/step_0.mp3", "type": "mpeg"}]
 		},{
 			"step" : 1,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 1) - Guidet skriveproces",
 			"instruction" : "Vælg den tekst du vil arbejde med (klik og vælg)",
 			"audioFiles" : [{"name": "audio/_analyse/step_1.mp3", "type": "mpeg"}]
 		},{
 			"step" : 2,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 2) - Guidet skriveproces",
 			"instruction" : "Vælg et tema til teksten: ",
 			"audioFiles" : [{"name": "audio/_analyse/step_2.mp3", "type": "mpeg"}]
 		},{
 			"step" : 3,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 3) - Guidet skriveproces",
 			"instruction" : "Du valgte temaet &quot;???&quot;. Formuler hvad temaet handler om. Brug evt. sætningsstarterne herunder",
 			"audioFiles" : [{"name": "audio/_analyse/step_3.mp3", "type": "mpeg"}]
 		},{
 			"step" : 4,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 4) - Guidet skriveproces",
 			"instruction" : "Vælg analytisk fokuspunkt",
 			"audioFiles" : [{"name": "audio/_analyse/step_4.mp3", "type": "mpeg"}]
 		},{
 			"step" : 5,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 5) - Guidet skriveproces",
 			"instruction" : "Find ??? citater fra teksten, der understøtter dit analytiske fokus. Indsæt citaterne i tekstfelterne",
 			"audioFiles" : [{"name": "audio/_analyse/step_5.mp3", "type": "mpeg"}]
 		},{
 			"step" : 6,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 6) - Guidet skriveproces",
 			"instruction" : "Forklar dine citater, og beskriv hvorfor de er relevante for din analyse.",
 			"audioFiles" : [{"name": "audio/_analyse/step_6.mp3", "type": "mpeg"}]
 		},{
 			"step" : 7,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 7) - Guidet skriveproces",
 			"instruction" : "Formulér ???-1 sætninger, der kobler tekstens tema med de udvalgte citater, og giver dit bud på en fortolkning.",
 			"audioFiles" : [{"name": "audio/_analyse/step_7.mp3", "type": "mpeg"}]
 		},{
 			"step" : 8,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 8) - Guidet skriveproces",
 			"instruction" : "Skriv et par afsluttende sætninger",
 			"audioFiles" : [{"name": "audio/_analyse/step_8.mp3", "type": "mpeg"}]
 		},{
 			"step" : 9,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 9) - Guidet skriveproces",
 			"instruction" : "Skriv en overskrift og indledning til din analyse",
 			"audioFiles" : [{"name": "audio/_analyse/step_9.mp3", "type": "mpeg"}]
 		},{
 			"step" : 10,
-			"header" : "Guidet skriveproces",
+			"header" : "(step 10) - Guidet skriveproces",
 			"instruction" : "Download din analyse",
 			"explanation" : "Download Word-filen. Den indeholder en vejledning til, hvordan du kan arbejde videre med din skønlitterære analyse.",
 			"audioFiles" : [{"name": "audio/_analyse/step_10.mp3", "type": "mpeg"}]
