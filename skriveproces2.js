@@ -2300,10 +2300,10 @@ function step_10_template(){
 	HTML += 			'<div id="TextAndQuoteContainer">';
 			
 	// HTML +=				'<span class="Texts btn btn-info" >'+jsonData.texts[JST.textNo].author+': "'+jsonData.texts[JST.textNo].title+'", '+jsonData.texts[JST.textNo].year+'</span>';
-	
 
 	HTML += 				'<div id="textOverviewContainer" >';
 				HTML += 		'<h3>'+JST.headAndIntro[0]+'</h3>';
+				HTML +=			'<p>En analyse af '+jsonData.texts[JST.textNo].author+"'s &quot;"+jsonData.texts[JST.textNo].title+'&quot; fra '+jsonData.texts[JST.textNo].year+'.<p>';
 				HTML += 		'<h4>Indledning</h4> ';
 				HTML += 		'<p>'+JST.headAndIntro[1]+'</p>';
 				HTML += 		'<div class="textOverview textOverview_TextTheme">'+
@@ -2387,7 +2387,8 @@ function wordTemplate() {
 	HTML += 	'<body>';
 	HTML += 		'<h1>'+JST.headAndIntro[0]+'</h1>';
 	// HTML += 		'<hr/>';
-	HTML += 		'<p><b>Indledning:</b> '+JST.headAndIntro[1]+'</p><br/>';
+	HTML +=			'<p>En analyse af '+jsonData.texts[JST.textNo].author+"'s &quot;"+jsonData.texts[JST.textNo].title+'&quot; fra '+jsonData.texts[JST.textNo].year+'.<p>';
+	HTML += 		'<p><b>Indledning:</b> '+JST.headAndIntro[1]+'</p>';
 
 	// HTML += 			'<h3>Din valgte tekst: </h3>';
 	// HTML += 			'<h4>"'+text.title+'" af '+text.author+', '+text.year+'</h4>';
