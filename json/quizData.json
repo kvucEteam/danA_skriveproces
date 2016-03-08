@@ -6,7 +6,7 @@
 		{"id":"Dropdown1", "class":"Dropdown", "selected": "0",
             "options":[
             	{"value":"Sætningsstartere:"},
-                {"value":"Hvis nogen skulle være i tvivl om at det er et problem at ..., så bør man tænke på at ..."},
+                {"value":"Hvis nogen skulle være i tvivl om, at det er et problem at ..., så bør man tænke på at ..."},
                 {"value":"Debatten handler om ..."},
                 {"value":"For det første er det vigtigt at huske på ..."},
                 {"value":"Mange mener at ..., men man kan også argumentere for ..."},
@@ -19,7 +19,7 @@
 		{"id":"Dropdown2", "class":"Dropdown", "selected": "0",
             "options":[
             	{"value":"Sætningsstartere:"},
-                {"value":"Alle kan blive enige om at det er et problem at ... (generel vinkel)"},
+                {"value":"Alle kan blive enige om, at det er et problem at ... (generel vinkel)"},
                 {"value":"Det er et velkendt standpunkt i debatten om ..., at .... (generel vinkel)"},
                 {"value":"Sidst jeg var i supermarkedet overhørte jeg en samtale omkring ..., hvilket fik mig til at tænke på, at det er et stort problem at vi .... (konkret vinkel)"}
             ]
@@ -28,9 +28,9 @@
 		{"id":"Dropdown3", "class":"Dropdown", "selected": "0",
             "options":[
             	{"value":"Sætningsstartere:"},
-                {"value":"Afslutningsvis kan man sige at ..."},
-                {"value":"Når alt kommer til alt er der meget som taler for at ..."},
-                {"value":"Til sidst vil jeg bare sige at jeg synes at det er totalt for dårligt at ..."}
+                {"value":"Afslutningsvis kan man sige at, ..."},
+                {"value":"Når alt kommer til alt, er der meget som taler for at ..."},
+                {"value":"Til sidst vil jeg bare sige, at jeg synes at det er totalt for dårligt, at ..."}
             ]
         },
 	"steps" : [
@@ -83,7 +83,7 @@
 			"step" : 7,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Her er dine 5 sætninger som du skal arbejde videre med.",
-			"explanation" : "Download Word-filen med instruktion til hvordan du kan arbejde videre med din debatartikel.",
+			"explanation" : "Download Word-filen med instruktion, til hvordan du kan arbejde videre med din debatartikel.",
 			"audioFiles" : [{"name": "audio/step_7.mp3", "type": "mpeg"}]
 		}
 	]
