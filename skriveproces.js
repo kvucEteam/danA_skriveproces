@@ -1260,7 +1260,7 @@ $(document).on('change', '#Dropdown2', function(){
 	var selectedText = $('#Dropdown2').val();
 	console.log("Dropdown1 - selectedText: " + selectedText);
 	$('#textInput2').val(selectedText);
-	jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum].JSN.sentenceStarters_begin_text = textInputText;
+	jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum].sentenceStarters_begin_text = selectedText;
 });
 
 $( document ).on('click', "#step_5_goBack", function(event){
@@ -1330,7 +1330,7 @@ $(document).on('change', '#Dropdown3', function(){
 	var selectedText = $('#Dropdown3').val();
 	console.log("Dropdown3 - selectedText: " + selectedText);
 	$('#textInput3').text(selectedText);
-	jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum].JSN.sentenceStarters_end_text = textInputText;
+	jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum].sentenceStarters_end_text = selectedText;
 });
 
 $( document ).on('click', "#step_6_goBack", function(event){
