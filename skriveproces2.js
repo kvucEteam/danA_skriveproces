@@ -472,7 +472,7 @@ function returnLastStudentSession() {
 		console.log('returnLastStudentSession - getTimeStamp: ' + osc.getTimeStamp());
 	// if (TjsonData !== null){
 		var HTML = '';
-		HTML += '<h2>OBS</h2> Du har lavet denne øvelse før, og indtastet data i øvelsen.';
+		HTML += '<h4>OBS</h4> Du har lavet denne øvelse før, og indtastet data i øvelsen.';
 		HTML += '<div> <span id="objectStorageClass_yes" class="objectStorageClass btn btn-info">Jeg ønsker at fortsætte hvor jeg slap</span> <span id="objectStorageClass_no" class="objectStorageClass btn btn-info">Jeg ønsker starte forfra</span> </div>';
 		UserMsgBox("body", HTML);
 
@@ -877,7 +877,7 @@ $( document ).on('click', "#step_1_goOn", function(event){
 	// if ((typeof(studentTextPressed) !== "undefined") && (studentTextPressed == true) || (typeof(jsonData.selectedTextIndexNum) !== "undefined")){
 	if (!jsonData.hasOwnProperty("selectedTextIndexNum") && !studentHasEnteredData) {
 		error_noData = true;
-		UserMsgBox("body", "<h2>OBS</h2> Du skal vælge en tekst, eller skrive titlen på en tekst, før du kan gå videre!");
+		UserMsgBox("body", "<h4>OBS</h4> Du skal vælge en tekst, eller skrive titlen på en tekst, før du kan gå videre!");
 	}
 	
 	if (studentHasEnteredData && !studentDataIsComplete) { 
@@ -886,14 +886,14 @@ $( document ).on('click', "#step_1_goOn", function(event){
 			error_notEnoughstudentData = true;
 			// var HTML = '';
 			// if ((Text_title.length == 0) || (Text_author.length == 0)) {
-				HTML += '<h2>OBS</h2> Du skal skrive '+((Text_title.length == 0)?'en titel':'')+(((Text_title.length == 0) && (Text_author.length == 0))?' og ':'')+((Text_author.length == 0)?'en forfatter':'')+'. ';
+				HTML += '<h4>OBS</h4> Du skal skrive '+((Text_title.length == 0)?'en titel':'')+(((Text_title.length == 0) && (Text_author.length == 0))?' og ':'')+((Text_author.length == 0)?'en forfatter':'')+'. ';
 			// }
 		}
 
 		// if ((Text_title == '') || (Text_title.match(/^\d{4}$/).length != 1)){
 		if (!boolRes){
 			error_notEnoughstudentData = true;
-			HTML += ((HTML == '')?'<h2>OBS</h2>':'') + ' Året skal være et årstal bestående af 4 tal.';
+			HTML += ((HTML == '')?'<h4>OBS</h4>':'') + ' Året skal være et årstal bestående af 4 tal.';
 		}
 
 		if (error_notEnoughstudentData){
@@ -1080,7 +1080,7 @@ $( document ).on('click', "#step_2_goOn", function(event){
 	 	setJsAudioEventLitsner();
 	 	// $("#textInputTheme").focus();  // Sets the focus in the textarea when the template loades.
 	} else {
-		UserMsgBox("body", "<h2>OBS</h2> Du skal vælge et tema, eller skrive et valfrit tema, før du kan gå videre!");
+		UserMsgBox("body", "<h4>OBS</h4> Du skal vælge et tema, eller skrive et valfrit tema, før du kan gå videre!");
 	}
 });
 
@@ -1173,7 +1173,7 @@ $( document ).on('click', "#step_3_goOn", function(event){
 		setJsAudioEventLitsner();
 		
 	} else {
-		UserMsgBox("body", '<h2>OBS</h2> Du skal formulere hvad dit tema handler om i tekstboksen. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
+		UserMsgBox("body", '<h4>OBS</h4> Du skal formulere hvad dit tema handler om i tekstboksen. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
 	}
 });
 
@@ -1276,7 +1276,7 @@ $( document ).on('click', "#step_4_goOn", function(event){
 	 	setJsAudioEventLitsner();
 	 	// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 	} else {
-		UserMsgBox("body", "<h2>OBS</h2> Du skal vælge et analytisk fokuspunkt før du kan gå videre!");
+		UserMsgBox("body", "<h4>OBS</h4> Du skal vælge et analytisk fokuspunkt før du kan gå videre!");
 	}
 });
 
@@ -1485,12 +1485,12 @@ $( document ).on('click', "#step_5_goOn", function(event){
 				// $(".textInputQuoteNote").focus();  // Sets the focus in the textarea when the template loades.
 				// makeSortable();
 			} else {
-				UserMsgBox("body", '<h2>OBS</h2>Du skal skrive citater i alle tekstboksene. Du mangler at skrive citat til '+returnMissingElements('textQuotes', 'Citat')+'. <br/> <br/> Tryk på citatknapperne og skriv sætninger til dem.');
+				UserMsgBox("body", '<h4>OBS</h4>Du skal skrive citater i alle tekstboksene. Du mangler at skrive citat til '+returnMissingElements('textQuotes', 'Citat')+'. <br/> <br/> Tryk på citatknapperne og skriv sætninger til dem.');
 			}
 		// }
 
 	} else {
-		UserMsgBox("body", "<h2>OBS</h2> Du skal skrive citater i tekstboksene før du kan gå videre!");
+		UserMsgBox("body", "<h4>OBS</h4> Du skal skrive citater i tekstboksene før du kan gå videre!");
 	}
 
 });
@@ -1731,12 +1731,12 @@ $( document ).on('click', "#step_6_goOn", function(event){
 				// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 				// makeSortable();
 			} else {
-				UserMsgBox("body", '<h2>OBS</h2> Du skal skrive en udlægning af alle citaterne i tekstboksene - du mangler at skrive en udlægning til '+returnMissingElements('textQuoteNotes', 'Udlægning')+'. Tryk på udlægningsknapperne og skriv udlægninger til citaterne.');
+				UserMsgBox("body", '<h4>OBS</h4> Du skal skrive en udlægning af alle citaterne i tekstboksene - du mangler at skrive en udlægning til '+returnMissingElements('textQuoteNotes', 'Udlægning')+'. Tryk på udlægningsknapperne og skriv udlægninger til citaterne.');
 			}
 		// }
 
 	} else {
-		UserMsgBox("body", "<h2>OBS</h2> Du skal skrive udlægninger til citaterne i tekstboksene før du kan gå videre!");
+		UserMsgBox("body", "<h4>OBS</h4> Du skal skrive udlægninger til citaterne i tekstboksene før du kan gå videre!");
 	}
 
 });
@@ -1950,12 +1950,12 @@ $( document ).on('click', "#step_7_goOn", function(event){
 				// $("#textInputConclusion").focus();  // Sets the focus in the textarea when the template loades.
 				// makeSortable();
 			} else {
-				UserMsgBox("body", '<h2>OBS</h2> Du skal skrive sætninger i tekstboksene der forbinder dine tekstafsnit - du mangler at skrive tekst til '+returnMissingElements('textPassages', 'sætning')+'. Tryk på sætningsknapperne og skriv tekst i tekstboksene.');
+				UserMsgBox("body", '<h4>OBS</h4> Du skal skrive sætninger i tekstboksene der forbinder dine tekstafsnit - du mangler at skrive tekst til '+returnMissingElements('textPassages', 'sætning')+'. Tryk på sætningsknapperne og skriv tekst i tekstboksene.');
 			}
 		// }
 
 	} else {
-		UserMsgBox("body", "<h2>OBS</h2> Du skal skrive sætninger i tekstboksene før du kan gå videre!");
+		UserMsgBox("body", "<h4>OBS</h4> Du skal skrive sætninger i tekstboksene før du kan gå videre!");
 	}
 
 });
@@ -2046,7 +2046,7 @@ $( document ).on('click', "#step_8_goOn", function(event){
 		// $(".headerField").focus();  // Sets the focus in the textarea when the template loades.
 		
 	} else {
-		UserMsgBox("body", '<h2>OBS</h2> Du skal du skrive et par afsluttende sætninger, der kort og præcist konkluderer, hvad du har fundet ud af. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til formulering af dine sætninger.');
+		UserMsgBox("body", '<h4>OBS</h4> Du skal du skrive et par afsluttende sætninger, der kort og præcist konkluderer, hvad du har fundet ud af. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til formulering af dine sætninger.');
 	}
 });
 
@@ -2255,7 +2255,7 @@ $( document ).on('click', "#step_9_goOn", function(event){
 				// setJsAudioEventLitsner();
 				// makeSortable();
 			} else {
-				UserMsgBox("body", '<h2>OBS</h2> Du skal en overskrift og indledning til din analyse - du mangler at skrive tekst til '+returnMissingElements('headAndIntro', ["overskriften", "indledningen"]));
+				UserMsgBox("body", '<h4>OBS</h4> Du skal en overskrift og indledning til din analyse - du mangler at skrive tekst til '+returnMissingElements('headAndIntro', ["overskriften", "indledningen"]));
 			}
 		// }
 

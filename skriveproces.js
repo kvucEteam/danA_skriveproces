@@ -396,7 +396,7 @@ function returnLastStudentSession() {
 		console.log('returnLastStudentSession - getTimeStamp: ' + osc.getTimeStamp());
 	// if (TjsonData !== null){
 		var HTML = '';
-		HTML += '<h2>OBS</h2> Du har lavet denne øvelse før, og indtastet data i øvelsen.';
+		HTML += '<h4>OBS</h4> Du har lavet denne øvelse før, og indtastet data i øvelsen.';
 		HTML += '<div> <span id="objectStorageClass_yes" class="objectStorageClass btn btn-info">Jeg ønsker at fortsætte hvor jeg slap</span> <span id="objectStorageClass_no" class="objectStorageClass btn btn-info">Jeg ønsker starte forfra</span> </div>';
 		UserMsgBox("body", HTML);
 
@@ -679,7 +679,7 @@ $( document ).on('click', "#step_1_goOn", function(event){
 		 	$('#DataInput').html(step_2_template());
 		 	setJsAudioEventLitsner();
 		} else {
-			UserMsgBox("body", "<h2>OBS</h2> Du skal vælge et emne, eller skrive et valfrit emne, før du kan gå videre!");
+			UserMsgBox("body", "<h4>OBS</h4> Du skal vælge et emne, eller skrive et valfrit emne, før du kan gå videre!");
 		}
 	// }
 });
@@ -791,7 +791,7 @@ $( document ).on('click', "#step_2_goOn", function(event){
 		$('#DataInput').html(step_3_template());
 		setJsAudioEventLitsner();
 	} else {
-		UserMsgBox("body", '<h2>OBS</h2> Du skal skrive mindst '+jsonData.numOfChoosenWords+' ord før du kan gå videre. Du har kun skrevet '+subjectTextsArray.length+' ord.');
+		UserMsgBox("body", '<h4>OBS</h4> Du skal skrive mindst '+jsonData.numOfChoosenWords+' ord før du kan gå videre. Du har kun skrevet '+subjectTextsArray.length+' ord.');
 	}
 
 });
@@ -881,7 +881,7 @@ $( document ).on('click', "#step_3_goOn", function(event){
 		$('#DataInput').html(step_4_template());
 		setJsAudioEventLitsner();
 	} else {
-		UserMsgBox("body", '<h2>OBS</h2> Du skal vælge '+jsonData.numOfChoosenWords+' ord før du kan gå videre. Du har valgt ' + numOfWords + ' ord.');
+		UserMsgBox("body", '<h4>OBS</h4> Du skal vælge '+jsonData.numOfChoosenWords+' ord før du kan gå videre. Du har valgt ' + numOfWords + ' ord.');
 	}
 });
 
@@ -1049,12 +1049,12 @@ $( document ).on('click', "#step_4_goOn", function(event){
 				setJsAudioEventLitsner();
 				makeSortable();
 			} else {
-				UserMsgBox("body", '<h2>OBS</h2> Du skal skrive noget tekst i alle tekstboksene til hver ord - du mangler at skrive tekst til '+returnMissingWords(btnPrimaryText)+'. Tryk på dine ord og skriv sætninger til dem.');
+				UserMsgBox("body", '<h4>OBS</h4> Du skal skrive noget tekst i alle tekstboksene til hver ord - du mangler at skrive tekst til '+returnMissingWords(btnPrimaryText)+'. Tryk på dine ord og skriv sætninger til dem.');
 			}
 		// }
 
 	} else {
-		UserMsgBox("body", "<h2>OBS</h2> Du skal skrive noget tekst i tekstboksen - brug evt en sætningsstarter fra dropdownen.");
+		UserMsgBox("body", "<h4>OBS</h4> Du skal skrive noget tekst i tekstboksen - brug evt en sætningsstarter fra dropdownen.");
 	}
 
 });
@@ -1278,7 +1278,7 @@ $( document ).on('click', "#step_5_goOn", function(event){
 		$('#DataInput').html(step_6_template());
 		setJsAudioEventLitsner();
 	} else {
-		UserMsgBox("body", '<h2>OBS</h2> Du skal skrive en indledning før du kan gå videre. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
+		UserMsgBox("body", '<h4>OBS</h4> Du skal skrive en indledning før du kan gå videre. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
 	}
 	console.log("step_5_goOn - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
 });
@@ -1347,7 +1347,7 @@ $( document ).on('click', "#step_6_goOn", function(event){
 		$('#DataInput').html(step_6b_template());
 		setJsAudioEventLitsner();
 	}else {
-		UserMsgBox("body", '<h2>OBS</h2> Du skal skrive en afslutning før du kan gå videre. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
+		UserMsgBox("body", '<h4>OBS</h4> Du skal skrive en afslutning før du kan gå videre. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
 	}
 	console.log("step_6_goOn - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
 });
@@ -1406,7 +1406,7 @@ $( document ).on('click', "#step_6b_goOn", function(event){
 		$('#DataInput').html(step_7_template());
 		// setJsAudioEventLitsner();
 	}else {
-		UserMsgBox("body", '<h2>OBS</h2> Du skal skrive en overskrift før du kan gå videre.');
+		UserMsgBox("body", '<h4>OBS</h4> Du skal skrive en overskrift før du kan gå videre.');
 	}
 	console.log("step_6b_goOn - jsonData.studentSelectedSubject 2: " + JSON.stringify(jsonData.studentSelectedSubject));
 });
