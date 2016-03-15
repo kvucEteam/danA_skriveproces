@@ -1080,7 +1080,7 @@ $( document ).on('click', "#step_2_goOn", function(event){
 	 	setJsAudioEventLitsner();
 	 	// $("#textInputTheme").focus();  // Sets the focus in the textarea when the template loades.
 	} else {
-		UserMsgBox("body", "<h4>OBS</h4> Du skal vælge et tema, eller skrive et valfrit tema, før du kan gå videre!");
+		UserMsgBox("body", "<h4>OBS</h4> Du skal vælge et tema, eller skrive et valgfrit tema, før du kan gå videre!");
 	}
 });
 

@@ -679,7 +679,7 @@ $( document ).on('click', "#step_1_goOn", function(event){
 		 	$('#DataInput').html(step_2_template());
 		 	setJsAudioEventLitsner();
 		} else {
-			UserMsgBox("body", "<h4>OBS</h4> Du skal vælge et emne, eller skrive et valfrit emne, før du kan gå videre!");
+			UserMsgBox("body", "<h4>OBS</h4> Du skal vælge et emne, eller skrive et valgfrit emne, før du kan gå videre!");
 		}
 	// }
 });
