@@ -78,58 +78,69 @@
 			"step" : 0,
 			"header" : "Guidet skriveproces",
 			"img" : {"src" : "img/start_img_analyse.jpg", "alt" : "Billede af XXX"},
-			"audioFiles" : [{"name": "audio/_analyse/step_0.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_0.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_0_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 1,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Vælg den tekst, du vil arbejde med (klik og vælg)",
-			"audioFiles" : [{"name": "audio/_analyse/step_1.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_1.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_1_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 2,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Vælg et tema til teksten: ",
-			"audioFiles" : [{"name": "audio/_analyse/step_2.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_2.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_2_goBack", "text":"Gå tilbage"}, {"id": "step_2_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 3,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Du valgte temaet &quot;???&quot;. Formuler hvad temaet handler om. Brug evt. sætningsstarterne herunder",
-			"audioFiles" : [{"name": "audio/_analyse/step_3.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_3.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_3_goBack", "text":"Gå tilbage"}, {"id": "step_3_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 4,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Vælg analytisk fokuspunkt",
-			"audioFiles" : [{"name": "audio/_analyse/step_4.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_4.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_4_goBack", "text":"Gå tilbage"}, {"id": "step_4_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 5,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Find ??? citater fra teksten, der understøtter dit analytiske fokus. Indsæt citaterne i tekstfelterne",
-			"audioFiles" : [{"name": "audio/_analyse/step_5.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_5.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_5_goBack", "text":"Gå tilbage"}, {"id": "step_5_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 6,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Forklar dine citater, og beskriv, hvorfor de er relevante for din analyse.",
-			"audioFiles" : [{"name": "audio/_analyse/step_6.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_6.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_6_goBack", "text":"Gå tilbage"}, {"id": "step_6_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 7,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Formulér ???-1 sætninger, der kobler tekstens tema med de udvalgte citater og giver dit bud på en fortolkning.",
-			"audioFiles" : [{"name": "audio/_analyse/step_7.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_7.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_7_goBack", "text":"Gå tilbage"}, {"id": "step_7_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 8,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Skriv et par afsluttende sætninger",
-			"audioFiles" : [{"name": "audio/_analyse/step_8.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_8.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_8_goBack", "text":"Gå tilbage"}, {"id": "step_8_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 9,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Skriv en overskrift og indledning til din analyse",
-			"audioFiles" : [{"name": "audio/_analyse/step_9.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_9.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_9_goBack", "text":"Gå tilbage"}, {"id": "step_9_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 10,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Download din analyse",
 			"explanation" : "Download Word-filen. Den indeholder en vejledning til, hvordan du kan arbejde videre med din skønlitterære analyse.",
-			"audioFiles" : [{"name": "audio/_analyse/step_10.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/_analyse/step_10.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_10_goBack", "text":"Gå tilbage"}, {"id": "step_10_download", "text":"DOWNLOAD"}]
 		}
 	]
 }

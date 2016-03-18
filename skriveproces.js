@@ -153,40 +153,68 @@ function setSelected(varType, varValue){
 }
 
 
-function returnAudioControls(audioData){
-	if (typeof(autoPlay) === 'undefined'){
-		window.autoPlay = true;
-		console.log("returnAudioControls - autoPlay - SET");
+function setJsAudioEventLitsner2(){
+	if (typeof(autoPlayNew) === 'undefined'){
+		window.autoPlayNew = true;
+		console.log("setJsAudioEventLitsner2 - autoPlay - SET");
 	}
-
-	var HTML = '';
-	// HTML += '<span class="btn btn-info">TEST</span>';
-	// HTML += '<audio controls="controls">';
-	console.log("returnAudioControls - autoPlay: " + autoPlay);
-	HTML += '<audio id="audioPlayer" controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+'>';   	// <---- ORGINAL - SKAL VÆRE UKOMMENTERET I LIVE QUIZ
-	// HTML += '<audio id="audioPlayer" controls="controls">';    												// <----- SLUK FOR AUTO PLAY
-	for (var n in audioData) {
-		HTML += '<source src="'+audioData[n].name+'" type="audio/'+audioData[n].type+'"/>';
-	}
-	HTML += 	'Your browser does not support the audio element.';
-	HTML += '</audio>';
-	return HTML;
-}
-// console.log("returnAudioControls: " + returnAudioControls([{"name": "step_0.mp3", "type": "mpeg"}, {"name": "step_0.ogg", "type": "ogg"}]));
-
-
-function setJsAudioEventLitsner(){
 	var audioObj = document.getElementById("audioPlayer");
     audioObj.onpause = function() {
-    	if (!audioObj.ended) autoPlay = false;  // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
-        console.log("setJsAudioEventLitsner - PAUSE");
+    	if (!audioObj.ended) autoPlayNew = false;  // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
+        console.log("setJsAudioEventLitsner2 - PAUSE");
     }
     audioObj.onplay = function() {
-    	if (!audioObj.ended) autoPlay = true;   // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
-        console.log("setJsAudioEventLitsner - PLAY");
+    	if (!audioObj.ended) autoPlayNew = true;   // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
+        console.log("setJsAudioEventLitsner2 - PLAY");
     }
 }
 
+
+function changeNavAndAudioToStepNo(stepNo){
+	if (typeof(stepNoMem) === 'undefined'){
+		window.stepNoMem = null;
+	}
+
+	if (stepNoMem != stepNo){  // In some steps, the templates are called several times. This creates problems since the audio src is loaded each time, which causes the player to start playing. This if-clause prevents this...
+
+		stepNoMem = stepNo;
+
+		//====================
+		// HANDLE AUDIO:
+		//====================
+		var audio = jsonData.steps[stepNo].audioFiles;
+		var audioSrc;
+		for (var n in audio){
+			if (audio[n].type == 'mpeg'){  // We only use mpeg files - this makes the array of objects in jsonData.steps[stepNo].audioFiles obsolete.
+				audioSrc = audio[n].name;
+				break;
+			}
+		} 
+		var audioObj = document.getElementById("audioPlayer");
+		audioObj.src = audioSrc;  // When the "src" is set on the audioObj, the player starts to play automatically. This has to be prevented in "pause" has been pressed in a previous step.
+		if (typeof(autoPlayNew) !== 'undefined'){  
+			if (autoPlayNew){
+				audioObj.play();
+			} else {
+				audioObj.pause();
+			}
+		} else {
+			audioObj.pause();
+		}
+	}
+
+	//====================
+	// HANDLE BUTTONS:
+	//====================
+	var btns = jsonData.steps[stepNo].navBtns;
+	console.log("changeNavAndAudioToStepNo - btns: " + JSON.stringify(btns));
+	HTML = '';
+	for (var n in btns){
+		HTML += '<span id="'+((btns[n].hasOwnProperty('id'))?btns[n].id:'')+'" class="btn btn-lg btn-primary'+((btns[n].hasOwnProperty('class'))?+' '+btns[n].class:'')+'">'+((btns[n].hasOwnProperty('text'))?btns[n].text:'')+'</span>';
+	}
+	console.log("changeNavAndAudioToStepNo - HTML: " + HTML);
+	return HTML;
+}
 
 
 function returnInputBoxes3(numOfBoxes, Class, placeholderText){
@@ -413,7 +441,7 @@ function returnLastStudentSession() {
 			$('#DataInput').html(eval('step_'+TjsonData.currentStep+'_template()'));
 			if (!isLastStep(TjsonData.currentStep)) {
 				console.log('returnLastStudentSession - NOT LAST STEP');
-				setJsAudioEventLitsner();
+				// setJsAudioEventLitsner();
 			} else {
 				console.log('returnLastStudentSession - LAST STEP');
 			}
@@ -428,11 +456,11 @@ function returnLastStudentSession() {
 	        });
 
 	        $('#DataInput').html(step_0_template());
-	        setJsAudioEventLitsner();
+	        // setJsAudioEventLitsner();
 	    });
 	} else {
 		$('#DataInput').html(step_0_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 	}
 }
 
@@ -447,10 +475,11 @@ function returnLastStudentSession() {
 function step_0_template(){
 	console.log("step_0_template - jsonData 1: " + JSON.stringify(jsonData)); 
 	jsonData.currentStep = 0;
-	jsonData.autoPlay = true;
+	// jsonData.autoPlay = true;
 	// osc.save('jsonData', jsonData);  // Not necessary to save step 0!
 	// osc.exist('jsonData');	// Not necessary to save step 0!
 	var stepNo = 0;
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_0" class="step">';
 	HTML +=     '<div class="row">';
@@ -459,11 +488,6 @@ function step_0_template(){
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('img'))?'<img id="stepImg_0" class="img-responsive" src="'+jsonData.steps[stepNo].img.src+'" alt="'+jsonData.steps[stepNo].img.alt+'"/>':'');
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_0_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML +=					'<div class="Clear"></div>';
-	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -473,7 +497,7 @@ function step_0_template(){
 
 $( document ).on('click', "#step_0_goOn", function(event){
 	$('#DataInput').html(step_1_template());
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 	// $(".studentSubject").focus();  // Sets the focus in the textarea when the template loades.
 });
 
@@ -488,6 +512,7 @@ function step_1_template(){
 	jsonData.currentStep = 1;
 	osc.save('jsonData', jsonData);
 	var stepNo = 1;
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var subjectName = null;
 	if (jsonData.hasOwnProperty("studentSelectedSubject")){
 		subjectName = getSelected('subjectName');
@@ -513,11 +538,7 @@ function step_1_template(){
 	HTML += 				'<span class="helperText">Eller vælg dit eget emne:</span>';
 	HTML +=					returnInputBoxes3(1, 'studentSubject', 'Skriv dit emne her...');
 	HTML += 			'</div>';
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_1_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML +=					'<div class="Clear"></div>';
-	HTML += 			'</div>';
+	
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -677,7 +698,7 @@ $( document ).on('click', "#step_1_goOn", function(event){
 		    // ORGINAL KODE:
 			fallbackStudentSubject = studentSubject;
 		 	$('#DataInput').html(step_2_template());
-		 	setJsAudioEventLitsner();
+		 	// setJsAudioEventLitsner();
 		} else {
 			UserMsgBox("body", "<h4>OBS</h4> Du skal vælge et emne, eller skrive et valgfrit emne, før du kan gå videre!");
 		}
@@ -698,6 +719,7 @@ function step_2_template(){
 	var subjectName = getSelected('subjectName');
 	jsonData.selectedSubjectElementNum = returnElementNumInArray(studentSubjectArray, subjectName);  // Save selectedSubjectElementNum in jsonData
 	var stepNo = 2;
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_2" class="step">';
 	HTML +=     '<div class="row">';
@@ -722,11 +744,7 @@ function step_2_template(){
 					console.log('step_2_template - 2');
 				}
 	HTML += 			'</div>';
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_2_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_2_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML += 			'</div>';
+	
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -772,7 +790,7 @@ $( document ).on('focusin', ".subjectWordField", function(event){
 
 $( document ).on('click', "#step_2_goBack", function(event){
 	$('#DataInput').html(step_1_template());
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 	// $(".studentSubject").focus();  // Sets the focus in the textarea when the template loades.
 
 	var subjectNameSelected = getSelected('subjectName');
@@ -789,7 +807,7 @@ $( document ).on('click', "#step_2_goOn", function(event){
 
 	if (subjectTextsArray.length >= jsonData.numOfChoosenWords){
 		$('#DataInput').html(step_3_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 	} else {
 		UserMsgBox("body", '<h4>OBS</h4> Du skal skrive mindst '+jsonData.numOfChoosenWords+' ord før du kan gå videre. Du har kun skrevet '+subjectTextsArray.length+' ord.');
 	}
@@ -807,6 +825,7 @@ function step_3_template(){
 	jsonData.currentStep = 3;
 	osc.save('jsonData', jsonData);
 	var stepNo = 3;
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_3" class="step">';
 	HTML +=     '<div class="row">';
@@ -829,11 +848,7 @@ function step_3_template(){
 				}
 			}
 	HTML += 			'</div>';
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_3_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_3_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML += 			'</div>';
+	
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -863,7 +878,7 @@ $( document ).on('click', ".subjectWordField_btn", function(event){
 
 $( document ).on('click', "#step_3_goBack", function(event){
 	$('#DataInput').html(step_2_template());
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 });
 
 
@@ -879,7 +894,7 @@ $( document ).on('click', "#step_3_goOn", function(event){
 
 	if (numOfWords >= jsonData.numOfChoosenWords){
 		$('#DataInput').html(step_4_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 	} else {
 		UserMsgBox("body", '<h4>OBS</h4> Du skal vælge '+jsonData.numOfChoosenWords+' ord før du kan gå videre. Du har valgt ' + numOfWords + ' ord.');
 	}
@@ -904,19 +919,20 @@ function step_4_template(){
 	} else {
 		++wordCount;
 	}
-	if (typeof(autoPlay) === 'undefined'){
-		window.autoPlay = true;
-	} 
-	if (typeof(TautoPlay) === 'undefined'){
-		window.TautoPlay = autoPlay;  // This remembers the state before step 4.
-		console.log("step_4_template - TautoPlay: " + TautoPlay);
-	}
-	if (wordCount > 0) {  // This ensures that the player does not start when the word-buttons > 0 are pressed.
-		autoPlay = false;
-	}
+	// if (typeof(autoPlay) === 'undefined'){
+	// 	window.autoPlay = true;
+	// } 
+	// if (typeof(TautoPlay) === 'undefined'){
+	// 	window.TautoPlay = autoPlay;  // This remembers the state before step 4.
+	// 	console.log("step_4_template - TautoPlay: " + TautoPlay);
+	// }
+	// if (wordCount > 0) {  // This ensures that the player does not start when the word-buttons > 0 are pressed.
+	// 	autoPlay = false;
+	// }
 	console.log("step_4_template - wordCount: " + wordCount);
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = 4;
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_4" class="step">';
 	HTML +=     '<div class="row">';
@@ -944,11 +960,7 @@ function step_4_template(){
 				HTML += JSN.subjectTexts_sentences[wordCount];
 			}			
 	HTML += 			'</textarea>';
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_4_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_4_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML += 			'</div>';
+	
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -998,21 +1010,21 @@ $( document ).on('click', ".subjectWordField_btn_text", function(event){
 	// -----------------------
 	wordCount = index-1; 
 	$('#DataInput').html(step_4_template());   // 12-01-2016  <-----------  DATA SKAL GEMMENS HER!!!
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 });
 
 
 $( document ).on('click', "#step_4_goBack", function(event){
 	if ((typeof(wordCount) === 'undefined') || (wordCount == 0)){
 		$('#DataInput').html(step_3_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 		wordCount = null;
 		console.log("step_4_goBack - wordCount: " + wordCount);
 	} else {
 		--wordCount;  	// Once...
 		--wordCount;	// twice... because of the inscreasement inside step_4_template
 		$('#DataInput').html(step_4_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 	}
 });
 
@@ -1044,9 +1056,9 @@ $( document ).on('click', "#step_4_goOn", function(event){
 			if (!hasNonEmptyStrElm( JSN.subjectTexts_sentences )){
 				// JSN.subjectTexts_sentences[wordCount] = sentence;
 				console.log("step_4_goOn - jsonData.studentSelectedSubject 4: " + JSON.stringify(jsonData.studentSelectedSubject));
-				autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
+				// autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
 				$('#DataInput').html(step_4b_template());
-				setJsAudioEventLitsner();
+				// setJsAudioEventLitsner();
 				makeSortable();
 			} else {
 				UserMsgBox("body", '<h4>OBS</h4> Du skal skrive noget tekst i alle tekstboksene til hver ord - du mangler at skrive tekst til '+returnMissingWords(btnPrimaryText)+'. Tryk på dine ord og skriv sætninger til dem.');
@@ -1115,6 +1127,7 @@ function step_4b_template(){
 	var JSNS = (JSN.hasOwnProperty('subjectTexts_sentences_2'))? JSN.subjectTexts_sentences_2 : JSN.subjectTexts_sentences;
 	var stepNo = "4b";
 	stepNo = getJsonDataArrayIndex(stepNo);
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	console.log("step_4b_template - stepNo: " + stepNo);
 	var HTML = '';
 	HTML += '<div id="step_4b" class="step">';
@@ -1129,11 +1142,7 @@ function step_4b_template(){
 				HTML += 	'<div id="Sort_"'+n+' class="Sortable sortable_text_container">'+JSNS[n]+'</div>';
 			}
 	HTML += 			'</div>';
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_4b_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_4b_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML += 			'</div>';
+	
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -1190,7 +1199,7 @@ $( document ).on('click', "#step_4b_goBack", function(event){
 		window.wordCount = jsonData.numOfChoosenWords-2;  // Sets the state to the last btn of step 4. 
 		console.log("step_4b_goBack - wordCount: " + wordCount); 
 		$('#DataInput').html(step_4_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 	}
 	if ((JSN.hasOwnProperty('subjectTexts_sentences_2')) && (step_4b_hasBeenSorted == false)) {
 		$( ".Sortable" ).each(function( index, element ) {
@@ -1207,7 +1216,7 @@ $( document ).on('click', "#step_4b_goOn", function(event){
 		updateSubjectSentenceOrder();
 	}
 	$('#DataInput').html(step_5_template());
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 });
 
 
@@ -1224,6 +1233,7 @@ function step_5_template(){
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = 5;
 	stepNo = getJsonDataArrayIndex(stepNo);
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_5" class="step">';
 	HTML +=     '<div class="row">';
@@ -1242,11 +1252,7 @@ function step_5_template(){
 	HTML += 			'<textarea id="textInput2" val="">';
 			HTML += (JSN.hasOwnProperty('sentenceStarters_begin_text'))? JSN.sentenceStarters_begin_text : '';
 	HTML += 			'</textarea>';
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_5_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_5_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML += 			'</div>';
+	
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -1265,7 +1271,7 @@ $(document).on('change', '#Dropdown2', function(){
 
 $( document ).on('click', "#step_5_goBack", function(event){
 	$('#DataInput').html(step_4b_template());
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 	makeSortable();
 });
 
@@ -1276,7 +1282,7 @@ $( document ).on('click', "#step_5_goOn", function(event){
 		var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 		JSN.sentenceStarters_begin_text = textInputText;
 		$('#DataInput').html(step_6_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 	} else {
 		UserMsgBox("body", '<h4>OBS</h4> Du skal skrive en indledning før du kan gå videre. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
 	}
@@ -1295,6 +1301,7 @@ function step_6_template(){
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = 6;
 	stepNo = getJsonDataArrayIndex(stepNo);
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_6" class="step">';
 	HTML +=     '<div class="row">';
@@ -1313,11 +1320,7 @@ function step_6_template(){
 	HTML += 			'<textarea id="textInput3" val="">';
 			HTML += (JSN.hasOwnProperty('sentenceStarters_end_text'))? JSN.sentenceStarters_end_text : '';
 	HTML += 			'</textarea>';
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_6_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_6_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML += 			'</div>';
+	
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -1335,7 +1338,7 @@ $(document).on('change', '#Dropdown3', function(){
 
 $( document ).on('click', "#step_6_goBack", function(event){
 	$('#DataInput').html(step_5_template());
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 });
 
 $( document ).on('click', "#step_6_goOn", function(event){
@@ -1345,7 +1348,7 @@ $( document ).on('click', "#step_6_goOn", function(event){
 		var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 		JSN.sentenceStarters_end_text = textInputText;
 		$('#DataInput').html(step_6b_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 	}else {
 		UserMsgBox("body", '<h4>OBS</h4> Du skal skrive en afslutning før du kan gå videre. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
 	}
@@ -1364,6 +1367,7 @@ function step_6b_template(){
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = "6b";
 	stepNo = getJsonDataArrayIndex(stepNo);
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_6b" class="step">';
 	HTML +=     '<div class="row">';
@@ -1378,11 +1382,6 @@ function step_6b_template(){
 	// HTML += 			returnInputBoxes3(1, 'studentSubjectTitel', studentSubjectTitel);
 	HTML +=				returnInputBoxes4(1, 'studentSubjectTitel', (JSN.hasOwnProperty('studentSubjectTitel') )?JSN.studentSubjectTitel:'', 'Skriv din overskrift her...');
 	
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_6b_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_6b_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -1393,7 +1392,7 @@ function step_6b_template(){
 
 $( document ).on('click', "#step_6b_goBack", function(event){
 	$('#DataInput').html(step_6_template());
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 });
 
 $( document ).on('click', "#step_6b_goOn", function(event){
@@ -1404,7 +1403,7 @@ $( document ).on('click', "#step_6b_goOn", function(event){
 		JSN.studentSubjectTitel = [];
 		JSN.studentSubjectTitel[0] = textInputText;
 		$('#DataInput').html(step_7_template());
-		// setJsAudioEventLitsner();
+		// // setJsAudioEventLitsner();
 	}else {
 		UserMsgBox("body", '<h4>OBS</h4> Du skal skrive en overskrift før du kan gå videre.');
 	}
@@ -1424,6 +1423,7 @@ function step_7_template(){
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = "7";
 	stepNo = getJsonDataArrayIndex(stepNo);
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_7" class="step">';
 	HTML +=     '<div class="row">';
@@ -1446,11 +1446,7 @@ function step_7_template(){
 	HTML += 				'<p>'+JSN.sentenceStarters_end_text+'</p>';
 
 	HTML += 			'</div>';
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_7_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_7_download" class="btn btn-lg btn-primary">DOWNLOAD Word fil (.docx)</span>';
-	// HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML += 			'</div>';
+	
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -1461,7 +1457,7 @@ function step_7_template(){
 
 $( document ).on('click', "#step_7_goBack", function(event){
 	$('#DataInput').html(step_6b_template());
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 });
 
 
@@ -1817,6 +1813,8 @@ $(document).ready(function() {
 	
 
 	returnLastStudentSession(); // This function gives the student the possibility of loading the last "session".
+
+	setJsAudioEventLitsner2();
 
 
 	

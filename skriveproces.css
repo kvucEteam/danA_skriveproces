@@ -112,6 +112,10 @@ textarea {
     top: 10px;
 }
 
+#stepNavContainer{
+    float: left;
+}
+
 .Clear{
     clear: both;
 }

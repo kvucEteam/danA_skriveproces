@@ -55,6 +55,7 @@ checkForLocalStoargeSupport();
 //################################################################################################################################
 
 // Audio:
+// http://www.w3schools.com/tags/ref_av_dom.asp
 // http://www.w3schools.com/html/tryit.asp?filename=tryhtml5_audio_all
 
 // Bootstrap input fields
@@ -155,36 +156,68 @@ function setSelected(varType, varValue){
 }
 
 
-function returnAudioControls(audioData){
-	if (typeof(autoPlay) === 'undefined'){
-		window.autoPlay = true;
-		console.log("returnAudioControls - autoPlay - SET");
+
+function setJsAudioEventLitsner2(){
+	if (typeof(autoPlayNew) === 'undefined'){
+		window.autoPlayNew = true;
+		console.log("setJsAudioEventLitsner2 - autoPlay - SET");
 	}
-
-	var HTML = '';
-	console.log("returnAudioControls - autoPlay: " + autoPlay);
-	HTML += '<audio id="audioPlayer" controls="controls"'+((autoPlay)?' autoplay="autoplay"':'')+'>';   	// <---- ORGINAL - SKAL VÆRE UKOMMENTERET I LIVE QUIZ
-	// HTML += '<audio id="audioPlayer" controls="controls">';    												// <----- SLUK FOR AUTO PLAY
-	for (var n in audioData) {
-		HTML += '<source src="'+audioData[n].name+'" type="audio/'+audioData[n].type+'"/>';
-	}
-	HTML += 	'Your browser does not support the audio element.';
-	HTML += '</audio>';
-	return HTML;
-}
-// console.log("returnAudioControls: " + returnAudioControls([{"name": "step_0.mp3", "type": "mpeg"}, {"name": "step_0.ogg", "type": "ogg"}]));
-
-
-function setJsAudioEventLitsner(){
 	var audioObj = document.getElementById("audioPlayer");
     audioObj.onpause = function() {
-    	if (!audioObj.ended) autoPlay = false;  // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
-        console.log("setJsAudioEventLitsner - PAUSE");
+    	if (!audioObj.ended) autoPlayNew = false;  // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
+        console.log("setJsAudioEventLitsner2 - PAUSE");
     }
     audioObj.onplay = function() {
-    	if (!audioObj.ended) autoPlay = true;   // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
-        console.log("setJsAudioEventLitsner - PLAY");
+    	if (!audioObj.ended) autoPlayNew = true;   // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
+        console.log("setJsAudioEventLitsner2 - PLAY");
     }
+}
+
+
+function changeNavAndAudioToStepNo(stepNo){
+	if (typeof(stepNoMem) === 'undefined'){
+		window.stepNoMem = null;
+	}
+
+	if (stepNoMem != stepNo){  // In some steps, the templates are called several times. This creates problems since the audio src is loaded each time, which causes the player to start playing. This if-clause prevents this...
+
+		stepNoMem = stepNo;
+
+		//====================
+		// HANDLE AUDIO:
+		//====================
+		var audio = jsonData.steps[stepNo].audioFiles;
+		var audioSrc;
+		for (var n in audio){
+			if (audio[n].type == 'mpeg'){  // We only use mpeg files - this makes the array of objects in jsonData.steps[stepNo].audioFiles obsolete.
+				audioSrc = audio[n].name;
+				break;
+			}
+		} 
+		var audioObj = document.getElementById("audioPlayer");
+		audioObj.src = audioSrc;  // When the "src" is set on the audioObj, the player starts to play automatically. This has to be prevented in "pause" has been pressed in a previous step.
+		if (typeof(autoPlayNew) !== 'undefined'){  
+			if (autoPlayNew){
+				audioObj.play();
+			} else {
+				audioObj.pause();
+			}
+		} else {
+			audioObj.pause();
+		}
+	}
+
+	//====================
+	// HANDLE BUTTONS:
+	//====================
+	var btns = jsonData.steps[stepNo].navBtns;
+	console.log("changeNavAndAudioToStepNo - btns: " + JSON.stringify(btns));
+	HTML = '';
+	for (var n in btns){
+		HTML += '<span id="'+((btns[n].hasOwnProperty('id'))?btns[n].id:'')+'" class="btn btn-lg btn-primary'+((btns[n].hasOwnProperty('class'))?+' '+btns[n].class:'')+'">'+((btns[n].hasOwnProperty('text'))?btns[n].text:'')+'</span>';
+	}
+	console.log("changeNavAndAudioToStepNo - HTML: " + HTML);
+	return HTML;
 }
 
 
@@ -489,11 +522,11 @@ function returnLastStudentSession() {
 			$('#DataInput').html(eval('step_'+TjsonData.currentStep+'_template()'));
 			// if (!isLastStep(TjsonData.currentStep)) {  <----  Commented out since this version "Skønlitterær analyse" has a soundfile at the last step.
 			// 	console.log('returnLastStudentSession - NOT LAST STEP');
-			// 	setJsAudioEventLitsner();
+			// 	// setJsAudioEventLitsner();
 			// } else {
 			// 	console.log('returnLastStudentSession - LAST STEP');
 			// }
-			setJsAudioEventLitsner();  // <----  Added since this version "Skønlitterær analyse" has a soundfile at the last step.
+			// setJsAudioEventLitsner();  // <----  Added since this version "Skønlitterær analyse" has a soundfile at the last step.
 			
 	    });
 
@@ -506,11 +539,11 @@ function returnLastStudentSession() {
 	        });
 
 	        $('#DataInput').html(step_0_template());
-	        setJsAudioEventLitsner();
+	        // setJsAudioEventLitsner();
 	    });
 	} else {
 		$('#DataInput').html(step_0_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 	}
 }
 
@@ -595,10 +628,11 @@ function detectBootstrapBreakpoints(){
 function step_0_template(){
 	console.log("step_0_template - jsonData 1: " + JSON.stringify(jsonData)); 
 	jsonData.currentStep = 0;
-	jsonData.autoPlay = true;
+	// jsonData.autoPlay = true;
 	// osc.save('jsonData', jsonData);  // Not necessary to save step 0!
 	// osc.exist('jsonData');	// Not necessary to save step 0!
 	var stepNo = 0;
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_0" class="step">';
 	HTML +=     '<div class="row">';
@@ -607,11 +641,6 @@ function step_0_template(){
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('img'))?'<img id="stepImg_0" class="img-responsive" src="'+jsonData.steps[stepNo].img.src+'" alt="'+jsonData.steps[stepNo].img.alt+'"/>':'');
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_0_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML +=					'<div class="Clear"></div>';
-	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -621,7 +650,7 @@ function step_0_template(){
 
 $( document ).on('click', "#step_0_goOn", function(event){
 	$('#DataInput').html(step_1_template());
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 });
 
 
@@ -643,6 +672,7 @@ function step_1_template(){
 	jsonData.currentStep = 1;
 	osc.save('jsonData', jsonData);
 	var stepNo = 1;
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var textNo = null;
 	// if (jsonData.hasOwnProperty("studentSelectedTexts")){
 	if (jsonData.hasOwnProperty("selectedTextNo")){
@@ -684,11 +714,6 @@ function step_1_template(){
 	HTML +=					returnInputBoxes3(1, 'Text_year TextInputField', 'Skriv året her...');
 	HTML += 			'</div>';
 
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_1_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML +=					'<div class="Clear"></div>';
-	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -769,13 +794,6 @@ $( document ).on('click', ".Texts", function(event){
 		HTML += '<span class="EditText btn btn-lg btn-info" >Ret kilde teksten</span>';
 	}
 
-    // var HTML = '';
-    // HTML += '<h1>'+JT.title+'</h1> <i>Af '+JT.author+', '+JT.year+'</i> <br/><br/>';
-    // HTML += '<h4>Tekstuddrag:</h4>'
-    // HTML += JT.textSnippet;
-    // HTML += '<br/> <a class="btn btn-lg btn-info" href="'+JT.src+'" target="_blank">Læs pdf i nyt browser vindue</a> <a class="btn btn-lg btn-info" href="'+JT.src+'" download="'+String(JT.src.split('/').pop())+'">Download pdf</a>';
-
-    // UserMsgBox("body", '<h1>'+JT.title+'</h1> <i>Af '+JT.author+', '+JT.year+'</i><br/><br/>'+'<a href="test.pdf" target="_blank">test-pdf</a> <a href="test.pdf" download="test.pdf">Download the pdf</a> <br/> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> <br/> <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p> <br/> <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>');
     UserMsgBox("body", HTML);
 
 });
@@ -906,7 +924,7 @@ $( document ).on('click', "#step_1_goOn", function(event){
 	    // ORGINAL KODE:
 		fallbackStudentTextNo = jsonData.selectedTextNo;
 	 	$('#DataInput').html(step_2_template());
-	 	setJsAudioEventLitsner();
+	 	// setJsAudioEventLitsner();
 	 	// $(".studentTheme").focus();  // Sets the focus in the inputfield when the template loades.
 	}
 
@@ -923,6 +941,7 @@ function step_2_template(){
 	jsonData.currentStep = 2;
 	osc.save('jsonData', jsonData);
 	var stepNo = 2;
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	console.log("step_2_template - jsonData.selectedTextIndexNum: " + jsonData.selectedTextIndexNum);
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
 	console.log("step_2_template - JST: " + JSON.stringify(JST));
@@ -957,12 +976,6 @@ function step_2_template(){
 	HTML +=				returnInputBoxes4(1, 'studentTheme', ((JST.hasOwnProperty('studentTheme')) && (!elementInArray(JTT, JST.studentTheme)))?JST.studentTheme:'', 'Skriv dit tema her...');
 
 	// HTML +=					returnInputBoxes3(1, 'studentTheme', 'Skriv dit tema her...');
-	HTML += 			'</div>';
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_2_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_2_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML +=					'<div class="Clear"></div>';
 	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
@@ -1031,7 +1044,7 @@ $( document ).on('click', ".Themes", function(event){
 
 $( document ).on('click', "#step_2_goBack", function(event){
 	$('#DataInput').html(step_1_template());
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 });
 
 
@@ -1077,7 +1090,7 @@ $( document ).on('click', "#step_2_goOn", function(event){
 	    // ORGINAL KODE:
 		fallbackStudentTheme = studentTheme;
 	 	$('#DataInput').html(step_3_template());   // $("#form [name='input1st']").focus();   $("textarea [name='textareaFocus']"").focus();
-	 	setJsAudioEventLitsner();
+	 	// setJsAudioEventLitsner();
 	 	// $("#textInputTheme").focus();  // Sets the focus in the textarea when the template loades.
 	} else {
 		UserMsgBox("body", "<h4>OBS</h4> Du skal vælge et tema, eller skrive et valgfrit tema, før du kan gå videre!");
@@ -1096,6 +1109,7 @@ function step_3_template(){
 	jsonData.currentStep = 3;
 	osc.save('jsonData', jsonData);
 	var stepNo = 3;
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
 
@@ -1120,11 +1134,6 @@ function step_3_template(){
 				}			
 	HTML += 				'</textarea>';
 
-	HTML += 			'</div>';
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_3_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_3_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
 	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
@@ -1153,7 +1162,7 @@ $(document).on('change', '#Dropdown0', function(){
 
 $( document ).on('click', "#step_3_goBack", function(event){
 	$('#DataInput').html(step_2_template());
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 	// $(".studentTheme").focus();  // Sets the focus in the inputfield when the template loades.
 });
 
@@ -1170,7 +1179,7 @@ $( document ).on('click', "#step_3_goOn", function(event){
 		JST.TextTheme = TextTheme;
 		
 		$('#DataInput').html(step_4_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 		
 	} else {
 		UserMsgBox("body", '<h4>OBS</h4> Du skal formulere hvad dit tema handler om i tekstboksen. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
@@ -1190,6 +1199,7 @@ function step_4_template(){
 	jsonData.currentStep = 4;
 	osc.save('jsonData', jsonData);
 	var stepNo = 4;
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
 
@@ -1218,12 +1228,6 @@ function step_4_template(){
 	// HTML += 				'<span class="helperText">Eller vælg dit eget emne:</span>';
 	// HTML +=					returnInputBoxes3(1, 'studentSubject', 'Skriv dit emne her...');
 	// HTML += 			'</div>';
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_4_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_4_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML +=					'<div class="Clear"></div>';
-	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -1235,7 +1239,7 @@ function step_4_template(){
 
 $( document ).on('click', "#step_4_goBack", function(event){
 	$('#DataInput').html(step_3_template());
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 	// $("#textInputTheme").focus();  // Sets the focus in the textarea when the template loades.
 });
 
@@ -1273,7 +1277,7 @@ $( document ).on('click', "#step_4_goOn", function(event){
 	if (JST.hasOwnProperty("analyticalFocus")){
 
 	 	$('#DataInput').html(step_5_template());
-	 	setJsAudioEventLitsner();
+	 	// setJsAudioEventLitsner();
 	 	// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 	} else {
 		UserMsgBox("body", "<h4>OBS</h4> Du skal vælge et analytisk fokuspunkt før du kan gå videre!");
@@ -1305,17 +1309,7 @@ function step_5_template(){
 			++quoteCount;
 		}
 	}
-	if (typeof(autoPlay) === 'undefined'){
-		window.autoPlay = true;
-	} 
-	if (typeof(TautoPlay) === 'undefined'){
-		window.TautoPlay = autoPlay;  // This remembers the state before step 4.
-		console.log("step_5_template - TautoPlay: " + TautoPlay);
-	}
-	if (quoteCount > 0) {  // This ensures that the player does not start when the word-buttons > 0 are pressed.
-		autoPlay = false;
-	}
-
+	
 	// var textNo = getSelected('textNo'); // Needs no check, since it was added to the datastructure in step 1. 
 
 	// var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
@@ -1327,6 +1321,7 @@ function step_5_template(){
 	}
 	console.log("step_5_template - textQuotes: " + textQuotes + ", quoteCount: " + quoteCount);
 	var stepNo = 5;
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_5" class="step">';
 	HTML +=     '<div class="row">';
@@ -1358,11 +1353,6 @@ function step_5_template(){
 				HTML += JST.textQuotes[quoteCount];
 			}			
 	HTML += 			'</textarea>';
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_5_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_5_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -1431,7 +1421,7 @@ $( document ).on('click', ".quoteBtn", function(event){
 	// -----------------------
 	quoteCount = index-1; 
 	$('#DataInput').html(step_5_template());   // 12-01-2016  <-----------  DATA SKAL GEMMENS HER!!!
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 	// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 });
 
@@ -1439,14 +1429,14 @@ $( document ).on('click', ".quoteBtn", function(event){
 $( document ).on('click', "#step_5_goBack", function(event){
 	if ((typeof(quoteCount) === 'undefined') || (quoteCount == 0)){
 		$('#DataInput').html(step_4_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 		quoteCount = null;
 		console.log("step_4_goBack - quoteCount: " + quoteCount);
 	} else {
 		--quoteCount;  	// Once...
 		--quoteCount;	// twice... because of the inscreasement inside step_XXX_template
 		$('#DataInput').html(step_5_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 		// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 	}
 });
@@ -1479,9 +1469,9 @@ $( document ).on('click', "#step_5_goOn", function(event){
 			if (!hasNonEmptyStrElm( JST.textQuotes )){
 				// JSN.subjectTexts_sentences[quoteCount] = sentence;
 				console.log("step_4_goOn - jsonData.studentSelectedTexts 4: " + JSON.stringify(jsonData.studentSelectedTexts));
-				autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
+				// autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
 				$('#DataInput').html(step_6_template());
-				setJsAudioEventLitsner();
+				// setJsAudioEventLitsner();
 				// $(".textInputQuoteNote").focus();  // Sets the focus in the textarea when the template loades.
 				// makeSortable();
 			} else {
@@ -1560,16 +1550,7 @@ function step_6_template(){
 			++quoteNoteCount;
 		}
 	}
-	if (typeof(autoPlay) === 'undefined'){
-		window.autoPlay = true;
-	} 
-	if (typeof(TautoPlay) === 'undefined'){
-		window.TautoPlay = autoPlay;  // This remembers the state before step 4.
-		console.log("step_6_template - TautoPlay: " + TautoPlay);
-	}
-	if (quoteNoteCount > 0) {  // This ensures that the player does not start when the word-buttons > 0 are pressed.
-		autoPlay = false;
-	}
+	
 	console.log("step_6_template - quoteNoteCount: " + quoteNoteCount);
 
 	// var textNo = getSelected('textNo'); // Needs no check, since it was added to the datastructure in step 1.
@@ -1580,6 +1561,7 @@ function step_6_template(){
 		textQuoteNotes = JST.textQuoteNotes;
 	}
 	var stepNo = 6;
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_6" class="step">';
 	HTML +=     '<div class="row">';
@@ -1618,11 +1600,6 @@ function step_6_template(){
 				HTML += JST.textQuoteNotes[quoteNoteCount];
 			}			
 	HTML += 			'</textarea>';
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_6_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_6_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -1674,7 +1651,7 @@ $( document ).on('click', ".quoteNoteBtn", function(event){
 	// -----------------------
 	quoteNoteCount = index-1; 
 	$('#DataInput').html(step_6_template());   // 12-01-2016  <-----------  DATA SKAL GEMMENS HER!!!
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 	// $(".textInputQuoteNote").focus();  // Sets the focus in the textarea when the template loades.
 });
 
@@ -1682,7 +1659,7 @@ $( document ).on('click', ".quoteNoteBtn", function(event){
 $( document ).on('click', "#step_6_goBack", function(event){
 	if ((typeof(quoteNoteCount) === 'undefined') || (quoteNoteCount == 0)){
 		$('#DataInput').html(step_5_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 		// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 		// window.quoteCount = jsonData.numOfChoosenWords-2;   // Step 5 counter reset. Using "window.quoteCount" because it might not exist.
 		// quoteCount = null
@@ -1692,7 +1669,7 @@ $( document ).on('click', "#step_6_goBack", function(event){
 		--quoteNoteCount;  	// Once...
 		--quoteNoteCount;	// twice... because of the inscreasement inside step_XXX_template
 		$('#DataInput').html(step_6_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 		// $(".textInputQuoteNote").focus();  // Sets the focus in the textarea when the template loades.
 	}
 });
@@ -1725,9 +1702,9 @@ $( document ).on('click', "#step_6_goOn", function(event){
 			if (!hasNonEmptyStrElm( JST.textQuoteNotes )){
 				// JSN.subjectTexts_sentences[quoteCount] = sentence;
 				console.log("step_4_goOn - jsonData.studentSelectedTexts 4: " + JSON.stringify(jsonData.studentSelectedTexts));
-				autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
+				// autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
 				$('#DataInput').html(step_7_template());
-				setJsAudioEventLitsner();
+				// setJsAudioEventLitsner();
 				// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 				// makeSortable();
 			} else {
@@ -1768,16 +1745,7 @@ function step_7_template(){
 		}
 		// ++textPassageCount;
 	}
-	if (typeof(autoPlay) === 'undefined'){
-		window.autoPlay = true;
-	} 
-	if (typeof(TautoPlay) === 'undefined'){
-		window.TautoPlay = autoPlay;  // This remembers the state before step 4.
-		console.log("step_7_template - TautoPlay: " + TautoPlay);
-	}
-	if (textPassageCount > 0) {  // This ensures that the player does not start when the word-buttons > 0 are pressed.
-		autoPlay = false;
-	}
+
 	console.log("step_7_template - textPassageCount: " + textPassageCount);
 
 	// var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
@@ -1788,6 +1756,7 @@ function step_7_template(){
 		textPassages = JST.textPassages;
 	}
 	var stepNo = 7;
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_7" class="step">';
 	HTML +=     '<div class="row">';
@@ -1838,11 +1807,6 @@ function step_7_template(){
 				HTML += JST.textPassages[textPassageCount];
 			}			
 	HTML += 			'</textarea>';
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_7_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_7_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -1894,7 +1858,7 @@ $( document ).on('click', ".textPassageBtn", function(event){
 	// -----------------------
 	textPassageCount = index-1; 
 	$('#DataInput').html(step_7_template());  
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 	// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 });
 
@@ -1902,7 +1866,7 @@ $( document ).on('click', ".textPassageBtn", function(event){
 $( document ).on('click', "#step_7_goBack", function(event){
 	if ((typeof(textPassageCount) === 'undefined') || (textPassageCount == 0)){
 		$('#DataInput').html(step_6_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 		// $(".textInputQuoteNote").focus();  // Sets the focus in the textarea when the template loades.
 		textPassageCount = null;
 		console.log("step_4_goBack - textPassageCount: " + textPassageCount);
@@ -1910,7 +1874,7 @@ $( document ).on('click', "#step_7_goBack", function(event){
 		--textPassageCount; // Once...
 		--textPassageCount;	// twice... because of the inscreasement inside step_XXX_template
 		$('#DataInput').html(step_7_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 		// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 	}
 });
@@ -1944,9 +1908,9 @@ $( document ).on('click', "#step_7_goOn", function(event){
 				// JSN.subjectTexts_sentences[quoteCount] = sentence;
 				console.log("step_7_goOn - jsonData.studentSelectedTexts 4: " + JSON.stringify(jsonData.studentSelectedTexts));
 				console.log("step_7_goOn - jsonData: " + JSON.stringify(jsonData));
-				autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
+				// autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
 				$('#DataInput').html(step_8_template());
-				setJsAudioEventLitsner();
+				// setJsAudioEventLitsner();
 				// $("#textInputConclusion").focus();  // Sets the focus in the textarea when the template loades.
 				// makeSortable();
 			} else {
@@ -1961,12 +1925,6 @@ $( document ).on('click', "#step_7_goOn", function(event){
 });
 
 
-//#################################
-//
-//		OLD STEP 3
-//
-//#################################
-
 //////////////////////
 //  	STEP 8 		//  WRITE YOUR CONCLUSION BY WRITING TWO SENTENCES
 //////////////////////
@@ -1977,6 +1935,8 @@ function step_8_template(){
 	jsonData.currentStep = 8;
 	osc.save('jsonData', jsonData);
 	var stepNo = 8;
+
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
 
@@ -2002,11 +1962,6 @@ function step_8_template(){
 	HTML += 				'</textarea>';
 
 	HTML += 			'</div>';
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_8_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_8_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -2025,7 +1980,7 @@ $(document).on('change', '#Dropdown2', function(){
 
 $( document ).on('click', "#step_8_goBack", function(event){
 	$('#DataInput').html(step_7_template());
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 	// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 });
 
@@ -2042,7 +1997,7 @@ $( document ).on('click', "#step_8_goOn", function(event){
 		JST.conclusion = conclusion;
 		
 		$('#DataInput').html(step_9_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 		// $(".headerField").focus();  // Sets the focus in the textarea when the template loades.
 		
 	} else {
@@ -2073,17 +2028,6 @@ function step_9_template(){
 	// } else {
 	// 	++headAndIntroCount;
 	// }
-	if (typeof(autoPlay) === 'undefined'){
-		window.autoPlay = true;
-	} 
-	// if (typeof(TautoPlay) === 'undefined'){
-	// 	window.TautoPlay = autoPlay;  // This remembers the state before step 4.
-	// 	console.log("step_9_template - TautoPlay: " + TautoPlay);
-	// }
-	// if (headAndIntroCount > 0) {  // This ensures that the player does not start when the word-buttons > 0 are pressed.
-	// 	autoPlay = false;
-	// }
-	// console.log("step_9_template - headAndIntroCount: " + headAndIntroCount);
 
 	// var JSN = jsonData.studentSelectedTexts[jsonData.selectedTextNo];
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];  // <-----  NEW!
@@ -2097,6 +2041,9 @@ function step_9_template(){
 	console.log("step_9_template - headAndIntro: " + headAndIntro);
 	// var headAndIntroArray = ["Overskrift", "Indledning"];
 	var stepNo = 9;
+
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
+
 	var HTML = '';
 	HTML += '<div id="step_9" class="step">';
 	HTML +=     '<div class="row">';
@@ -2106,19 +2053,7 @@ function step_9_template(){
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
-	// HTML += 			'<div id="TextAndQuoteContainer">';
-	// HTML += 				'<div id="headAndIntroContainer" class="btnActions">';
-	// 			for (var i = 0; i < 2; i++) {
-	// 				HTML += 	'<span class="headAndIntroBtn btn btn-'+((i==headAndIntroCount)?'primary':'info')+'">'+headAndIntroArray[i].toLowerCase()+'</span>';
-	// 			}
-	// HTML += 				'</div>';
-	// HTML += 			'</div>';
-
-	// HTML +=					returnInputBoxes3(1, 'studentSubject', 'Skriv din overskrift her...');
-
-	// if (headAndIntroCount == 0) {
-			// var TheadAndIntro = removeEmptyElements(headAndIntro);
-			// HTML += returnInputBoxes3(TheadAndIntro.length, 'headerField', TheadAndIntro);
+	
 			HTML +=					returnInputBoxes4(1, 'headerField', ((typeof(headAndIntro[0])!=='undefined') && (headAndIntro[0]!==''))?headAndIntro[0]:'', 'Skriv din overskrift her...');
 	// }
 	// if (headAndIntroCount == 1) {
@@ -2129,11 +2064,6 @@ function step_9_template(){
 			HTML += 	'</textarea>';
 	// }
 
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_9_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_9_goOn" class="btn btn-lg btn-primary">Gå videre</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
-	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
@@ -2142,43 +2072,6 @@ function step_9_template(){
 	return HTML;
 }
 
-
-
-// $( document ).on('click', ".headAndIntroBtn", function(event){
-// 	var index = $(this).index();
-// 	console.log("headAndIntroBtn - index: " + index);
-	 
-// 	// -----------------------
-// 	console.log("headAndIntroBtn - jsonData.studentSelectedTexts 1: " + JSON.stringify(jsonData.studentSelectedTexts)); 
-// 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
-// 	if (!JST.hasOwnProperty('headAndIntro')){
-// 		JST.headAndIntro = [];
-// 		for (var i = 0; i < 2; i++) {
-// 			JST.headAndIntro.push('');
-// 		};
-// 	}
-
-// 	var sentence = $('.headerField').val();
-// 	console.log("headAndIntroBtn - headAndIntroCount: " + headAndIntroCount + ", sentence: " + sentence);
-	
-// 	if (headAndIntroCount < 2){
-// 		// JSN.subjectTexts_sentences.push(sentence);
-// 		JST.headAndIntro[headAndIntroCount] = sentence;
-// 		// $('#DataInput').html(step_4_template());
-// 		console.log("headAndIntroBtn - jsonData.studentSelectedTexts 2: " + JSON.stringify(jsonData.studentSelectedTexts)); 
-// 	} 
-// 	// else {
-// 	// 	JST.subjectTexts_sentences[textPassageCount] = sentence;
-// 	// 	// $('#DataInput').html(step_4b_template());
-// 	// 	console.log("quoteBtn - jsonData.studentSelectedTexts 3: " + JSON.stringify(jsonData.studentSelectedTexts));
-// 	// 	// makeSortable();
-// 	// }
-
-// 	// -----------------------
-// 	headAndIntroCount = index-1; 
-// 	$('#DataInput').html(step_9_template());  
-// 	setJsAudioEventLitsner();
-// });
 
 
 $( document ).on('focusout', ".headerField", function(event){
@@ -2204,7 +2097,7 @@ $( document ).on('focusout', ".introField", function(event){
 $( document ).on('click', "#step_9_goBack", function(event){
 	// if ((typeof(headAndIntroCount) === 'undefined') || (headAndIntroCount == 0)){
 		$('#DataInput').html(step_8_template());
-		setJsAudioEventLitsner();
+		// setJsAudioEventLitsner();
 		// $("#textInputConclusion").focus();  // Sets the focus in the textarea when the template loades.
 		// headAndIntroCount = null;
 		console.log("step_9_goBack - headAndIntroCount: " + headAndIntroCount);
@@ -2212,67 +2105,27 @@ $( document ).on('click', "#step_9_goBack", function(event){
 	// 	--headAndIntroCount; // Once...
 	// 	--headAndIntroCount; // twice... because of the inscreasement inside step_XXX_template
 	// 	$('#DataInput').html(step_9_template());
-	// 	setJsAudioEventLitsner();
+	// 	// setJsAudioEventLitsner();
 	// }
 });
 
 $( document ).on('click', "#step_9_goOn", function(event){
 	console.log("step_9_goOn - jsonData.studentSelectedTexts 1: " + JSON.stringify(jsonData.studentSelectedTexts)); 
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
-	// if (!JST.hasOwnProperty('headAndIntro')){
-	// 	JST.headAndIntro = [];
-	// 	for (var i = 0; i < 2; i++) {
-	// 		JST.headAndIntro.push('');
-	// 	};
-	// }
-
-	// var btnPrimaryText = $("#subjectWordSentenceContainer .btn-primary").text();
-
-	// var headerField = htmlEntities($('.headerField').val());
-	// var introField = htmlEntities($('.introField').val());
-	// console.log("step_9_goOn - headerField: _" + headerField + "_, introField: _" + introField + "_");
-	// if (((headerField.length > 0) || (JST.headAndIntro[0]!=='')) && ((introField.length > 0) || (JST.headAndIntro[0]!==''))) {
-	// if ((JST.headAndIntro[0].length > 0) && (JST.headAndIntro[1].length > 0)) {
-		// if (quoteCount < jsonData.numOfChoosenWords-1){
-		// 	JSN.subjectTexts_sentences[quoteCount] = sentence;
-		// 	console.log("step_4_goOn - jsonData.studentSelectedTexts 2: " + JSON.stringify(jsonData.studentSelectedTexts));
-			
-		// 	$('#DataInput').html(step_4_template());
-			
-		// } else {
-			// if (headerField.length > 0) {
-			// 	JST.headAndIntro[0] = headerField;
-			// }
-			// if (introField.length > 0) {
-			// 	JST.headAndIntro[1] = introField;
-			// }
-			console.log("step_9_goOn - jsonData.studentSelectedTexts 3: " + JSON.stringify(jsonData.studentSelectedTexts));
-			if (!hasNonEmptyStrElm( JST.headAndIntro )){
-				// JSN.subjectTexts_sentences[quoteCount] = sentence;
-				console.log("step_9_goOn - jsonData.studentSelectedTexts 4: " + JSON.stringify(jsonData.studentSelectedTexts));
-				// autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
-				$('#DataInput').html(step_10_template());
-				// setJsAudioEventLitsner();
-				// makeSortable();
-			} else {
-				UserMsgBox("body", '<h4>OBS</h4> Du skal en overskrift og indledning til din analyse - du mangler at skrive tekst til '+returnMissingElements('headAndIntro', ["overskriften", "indledningen"]));
-			}
-		// }
-
-	// } else {
-	// 	UserMsgBox("body", "Du skal en overskrift og indledning til din analyse før du kan gå videre!");
-	// }
-
+	
+	console.log("step_9_goOn - jsonData.studentSelectedTexts 3: " + JSON.stringify(jsonData.studentSelectedTexts));
+	if (!hasNonEmptyStrElm( JST.headAndIntro )){
+		// JSN.subjectTexts_sentences[quoteCount] = sentence;
+		console.log("step_9_goOn - jsonData.studentSelectedTexts 4: " + JSON.stringify(jsonData.studentSelectedTexts));
+		// autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
+		$('#DataInput').html(step_10_template());
+		// // setJsAudioEventLitsner();
+		// makeSortable();
+	} else {
+		UserMsgBox("body", '<h4>OBS</h4> Du skal en overskrift og indledning til din analyse - du mangler at skrive tekst til '+returnMissingElements('headAndIntro', ["overskriften", "indledningen"]));
+	}
 });
 
-
-
-
-//#################################
-//
-//		OLD STEP 4
-//
-//#################################
 
 //////////////////////
 //  	STEP 10		//	DOWNLOAD YOUR WORD-FILE
@@ -2288,6 +2141,9 @@ function step_10_template(){
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];  // <-----  NEW!
 	
 	var stepNo = 10;
+
+	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
+
 	var HTML = '';
 	HTML += '<div id="step_10" class="step">';
 	HTML +=     '<div class="row">';
@@ -2324,15 +2180,6 @@ function step_10_template(){
 				HTML += 		'<h4>Afslutning</h4>';
 				HTML += 		'<p>'+JST.conclusion+'</p>';
 	HTML += 				'</div>';
-
-
-	HTML += 			'</div>';
-
-	
-	HTML += 			'<div class="stepNav">';
-	HTML += 				'<span id="step_10_goBack" class="btn btn-lg btn-info">Gå tilbage</span>';
-	HTML += 				'<span id="step_10_download" class="btn btn-lg btn-primary">DOWNLOAD</span>';
-	HTML += 				returnAudioControls(jsonData.steps[stepNo].audioFiles);
 	HTML += 			'</div>';
 	HTML += 		'</div>';
 	HTML += 	'</div>';
@@ -2345,7 +2192,7 @@ function step_10_template(){
 
 $( document ).on('click', "#step_10_goBack", function(event){
 	$('#DataInput').html(step_9_template());
-	setJsAudioEventLitsner();
+	// setJsAudioEventLitsner();
 	// $(".headerField").focus();  // Sets the focus in the textarea when the template loades.
 });
 
@@ -2707,6 +2554,8 @@ $(document).ready(function() {
 
 
 	returnLastStudentSession(); // This function gives the student the possibility of loading the last "session".
+
+	setJsAudioEventLitsner2();
 
 
 	//====================================================================================

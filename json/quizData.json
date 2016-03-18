@@ -38,53 +38,63 @@
 			"step" : 0,
 			"header" : "Guidet skriveproces",
 			"img" : {"src" : "img/start_img_750x350.jpg", "alt" : "Billede af XXX"},
-			"audioFiles" : [{"name": "audio/step_0.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/step_0.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_0_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 1,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Vælg et af følgende emner (klik og vælg)",
-			"audioFiles" : [{"name": "audio/step_1.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/step_1.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_1_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 2,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Lav en brainstorm på dit valgte emne: ",
-			"audioFiles" : [{"name": "audio/step_2.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/step_2.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_2_goBack", "text":"Gå tilbage"}, {"id": "step_2_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 3,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Udvælg ??? ord fra din brainstorm.",
-			"audioFiles" : [{"name": "audio/step_3.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/step_3.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_3_goBack", "text":"Gå tilbage"}, {"id": "step_3_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 4,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Lav ord til sætninger - et ad gangen",
-			"audioFiles" : [{"name": "audio/step_4.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/step_4.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_4_goBack", "text":"Gå tilbage"}, {"id": "step_4_goOn", "text":"Gå videre"}]
 		},{
 			"step" : "4b",
 			"header" : "Guidet skriveproces",
 			"instruction" : "Træk dine ??? sætninger i rette rækkefølge.",
-			"audioFiles" : [{"name": "audio/step_4b.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/step_4b.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_4b_goBack", "text":"Gå tilbage"}, {"id": "step_4b_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 5,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Nu skal du skrive en <b>indledende</b> sætning",
-			"audioFiles" : [{"name": "audio/step_5.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/step_5.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_5_goBack", "text":"Gå tilbage"}, {"id": "step_5_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 6,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Nu skal du skrive en <b>afsluttende</b> sætning",
-			"audioFiles" : [{"name": "audio/step_6.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/step_6.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_6_goBack", "text":"Gå tilbage"}, {"id": "step_6_goOn", "text":"Gå videre"}]
 		},{
 			"step" : "6b",
 			"header" : "Guidet skriveproces",
 			"instruction" : "Skriv en <b>overskrift</b> til din debatartikel",
-			"audioFiles" : [{"name": "audio/step_6b.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/step_6b.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_6b_goBack", "text":"Gå tilbage"}, {"id": "step_6b_goOn", "text":"Gå videre"}]
 		},{
 			"step" : 7,
 			"header" : "Guidet skriveproces",
 			"instruction" : "Her er dine 5 sætninger som du skal arbejde videre med.",
 			"explanation" : "Download Word-filen med instruktion, til hvordan du kan arbejde videre med din debatartikel.",
-			"audioFiles" : [{"name": "audio/step_7.mp3", "type": "mpeg"}]
+			"audioFiles" : [{"name": "audio/step_7.mp3", "type": "mpeg"}],
+			"navBtns" : [{"id": "step_7_goBack", "text":"Gå tilbage"}, {"id": "step_7_download", "text":"DOWNLOAD"}]
 		}
 	]
 }
