@@ -199,7 +199,7 @@ function changeNavAndAudioToStepNo(stepNo){
 				audioObj.pause();
 			}
 		} else {
-			audioObj.pause();
+			audioObj.play();
 		}
 	}
 

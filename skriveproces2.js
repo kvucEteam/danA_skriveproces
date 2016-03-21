@@ -203,7 +203,7 @@ function changeNavAndAudioToStepNo(stepNo){
 				audioObj.pause();
 			}
 		} else {
-			audioObj.pause();
+			audioObj.play();
 		}
 	}
 
@@ -233,6 +233,19 @@ function returnInputBoxes3(numOfBoxes, Class, placeholderText){
 			HTML += 	'<input type="text" class="'+Class+' form-control" value="'+placeholderText[i]+'" placeholder="'+placeholderText[i]+'" aria-describedby="sizing-addon2">';
 		HTML += '</span>';
 	};
+	return HTML;
+}
+
+
+function returnProcessBar(stepNo){
+	var progress = Math.round(stepNo/(jsonData.steps.length-1)*100);
+	console.log("returnProcessBar - progress: " + progress + ", jsonData.steps.length: " + jsonData.steps.length);
+	var HTML = '';
+	HTML += '<div class="row">';
+    HTML += 	'<div class="col-xs-12 col-md-8">';
+	HTML += 		'<div id="processVal">'+ String(progress) + '% </div><div id="processBarContainer"><div id="processBar" style="width:'+progress+'%;'+((progress==100)?'border-radius: 6px;':'')+'">&nbsp;</div></div>';
+	HTML += 	'</div>';
+	HTML += '</div>';
 	return HTML;
 }
 
@@ -632,6 +645,7 @@ function step_0_template(){
 	// osc.save('jsonData', jsonData);  // Not necessary to save step 0!
 	// osc.exist('jsonData');	// Not necessary to save step 0!
 	var stepNo = 0;
+	$('#processContainer').html(returnProcessBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_0" class="step">';
@@ -672,6 +686,7 @@ function step_1_template(){
 	jsonData.currentStep = 1;
 	osc.save('jsonData', jsonData);
 	var stepNo = 1;
+	$('#processContainer').html(returnProcessBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var textNo = null;
 	// if (jsonData.hasOwnProperty("studentSelectedTexts")){
@@ -941,6 +956,7 @@ function step_2_template(){
 	jsonData.currentStep = 2;
 	osc.save('jsonData', jsonData);
 	var stepNo = 2;
+	$('#processContainer').html(returnProcessBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	console.log("step_2_template - jsonData.selectedTextIndexNum: " + jsonData.selectedTextIndexNum);
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
@@ -1109,6 +1125,7 @@ function step_3_template(){
 	jsonData.currentStep = 3;
 	osc.save('jsonData', jsonData);
 	var stepNo = 3;
+	$('#processContainer').html(returnProcessBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
@@ -1199,6 +1216,7 @@ function step_4_template(){
 	jsonData.currentStep = 4;
 	osc.save('jsonData', jsonData);
 	var stepNo = 4;
+	$('#processContainer').html(returnProcessBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
@@ -1321,6 +1339,7 @@ function step_5_template(){
 	}
 	console.log("step_5_template - textQuotes: " + textQuotes + ", quoteCount: " + quoteCount);
 	var stepNo = 5;
+	$('#processContainer').html(returnProcessBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_5" class="step">';
@@ -1561,6 +1580,7 @@ function step_6_template(){
 		textQuoteNotes = JST.textQuoteNotes;
 	}
 	var stepNo = 6;
+	$('#processContainer').html(returnProcessBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_6" class="step">';
@@ -1756,6 +1776,7 @@ function step_7_template(){
 		textPassages = JST.textPassages;
 	}
 	var stepNo = 7;
+	$('#processContainer').html(returnProcessBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_7" class="step">';
@@ -1936,6 +1957,7 @@ function step_8_template(){
 	osc.save('jsonData', jsonData);
 	var stepNo = 8;
 
+	$('#processContainer').html(returnProcessBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 
 	var JST = jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum];
@@ -2042,6 +2064,7 @@ function step_9_template(){
 	// var headAndIntroArray = ["Overskrift", "Indledning"];
 	var stepNo = 9;
 
+	$('#processContainer').html(returnProcessBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 
 	var HTML = '';
@@ -2142,6 +2165,7 @@ function step_10_template(){
 	
 	var stepNo = 10;
 
+	$('#processContainer').html(returnProcessBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 
 	var HTML = '';

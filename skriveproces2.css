@@ -181,6 +181,27 @@ textarea {
     float: left;
 }
 
+#processVal{
+    /*width: 8%;*/
+    float: left;
+}
+
+#processBarContainer{
+    width: 92%;
+    height: 12px;
+    float: right;
+    border: 1px solid #000;
+    margin-top: 6px;
+    border-radius: 6px;
+}
+
+#processBar{
+    height: 10px;
+    background-color: #56bfc5;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
 .Clear{
     clear: both;
 }
