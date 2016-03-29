@@ -95,7 +95,7 @@
 		},{
 			"step" : 3,
 			"header" : "Guidet skriveproces",
-			"instruction" : "Du valgte temaet &quot;???&quot;. Formuler hvad temaet handler om. Brug evt. sætningsstarterne herunder",
+			"instruction" : "Du valgte temaet &quot;???&quot;. Formulér hvad temaet handler om. Brug evt. sætningsstarterne herunder",
 			"audioFiles" : [{"name": "audio/_analyse/step_3.mp3", "type": "mpeg"}],
 			"navBtns" : [{"id": "step_3_goBack", "text":"Gå tilbage"}, {"id": "step_3_goOn", "text":"Gå videre"}]
 		},{

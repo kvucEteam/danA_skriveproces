@@ -1061,7 +1061,7 @@ $( document ).on('click', "#step_4_goOn", function(event){
 				// setJsAudioEventLitsner();
 				makeSortable();
 			} else {
-				UserMsgBox("body", '<h4>OBS</h4> Du skal skrive noget tekst i alle tekstboksene til hver ord - du mangler at skrive tekst til '+returnMissingWords(btnPrimaryText)+'. Tryk på dine ord og skriv sætninger til dem.');
+				UserMsgBox("body", '<h4>OBS</h4> Du skal skrive noget tekst i alle tekstboksene til hvert ord - du mangler at skrive tekst til '+returnMissingWords(btnPrimaryText)+'. Tryk på dine ord og skriv sætninger til dem.');
 			}
 		// }
 
