@@ -248,6 +248,19 @@ function returnInputBoxes4(numOfBoxes, Class, savedValues, placeholderText){
 }
 
 
+function returnProgressBar(stepNo){
+	var progress = Math.round(stepNo/(jsonData.steps.length-1)*100);
+	console.log("returnProgressBar - progress: " + progress + ", jsonData.steps.length: " + jsonData.steps.length);
+	var HTML = '';
+	HTML += '<div class="row">';
+    HTML += 	'<div class="col-xs-12 col-md-8">';
+	HTML += 		'<div id="processBarContainer"><div id="processBar" style="width:'+progress+'%;'+((progress==100)?'border-radius: 2px;':'')+'">&nbsp;</div></div> <div id="processVal">'+ String(progress) + '% </div>';
+	HTML += 	'</div>';
+	HTML += '</div>';
+	return HTML;
+}
+
+
 function hasUniqueElements(Tarray){
 	for (var i in Tarray){
 		for (var j in Tarray){
@@ -479,6 +492,7 @@ function step_0_template(){
 	// osc.save('jsonData', jsonData);  // Not necessary to save step 0!
 	// osc.exist('jsonData');	// Not necessary to save step 0!
 	var stepNo = 0;
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_0" class="step">';
@@ -512,6 +526,7 @@ function step_1_template(){
 	jsonData.currentStep = 1;
 	osc.save('jsonData', jsonData);
 	var stepNo = 1;
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var subjectName = null;
 	if (jsonData.hasOwnProperty("studentSelectedSubject")){
@@ -719,6 +734,7 @@ function step_2_template(){
 	var subjectName = getSelected('subjectName');
 	jsonData.selectedSubjectElementNum = returnElementNumInArray(studentSubjectArray, subjectName);  // Save selectedSubjectElementNum in jsonData
 	var stepNo = 2;
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_2" class="step">';
@@ -825,6 +841,7 @@ function step_3_template(){
 	jsonData.currentStep = 3;
 	osc.save('jsonData', jsonData);
 	var stepNo = 3;
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_3" class="step">';
@@ -932,6 +949,7 @@ function step_4_template(){
 	console.log("step_4_template - wordCount: " + wordCount);
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = 4;
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_4" class="step">';
@@ -1127,6 +1145,7 @@ function step_4b_template(){
 	var JSNS = (JSN.hasOwnProperty('subjectTexts_sentences_2'))? JSN.subjectTexts_sentences_2 : JSN.subjectTexts_sentences;
 	var stepNo = "4b";
 	stepNo = getJsonDataArrayIndex(stepNo);
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	console.log("step_4b_template - stepNo: " + stepNo);
 	var HTML = '';
@@ -1233,6 +1252,7 @@ function step_5_template(){
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = 5;
 	stepNo = getJsonDataArrayIndex(stepNo);
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_5" class="step">';
@@ -1301,6 +1321,7 @@ function step_6_template(){
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = 6;
 	stepNo = getJsonDataArrayIndex(stepNo);
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_6" class="step">';
@@ -1367,6 +1388,7 @@ function step_6b_template(){
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = "6b";
 	stepNo = getJsonDataArrayIndex(stepNo);
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_6b" class="step">';
@@ -1423,6 +1445,7 @@ function step_7_template(){
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = "7";
 	stepNo = getJsonDataArrayIndex(stepNo);
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_7" class="step">';
