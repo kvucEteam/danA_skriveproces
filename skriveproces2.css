@@ -168,7 +168,7 @@ textarea {
 
 
 .stepNav {
-    margin: 30px 0px 30px 0px;
+    margin: 30px 0px 10px 0px;
 }
 
 .stepNav audio{
@@ -211,7 +211,7 @@ textarea {
      * CSS 3 defines variables through the "var()" functionality:
      * https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables
      *
-     * - but it is currently (April 2016) not supported in many browsers (contemplate using SASS og LESS instead):
+     * - but it is currently (April 2016) not supported in many browsers (contemplate using SASS and LESS instead):
      * http://caniuse.com/#feat=css-variables
      *
      * CSS Preprocessors – Sass vs LESS:
