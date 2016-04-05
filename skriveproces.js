@@ -424,8 +424,8 @@ function returnLastStudentSession() {
 		console.log('returnLastStudentSession - getTimeStamp: ' + osc.getTimeStamp());
 	// if (TjsonData !== null){
 		var HTML = '';
-		HTML += '<h4>OBS</h4> Du har lavet denne øvelse før, og indtastet data i øvelsen.';
-		HTML += '<div> <span id="objectStorageClass_yes" class="objectStorageClass btn btn-info">Jeg ønsker at fortsætte hvor jeg slap</span> <span id="objectStorageClass_no" class="objectStorageClass btn btn-info">Jeg ønsker starte forfra</span> </div>';
+		HTML += '<h4>OBS</h4> Du har lavet denne øvelse før og indtastet data allerede.';
+		HTML += '<div> <span id="objectStorageClass_yes" class="objectStorageClass btn btn-info">Jeg vil fortsætte, hvor jeg slap</span> <span id="objectStorageClass_no" class="objectStorageClass btn btn-info">Jeg vil starte forfra</span> </div>';
 		UserMsgBox("body", HTML);
 
 	    $('#UserMsgBox').unbind('click');
