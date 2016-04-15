@@ -157,19 +157,56 @@ function setSelected(varType, varValue){
 
 
 
-function setJsAudioEventLitsner2(){
+// function setJsAudioEventLitsner2(){ // OLD - made in Dansk A.
+// 	if (typeof(autoPlayNew) === 'undefined'){
+// 		window.autoPlayNew = true;
+// 		console.log("setJsAudioEventLitsner2 - autoPlay - SET");
+// 	}
+// 	var audioObj = document.getElementById("audioPlayer");
+//     audioObj.onpause = function() {
+//     	if (!audioObj.ended) autoPlayNew = false;  // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
+//         console.log("setJsAudioEventLitsner2 - PAUSE");
+//     }
+//     audioObj.onplay = function() {
+//     	if (!audioObj.ended) autoPlayNew = true;   // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
+//         console.log("setJsAudioEventLitsner2 - PLAY");
+//     }
+// }
+
+
+function setJsAudioEventLitsner2(){  // NEW - made in KS.
 	if (typeof(autoPlayNew) === 'undefined'){
 		window.autoPlayNew = true;
 		console.log("setJsAudioEventLitsner2 - autoPlay - SET");
+
+		autoPlayNew = (isiniFrame())? false : true;
 	}
+
+	// alert('setJsAudioEventLitsner2 - autoPlayNew: ' + autoPlayNew);
+	console.log('setJsAudioEventLitsner2 - isiniFrame - autoPlayNew: ' + autoPlayNew);
+
 	var audioObj = document.getElementById("audioPlayer");
+
+	if (autoPlayNew){
+		console.log("setJsAudioEventLitsner2 - NO EVENT - PLAY");
+		audioObj.play();
+	} else {
+		console.log("setJsAudioEventLitsner2 - NO EVENT - PAUSE");
+		audioObj.pause(); 
+	}
+
+
     audioObj.onpause = function() {
-    	if (!audioObj.ended) autoPlayNew = false;  // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
-        console.log("setJsAudioEventLitsner2 - PAUSE");
+    	console.log("setJsAudioEventLitsner2 - PAUSE");
+    	if (!audioObj.ended){
+    		autoPlayNew = false; 
+    	}
+    	
     }
     audioObj.onplay = function() {
-    	if (!audioObj.ended) autoPlayNew = true;   // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
-        console.log("setJsAudioEventLitsner2 - PLAY");
+    	console.log("setJsAudioEventLitsner2 - PLAY");
+    	autoPlayNew = true;
+    	
     }
 }
 
