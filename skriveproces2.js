@@ -550,6 +550,38 @@ function returnLastStudentSession() {
 
 	var TjsonData = osc.load('jsonData');
 	console.log('returnLastStudentSession - TjsonData: ' + JSON.stringify(TjsonData));
+
+
+	// IMPORTANT: 
+	// In this exercise, the user has to download a word-document in the last step. This is not possible when using Safari - this is why this if-clause has been added.
+	if ((isUseragentSafari()) && (typeof(safariUserHasAgreed) === 'undefined')){
+
+		window.safariUserHasAgreed = false;
+
+		UserMsgBox("body", '<h4>ADVARSEL</h4> <p>Du arbejder på en Mac og bruger browseren Safari. <br> Denne øvelse virker desværre ikke optimalt på Safari-platformen. Du vil ikke kunne downloade wordfilen til sidst i øvelsen.</p><br> <p>Brug i stedet <b>Chrome</b> (<a href="https://www.google.dk/chrome/browser/desktop/">Hent den her</a>) eller <b>Firefox</b>  (<a href="https://www.mozilla.org/da/firefox/new/">Hent den her</a>).</p><br> <p>Mvh <a href="https://www.vucdigital.dk">vucdigital.dk</a> </p>');
+		
+		$('#UserMsgBox').addClass('UserMsgBox_safari');
+		$('.MsgBox_bgr').addClass('MsgBox_bgr_safari');
+
+		$( document ).on('click', ".UserMsgBox_safari", function(event){
+			$(".UserMsgBox_safari").fadeOut(200, function() {
+	            $(this).remove();
+	        });
+			safariUserHasAgreed = true;
+	        returnLastStudentSession();
+		});
+
+		$( document ).on('click', ".MsgBox_bgr_safari", function(event){
+			$(".MsgBox_bgr_safari").fadeOut(200, function() {
+	            $(this).remove();
+	        });
+	        safariUserHasAgreed = true;
+	        returnLastStudentSession();
+		});
+
+		return 0;
+	}
+
 	
 	if ((TjsonData !== null) && (typeof(TjsonData) !== 'undefined')){
 		console.log('returnLastStudentSession - getTimeStamp: ' + osc.getTimeStamp());
@@ -597,6 +629,21 @@ function returnLastStudentSession() {
 	}
 }
 
+
+function isUseragentSafari(){
+
+	// SEE:  
+	// http://sixrevisions.com/javascript/browser-detection-javascript/
+	// http://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
+	// https://jsfiddle.net/9atsffau/
+
+	console.log('isUseragentSafari - navigator.userAgent: ' + navigator.userAgent);
+	
+	// return (navigator.userAgent.indexOf('Safari')!==-1)?true:false;
+
+	return Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;   // SEE:  https://jsfiddle.net/9atsffau/
+}
+console.log('isUseragentSafari: ' + isUseragentSafari());
 
 
 function returnMissingElements(arrayName, elementName){
