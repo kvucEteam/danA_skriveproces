@@ -1,10 +1,10 @@
 /* FileSaver.js
- * A saveAs() FileSaver implementation.
- * 1.1.20160328
+ *  A saveAs() FileSaver implementation.
+ *  2014-05-27
  *
- * By Eli Grey, http://eligrey.com
- * License: MIT
- *   See https://github.com/eligrey/FileSaver.js/blob/master/LICENSE.md
+ *  By Eli Grey, http://eligrey.com
+ *  License: X11/MIT
+ *    See https://github.com/eligrey/FileSaver.js/blob/master/LICENSE.md
  */
 
 /*global self */
@@ -12,10 +12,16 @@
 
 /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
 
-var saveAs = saveAs || (function(view) {
+var saveAs = saveAs
+  // IE 10+ (native saveAs)
+  || (typeof navigator !== "undefined" &&
+      navigator.msSaveOrOpenBlob && navigator.msSaveOrOpenBlob.bind(navigator))
+  // Everyone else
+  || (function(view) {
 	"use strict";
 	// IE <10 is explicitly unsupported
-	if (typeof navigator !== "undefined" && /MSIE [1-9]\./.test(navigator.userAgent)) {
+	if (typeof navigator !== "undefined" &&
+	    /MSIE [1-9]\./.test(navigator.userAgent)) {
 		return;
 	}
 	var
@@ -25,12 +31,15 @@ var saveAs = saveAs || (function(view) {
 			return view.URL || view.webkitURL || view;
 		}
 		, save_link = doc.createElementNS("http://www.w3.org/1999/xhtml", "a")
-		, can_use_save_link = "download" in save_link
+		, can_use_save_link = !view.externalHost && "download" in save_link
 		, click = function(node) {
-			var event = new MouseEvent("click");
+			var event = doc.createEvent("MouseEvents");
+			event.initMouseEvent(
+				"click", true, false, view, 0, 0, 0, 0, 0
+				, false, false, false, false, 0, null
+			);
 			node.dispatchEvent(event);
 		}
-		, is_safari = /Version\/[\d\.]+.*Safari/.test(navigator.userAgent)
 		, webkit_req_fs = view.webkitRequestFileSystem
 		, req_fs = view.requestFileSystem || webkit_req_fs || view.mozRequestFileSystem
 		, throw_outside = function(ex) {
@@ -40,33 +49,18 @@ var saveAs = saveAs || (function(view) {
 		}
 		, force_saveable_type = "application/octet-stream"
 		, fs_min_size = 0
-		// the Blob API is fundamentally broken as there is no "downloadfinished" event to subscribe to
-		, arbitrary_revoke_timeout = 1000 * 40 // in ms
-		, revoke = function(file) {
-			var revoker = function() {
+		, deletion_queue = []
+		, process_deletion_queue = function() {
+			var i = deletion_queue.length;
+			while (i--) {
+				var file = deletion_queue[i];
 				if (typeof file === "string") { // file is an object URL
 					get_URL().revokeObjectURL(file);
 				} else { // file is a File
 					file.remove();
 				}
-			};
-			/* // Take note W3C:
-			var
-			  uri = typeof file === "string" ? file : file.toURL()
-			, revoker = function(evt) {
-				// idealy DownloadFinishedEvent.data would be the URL requested
-				if (evt.data === uri) {
-					if (typeof file === "string") { // file is an object URL
-						get_URL().revokeObjectURL(file);
-					} else { // file is a File
-						file.remove();
-					}
-				}
 			}
-			;
-			view.addEventListener("downloadfinished", revoker);
-			*/
-			setTimeout(revoker, arbitrary_revoke_timeout);
+			deletion_queue.length = 0; // clear queue
 		}
 		, dispatch = function(filesaver, event_types, event) {
 			event_types = [].concat(event_types);
@@ -82,17 +76,7 @@ var saveAs = saveAs || (function(view) {
 				}
 			}
 		}
-		, auto_bom = function(blob) {
-			// prepend BOM for UTF-8 XML and text/* types (including HTML)
-			if (/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(blob.type)) {
-				return new Blob(["\ufeff", blob], {type: blob.type});
-			}
-			return blob;
-		}
-		, FileSaver = function(blob, name, no_auto_bom) {
-			if (!no_auto_bom) {
-				blob = auto_bom(blob);
-			}
+		, FileSaver = function(blob, name) {
 			// First try a.download, then web filesystem, then object URLs
 			var
 				  filesaver = this
@@ -100,40 +84,27 @@ var saveAs = saveAs || (function(view) {
 				, blob_changed = false
 				, object_url
 				, target_view
+				, get_object_url = function() {
+					var object_url = get_URL().createObjectURL(blob);
+					deletion_queue.push(object_url);
+					return object_url;
+				}
 				, dispatch_all = function() {
 					dispatch(filesaver, "writestart progress write writeend".split(" "));
 				}
 				// on any filesys errors revert to saving with object URLs
 				, fs_error = function() {
-					if (target_view && is_safari && typeof FileReader !== "undefined") {
-						// Safari doesn't allow downloading of blob urls
-						var reader = new FileReader();
-						reader.onloadend = function() {
-							var base64Data = reader.result;
-							target_view.location.href = "data:attachment/file" + base64Data.slice(base64Data.search(/[,;]/));
-							filesaver.readyState = filesaver.DONE;
-							dispatch_all();
-						};
-						reader.readAsDataURL(blob);
-						filesaver.readyState = filesaver.INIT;
-						return;
-					}
 					// don't create more object URLs than needed
 					if (blob_changed || !object_url) {
-						object_url = get_URL().createObjectURL(blob);
+						object_url = get_object_url(blob);
 					}
 					if (target_view) {
 						target_view.location.href = object_url;
 					} else {
-						var new_tab = view.open(object_url, "_blank");
-						if (new_tab === undefined && is_safari) {
-							//Apple do not allow window.open, see http://bit.ly/1kZffRI
-							view.location.href = object_url
-						}
+						window.open(object_url, "_blank");
 					}
 					filesaver.readyState = filesaver.DONE;
 					dispatch_all();
-					revoke(object_url);
 				}
 				, abortable = function(func) {
 					return function() {
@@ -150,22 +121,17 @@ var saveAs = saveAs || (function(view) {
 				name = "download";
 			}
 			if (can_use_save_link) {
-				object_url = get_URL().createObjectURL(blob);
-				setTimeout(function() {
-					save_link.href = object_url;
-					save_link.download = name;
-					click(save_link);
-					dispatch_all();
-					revoke(object_url);
-					filesaver.readyState = filesaver.DONE;
-				});
+				object_url = get_object_url(blob);
+				save_link.href = object_url;
+				save_link.download = name;
+				click(save_link);
+				filesaver.readyState = filesaver.DONE;
+				dispatch_all();
 				return;
 			}
 			// Object and web filesystem URLs have a problem saving in Google Chrome when
 			// viewed in a tab, so I force save with application/octet-stream
 			// http://code.google.com/p/chromium/issues/detail?id=91158
-			// Update: Google errantly closed 91158, I submitted it again:
-			// https://code.google.com/p/chromium/issues/detail?id=389642
 			if (view.chrome && type && type !== force_saveable_type) {
 				slice = blob.slice || blob.webkitSlice;
 				blob = slice.call(blob, 0, blob.size, force_saveable_type);
@@ -192,9 +158,9 @@ var saveAs = saveAs || (function(view) {
 							file.createWriter(abortable(function(writer) {
 								writer.onwriteend = function(event) {
 									target_view.location.href = file.toURL();
+									deletion_queue.push(file);
 									filesaver.readyState = filesaver.DONE;
 									dispatch(filesaver, "writeend", event);
-									revoke(file);
 								};
 								writer.onerror = function() {
 									var error = writer.error;
@@ -229,20 +195,10 @@ var saveAs = saveAs || (function(view) {
 			}), fs_error);
 		}
 		, FS_proto = FileSaver.prototype
-		, saveAs = function(blob, name, no_auto_bom) {
-			return new FileSaver(blob, name, no_auto_bom);
+		, saveAs = function(blob, name) {
+			return new FileSaver(blob, name);
 		}
 	;
-	// IE 10+ (native saveAs)
-	if (typeof navigator !== "undefined" && navigator.msSaveOrOpenBlob) {
-		return function(blob, name, no_auto_bom) {
-			if (!no_auto_bom) {
-				blob = auto_bom(blob);
-			}
-			return navigator.msSaveOrOpenBlob(blob, name || "download");
-		};
-	}
-
 	FS_proto.abort = function() {
 		var filesaver = this;
 		filesaver.readyState = filesaver.DONE;
@@ -261,6 +217,11 @@ var saveAs = saveAs || (function(view) {
 	FS_proto.onwriteend =
 		null;
 
+	view.addEventListener("unload", process_deletion_queue, false);
+	saveAs.unload = function() {
+		process_deletion_queue();
+		view.removeEventListener("unload", process_deletion_queue, false);
+	};
 	return saveAs;
 }(
 	   typeof self !== "undefined" && self
@@ -271,9 +232,9 @@ var saveAs = saveAs || (function(view) {
 // while `this` is nsIContentFrameMessageManager
 // with an attribute `content` that corresponds to the window
 
-if (typeof module !== "undefined" && module.exports) {
-  module.exports.saveAs = saveAs;
-} else if ((typeof define !== "undefined" && define !== null) && (define.amd !== null)) {
+if (typeof module !== "undefined" && module !== null) {
+  module.exports = saveAs;
+} else if ((typeof define !== "undefined" && define !== null) && (define.amd != null)) {
   define([], function() {
     return saveAs;
   });
