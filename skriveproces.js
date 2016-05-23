@@ -153,21 +153,60 @@ function setSelected(varType, varValue){
 }
 
 
-function setJsAudioEventLitsner2(){
+// function setJsAudioEventLitsner2(){ // OLD - made in Dansk A.
+// 	if (typeof(autoPlayNew) === 'undefined'){
+// 		window.autoPlayNew = true;
+// 		console.log("setJsAudioEventLitsner2 - autoPlay - SET");
+// 	}
+// 	var audioObj = document.getElementById("audioPlayer");
+//     audioObj.onpause = function() {
+//     	if (!audioObj.ended) autoPlayNew = false;  // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
+//         console.log("setJsAudioEventLitsner2 - PAUSE");
+//     }
+//     audioObj.onplay = function() {
+//     	if (!audioObj.ended) autoPlayNew = true;   // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
+//         console.log("setJsAudioEventLitsner2 - PLAY");
+//     }
+// }
+
+
+function setJsAudioEventLitsner2(){  // NEW - made in KS.
 	if (typeof(autoPlayNew) === 'undefined'){
 		window.autoPlayNew = true;
 		console.log("setJsAudioEventLitsner2 - autoPlay - SET");
+
+		autoPlayNew = (isiniFrame())? false : true;
 	}
+
+	// alert('setJsAudioEventLitsner2 - autoPlayNew: ' + autoPlayNew);
+	console.log('setJsAudioEventLitsner2 - isiniFrame - autoPlayNew: ' + autoPlayNew);
+
 	var audioObj = document.getElementById("audioPlayer");
+
+	if (autoPlayNew){
+		console.log("setJsAudioEventLitsner2 - NO EVENT - PLAY");
+		audioObj.play();
+	} else {
+		console.log("setJsAudioEventLitsner2 - NO EVENT - PAUSE");
+		audioObj.pause(); 
+	}
+
+
     audioObj.onpause = function() {
-    	if (!audioObj.ended) autoPlayNew = false;  // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
-        console.log("setJsAudioEventLitsner2 - PAUSE");
+    	console.log("setJsAudioEventLitsner2 - PAUSE");
+    	if (!audioObj.ended){
+    		autoPlayNew = false; 
+    	}
+    	
     }
     audioObj.onplay = function() {
-    	if (!audioObj.ended) autoPlayNew = true;   // The if-clause "if (!audioObj.ended)" solves the issue of the player not autoplaying in the next step if the soundfile ended natually/played-to-end in the current step.
-        console.log("setJsAudioEventLitsner2 - PLAY");
+    	console.log("setJsAudioEventLitsner2 - PLAY");
+    	autoPlayNew = true;
+    	
     }
 }
+
+
 
 
 function changeNavAndAudioToStepNo(stepNo){
@@ -244,6 +283,19 @@ function returnInputBoxes4(numOfBoxes, Class, savedValues, placeholderText){
 			HTML += 	'<input type="text" class="'+Class+' form-control"'+((savedValues[i]!=='')?' value="'+savedValues[i]+'"':'')+' placeholder="'+placeholderText[i]+'" aria-describedby="sizing-addon2">';
 		HTML += '</span>';
 	};
+	return HTML;
+}
+
+
+function returnProgressBar(stepNo){
+	var progress = Math.round(stepNo/(jsonData.steps.length-1)*100);
+	console.log("returnProgressBar - progress: " + progress + ", jsonData.steps.length: " + jsonData.steps.length);
+	var HTML = '';
+	HTML += '<div class="row">';
+    HTML += 	'<div class="col-xs-12 col-md-8">';
+	HTML += 		'<div id="processBarContainer"><div id="processBar" style="width:'+progress+'%;'+((progress==100)?'border-radius: 2px;':'')+'">&nbsp;</div></div> <div id="processVal">'+ String(progress) + '% </div>';
+	HTML += 	'</div>';
+	HTML += '</div>';
 	return HTML;
 }
 
@@ -419,13 +471,45 @@ function returnLastStudentSession() {
 
 	var TjsonData = osc.load('jsonData');
 	console.log('returnLastStudentSession - TjsonData: ' + JSON.stringify(TjsonData));
+
+
+	// IMPORTANT: 
+	// In this exercise, the user has to download a word-document in the last step. This is not possible when using Safari - this is why this if-clause has been added.
+	if ((isUseragentSafari()) && (typeof(safariUserHasAgreed) === 'undefined')){
+
+		window.safariUserHasAgreed = false;
+
+		UserMsgBox("body", '<h4>ADVARSEL</h4> <p>Du arbejder på en Mac og bruger browseren Safari. <br> Denne øvelse virker desværre ikke optimalt på Safari-platformen. Du vil ikke kunne downloade wordfilen til sidst i øvelsen.</p><br> <p>Brug i stedet <b>Chrome</b> (<a href="https://www.google.dk/chrome/browser/desktop/">Hent den her</a>) eller <b>Firefox</b>  (<a href="https://www.mozilla.org/da/firefox/new/">Hent den her</a>).</p><br> <p>Mvh <a href="https://www.vucdigital.dk">vucdigital.dk</a> </p>');
+		
+		$('#UserMsgBox').addClass('UserMsgBox_safari');
+		$('.MsgBox_bgr').addClass('MsgBox_bgr_safari');
+
+		$( document ).on('click', ".UserMsgBox_safari", function(event){
+			$(".UserMsgBox_safari").fadeOut(200, function() {
+	            $(this).remove();
+	        });
+			safariUserHasAgreed = true;
+	        returnLastStudentSession();
+		});
+
+		$( document ).on('click', ".MsgBox_bgr_safari", function(event){
+			$(".MsgBox_bgr_safari").fadeOut(200, function() {
+	            $(this).remove();
+	        });
+	        safariUserHasAgreed = true;
+	        returnLastStudentSession();
+		});
+
+		return 0;
+	}
+
 	
 	if ((TjsonData !== null) && (typeof(TjsonData) !== 'undefined')){
 		console.log('returnLastStudentSession - getTimeStamp: ' + osc.getTimeStamp());
 	// if (TjsonData !== null){
 		var HTML = '';
-		HTML += '<h4>OBS</h4> Du har lavet denne øvelse før, og indtastet data i øvelsen.';
-		HTML += '<div> <span id="objectStorageClass_yes" class="objectStorageClass btn btn-info">Jeg ønsker at fortsætte hvor jeg slap</span> <span id="objectStorageClass_no" class="objectStorageClass btn btn-info">Jeg ønsker starte forfra</span> </div>';
+		HTML += '<h4>OBS</h4> Du har lavet denne øvelse før og indtastet data allerede.';
+		HTML += '<div> <span id="objectStorageClass_yes" class="objectStorageClass btn btn-info">Jeg vil fortsætte, hvor jeg slap</span> <span id="objectStorageClass_no" class="objectStorageClass btn btn-info">Jeg vil starte forfra</span> </div>';
 		UserMsgBox("body", HTML);
 
 	    $('#UserMsgBox').unbind('click');
@@ -465,6 +549,20 @@ function returnLastStudentSession() {
 }
 
 
+function isUseragentSafari(){
+
+	// SEE:  
+	// http://sixrevisions.com/javascript/browser-detection-javascript/
+	// http://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
+	// https://jsfiddle.net/9atsffau/
+
+	console.log('isUseragentSafari - navigator.userAgent: ' + navigator.userAgent);
+	
+	// return (navigator.userAgent.indexOf('Safari')!==-1)?true:false;
+
+	return Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;   // SEE:  https://jsfiddle.net/9atsffau/
+}
+console.log('isUseragentSafari: ' + isUseragentSafari());
 
 
 //////////////////////
@@ -479,6 +577,7 @@ function step_0_template(){
 	// osc.save('jsonData', jsonData);  // Not necessary to save step 0!
 	// osc.exist('jsonData');	// Not necessary to save step 0!
 	var stepNo = 0;
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_0" class="step">';
@@ -512,6 +611,7 @@ function step_1_template(){
 	jsonData.currentStep = 1;
 	osc.save('jsonData', jsonData);
 	var stepNo = 1;
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var subjectName = null;
 	if (jsonData.hasOwnProperty("studentSelectedSubject")){
@@ -719,6 +819,7 @@ function step_2_template(){
 	var subjectName = getSelected('subjectName');
 	jsonData.selectedSubjectElementNum = returnElementNumInArray(studentSubjectArray, subjectName);  // Save selectedSubjectElementNum in jsonData
 	var stepNo = 2;
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_2" class="step">';
@@ -825,6 +926,7 @@ function step_3_template(){
 	jsonData.currentStep = 3;
 	osc.save('jsonData', jsonData);
 	var stepNo = 3;
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_3" class="step">';
@@ -932,6 +1034,7 @@ function step_4_template(){
 	console.log("step_4_template - wordCount: " + wordCount);
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = 4;
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_4" class="step">';
@@ -1127,6 +1230,7 @@ function step_4b_template(){
 	var JSNS = (JSN.hasOwnProperty('subjectTexts_sentences_2'))? JSN.subjectTexts_sentences_2 : JSN.subjectTexts_sentences;
 	var stepNo = "4b";
 	stepNo = getJsonDataArrayIndex(stepNo);
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	console.log("step_4b_template - stepNo: " + stepNo);
 	var HTML = '';
@@ -1233,6 +1337,7 @@ function step_5_template(){
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = 5;
 	stepNo = getJsonDataArrayIndex(stepNo);
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_5" class="step">';
@@ -1301,6 +1406,7 @@ function step_6_template(){
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = 6;
 	stepNo = getJsonDataArrayIndex(stepNo);
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_6" class="step">';
@@ -1367,6 +1473,7 @@ function step_6b_template(){
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = "6b";
 	stepNo = getJsonDataArrayIndex(stepNo);
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_6b" class="step">';
@@ -1423,6 +1530,7 @@ function step_7_template(){
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = "7";
 	stepNo = getJsonDataArrayIndex(stepNo);
+	$('#processContainer').html(returnProgressBar(stepNo));
 	$('#stepNavContainer').html(changeNavAndAudioToStepNo(stepNo));
 	var HTML = '';
 	HTML += '<div id="step_7" class="step">';

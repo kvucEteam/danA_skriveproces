@@ -103,7 +103,7 @@ textarea {
 }
 
 .stepNav {
-    margin: 30px 0px 30px 0px;
+    margin: 30px 0px 10px 0px;
 }
 
 .stepNav audio{
@@ -114,6 +114,69 @@ textarea {
 
 #stepNavContainer{
     float: left;
+}
+
+#processVal{
+    /*width: 8%;*/
+    float: right;
+    color: #777;
+    width: 45px;
+    text-align: right;
+}
+
+#processBarContainer{
+
+    /****************************************************************************************************
+     * IMPORTANT NOTE:
+     * ===============
+     * Below are implementations of "CSS-trickery" in diffrent browsers 
+     * that makes it possible to make somthing a certain width in percent, 
+     * subsequently add or subtract a definite lenth in px! This implementation 
+     * can potentially makes furture width- and height JS-hacks obsolete!!!
+     *
+     * SEE:   
+     * http://stackoverflow.com/questions/2434602/css-setting-width-height-as-percentage-minus-pixels;
+     *
+     * See where this "calc()" functionality is supported (supported in IE11 and IE9):
+     * http://caniuse.com/#feat=calc
+     *
+     *
+     * ON A RELATED NOTE...
+     * ====================
+     * CSS 3 defines variables through the "var()" functionality:
+     * https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables
+     *
+     * - but it is currently (April 2016) not supported in many browsers (contemplate using SASS and LESS instead):
+     * http://caniuse.com/#feat=css-variables
+     *
+     * CSS Preprocessors – Sass vs LESS:
+     * https://www.keycdn.com/blog/sass-vs-less/
+     *
+     ****************************************************************************************************/
+
+    /* Firefox */
+    width: -moz-calc(100% - 45px);
+    /* WebKit */
+    width: -webkit-calc(100% - 45px);
+    /* Opera */
+    width: -o-calc(100% - 45px);
+    /* Standard CSS3-compliant browsers */
+    width: calc(100% - 45px);
+
+    /*width: 92%;*/
+    height: 12px;
+    float: left;
+    border: 1px solid #cececc;
+    margin-top: 6px;
+    border-radius: 2px;
+}
+
+
+#processBar{
+    height: 10px;
+    background-color: #e7e6e2;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
 }
 
 .Clear{
