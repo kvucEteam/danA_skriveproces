@@ -558,7 +558,7 @@ function returnLastStudentSession() {
 
 		window.safariUserHasAgreed = false;
 
-		UserMsgBox("body", '<h4>ADVARSEL</h4> <p>Du arbejder på en Mac og bruger browseren Safari. <br> Denne øvelse virker desværre ikke optimalt på Safari-platformen. Du vil ikke kunne downloade wordfilen til sidst i øvelsen.</p><br> <p>Brug i stedet <b>Chrome</b> (<a href="https://www.google.dk/chrome/browser/desktop/">Hent den her</a>) eller <b>Firefox</b>  (<a href="https://www.mozilla.org/da/firefox/new/">Hent den her</a>).</p><br> <p>Mvh <a href="https://www.vucdigital.dk">vucdigital.dk</a> </p>');
+		UserMsgBox("body", '<h4>ADVARSEL</h4> <p>Du arbejder på en Mac og bruger browseren Safari. <br> Denne øvelse virker desværre ikke optimalt på Safari-platformen. Du vil ikke kunne downloade de udfyldte felter som wordfil til sidst i øvelsen.</p><br> <p>Brug i stedet <b>Chrome</b> (<a href="https://www.google.dk/chrome/browser/desktop/">Hent den her</a>) eller <b>Firefox</b>  (<a href="https://www.mozilla.org/da/firefox/new/">Hent den her</a>).</p><br> <p>Mvh <a href="https://www.vucdigital.dk">vucdigital.dk</a> </p>');
 		
 		$('#UserMsgBox').addClass('UserMsgBox_safari');
 		$('.MsgBox_bgr').addClass('MsgBox_bgr_safari');
@@ -591,6 +591,9 @@ function returnLastStudentSession() {
 		HTML += '<div> <span id="objectStorageClass_yes" class="objectStorageClass btn btn-info">Jeg vil fortsætte, hvor jeg slap</span> <span id="objectStorageClass_no" class="objectStorageClass btn btn-info">Jeg vil starte forfra</span> </div>';
 		UserMsgBox("body", HTML);
 
+		$('.CloseClass').remove(); // <---- removes the "X" in the UserMsgBox.
+		$('.container-fluid').hide();  // Hide all program-content.
+
 	    $('#UserMsgBox').unbind('click');
 	    $('.MsgBox_bgr').unbind('click');
 
@@ -598,6 +601,7 @@ function returnLastStudentSession() {
 	        console.log("objectStorageClass.init - objectStorageClass_yes - CLICK" );
 	        $(".MsgBox_bgr").fadeOut(200, function() {
 	            $(this).remove();
+	            $('.container-fluid').fadeIn('slow');  // Fade in all program-content.
 	        });
 	       
 	        jsonData = TjsonData;
@@ -618,6 +622,7 @@ function returnLastStudentSession() {
 	        osc.delete(osc.localStorageObjName);
 	        $(".MsgBox_bgr").fadeOut(200, function() {
 	            $(this).remove();
+	            $('.container-fluid').fadeIn('slow');  // Fade in all program-content.
 	        });
 
 	        $('#DataInput').html(step_0_template());
@@ -1081,7 +1086,7 @@ function step_2_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
-	errObj.updateErrorObj("STEP 2 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
+	// errObj.updateErrorObj("STEP 2 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -1240,7 +1245,7 @@ function step_3_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
-	errObj.updateErrorObj("STEP 3 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
+	// errObj.updateErrorObj("STEP 3 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -1334,7 +1339,7 @@ function step_4_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
-	errObj.updateErrorObj("STEP 4 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
+	// errObj.updateErrorObj("STEP 4 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -1460,7 +1465,7 @@ function step_5_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
-	errObj.updateErrorObj("STEP 5 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
+	// errObj.updateErrorObj("STEP 5 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -1708,7 +1713,7 @@ function step_6_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
-	errObj.updateErrorObj("STEP 6 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
+	// errObj.updateErrorObj("STEP 6 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -1916,7 +1921,7 @@ function step_7_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
-	errObj.updateErrorObj("STEP 7 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
+	// errObj.updateErrorObj("STEP 7 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -2072,7 +2077,7 @@ function step_8_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
-	errObj.updateErrorObj("STEP 8 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
+	// errObj.updateErrorObj("STEP 8 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -2175,7 +2180,7 @@ function step_9_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
-	errObj.updateErrorObj("STEP 9 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
+	// errObj.updateErrorObj("STEP 9 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
@@ -2293,7 +2298,7 @@ function step_10_template(){
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
-	errObj.updateErrorObj("STEP 10 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
+	// errObj.updateErrorObj("STEP 10 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
 }
 
