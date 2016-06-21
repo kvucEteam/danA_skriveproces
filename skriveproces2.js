@@ -536,7 +536,7 @@ function htmlEntities(str) {
 
 function returnLastStudentSession() {
 	window.osc = Object.create(objectStorageClass);
-	osc.init('studentSession_2');
+	osc.init('studentSession_1');
 	osc.exist('jsonData');
 
 	// osc.startAutoSave('test1', [1,2,3], 500);
