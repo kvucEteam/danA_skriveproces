@@ -743,7 +743,7 @@ function step_0_template(){
 	HTML +=     '<div class="row">';
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_0" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction)+'</div>':'')+'<div class="clear"></div>';
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('img'))?'<img id="stepImg_0" class="img-responsive" src="'+jsonData.steps[stepNo].img.src+'" alt="'+jsonData.steps[stepNo].img.alt+'"/>':'');
 	HTML += 		'</div>';
@@ -802,7 +802,7 @@ function step_1_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_1" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction)+'</div>':'')+'<div class="clear"></div>';
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 	HTML += 			'<div id="TextContainer" class="btnActions">';
 			var JT = jsonData.texts;
@@ -1065,7 +1065,7 @@ function step_2_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_2" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction + '&quot;'+jsonData.texts[JST.textNo].title+'&quot;'):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction + '&quot;'+jsonData.texts[JST.textNo].title+'&quot;')+'</div>':'')+'<div class="clear"></div>';
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 	HTML += 			'<div id="ThemeContainer" class="btnActions">';
 			// var JS = jsonData.themes;
@@ -1227,7 +1227,7 @@ function step_3_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_3" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(insertThemes(jsonData.steps[stepNo].instruction)):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(insertThemes(jsonData.steps[stepNo].instruction))+'</div>':'')+'<div class="clear"></div>';
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
 	HTML += 			'<div id="subjectTextThemeContainer" class="btnActions">';
@@ -1325,7 +1325,7 @@ function step_4_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_4" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction)+'</div>':'')+'<div class="clear"></div>';
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 	HTML += 			'<div id="analyticalFocusContainer" class="btnActions">';
 			var JA = jsonData.analyticalFocus;
@@ -1438,7 +1438,7 @@ function step_5_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_5" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction)+'</div>':'')+'<div class="clear"></div>';
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
 	HTML += 			'<div id="TextAndQuoteContainer">';
@@ -1679,7 +1679,7 @@ function step_6_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_6" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction)+'</div>':'')+'<div class="clear"></div>';
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
 	HTML += 			'<div id="TextAndQuoteContainer">';
@@ -1875,7 +1875,7 @@ function step_7_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_7" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction)+'</div>':'')+'<div class="clear"></div>';
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
 	HTML += 			'<div id="TextAndQuoteContainer">';
@@ -2059,7 +2059,7 @@ function step_8_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_8" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction)+'</div>':'')+'<div class="clear"></div>';
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
 	HTML += 			'<div id="subjectTextConclusionContainer" class="btnActions">';
@@ -2164,7 +2164,7 @@ function step_9_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_9" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction)+'</div>':'')+'<div class="clear"></div>';
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
 	
@@ -2265,7 +2265,7 @@ function step_10_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_10" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction)+'</div>':'')+'<div class="clear"></div>';
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
 	HTML += 			'<div id="TextAndQuoteContainer">';

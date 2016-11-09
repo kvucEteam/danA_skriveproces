@@ -236,5 +236,7 @@ textarea {
     text-transform: none;
 }
 
-
+.instruction_ajust{
+    margin-left: -13px !important; 
+}
 

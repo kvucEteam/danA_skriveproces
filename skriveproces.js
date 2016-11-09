@@ -591,8 +591,8 @@ function step_0_template(){
 	HTML +=     '<div class="row">';
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_0" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction):'')+'</div><div class="clear"></div>';
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'')+'<div class="clear"></div>';
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('img'))?'<img id="stepImg_0" class="img-responsive" src="'+jsonData.steps[stepNo].img.src+'" alt="'+jsonData.steps[stepNo].img.alt+'"/>':'');
 	HTML += 		'</div>';
 	HTML += 	'</div>';
@@ -626,13 +626,13 @@ function step_1_template(){
 	}
 	console.log("step_1_template - subjectName: " + subjectName); 
 	var HTML = '';
-	HTML += '<div id="step_1" class="step">';
+	HTML += '<div id="step_1" class="step TEST">';
 	HTML +=     '<div class="row">';
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_1" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction):'')+'</div><div class="clear"></div>';
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'')+'<div class="clear"></div>';
 	HTML += 			'<div id="SubjectContainer" class="btnActions">';
 			var JS = jsonData.subjects;
 			for (var n in JS){
@@ -834,8 +834,8 @@ function step_2_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_2" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction + subjectName):'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction + subjectName):'')+'</div><div class="clear"></div>';
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'')+'<div class="clear"></div>';
 
 	HTML += 			'<div id="subjectWordContainer" class="btnActions">';
 				console.log("step_2_template - jsonData.studentSelectedSubject 1: " + JSON.stringify(jsonData.studentSelectedSubject)); 
@@ -941,8 +941,8 @@ function step_3_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_3" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction):'')+'</div><div class="clear"></div>';
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'')+'<div class="clear"></div>';
 
 	HTML += 			'<div id="subjectWordField_btn_Container" class="btnActions">';
 			var subjectTexts = getSelected('subjectTexts');
@@ -1049,8 +1049,8 @@ function step_4_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_4" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction):'')+'</div><div class="clear"></div>';
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'')+'<div class="clear"></div>';
 
 	HTML += 			'<div id="subjectWordSentenceContainer" class="btnActions">';
 			var subjectTexts = getSelected('subjectTexts');
@@ -1246,8 +1246,8 @@ function step_4b_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_4b" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction):'')+'</div><div class="clear"></div>';
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'')+'<div class="clear"></div>';
 	HTML += 			'<div id="subjectSentenceSortableContainer" class="btnActions">';
 			for (var n in JSNS) {
 				HTML += 	'<div id="Sort_"'+n+' class="Sortable sortable_text_container">'+JSNS[n]+'</div>';
@@ -1352,8 +1352,8 @@ function step_5_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_5" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction):'')+'</div><div class="clear"></div>';
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'')+'<div class="clear"></div>';
 
 	HTML += 			'<h4>Brug evt. nedenstående sætningsstartere til at skrive videre ud fra:</h4>';
 
@@ -1421,8 +1421,8 @@ function step_6_template(){
 	HTML += 		'<div class="col-xs-12 col-md-8">';
 	
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_6" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction):'')+'</div><div class="clear"></div>';
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'')+'<div class="clear"></div>';
 
 	HTML += 			'<h4>Brug evt. nedenstående sætningsstartere til at skrive videre ud fra:</h4>';
 
@@ -1485,10 +1485,10 @@ function step_6b_template(){
 	var HTML = '';
 	HTML += '<div id="step_6b" class="step">';
 	HTML +=     '<div class="row">';
-	HTML += 		'<div id="subjectHeadingContainer" class="col-xs-12 col-md-8">';
+	HTML += 		'<div id="subjectHeadingContainer" class="col-xs-12 col-md-8">'; 
 	
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_6b" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction):'')+'</div>';
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
 
 	// HTML += 			returnInputBoxes3(1, 'studentSubjectTitel', ' Skriv din overskrift her');
@@ -1496,7 +1496,7 @@ function step_6b_template(){
 	// HTML += 			returnInputBoxes3(1, 'studentSubjectTitel', studentSubjectTitel);
 	HTML +=				returnInputBoxes4(1, 'studentSubjectTitel', (JSN.hasOwnProperty('studentSubjectTitel') )?JSN.studentSubjectTitel:'', 'Skriv din overskrift her...');
 	
-	HTML += 		'</div>';
+	HTML += 		'</div>'; 
 	HTML += 	'</div>';
 	HTML += '</div>';
 	HTML = replaceWildcard(HTML, jsonData.numOfChoosenWords);
@@ -1545,8 +1545,8 @@ function step_7_template(){
 	HTML += 		'<div id="XXXXXXX" class="col-xs-12 col-md-8">';
 
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_7" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?instruction(jsonData.steps[stepNo].instruction):'');
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction):'')+'</div><div class="clear"></div>';
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'')+'<div class="clear"></div>';
 
 	HTML += 			'<div class="TextHolder">';
 	// HTML += 				'<h3>Titel står her</h3><p>Alle kan blive enige om at det er et problem at vi nu har opbygget så meget af verdens energiforbrug på atomkraft, da det har så stor risiko for fremtiden knyttet til sig.</p><p>Hvis nogen skulle være i tvivl om at det er et problem at vi får så meget energi fra atomkraft, så bør man tænke på ulykken i Tjernobyl.</p><p>Mit hovedsynspunkt er at det er uforsvarligt overfor fremtidens børn at bygge et energiforbrug op der har så ukendte konsekvenser for fremtiden.</p><p>På den ene side kan man være for atomkraft, da der reelt er mange fordele ved at skrue op for brugen af atomkraft og derved mindske forbruget af fossile brændstoffer, indtil vi har bedre og renere energikilder i det omfang det kræves til den voksende verdensbefolkning. På den anden siden kan man være i mod atomkraft da man med rette kan hævde at vi reelt ikke hvad der vil ske med det opbevarede atomaffald.</p><p>Afslutningsvis kan man sige at fremtiden nok vil afgøre atomkrafts skæbne. Enten vil der ske en voldsomulykke der gør at menneskeheden dropper det, eller så vil nye energikilder vinde hastigt frem.</p>';
