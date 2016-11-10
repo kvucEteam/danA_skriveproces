@@ -455,6 +455,11 @@ function htmlEntities(str) {
 }
 
 
+function remove_botstrap_md_8_col(){
+	$('.instruction_ajust > div').removeClass('col-md-8');
+}
+
+
 function returnLastStudentSession() {
 	window.osc = Object.create(objectStorageClass);
 	osc.init('studentSession');
@@ -545,10 +550,12 @@ function returnLastStudentSession() {
 	        });
 
 	        $('#DataInput').html(step_0_template());
+	        remove_botstrap_md_8_col();
 	        // setJsAudioEventLitsner();
 	    });
 	} else {
 		$('#DataInput').html(step_0_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 	}
 }
@@ -603,6 +610,7 @@ function step_0_template(){
 
 $( document ).on('click', "#step_0_goOn", function(event){
 	$('#DataInput').html(step_1_template());
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 	// $(".studentSubject").focus();  // Sets the focus in the textarea when the template loades.
 });
@@ -805,6 +813,7 @@ $( document ).on('click', "#step_1_goOn", function(event){
 		    // ORGINAL KODE:
 			fallbackStudentSubject = studentSubject;
 		 	$('#DataInput').html(step_2_template());
+		 	remove_botstrap_md_8_col();
 		 	// setJsAudioEventLitsner();
 		} else {
 			UserMsgBox("body", "<h4>OBS</h4> Du skal vælge et emne, eller skrive et valgfrit emne, før du kan gå videre!");
@@ -898,6 +907,7 @@ $( document ).on('focusin', ".subjectWordField", function(event){
 
 $( document ).on('click', "#step_2_goBack", function(event){
 	$('#DataInput').html(step_1_template());
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 	// $(".studentSubject").focus();  // Sets the focus in the textarea when the template loades.
 
@@ -915,6 +925,7 @@ $( document ).on('click', "#step_2_goOn", function(event){
 
 	if (subjectTextsArray.length >= jsonData.numOfChoosenWords){
 		$('#DataInput').html(step_3_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 	} else {
 		UserMsgBox("body", '<h4>OBS</h4> Du skal skrive mindst '+jsonData.numOfChoosenWords+' ord før du kan gå videre. Du har kun skrevet '+subjectTextsArray.length+' ord.');
@@ -987,6 +998,7 @@ $( document ).on('click', ".subjectWordField_btn", function(event){
 
 $( document ).on('click', "#step_3_goBack", function(event){
 	$('#DataInput').html(step_2_template());
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 });
 
@@ -1003,6 +1015,7 @@ $( document ).on('click', "#step_3_goOn", function(event){
 
 	if (numOfWords >= jsonData.numOfChoosenWords){
 		$('#DataInput').html(step_4_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 	} else {
 		UserMsgBox("body", '<h4>OBS</h4> Du skal vælge '+jsonData.numOfChoosenWords+' ord før du kan gå videre. Du har valgt ' + numOfWords + ' ord.');
@@ -1023,7 +1036,8 @@ function step_4_template(){
 	console.log("step_4_template - wordCount: " + ((typeof(wordCount) !== 'undefined')?wordCount:'undefined'));
 	console.log("step_4_template - jsonData 1: " + JSON.stringify(jsonData)); 
 	console.log("step_4_template - jsonData.studentSelectedSubject 1: " + JSON.stringify(jsonData.studentSelectedSubject)); 
-	if ((typeof(wordCount) === 'undefined') || (wordCount === null)) { 
+	// if ((typeof(wordCount) === 'undefined') || (wordCount === null)) {   // Commented out 10/11-2016
+	if ((typeof(wordCount) === 'undefined') || (wordCount === null) || (isNaN(wordCount))) { 		// Added 10/11-2016
 		window.wordCount = 0;
 	} else {
 		++wordCount;
@@ -1038,7 +1052,7 @@ function step_4_template(){
 	// if (wordCount > 0) {  // This ensures that the player does not start when the word-buttons > 0 are pressed.
 	// 	autoPlay = false;
 	// }
-	console.log("step_4_template - wordCount: " + wordCount);
+	console.log("step_4_template - wordCount: " + wordCount + ', typeof(wordCount): ' + typeof(wordCount));
 	var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 	var stepNo = 4;
 	$('#processContainer').html(returnProgressBar(stepNo));
@@ -1120,6 +1134,7 @@ $( document ).on('click', ".subjectWordField_btn_text", function(event){
 	// -----------------------
 	wordCount = index-1; 
 	$('#DataInput').html(step_4_template());   // 12-01-2016  <-----------  DATA SKAL GEMMENS HER!!!
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 });
 
@@ -1127,6 +1142,7 @@ $( document ).on('click', ".subjectWordField_btn_text", function(event){
 $( document ).on('click', "#step_4_goBack", function(event){
 	if ((typeof(wordCount) === 'undefined') || (wordCount == 0)){
 		$('#DataInput').html(step_3_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 		wordCount = null;
 		console.log("step_4_goBack - wordCount: " + wordCount);
@@ -1134,6 +1150,7 @@ $( document ).on('click', "#step_4_goBack", function(event){
 		--wordCount;  	// Once...
 		--wordCount;	// twice... because of the inscreasement inside step_4_template
 		$('#DataInput').html(step_4_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 	}
 });
@@ -1168,6 +1185,7 @@ $( document ).on('click', "#step_4_goOn", function(event){
 				console.log("step_4_goOn - jsonData.studentSelectedSubject 4: " + JSON.stringify(jsonData.studentSelectedSubject));
 				// autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
 				$('#DataInput').html(step_4b_template());
+				remove_botstrap_md_8_col();
 				// setJsAudioEventLitsner();
 				makeSortable();
 			} else {
@@ -1250,7 +1268,7 @@ function step_4b_template(){
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'')+'<div class="clear"></div>';
 	HTML += 			'<div id="subjectSentenceSortableContainer" class="btnActions">';
 			for (var n in JSNS) {
-				HTML += 	'<div id="Sort_"'+n+' class="Sortable sortable_text_container">'+JSNS[n]+'</div>';
+				HTML += 	'<div id="Sort_'+n+'" class="Sortable sortable_text_container">'+JSNS[n]+'</div>';
 			}
 	HTML += 			'</div>';
 	
@@ -1310,6 +1328,7 @@ $( document ).on('click', "#step_4b_goBack", function(event){
 		window.wordCount = jsonData.numOfChoosenWords-2;  // Sets the state to the last btn of step 4. 
 		console.log("step_4b_goBack - wordCount: " + wordCount); 
 		$('#DataInput').html(step_4_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 	}
 	if ((JSN.hasOwnProperty('subjectTexts_sentences_2')) && (step_4b_hasBeenSorted == false)) {
@@ -1327,6 +1346,7 @@ $( document ).on('click', "#step_4b_goOn", function(event){
 		updateSubjectSentenceOrder();
 	}
 	$('#DataInput').html(step_5_template());
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 });
 
@@ -1383,6 +1403,7 @@ $(document).on('change', '#Dropdown2', function(){
 
 $( document ).on('click', "#step_5_goBack", function(event){
 	$('#DataInput').html(step_4b_template());
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 	makeSortable();
 });
@@ -1394,6 +1415,7 @@ $( document ).on('click', "#step_5_goOn", function(event){
 		var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 		JSN.sentenceStarters_begin_text = textInputText;
 		$('#DataInput').html(step_6_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 	} else {
 		UserMsgBox("body", '<h4>OBS</h4> Du skal skrive en indledning før du kan gå videre. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
@@ -1451,6 +1473,7 @@ $(document).on('change', '#Dropdown3', function(){
 
 $( document ).on('click', "#step_6_goBack", function(event){
 	$('#DataInput').html(step_5_template());
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 });
 
@@ -1461,6 +1484,7 @@ $( document ).on('click', "#step_6_goOn", function(event){
 		var JSN = jsonData.studentSelectedSubject[jsonData.selectedSubjectElementNum];
 		JSN.sentenceStarters_end_text = textInputText;
 		$('#DataInput').html(step_6b_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 	}else {
 		UserMsgBox("body", '<h4>OBS</h4> Du skal skrive en afslutning før du kan gå videre. Brug evt. sætningsstarterne i dropdownmenuen som inspiration til din formulering.');
@@ -1506,6 +1530,7 @@ function step_6b_template(){
 
 $( document ).on('click', "#step_6b_goBack", function(event){
 	$('#DataInput').html(step_6_template());
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 });
 
@@ -1517,6 +1542,7 @@ $( document ).on('click', "#step_6b_goOn", function(event){
 		JSN.studentSubjectTitel = [];
 		JSN.studentSubjectTitel[0] = textInputText;
 		$('#DataInput').html(step_7_template());
+		remove_botstrap_md_8_col();
 		// // setJsAudioEventLitsner();
 	}else {
 		UserMsgBox("body", '<h4>OBS</h4> Du skal skrive en overskrift før du kan gå videre.');
@@ -1572,6 +1598,7 @@ function step_7_template(){
 
 $( document ).on('click', "#step_7_goBack", function(event){
 	$('#DataInput').html(step_6b_template());
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 });
 

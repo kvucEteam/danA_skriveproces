@@ -626,10 +626,12 @@ function returnLastStudentSession() {
 	        });
 
 	        $('#DataInput').html(step_0_template());
+	        remove_botstrap_md_8_col();
 	        // setJsAudioEventLitsner();
 	    });
 	} else {
 		$('#DataInput').html(step_0_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 	}
 }
@@ -723,6 +725,11 @@ function detectBootstrapBreakpoints(){
 }
 
 
+function remove_botstrap_md_8_col(){
+	$('.instruction_ajust > div').removeClass('col-md-8');
+}
+
+
 
 //////////////////////
 //  	STEP 0 		//
@@ -755,6 +762,7 @@ function step_0_template(){
 
 $( document ).on('click', "#step_0_goOn", function(event){
 	$('#DataInput').html(step_1_template());
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 });
 
@@ -1030,6 +1038,7 @@ $( document ).on('click', "#step_1_goOn", function(event){
 	    // ORGINAL KODE:
 		fallbackStudentTextNo = jsonData.selectedTextNo;
 	 	$('#DataInput').html(step_2_template());
+	 	remove_botstrap_md_8_col();
 	 	// setJsAudioEventLitsner();
 	 	// $(".studentTheme").focus();  // Sets the focus in the inputfield when the template loades.
 	}
@@ -1151,6 +1160,7 @@ $( document ).on('click', ".Themes", function(event){
 
 $( document ).on('click', "#step_2_goBack", function(event){
 	$('#DataInput').html(step_1_template());
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 });
 
@@ -1197,6 +1207,7 @@ $( document ).on('click', "#step_2_goOn", function(event){
 	    // ORGINAL KODE:
 		fallbackStudentTheme = studentTheme;
 	 	$('#DataInput').html(step_3_template());   // $("#form [name='input1st']").focus();   $("textarea [name='textareaFocus']"").focus();
+	 	remove_botstrap_md_8_col();
 	 	// setJsAudioEventLitsner();
 	 	// $("#textInputTheme").focus();  // Sets the focus in the textarea when the template loades.
 	} else {
@@ -1270,6 +1281,7 @@ $(document).on('change', '#Dropdown0', function(){
 
 $( document ).on('click', "#step_3_goBack", function(event){
 	$('#DataInput').html(step_2_template());
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 	// $(".studentTheme").focus();  // Sets the focus in the inputfield when the template loades.
 });
@@ -1287,6 +1299,7 @@ $( document ).on('click', "#step_3_goOn", function(event){
 		JST.TextTheme = TextTheme;
 		
 		$('#DataInput').html(step_4_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 		
 	} else {
@@ -1348,6 +1361,7 @@ function step_4_template(){
 
 $( document ).on('click', "#step_4_goBack", function(event){
 	$('#DataInput').html(step_3_template());
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 	// $("#textInputTheme").focus();  // Sets the focus in the textarea when the template loades.
 });
@@ -1386,6 +1400,7 @@ $( document ).on('click', "#step_4_goOn", function(event){
 	if (JST.hasOwnProperty("analyticalFocus")){
 
 	 	$('#DataInput').html(step_5_template());
+	 	remove_botstrap_md_8_col();
 	 	// setJsAudioEventLitsner();
 	 	// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 	} else {
@@ -1531,6 +1546,7 @@ $( document ).on('click', ".quoteBtn", function(event){
 	// -----------------------
 	quoteCount = index-1; 
 	$('#DataInput').html(step_5_template());   // 12-01-2016  <-----------  DATA SKAL GEMMENS HER!!!
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 	// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 });
@@ -1539,6 +1555,7 @@ $( document ).on('click', ".quoteBtn", function(event){
 $( document ).on('click', "#step_5_goBack", function(event){
 	if ((typeof(quoteCount) === 'undefined') || (quoteCount == 0)){
 		$('#DataInput').html(step_4_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 		quoteCount = null;
 		console.log("step_4_goBack - quoteCount: " + quoteCount);
@@ -1546,6 +1563,7 @@ $( document ).on('click', "#step_5_goBack", function(event){
 		--quoteCount;  	// Once...
 		--quoteCount;	// twice... because of the inscreasement inside step_XXX_template
 		$('#DataInput').html(step_5_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 		// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 	}
@@ -1581,6 +1599,7 @@ $( document ).on('click', "#step_5_goOn", function(event){
 				console.log("step_4_goOn - jsonData.studentSelectedTexts 4: " + JSON.stringify(jsonData.studentSelectedTexts));
 				// autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
 				$('#DataInput').html(step_6_template());
+				remove_botstrap_md_8_col();
 				// setJsAudioEventLitsner();
 				// $(".textInputQuoteNote").focus();  // Sets the focus in the textarea when the template loades.
 				// makeSortable();
@@ -1762,6 +1781,7 @@ $( document ).on('click', ".quoteNoteBtn", function(event){
 	// -----------------------
 	quoteNoteCount = index-1; 
 	$('#DataInput').html(step_6_template());   // 12-01-2016  <-----------  DATA SKAL GEMMENS HER!!!
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 	// $(".textInputQuoteNote").focus();  // Sets the focus in the textarea when the template loades.
 });
@@ -1770,6 +1790,7 @@ $( document ).on('click', ".quoteNoteBtn", function(event){
 $( document ).on('click', "#step_6_goBack", function(event){
 	if ((typeof(quoteNoteCount) === 'undefined') || (quoteNoteCount == 0)){
 		$('#DataInput').html(step_5_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 		// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 		// window.quoteCount = jsonData.numOfChoosenWords-2;   // Step 5 counter reset. Using "window.quoteCount" because it might not exist.
@@ -1780,6 +1801,7 @@ $( document ).on('click', "#step_6_goBack", function(event){
 		--quoteNoteCount;  	// Once...
 		--quoteNoteCount;	// twice... because of the inscreasement inside step_XXX_template
 		$('#DataInput').html(step_6_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 		// $(".textInputQuoteNote").focus();  // Sets the focus in the textarea when the template loades.
 	}
@@ -1815,6 +1837,7 @@ $( document ).on('click', "#step_6_goOn", function(event){
 				console.log("step_4_goOn - jsonData.studentSelectedTexts 4: " + JSON.stringify(jsonData.studentSelectedTexts));
 				// autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
 				$('#DataInput').html(step_7_template());
+				remove_botstrap_md_8_col();
 				// setJsAudioEventLitsner();
 				// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 				// makeSortable();
@@ -1970,6 +1993,7 @@ $( document ).on('click', ".textPassageBtn", function(event){
 	// -----------------------
 	textPassageCount = index-1; 
 	$('#DataInput').html(step_7_template());  
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 	// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 });
@@ -1978,6 +2002,7 @@ $( document ).on('click', ".textPassageBtn", function(event){
 $( document ).on('click', "#step_7_goBack", function(event){
 	if ((typeof(textPassageCount) === 'undefined') || (textPassageCount == 0)){
 		$('#DataInput').html(step_6_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 		// $(".textInputQuoteNote").focus();  // Sets the focus in the textarea when the template loades.
 		textPassageCount = null;
@@ -1986,6 +2011,7 @@ $( document ).on('click', "#step_7_goBack", function(event){
 		--textPassageCount; // Once...
 		--textPassageCount;	// twice... because of the inscreasement inside step_XXX_template
 		$('#DataInput').html(step_7_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 		// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 	}
@@ -2022,6 +2048,7 @@ $( document ).on('click', "#step_7_goOn", function(event){
 				console.log("step_7_goOn - jsonData: " + JSON.stringify(jsonData));
 				// autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
 				$('#DataInput').html(step_8_template());
+				remove_botstrap_md_8_col();
 				// setJsAudioEventLitsner();
 				// $("#textInputConclusion").focus();  // Sets the focus in the textarea when the template loades.
 				// makeSortable();
@@ -2093,6 +2120,7 @@ $(document).on('change', '#Dropdown2', function(){
 
 $( document ).on('click', "#step_8_goBack", function(event){
 	$('#DataInput').html(step_7_template());
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 	// $(".textInput").focus();  // Sets the focus in the textarea when the template loades.
 });
@@ -2110,6 +2138,7 @@ $( document ).on('click', "#step_8_goOn", function(event){
 		JST.conclusion = conclusion;
 		
 		$('#DataInput').html(step_9_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 		// $(".headerField").focus();  // Sets the focus in the textarea when the template loades.
 		
@@ -2211,6 +2240,7 @@ $( document ).on('focusout', ".introField", function(event){
 $( document ).on('click', "#step_9_goBack", function(event){
 	// if ((typeof(headAndIntroCount) === 'undefined') || (headAndIntroCount == 0)){
 		$('#DataInput').html(step_8_template());
+		remove_botstrap_md_8_col();
 		// setJsAudioEventLitsner();
 		// $("#textInputConclusion").focus();  // Sets the focus in the textarea when the template loades.
 		// headAndIntroCount = null;
@@ -2233,6 +2263,7 @@ $( document ).on('click', "#step_9_goOn", function(event){
 		console.log("step_9_goOn - jsonData.studentSelectedTexts 4: " + JSON.stringify(jsonData.studentSelectedTexts));
 		// autoPlay = (typeof(TautoPlay) !== 'undefined')? TautoPlay : autoPlay;  // This sets the remembered state before step 4.
 		$('#DataInput').html(step_10_template());
+		remove_botstrap_md_8_col();
 		// // setJsAudioEventLitsner();
 		// makeSortable();
 	} else {
@@ -2266,7 +2297,7 @@ function step_10_template(){
 
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('header'))?'<h1 id="stepHeader_10" class="stepHeader">'+jsonData.steps[stepNo].header+' - '+jsonData.headerAndWordTemplateHeader.toLowerCase()+'</h1>':'');
 	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('instruction'))?'<div class="instruction_ajust">'+instruction(jsonData.steps[stepNo].instruction)+'</div>':'')+'<div class="clear"></div>';
-	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'');
+	HTML += 			((jsonData.steps[stepNo].hasOwnProperty('explanation'))?explanation(jsonData.steps[stepNo].explanation):'')+'<div class="clear"></div>';
 
 	HTML += 			'<div id="TextAndQuoteContainer">';
 			
@@ -2307,6 +2338,7 @@ function step_10_template(){
 
 $( document ).on('click', "#step_10_goBack", function(event){
 	$('#DataInput').html(step_9_template());
+	remove_botstrap_md_8_col();
 	// setJsAudioEventLitsner();
 	// $(".headerField").focus();  // Sets the focus in the textarea when the template loades.
 });
