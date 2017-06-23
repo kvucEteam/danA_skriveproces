@@ -240,3 +240,18 @@ textarea {
     /*margin-left: -13px !important; */
 }
 
+/* SKJUL DOWNLOAD KNAPPEN */
+
+audio::-internal-media-controls-download-button {
+    display:none;
+}
+
+audio::-webkit-media-controls-enclosure {
+    overflow:hidden;
+}
+
+audio::-webkit-media-controls-panel {
+    width: calc(100% + 30px); /* Adjust as needed */
+}
+
+/* SKJUL DOWNLOAD KNAPPEN SLUT*/
