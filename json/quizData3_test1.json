@@ -1,0 +1,30 @@
+{
+	"general": {
+		"header": "H1 header",
+		"explanation": "explanation",
+		"instruction": "instruction"
+	},
+	"step": [
+		{
+			"stepNo": 0,
+			"template": "template_external",
+			"template_external" : {
+				"functionCall": "external_template1(myData1, myData2)",
+				"myData1": {"a": "val_a", "b": "val_b", "c": "val_c"},
+				"myData2": {"d": "val_d", "e": "val_e", "f": "val_f"}
+			}
+		},
+		{
+			"stepNo": 1,
+			"subSteps": [1,2,3],
+			"getVal": "json(step[3])",
+			"template": "template_step",
+			"template_step": {}
+		},
+		{
+			"stepNo": 2
+		},
+		["A", "B", "C"],
+		{"getVal": "json(step[0].subSteps)"}
+	]
+}

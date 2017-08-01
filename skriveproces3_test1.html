@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Skriveproces</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" href="../library/css/styles.css" type="text/css" />
+
+        <!-- <link rel="stylesheet" href="vid_skriv.css" type="text/css" /> --> 
+
+        <link rel="stylesheet" href="skriveproces3.css" type="text/css" />
+
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div class="col-xs-12">
+
+                <div id="DataInput"></div>
+
+                <div class="stepNav">
+                    <div class="row">
+                        <div class="XXXXcol-xs-12 XXXXXcol-md-8">
+                            <div id="stepNavContainer">
+                                <span id="step_0_goOn" class="btn btn-lg btn-primary">Gå videre</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="processContainer"></div>
+
+            </div>
+        </div>
+        <script src="../library/vendor_scripts.js"></script>
+        <script src="../library/custom_scripts.js"></script>
+        <script src="html-docx.js">
+        </script>
+        <script src="filesaver.js"></script>
+        <script src="skriveproces3.js"></script>
+        <script>
+            $('#DataInput').html(template_test());
+        // loadData("guidet_skriv_1.json");
+        </script>
+        <script type="text/javascript">
+            // ReturnAjaxData("GET", "json/quizData3.json", false, "json");   
+        </script>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            one_line_footer();
+        });
+        </script>
+    </body>
+
+</html>
+

@@ -1,0 +1,256 @@
+{
+	"VIGTIGT": "Fertilitetsbehandling fredag d. 23/6 kl 9.45.",
+	"general": {
+		"header": "Skriveguide til den introducerende artikel",
+		"explanation": "Dette er explanation tekst",
+		"instruction": "Dette er instruction tekst"
+	},
+	"step": [
+		{
+			"stepNo": 0,
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_1", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "json(general.header)"},
+					{"instruction": "json(general.instruction)"},
+					{"explanation": "json(general.explanation)"},
+					{"breadCrumbs": {"navigation": true}},
+					{"text" : "<p>Se nedenstående video</p>"},
+					{"video": {
+						"attr": {"id": "video_1", "class": "video embed-responsive embed-responsive-16by9 col-xs-12 col-md-12"},
+						"url": "https://www.youtube.com/embed/eK_60WabXck"}
+					},
+					{"btn": {
+						"attr" : {"id": "goForward_0", "class": "navBtn goForward btn btn-primary"},
+						"text": "GÅ VIDERE", 
+						"onClick": "goForward(.goForward)"
+					}},
+					{"progressBar": true}
+				]
+			},
+			"onStepReady": [
+				{
+					"dynamicText": {
+						"NOTE": "options er valgfri, og er indstilligner (som f.eks typeSpeed) i dynamicText-objektet.",
+						"selector": ".instructionText",
+						"options": {"typeSpeed": 50},
+						"cmdObj": [
+							{"add": " Lidt test-tekst tilføjes."},
+					        {"wait": 2000},
+					        {"add": " Dette er enden på denne lille præsentation :-)"},
+					        {"wait": 2000},
+					        {"removeCursor": 300}
+						]
+					}
+				},
+				{
+					"microhint": {
+						"obj": "#goForward_0", 
+						"text": "Du skal se videoen...", 
+						"multiple": true, 
+						"color": "#000"
+					}
+				},
+				{
+					"delay": {
+						"wait": 5000,
+						"execute": [
+							{
+								"microhint": {
+									"obj": "#processBar", 
+									"text": "Dette er en processBar!", 
+									"multiple": true, 
+									"color": "#000"
+								}
+							}
+						]
+					}
+				},
+				{
+					"external_function" : {
+						"functionCall": "external_template1(myData1, myData2)",
+						"myData1": {"a": "val_a", "b": "val_b", "c": "val_c"},
+						"myData2": {"d": "val_d", "e": "val_e", "f": "val_f"}
+					}
+				},
+				"save(.testClass)"
+			]
+		},
+		{
+			"stepNo": 1,
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_1", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "json(general.header) - stepNo: 1"},
+					{"instruction": "json(general.instruction)"},
+					{"explanation": "json(general.explanation)"},
+					{"breadCrumbs": {"navigation": true}},
+					{"text" : "<p>Dette er eet enkelt inputField-text</p>"},
+					{"inputField": {
+						"mandatory": true, 
+						"attr" : {"id": "inputField_1", "class": "inputField", "placeholder": "Skriv i dette inputField..."},
+						"insertPreviousText": true,
+						"errMsg": {
+							"errType": "microhint",
+							"microhint": {
+									"obj": "#inputField_1", 
+									"text": "#inputField_1 - Du skal skrive noget før du går videre - 1", 
+									"multiple": true, 
+									"color": "#000"
+							},
+							"userMsgBox": {
+								"NOTE": "Denne userMsgBox er blot en demo",
+								"target": "body",
+								"text": "Du skal udfylde dette text-felt"
+							},
+							"errTrigger": ["event(onClick).class=goForward"],
+							"errCondition": ["empty(#inputField_1)", "empty(.inputField)"]
+						}
+					}},
+					{"inputField": {
+						"mandatory": true, 
+						"attr" : {"id": "inputField_2", "class": "inputField", "placeholder": "Skriv i dette inputField..."},
+						"insertPreviousText": true,
+						"errMsg": {
+							"errType": "microhint",
+							"microhint": {
+									"obj": "#inputField_2", 
+									"text": "#inputField_2 - Du skal skrive noget før du går videre - 2", 
+									"multiple": true, 
+									"color": "#000"
+							},
+							"userMsgBox": {
+								"NOTE": "Denne userMsgBox er blot en demo",
+								"target": "body",
+								"text": "Du skal udfylde dette text-felt"
+							},
+							"errTrigger": ["event(onClick).class=goForward"],
+							"errCondition": ["empty(#inputField_2)", "empty(.inputField)"]
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "myText_1", "class": "yourText btn btn-info"},
+						"text": "Skriv videre på din tekst", 
+						"onClick": {
+							"target": "#myText_1", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox1"},
+								"content": [
+									{"text" : "<p>Skriv videre i din text</p>"},
+									{"textArea": {
+										"attr" : {"id": "textArea_1", "class": "autoSaveOff", "placeholder": "Skriv i dette textArea..."},
+										"mandatory": true,
+										"insertPreviousText": true,
+										"errMsg": {
+											"errType": "microhint",
+											"microhint": {
+												"obj": "#textArea_1", 
+												"text": "#textArea_1 - Du skal skrive noget før du går videre", 
+												"multiple": true, 
+												"color": "#000"
+											},
+											"errTrigger": ["event(onClick).class=CloseClass"],
+											"errCondition": ["empty(#textArea_1)"]
+										}
+									}},
+									{"btn": {
+										"attr" : {"id": "save_1", "class": "save btn btn-info"},
+										"text": "GEM", 
+										"onClick": ["save(#save_1)", "close_template_userMsgBox(#save_1)"]
+									}}
+								]
+							}
+						}
+					}},
+					{"text" : "<p>Dette er textArea-text</p>"},
+					{"dropdown":{
+						"NOTE": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
+						"id":"Dropdown1", "class":"Dropdown", "selected": "0",
+						"target": "#textArea_2 #inputField_1 #inputField_2 .explanationText", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
+						"action": "replace", "NOTE": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"options":[
+							{"value":"Default UNSELECTED value:", "id": "id_0", "class": "class_0"},
+				    		{"value":"Value 1...", "id": "id_1", "class": "class_1"},
+				    		{"value":"Value 2...", "id": "id_2", "class": "class_2"},
+				    		{"value":"Value 3...", "id": "id_3", "class": "class_3"},
+				    		{"value":"Value 4...", "id": "id_4", "class": "class_4"}
+						]
+					}},
+					{"textArea": {
+						"mandatory": true,
+						"attr" : {"id": "textArea_2", "placeholder": "Skriv i dette textArea..."},
+						"insertPreviousText": true,
+						"errMsg": {
+							"errType": "microhint",
+							"microhint": {
+								"obj": "#textArea_2", 
+								"text": "#textArea_2 - Du skal skrive noget før du går videre", 
+								"multiple": true, 
+								"color": "#000"
+							},
+							"errTrigger": ["event(onClick).class=goForward"],
+							"errCondition": ["empty(#textArea_2)"]
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "goBack_1", "class": "navBtn goBack btn btn-primary"},
+						"text": "GÅ TILBAGE", 
+						"onClick": "goBack(.goBack)"
+					}},
+					{"btn": {
+						"attr" : {"id": "goForward_1", "class": "navBtn goForward btn btn-primary"},
+						"text": "GÅ VIDERE", 
+						"onClick": ["save(.goForward)", "goForward(.goForward)"]
+					}},
+					{"progressBar": true}
+				]
+			}
+		},
+		{
+			"stepNo": 2,
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_2", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "json(general.header) - stepNo: 2"},
+					{"instruction": "json(general.instruction)"},
+					{"explanation": "json(general.explanation)"},
+					{"breadCrumbs": {"navigation": true}},
+					{"text" : "<p>Dette er eet enkelt inputField-text</p>"},
+					{"textArea": {
+						"mandatory": true, 
+						"attr" : {"id": "textArea_3", "class": "inputField", "placeholder": "Skriv i dette textArea...", "value": "getData(#textArea_2)"},
+						"insertPreviousText": true,
+						"errMsg": {
+							"errType": "microhint",
+							"microhint": {
+									"obj": "#inputField_3", 
+									"text": "#inputField_3 - Du skal skrive noget før du går videre - 1", 
+									"multiple": true, 
+									"color": "#000"
+							}
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "goBack_2", "class": "navBtn goBack btn btn-primary"},
+						"text": "GÅ TILBAGE", 
+						"onClick": "goBack(.goBack)"
+					}},
+					{"btn": {
+						"attr" : {"id": "goForward_2", "class": "navBtn goForward btn btn-primary"},
+						"text": "GÅ VIDERE", 
+						"onClick": ["save(.goForward)", "goForward(.goForward)"]
+					}},
+					{"progressBar": true}
+				]
+			}
+		}
+	]
+}
