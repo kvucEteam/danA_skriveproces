@@ -182,7 +182,7 @@ textarea {
 
 /***********************************************************************************
 // 
-//              CSS TIL SKRIVEGUIDE MED ERWIN PHLAN  -   16/6-2017
+//              CSS TIL SKRIVEGUIDE MED ESTER CONRAD  -   16/6-2017
 //
 //*********************************************************************************/
 
@@ -233,13 +233,8 @@ textarea {
     max-width: 720px;
     left: 0;
     right: 0;
-    cursor: default;
-}
-
-#template_userMsgBox_id .CloseClass{
     cursor: pointer;
 }
-
 .template_userMsgBox_class{
     background-color: rgba(0,0,0,.5);
     height: 100%;
@@ -248,45 +243,7 @@ textarea {
     z-index: 100;
 }
 
-.step_clipborad {
-    margin-bottom: 20px;
-}
-
-.border_red{
-    border: 1px solid #F00;
-    margin: 10px;
-    padding: 10px;
-}
-
-.border_green{
-    border: 1px solid #0F0;
-    margin: 10px;
-    padding: 10px;
-}
-
-.border_blue{
-    border: 1px solid #00F;
-    margin: 10px;
-    padding: 10px;
-}
-
-.step_clipborad_header {
-
-}
-
-.save{
-    float: right;
-    clear: both;
-    margin-right: 0px;
-    margin-top: 20px; 
-}
-
-.edit{
-    font-size: 120%;
-    margin-left: 20px;
-    margin-right: 0px;
-}
-
-.red{
-    color: #F00;
+.inputField_group {
+    margin-right: 10px;
+    margin-bottom: 10px;
 }

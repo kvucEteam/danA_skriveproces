@@ -1,0 +1,224 @@
+{
+	"general": {
+		"header": "Guidet skriveproces - skriv en skønlitterær analyse",
+		"explanation": "Du skal nu lave forarbejdet til en analyse af H.C. Andersens ”Den grimme ælling” fra 1843.",
+		"instruction": "Dette er instruction tekst"
+	},
+	"step": [
+		{
+			"stepNo": 0,
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_1", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "json(general.header)"},
+					{"instruction": "Du skal nu lave forarbejdet til en analyse af H.C. Andersens ”Den grimme ælling” fra 1843."},
+					{"text" : "<p>Som en del af forarbejdet skal du udfylde felterne forneden.</p>"},
+					{"inputField": {
+						"mandatory": true, 
+						"attr" : {"id": "inputField_0", "class": "inputField inputField_group", "placeholder": "Skriv titlen her..."},
+						"insertPreviousText": true,
+						"errMsg": {
+							"errType": "microhint",
+							"microhint": {
+									"obj": "#inputField_0", 
+									"text": "#inputField_0 - Du skal skrive titlen før du går videre", 
+									"multiple": true, 
+									"color": "#000"
+							},
+							"userMsgBox": {
+								"NOTE": "Denne userMsgBox er blot en demo",
+								"target": "body",
+								"text": "Du skal udfylde dette text-felt"
+							},
+							"errTrigger": ["event(onClick).class=goForward"],
+							"errCondition": ["empty(#inputField_0)"]
+						}
+					}},
+					{"inputField": {
+						"mandatory": true, 
+						"attr" : {"id": "inputField_1", "class": "inputField inputField_group", "placeholder": "Skriv forfatteren her..."},
+						"insertPreviousText": true,
+						"errMsg": {
+							"errType": "microhint",
+							"microhint": {
+									"obj": "#inputField_1", 
+									"text": "#inputField_1 - Du skal skrive forfatteren før du går videre", 
+									"multiple": true, 
+									"color": "#000"
+							},
+							"userMsgBox": {
+								"NOTE": "Denne userMsgBox er blot en demo",
+								"target": "body",
+								"text": "Du skal udfylde dette text-felt"
+							},
+							"errTrigger": ["event(onClick).class=goForward"],
+							"errCondition": ["empty(#inputField_1)"]
+						}
+					}},
+					{"inputField": {
+						"mandatory": true, 
+						"attr" : {"id": "inputField_2", "class": "inputField inputField_group", "placeholder": "Skriv årstallet her..."},
+						"insertPreviousText": true,
+						"errMsg": {
+							"errType": "microhint",
+							"microhint": {
+									"obj": "#inputField_2", 
+									"text": "#inputField_2 - Du skal skrive årstallet før du går videre", 
+									"multiple": true, 
+									"color": "#000"
+							},
+							"userMsgBox": {
+								"NOTE": "Denne userMsgBox er blot en demo",
+								"target": "body",
+								"text": "Du skal udfylde dette text-felt"
+							},
+							"errTrigger": ["event(onClick).class=goForward"],
+							"errCondition": ["empty(#inputField_2)"]
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goForward_1", "class": "navBtn goForward btn btn-primary"},
+						"text": "GÅ VIDERE", 
+						"onClick": ["save(.goForward)", "goForward(.goForward)"]
+					}},
+					{"progressBar": true}
+				]
+			}
+		},
+		{
+			"stepNo": 1,
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_1", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "Du skal nu lave forarbejdet til en analyse af H.C. Andersens ”Den grimme ælling” fra 1843."},
+					{"instructionXXXXXX": "Du skal nu fokusere på tre punkter som skal udgøre midten af din opgave. Det er den del, man også kalder <a id='link_0'>analysen</a>. At analysere vil sige at tage en helhed og dele den op i mindre dele, og så undersøge dem, så du kommer i dybden med teksten som helhed. Du skal fokusere på tekstens <a id='link_1'>genre2</a>, på <a id='link_2'>miljøet</a>, og på budskabet. <br> Det første du skal undersøge er tekstens genre, og du skal bruge kap. 3.6. i Håndbog til dansk."},
+					{"text" : "<p>Dette er eet enkelt inputField-text</p>"},
+					{"inputField": {
+						"mandatory": true, 
+						"attr" : {"id": "inputField_1", "class": "inputField", "placeholder": "Skriv i dette inputField..."},
+						"insertPreviousText": true,
+						"errMsg": {
+							"errType": "microhint",
+							"microhint": {
+									"obj": "#inputField_1", 
+									"text": "#inputField_1 - Du skal skrive noget før du går videre - 1", 
+									"multiple": true, 
+									"color": "#000"
+							},
+							"userMsgBox": {
+								"NOTE": "Denne userMsgBox er blot en demo",
+								"target": "body",
+								"text": "Du skal udfylde dette text-felt"
+							},
+							"errTrigger": ["event(onClick).class=goForward"],
+							"errCondition": ["empty(#inputField_1)", "empty(.inputField)"]
+						}
+					}},
+					{"inputField": {
+						"mandatory": true, 
+						"attr" : {"id": "inputField_2", "class": "inputField", "placeholder": "Skriv i dette inputField..."},
+						"insertPreviousText": true,
+						"errMsg": {
+							"errType": "microhint",
+							"microhint": {
+									"obj": "#inputField_2", 
+									"text": "#inputField_2 - Du skal skrive noget før du går videre - 2", 
+									"multiple": true, 
+									"color": "#000"
+							},
+							"userMsgBox": {
+								"NOTE": "Denne userMsgBox er blot en demo",
+								"target": "body",
+								"text": "Du skal udfylde dette text-felt"
+							},
+							"errTrigger": ["event(onClick).class=goForward"],
+							"errCondition": ["empty(#inputField_2)", "empty(.inputField)"]
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "myText_1", "class": "yourText btn btn-info"},
+						"text": "Skriv videre på din tekst", 
+						"onClick": {
+							"target": "#myText_1", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox1"},
+								"content": [
+									{"text" : "<p>Skriv videre i din text</p>"},
+									{"textArea": {
+										"attr" : {"id": "textArea_1", "class": "autoSaveOff", "placeholder": "Skriv i dette textArea..."},
+										"mandatory": true,
+										"insertPreviousText": true,
+										"errMsg": {
+											"errType": "microhint",
+											"microhint": {
+												"obj": "#textArea_1", 
+												"text": "#textArea_1 - Du skal skrive noget før du går videre", 
+												"multiple": true, 
+												"color": "#000"
+											},
+											"errTrigger": ["event(onClick).class=CloseClass"],
+											"errCondition": ["empty(#textArea_1)"]
+										}
+									}},
+									{"btn": {
+										"attr" : {"id": "save_1", "class": "save btn btn-info"},
+										"text": "GEM", 
+										"onClick": ["save(#save_1)", "close_template_userMsgBox(#save_1)"]
+									}}
+								]
+							}
+						}
+					}},
+					{"text" : "<p>Dette er textArea-text</p>"},
+					{"dropdown":{
+						"NOTE": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
+						"id":"Dropdown1", "class":"Dropdown", "selected": "0",
+						"target": "#textArea_2 #inputField_1 #inputField_2 .explanationText", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
+						"action": "replace", "NOTE": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"options":[
+							{"value":"Default UNSELECTED value:", "id": "id_0", "class": "class_0"},
+				    		{"value":"Value 1...", "id": "id_1", "class": "class_1"},
+				    		{"value":"Value 2...", "id": "id_2", "class": "class_2"},
+				    		{"value":"Value 3...", "id": "id_3", "class": "class_3"},
+				    		{"value":"Value 4...", "id": "id_4", "class": "class_4"}
+						]
+					}},
+					{"textArea": {
+						"mandatory": true,
+						"attr" : {"id": "textArea_2", "placeholder": "Skriv i dette textArea..."},
+						"insertPreviousText": true,
+						"errMsg": {
+							"errType": "microhint",
+							"microhint": {
+								"obj": "#textArea_2", 
+								"text": "#textArea_2 - Du skal skrive noget før du går videre", 
+								"multiple": true, 
+								"color": "#000"
+							},
+							"errTrigger": ["event(onClick).class=goForward"],
+							"errCondition": ["empty(#textArea_2)"]
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "goBack_1", "class": "navBtn goBack btn btn-primary"},
+						"text": "GÅ TILBAGE", 
+						"onClick": "goBack(.goBack)"
+					}},
+					{"btn": {
+						"attr" : {"id": "goForward_2", "class": "navBtn goForward btn btn-primary"},
+						"text": "GÅ VIDERE", 
+						"onClick": ["save(.goForward)", "goForward(.goForward)"]
+					}},
+					{"progressBar": true}
+				]
+			}
+		}
+	]
+}

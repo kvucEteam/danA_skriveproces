@@ -18,7 +18,7 @@ writeProcessClass = {
 			fadeOut: 400  	// The time in milliseconds it takes for the microhint to fadeout.
 		},
 		// step: []		  	// The data associated with each step.
-		userData: {},		// The data collected. Data is stored with the element id (e.g. textarea id) as key, and the associated value as value. 
+		userData: {},		// The data collected. Data is stored with the element id (e.g. textarea id) as key, and the associated value as value. The reason why classes are not choosen as keys is because only one classname can be used for that element, if arbitrary classnames are allowed (assuming no delimited classnames like "dataKey_myClassName"). This then serverely limits the styling-possibilities for elements that need to data saved...
 		saveInterval: 5000	// When an inputfield or a textarea gets focus, the data is saved at each saveInterval (in milliseconds).
 	},
 
@@ -80,6 +80,7 @@ writeProcessClass = {
 		// this.onClick_removeAllEventListeners(); // TEST
 
 		this.getData();  // This fetches api.userData from previous steps and inserts it in the JSON data.
+		this.html();
 
 		this.wpObj.jsonData_sanitized = JSON.parse( JSON.stringify( jsonData ));					// Add a copy of jsonData in wpObj.
 		this.wpObj.jsonData_sanitized = this.removeAllJsonStrValues(this.wpObj.jsonData_sanitized); // Remove all string values.
@@ -431,7 +432,7 @@ writeProcessClass = {
 	},
 
 	// Insert api.userData from a privious step into JSON data
-	getData: function() {
+	getData_OLD: function() {
 		console.log('\ngetData - CALLED');
 		var stepObj = jsonData.step[this.api.currentStepNo];
 
@@ -447,13 +448,15 @@ writeProcessClass = {
 			for (var n in valueObj) {
 				if ((valueObj[n].indexOf('getData(')==0) && (valueObj[n].indexOf(' ')===-1) && (valueObj[n].indexOf(')')==valueObj[n].length-1)) {
 
-					var id = this.cmdStrToCmdAndArg(valueObj[n]).arg.replace('#', '');
+					// var id = this.cmdStrToCmdAndArg(valueObj[n]).arg.replace('#', '');  // COMMENTED OUT 03-08-2017
+					var id = this.cmdStrToCmdAndArg(valueObj[n]).arg;	   // ADDED 03-08-2017
 					console.log('getData - id: ' + id);
 
 					if (this.api.userData.hasOwnProperty(id)) {
 						console.log('getData - '+id+': ' + this.api.userData[id]);
 
-						var pos = stepObjStr.indexOf('getData(#'+id+')');
+						// var pos = stepObjStr.indexOf('getData(#'+id+')'); // COMMENTED OUT 03-08-2017
+						var pos = stepObjStr.indexOf('getData('+id+')'); // ADDED 03-08-2017
 						var pos_start = stepObjStr.lastIndexOf('{', pos);
 						var pos_end = stepObjStr.indexOf('}', pos);
 
@@ -478,6 +481,120 @@ writeProcessClass = {
 	},
 
 
+	// Insert api.userData from a privious step into JSON data
+	getData: function() {
+		console.log('\ngetData - CALLED');
+		var stepObj = jsonData.step[this.api.currentStepNo];
+
+		var stepObjStr = JSON.stringify(stepObj);
+		console.log('getData - stepObjStr: ' + stepObjStr);
+
+		var pos_start = stepObjStr.indexOf('getData(');
+		console.log('getData - pos_start: ' + pos_start);
+
+		var count = 0;
+
+		while ((pos_start!==-1) && (count < 25)) {
+			console.log('getData - A0');
+
+			console.log('getData - count: ' + count);
+
+			var pos_end = stepObjStr.indexOf(')', pos_start);
+
+			if (pos_end!==-1) {
+				console.log('getData - A1');
+
+				var argArr = stepObjStr.substring(pos_start+8, pos_end).replace(/\'/g, '').split(',');
+				console.log('getData - argArr: ' + JSON.stringify(argArr));
+
+				if (argArr.length == 2) {
+					console.log('getData - A2');
+
+					var source = argArr[0].trim();
+					var target = argArr[1].trim();
+					console.log('getData - source: "' + source + '", target: "' + target + '"');
+
+					if (this.api.userData.hasOwnProperty(source)) {
+						// $(target).html(this.api.userData[source.replace('#','')]);  	// COMMENTED OUT 03-08-2017
+						$(target).html(this.api.userData[source]);						// ADDED 03-08-2017
+					} else {
+						$(target).html('');
+					}
+
+				} else {
+					console.log('getData - A3');
+
+					alert('FEJL FRA: "getData('+stepObjStr.substring(pos_start+6, pos_end)+')", som ikke rummer det rigtige antal selectors, som skal være 2.');
+				}
+			}
+
+			pos_start = stepObjStr.indexOf('getData(', pos_end); // http://localhost:8080/danA_skriveproces/skriveproces3.html
+			console.log('getData - pos_start: ' + pos_start);
+
+			++count;
+		}
+	},
+
+	// This method fetches markup (BUT INTENDED FOR TEXT PRIMERALY) from the DOM by use of a source-selector, and inserts it into the target fields by use of a target-selector.
+	//
+	// ARGUMENTS:
+	// ==========
+	// 		"html(sourceSelector, targetSelector)" or "html('sourceSelector', 'targetSelector')"
+	//
+	// EXAMPLE OF USE: 
+	// ===============
+	// 		To use this method, one writes e.g. "html(#step3_instruction, .instruction)" in the JSON-file
+	html: function(){
+		console.log('\nhtml - CALLED');
+		var stepObj = jsonData.step[this.api.currentStepNo];
+
+		var stepObjStr = JSON.stringify(stepObj);
+		console.log('html - stepObjStr: ' + stepObjStr);
+
+		var pos_start = stepObjStr.indexOf('html(');
+
+		var count = 0;
+
+		while ((pos_start!==-1) && (count < 25)) {
+			console.log('html - A0');
+
+			console.log('html - count: ' + count);
+
+			var pos_end = stepObjStr.indexOf(')"', pos_start);
+
+			if (pos_end!==-1) {
+				console.log('html - A1');
+
+				var argArr = stepObjStr.substring(pos_start+6, pos_end).replace(/\'/g, '').split(',');
+				console.log('html - argArr: ' + JSON.stringify(argArr));
+
+				if (argArr.length == 2) {
+					console.log('html - A2');
+
+					var source = argArr[0].trim();
+					var target = argArr[1].trim();
+					console.log('html - source: "' + source + '", target: "' + target + '"');
+
+					$(argArr[1].trim()).html($(argArr[0].trim()).html());
+
+					if (argArr[0].trim()) 
+					$(argArr[0].trim()).before('<h4 class="step_clipborad_header">'+argArr[0].trim()+'</h4>');
+
+				} else {
+					console.log('html - A3');
+
+					alert('FEJL FRA: "html('+stepObjStr.substring(pos_start+6, pos_end)+')", som ikke rummer det rigtige antal selectors, som skal være 2.');
+				}
+			}
+
+			pos_start = stepObjStr.indexOf('html(', pos_end); 
+			console.log('html - pos_start: ' + pos_start);
+
+			++count;
+		}
+	},
+
+
 	// This method is designed to close/remove the template_userMsgBox when the method is called from the JSON script. 
  	close_template_userMsgBox: function(selector){
  		console.log('close - CALLED - selector: ' + selector);
@@ -491,7 +608,8 @@ writeProcessClass = {
 	saveData: function(jqThis, Tthis) {
 		console.log('.saveData - CALLED');
 
-		var id = $(jqThis).prop('id');
+		// var id = $(jqThis).prop('id');  // COMMENTED OUT 03-08-2017
+		var id = '#'+$(jqThis).prop('id'); // ADDED 03-08-2017
 		var val = $(jqThis).val(); 
 		console.log('saveData - id: ' + id + ', val: ' + val);
 
@@ -514,8 +632,10 @@ writeProcessClass = {
 
 		var Tthis = this;
 
-		$(this.api.selector+' input, '+this.api.selector+' textarea').each(function( index, element ) {
-			var id = $(element).prop('id');
+		// NOTE: ".template_userMsgBox_class" needs to be included because the overlay for template_userMsgBox lays ouside this.api.selector.
+		$(this.api.selector+' input, '+this.api.selector+' textarea, .template_userMsgBox_class input, .template_userMsgBox_class textarea').each(function( index, element ) {
+			// var id = $(element).prop('id'); // COMMENTED OUT 03-08-2017
+			var id = '#'+$(element).prop('id'); // ADDED 03-08-2017
 			var val = $(element).val(); 
 			console.log('save - id: ' + id + ', val: ' + val);
 
@@ -557,18 +677,11 @@ writeProcessClass = {
 
 		var Tthis = this;
 
-		window.osc = Object.create(objectStorageClass);
-		osc.init('studentSession_7');
-		osc.exist('apiData');
+		// window.osc = Object.create(objectStorageClass);
+		// osc.init('studentSession_7');
+		// osc.exist('apiData');
 
-		// osc.startAutoSave('test1', [1,2,3], 500);
-		// osc.setAutoSaveMaxCount('test1', 5);
-
-		// osc.startAutoSave('test2', [4,5,6], 1000);
-		// osc.setAutoSaveMaxCount('test2', 10);
-
-		// osc.startAutoSave('test3', [7,8,9], 1500);
-		// osc.setAutoSaveMaxCount('test3', 15);
+		
 
 		var apiData = osc.load('apiData');
 		console.log('returnLastStudentSession - apiData: ' + JSON.stringify(apiData));
@@ -649,10 +762,12 @@ writeProcessClass = {
 		console.log('\ninsertUserData - CALLED');
 		console.log('insertUserData - this.api.userData: ' + JSON.stringify(this.api.userData));
 		for (var id in this.api.userData) {
-
-			if ($('#'+id).length > 0) {
-				console.log('insertUserData - id: ' + id);
-				$('#'+id).val(this.api.userData[id]);
+			console.log('insertUserData - id: ' + id);
+			// if ($('#'+id).length > 0) {  // COMMENTED OUT 03-08-2017
+			// 	$('#'+id).val(this.api.userData[id]);
+			// }
+			if ($(id).length > 0) {			// ADDED 03-08-2017
+				$(id).val(this.api.userData[id]);
 			}
 		}
 	},
@@ -669,7 +784,7 @@ writeProcessClass = {
 		console.log('onClick_setEventListener - stepObjStr: ' + stepObjStr);
 
 		// if ((stepObjStr.indexOf('"onClick":{"')!==-1) || (stepObjStr.indexOf('"click":{"')!==-1) ) {  // NOTE: This is a robust check for the key "onClick", even if "onClick" is given as e.g. " onClick " (with spaces) in the JSON data
-		if ((stepObjStr.indexOf('"onClick":"')!==-1) || (stepObjStr.indexOf('"click":"')!==-1) ) {  // NOTE: This is a robust check for the key "onClick", even if "onClick" is given as e.g. " onClick " (with spaces) in the JSON data
+		if ((stepObjStr.indexOf('"onClick":')!==-1) || (stepObjStr.indexOf('"click":')!==-1) ) {  // NOTE: This is a robust check for the key "onClick", even if "onClick" is given as e.g. " onClick " (with spaces) in the JSON data
 			console.log('onClick_setEventListener - A0');
 
 			var onClickObj = [];
@@ -786,7 +901,9 @@ writeProcessClass = {
 
 			for (var n in eventObj) {
 				selector = n;
-				console.log('onClick_setEventListener - selector: ' + selector);
+				console.log('onClick_setEventListener - selector 1: ' + selector);
+
+				console.log('onClick_setEventListener - selector 2: ' + selector);
 
 				$( document ).on('click', selector, {Tthis: this, selector: eventObj[n].selector, onClick_eventSpecs_no: n}, this.onClick_eventAction);  // NOTE: ".on()" and ".off()" has to have exactly similar arguments for ".off()" to work!
 			}
@@ -802,7 +919,7 @@ writeProcessClass = {
 
 		// Tthis.wpObj.err_eventTriggered = false;  // <------ VIRKER IKKE
 
-		var selector, c, func;
+		var selector, c, func, selectorArr;
 		var eventObj = Tthis.wpObj.onClick_eventSpecs;
 		var n = event.data.onClick_eventSpecs_no;
 
@@ -822,14 +939,23 @@ writeProcessClass = {
 				func = c.cmd;
 				console.log('onClick_eventAction - func: ' + func + ', selector: ' + selector);
 
-				try {
+				try {  // Try first executing a method inside the writeProcessClass...
 					eval('argObj='+JSON.stringify(selector));
 					eval('Tthis.'+func+'(argObj)');
 				}
 
 				catch(err) {
-					// alert('ERROR: \n\tonClick_eventAction - currentStepNo: ' + this.api.currentStepNo + ', eval('+func+'()) has an error!');
-					console.log('\n==================\n\tERROR: \n\tonClick_eventAction - currentStepNo: ' + Tthis.api.currentStepNo + ', eval('+func+'()) has an error! \n==================\n');
+					console.log('onClick_eventAction - A2_b');
+
+					try {  // Try secondly executing a method outside the writeProcessClass...
+						eval('argObj='+JSON.stringify(selector));
+						eval(func+'(argObj)');
+					}
+
+					catch(err) {
+						// alert('ERROR: \n\tonClick_eventAction - currentStepNo: ' + this.api.currentStepNo + ', eval('+func+'()) has an error!');
+						console.log('\n==================\n\tERROR: \n\tonClick_eventAction - currentStepNo: ' + Tthis.api.currentStepNo + ', eval('+func+'()) has an error! \n==================\n');
+					}
 				}
 
 			} else if (Array.isArray(eventObj[n][k])) { 		// EXAMPLE:  "onClick": ["save(#myBtn1)", "goForward(#myBtn1)"]
@@ -846,9 +972,14 @@ writeProcessClass = {
 				var dummy_stepObj = eventObj[n][k];  // <---------- IMPORTANT: The object passed to dummy_stepObj resembles / is a copy of the a "standard" stepObj. Here it can generate e.g. the template in the userMsgBox or other template...
 				var HTML = Tthis.generateStepContent(dummy_stepObj);
 				console.log('onClick_eventAction - HTML: ' + HTML);
+
+				console.log('onClick_eventAction - dummy_stepObj: ' + JSON.stringify(dummy_stepObj));
+				if (dummy_stepObj.hasOwnProperty('onStepReady')) {  // ADDED 03-08-2017
+					Tthis.onStepReady(dummy_stepObj.onStepReady);
+				}
 			}
 		}	
-	},
+	},   //  "transfereData(#save_7_1, #A, #B)"
 
 
 	onClick_removeAllEventListeners: function() {
@@ -1337,6 +1468,10 @@ writeProcessClass = {
 		$('#UserMsgBox').attr('id', 'template_userMsgBox_id');
 
 		this.insertUserData();  // Insert previously saved data...
+
+		this.getData();
+
+		this.html(); // Get very long text from HTML...
 		
 		return HTML;
 	},
@@ -1404,12 +1539,14 @@ writeProcessClass = {
 		console.log('\ngenerateAttrStr - CALLED - attrObj: ' + JSON.stringify(attrObj));
 
 		var HTML = '';
-		var keyArr = Object.keys(attrObj);
-		for (var n in keyArr) {
-			if (typeof(attrObj[keyArr[n]])!=='undefined') {
-				HTML += keyArr[n]+'="'+attrObj[keyArr[n]]+'" ';
+		// if (typeof(attrObj)!=='undefined') {
+			var keyArr = Object.keys(attrObj);
+			for (var n in keyArr) {
+				if (typeof(attrObj[keyArr[n]])!=='undefined') {
+					HTML += keyArr[n]+'="'+attrObj[keyArr[n]]+'" ';
+				}
 			}
-		}
+		// }
 
 		HTML = HTML.trim();
 		console.log('generateAttrStr - HTML: _' + HTML + '_');
@@ -1439,7 +1576,7 @@ writeProcessClass = {
 		        HTML += '<h1>'+content+'</h1>';
 		        break;
 		    case 'html': // This is meant as a quick way of getting som static HTML into the template.
-		        HTML += content;
+		        HTML += this.htmlContent(content);
 		        break;
 		    case 'image':
 		        // code block
@@ -1468,7 +1605,7 @@ writeProcessClass = {
 		        // code block
 		        break;
 		    case 'text': // This is meant as a quick way of getting som text into the template - maybe wrapped in p-tags...
-		        HTML += content;
+		        HTML += this.text(content);
 		        break;
 		    case 'textArea':
 		        // code block
@@ -1486,6 +1623,34 @@ writeProcessClass = {
 		console.log('generateContentType - HTML: ' + HTML);
 
 		return HTML;
+	},
+
+
+	htmlContent: function(content) {
+		var HTML = '';
+		if (content.hasOwnProperty('attr')) {  
+        	HTML += '<div '+this.generateAttrStr(content.attr)+'>';
+        	HTML += 	(content.hasOwnProperty('value'))? content.value : content;
+        	HTML += '</div>';
+    	} else {
+    		HTML += content;
+    	}
+
+        return HTML;
+	},
+
+
+	text: function(content) {
+		var HTML = '';
+		if (content.hasOwnProperty('attr')) {  
+        	HTML += '<span '+this.generateAttrStr(content.attr)+'>';
+        	HTML += 	(content.hasOwnProperty('value'))? content.value : content;
+        	HTML += '</span>';
+    	} else {
+    		HTML += content;
+    	}
+
+        return HTML;
 	},
 
 
@@ -1509,7 +1674,7 @@ writeProcessClass = {
 	},
 
 	btn: function (content) {
-		content.attr.class += ((content.attr.class.length > 0)? ' ' : '') + 'btn btn-primary';
+		// content.attr.class += ((content.attr.class.length > 0)? ' ' : '') + 'btn btn-primary';
 		var HTML = '<div '+this.generateAttrStr(content.attr)+'">'+content.text+'</div>';
 
 		console.log('btn - HTML: ' + HTML);
@@ -1684,9 +1849,9 @@ function traverseTree_2(json, keyToFind, keyPath, passCount, valObj) {
 
 $(document).ready(function() {
 
-	var wpc = Object.create(writeProcessClass);
-	// wpc.init("#interface");
-	wpc.returnLastStudentSession();
+	// var wpc = Object.create(writeProcessClass);
+	// // wpc.init("#interface");
+	// wpc.returnLastStudentSession();
 
 
 	// wpc.jsonPreProcessor({"key_a": "val_a", "key_b": "val_b"});
