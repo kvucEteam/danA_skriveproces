@@ -196,7 +196,7 @@ writeProcessClass = {
 			this.api.currentStepNo -= (0 <= this.api.currentStepNo)? 1 : 0;
 			this.main();
 			this.insertUserData();	
-			osc.save('apiData', Tthis.api);
+			osc.save('apiData', this.api);
 		}
 		this.wpObj.err_eventTriggered = false;  // This ensures a reset to "false" at each click on .goBack
 	},
@@ -204,10 +204,11 @@ writeProcessClass = {
 	goForward: function(arg) {
 		console.log('\ngoForward - CALLED - arg: ' + arg);
 		if (!this.wpObj.err_eventTriggered) {
+			console.log('goForward - A0');
 			this.api.currentStepNo += (this.api.currentStepNo < jsonData.step.length-1)? 1 : 0;
 			this.main();
 			this.insertUserData();	
-			osc.save('apiData', Tthis.api);
+			osc.save('apiData', this.api);
 		}
 		this.wpObj.err_eventTriggered = false;  // This ensures a reset to "false" at each click on .goForward
 	},
@@ -575,10 +576,16 @@ writeProcessClass = {
 					var target = argArr[1].trim();
 					console.log('html - source: "' + source + '", target: "' + target + '"');
 
-					$(argArr[1].trim()).html($(argArr[0].trim()).html());
+					// $(argArr[1].trim()).html($(argArr[0].trim()).html());
 
-					if (argArr[0].trim()) 
-					$(argArr[0].trim()).before('<h4 class="step_clipborad_header">'+argArr[0].trim()+'</h4>');
+					// if (argArr[0].trim()) 
+					// $(argArr[0].trim()).before('<h4 class="step_clipborad_header">'+argArr[0].trim()+'</h4>');
+
+					
+					$(target).html($(source).html());
+
+					$(source).before('<h4 class="step_clipborad_header">'+source+'</h4>');
+					
 
 				} else {
 					console.log('html - A3');
@@ -654,6 +661,7 @@ writeProcessClass = {
 
 		osc.save('apiData', Tthis.api);
 	},
+
 
 
 	isUseragentSafari: function(){

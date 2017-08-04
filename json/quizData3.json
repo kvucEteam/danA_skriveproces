@@ -548,7 +548,6 @@
 							"template_userMsgBox": {
 								"attr": {"id": "templ_userMsgBox_7_4"},
 								"content": [
-									{"text" : "<h3>Rediger dine noter fra tænkeskrivning</h3>"},
 									{"html" : "<div id='taenkeskrivning'></div>"}
 								]
 							},
@@ -725,7 +724,6 @@
 							"template_userMsgBox": {
 								"attr": {"id": "templ_userMsgBox_8a_4"},
 								"content": [
-									{"text" : "<h3>Rediger dine noter fra tænkeskrivning</h3>"},
 									{"html" : "<div id='taenkeskrivning'></div>"}
 								]
 							},
@@ -862,7 +860,6 @@
 							"template_userMsgBox": {
 								"attr": {"id": "templ_userMsgBox_8b_4"},
 								"content": [
-									{"text" : "<h3>Rediger dine noter fra tænkeskrivning</h3>"},
 									{"html" : "<div id='taenkeskrivning'></div>"}
 								]
 							},
@@ -899,6 +896,873 @@
 						"cmdObj": [
 					        {"wait": 500},
 					        {"add": " Genbesøg din tænkeskrivning, udvælg de bedste citater og anvend dem i dette afsnit."},
+					        {"wait": 2000},
+					        {"removeCursor": 300}
+						]
+					}
+				}
+			]
+		},
+		{
+			"stepnummer_i_pl-noter": "9",
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_9", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "Side 9: json(general.header)"},
+					{"instruction": "Analyse af primærteksten - anvend begreberne på citatet(er)"},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "btn_9_1", "class": "infoBtn btn btn-primary"},
+						"text": "Hvad vil vil det sige at anvende begreber?",
+						"onClick": {
+							"target": "#btn_9_1", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_9_1"},
+								"content": [
+									{"text" : {
+										"attr" : {"id": "text_9_1"},
+										"value": "html('#step_clipborad_9 .text_9_1', '#text_9_1')"
+									}}
+								]
+							}
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_9_2", "class": "infoBtn btn btn-primary"},
+						"text": "Hvordan + eksempel",
+						"onClick": {
+							"target": "#btn_9_2", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_9_2"},
+								"content": [
+									{"text" : {
+										"attr" : {"id": "text_9_2"},
+										"value": "html('#step_clipborad_9 .text_9_2', '#text_9_2')"
+									}}
+								]
+							}
+						}
+					}},
+					{"text" : "<p class='helperText red'>Mangler vi en tekst her? (Erwin + TLY)</p>"},
+					{"dropdown":{
+						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
+						"id":"Dropdown_9_1", "class":"Dropdown", "selected": "0",
+						"target": "#textArea_9_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
+						"action": "replace", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"options":[
+							{"value":"Sætningsstartere:"},
+				    		{"value":"I forbindelse med..."},
+				    		{"value":"Begrebet X er et meget sigende for, hvad der finder sted i Y..."},
+				    		{"value":"Ifølge den... bruger vi..."}
+						]
+					}},
+					{"textArea": {
+						"attr" : {"id": "textArea_9_1"}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_9_3", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter til metateksten <span class='glyphicon glyphicon-pencil right edit'></span>",
+						"onClick": {
+							"target": "#btn_9_3", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_9_3"},
+								"content": [
+									{"text" : "<h3>Rediger dine noter til metateksten</h3>"},
+									{"textArea": {
+										"attr" : {"id": "metatekst", "class": "autoSaveOff"}
+									}},
+									{"btn": {
+										"attr" : {"id": "metatekst_btn", "class": "save save_hvad btn btn-info"},
+										"text": "GEM", 
+										"onClick": ["save(#metatekst_btn)", "close_template_userMsgBox(#metatekst_btn)"]
+									}}
+								]
+							}
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_9_4", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter fra tænkeskrivning",
+						"onClick": {
+							"target": "#btn_9_4", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_9_4"},
+								"content": [
+									{"html" : "<div id='taenkeskrivning'></div>"}
+								]
+							},
+							"onStepReady": [
+								{
+									"external_function" : {
+										"functionCall": "collectDataFrom_taenkeskrivning(selector)",
+										"selector": "#taenkeskrivning"
+									}
+								}
+							]
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"text": "GÅ TILBAGE", 
+						"onClick": "goBack(.goBack)"
+					}},
+					{"btn": {
+						"attr" : {"id": "goForward_1", "class": "stepNav goForward btn btn-primary"},
+						"text": "GÅ VIDERE", 
+						"onClick": "goForward(.goForward)"
+					}},
+					{"progressBar": true}
+				]
+			}
+		},
+		{
+			"stepnummer_i_pl-noter": "10",
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_10", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "Side 10: json(general.header)"},
+					{"instruction": "Analyse af primærteksten - Tag de kritiske briller på, find primærtekstens svage led og rund afsnittet af."},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "btn_10_1", "class": "infoBtn btn btn-primary"},
+						"text": "Hvad er et kritik?",
+						"onClick": {
+							"target": "#btn_10_1", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_10_1"},
+								"content": [
+									{"text" : {
+										"attr" : {"id": "text_10_1"},
+										"value": "html('#step_clipborad_10 .text_10_1', '#text_10_1')"
+									}}
+								]
+							}
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_10_2", "class": "infoBtn btn btn-primary"},
+						"text": "Hvordan + eksempel",
+						"onClick": {
+							"target": "#btn_10_2", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_10_2"},
+								"content": [
+									{"text" : {
+										"attr" : {"id": "text_10_2"},
+										"value": "html('#step_clipborad_10 .text_10_2', '#text_10_2')"
+									}}
+								]
+							}
+						}
+					}},
+					{"text" : "<p class='helperText red'>Mangler vi en tekst her? (Erwin + TLY)</p>"},
+					{"dropdown":{
+						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
+						"id":"Dropdown_10_1", "class":"Dropdown", "selected": "0",
+						"target": "#textArea_10_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
+						"action": "replace", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"options":[
+							{"value":"Sætningsstartere:"},
+				    		{"value":"Men betyder det, at X...?"},
+				    		{"value":"Der er visse problemer, når det kommer til fremstillingen af Y... i X,  hvilket man i høj grad kan sætte spørgsmålstegn ved..."},
+				    		{"value":"I forhold til det, så synes jeg/han/ hun, at..."},
+				    		{"value":"Konsekvensen af denne tankegang kan være, at..."}
+						]
+					}},
+					{"textArea": {
+						"attr" : {"id": "textArea_10_1"}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_10_3", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter til metateksten <span class='glyphicon glyphicon-pencil right edit'></span>",
+						"onClick": {
+							"target": "#btn_10_3", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_10_3"},
+								"content": [
+									{"text" : "<h3>Rediger dine noter til metateksten</h3>"},
+									{"textArea": {
+										"attr" : {"id": "metatekst", "class": "autoSaveOff"}
+									}},
+									{"btn": {
+										"attr" : {"id": "metatekst_btn", "class": "save save_hvad btn btn-info"},
+										"text": "GEM", 
+										"onClick": ["save(#metatekst_btn)", "close_template_userMsgBox(#metatekst_btn)"]
+									}}
+								]
+							}
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_10_4", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter fra tænkeskrivning",
+						"onClick": {
+							"target": "#btn_10_4", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_10_4"},
+								"content": [
+									{"html" : "<div id='taenkeskrivning'></div>"}
+								]
+							},
+							"onStepReady": [
+								{
+									"external_function" : {
+										"functionCall": "collectDataFrom_taenkeskrivning(selector)",
+										"selector": "#taenkeskrivning"
+									}
+								}
+							]
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"text": "GÅ TILBAGE", 
+						"onClick": "goBack(.goBack)"
+					}},
+					{"btn": {
+						"attr" : {"id": "goForward_1", "class": "stepNav goForward btn btn-primary"},
+						"text": "GÅ VIDERE", 
+						"onClick": "goForward(.goForward)"
+					}},
+					{"progressBar": true}
+				]
+			}
+		},
+		{
+			"stepnummer_i_pl-noter": "11",
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_11", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "Side 11: json(general.header)"},
+					{"instruction": "Perspektiverende diskussion - Nu er det tid til at sætte sig ind i helikopteren og anskue emnet fra forskellige perspektiver. Forskellige perspektiver leder også til forskellige meninger."},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "btn_11_1", "class": "infoBtn btn btn-primary"},
+						"text": "Hvad er en perspektiverende diskussion?",
+						"onClick": {
+							"target": "#btn_11_1", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_11_1"},
+								"content": [
+									{"text" : {
+										"attr" : {"id": "text_11_1"},
+										"value": "html('#step_clipborad_11 .text_11_1', '#text_11_1')"
+									}}
+								]
+							}
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_11_2", "class": "infoBtn btn btn-primary"},
+						"text": "Hvordan + eksempel",
+						"onClick": {
+							"target": "#btn_11_2", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_11_2"},
+								"content": [
+									{"text" : {
+										"attr" : {"id": "text_11_2"},
+										"value": "html('#step_clipborad_11 .text_11_2', '#text_11_2')"
+									}}
+								]
+							}
+						}
+					}},
+					{"text" : "<p class='helperText red'>Mangler vi en tekst her? (Erwin + TLY)</p>"},
+					{"dropdown":{
+						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
+						"id":"Dropdown_11_1", "class":"Dropdown", "selected": "0",
+						"target": "#textArea_11_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
+						"action": "replace", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"options":[
+							{"value":"Sætningsstartere:"},
+				    		{"value":"Sætter man tekst Y i relation til tekst X fremgår bliver det imidlertid tydeligt..."},
+				    		{"value":"Betragter man problemstillingen fra et mere overordnet perspektiv..."},
+				    		{"value":"Emnet kan også relateres til..."},
+				    		{"value":"På den ene side mener X, at... På en anden side mener han, at..."},
+				    		{"value":"Det er en væsentlig pointe i teksten, at..."},
+				    		{"value":"Den væsentligste forskel på Xs og Ys holdninger er, at..."},
+				    		{"value":"Set i et andet perspektiv kan man sige..."},
+				    		{"value":"Der er to modstridende synspunkter i debatten..."}
+						]
+					}},
+					{"textArea": {
+						"attr" : {"id": "textArea_11_1"}
+					}},
+					{"html" : {
+						"attr" : {"id": "html_11_1"},
+						"value": "<div class='workQuestion'>DIT ARBEJDSSPØRGSMÅL: <span class='workQuestion_data'> getData(#textArea_6_3, .workQuestion_data) </span><span class='glyphicon glyphicon-pencil right edit'></span></div>",
+						"onClick": {
+							"target": "#html_11_1", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_11_2"},
+								"content": [
+									{"text" : "<h3>Rediger dit hvad-spørgsmål</h3>"},
+									{"textArea": {
+										"attr" : {"id": "textArea_11_2", "class": "autoSaveOff", "placeholder": "Skriv i dette textArea...", "value": "getData(#textArea_6_3, #textArea_11_2)"}
+									}},
+									{"btn": {
+										"attr" : {"id": "save_11_1", "class": "save save_hvordan_2 btn btn-info"},
+										"text": "GEM", 
+										"onClick": ["save(#save_11_1)", "close_template_userMsgBox(#save_11_1)", "tranferData(.save_hvordan_2)"]
+									}}
+								]
+							}
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_11_3", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter til metateksten <span class='glyphicon glyphicon-pencil right edit'></span>",
+						"onClick": {
+							"target": "#btn_11_3", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_11_3"},
+								"content": [
+									{"text" : "<h3>Rediger dine noter til metateksten</h3>"},
+									{"textArea": {
+										"attr" : {"id": "metatekst", "class": "autoSaveOff"}
+									}},
+									{"btn": {
+										"attr" : {"id": "metatekst_btn", "class": "save save_hvad btn btn-info"},
+										"text": "GEM", 
+										"onClick": ["save(#metatekst_btn)", "close_template_userMsgBox(#metatekst_btn)"]
+									}}
+								]
+							}
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_11_4", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter fra tænkeskrivning",
+						"onClick": {
+							"target": "#btn_11_4", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_11_4"},
+								"content": [
+									{"html" : "<div id='taenkeskrivning'></div>"}
+								]
+							},
+							"onStepReady": [
+								{
+									"external_function" : {
+										"functionCall": "collectDataFrom_taenkeskrivning(selector)",
+										"selector": "#taenkeskrivning"
+									}
+								}
+							]
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"text": "GÅ TILBAGE", 
+						"onClick": "goBack(.goBack)"
+					}},
+					{"btn": {
+						"attr" : {"id": "goForward_1", "class": "stepNav goForward btn btn-primary"},
+						"text": "GÅ VIDERE", 
+						"onClick": "goForward(.goForward)"
+					}},
+					{"progressBar": true}
+				]
+			},
+			"onStepReady": [
+				{
+					"dynamicText": {
+						"NOTE": "options er valgfri, og er indstilligner (som f.eks typeSpeed) i dynamicText-objektet.",
+						"selector": ".instructionText",
+						"options": {"typeSpeed": 50},
+						"cmdObj": [
+					        {"wait": 500},
+					        {"add": " Brug disse meninger i en diskussion, hvor du til sidst kommer frem til en ny mening – et slags kompromis."},
+					        {"wait": 2000},
+					        {"removeCursor": 300}
+						]
+					}
+				}
+			]
+		},
+		{
+			"stepnummer_i_pl-noter": "12",
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_12", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "Side 12: json(general.header)"},
+					{"instruction": "Afslutning – En god afslutning indeholder alt de vigtigste pointer fra din opgave i en komprimeret udgave."},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "btn_12_1", "class": "infoBtn btn btn-primary"},
+						"text": "Hvad er en afslutning?",
+						"onClick": {
+							"target": "#btn_12_1", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_12_1"},
+								"content": [
+									{"text" : {
+										"attr" : {"id": "text_12_1"},
+										"value": "html('#step_clipborad_12 .text_12_1', '#text_12_1')"
+									}}
+								]
+							}
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_12_2", "class": "infoBtn btn btn-primary"},
+						"text": "Hvordan + eksempel",
+						"onClick": {
+							"target": "#btn_12_2", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_12_2"},
+								"content": [
+									{"text" : {
+										"attr" : {"id": "text_12_2"},
+										"value": "html('#step_clipborad_12 .text_12_2', '#text_12_2')"
+									}}
+								]
+							}
+						}
+					}},
+					{"text" : "<p class='helperText red'>Mangler vi en tekst her? (Erwin + TLY)</p>"},
+					{"dropdown":{
+						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
+						"id":"Dropdown_12_1", "class":"Dropdown", "selected": "0",
+						"target": "#textArea_12_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
+						"action": "replace", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"options":[
+							{"value":"Sætningsstartere:"},
+				    		{"value":"Konkluderende kan man altså fremhæve...?"},
+				    		{"value":"Når man beskæftiger sig med dette emne..."},
+				    		{"value":"Alt i alt kan man konkludere, at..."},
+				    		{"value":"Der er for mig ingen tvivl om..."}
+						]
+					}},
+					{"textArea": {
+						"attr" : {"id": "textArea_12_1"}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_12_3", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter til metateksten <span class='glyphicon glyphicon-pencil right edit'></span>",
+						"onClick": {
+							"target": "#btn_12_3", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_12_3"},
+								"content": [
+									{"text" : "<h3>Rediger dine noter til metateksten</h3>"},
+									{"textArea": {
+										"attr" : {"id": "metatekst", "class": "autoSaveOff"}
+									}},
+									{"btn": {
+										"attr" : {"id": "metatekst_btn", "class": "save save_hvad btn btn-info"},
+										"text": "GEM", 
+										"onClick": ["save(#metatekst_btn)", "close_template_userMsgBox(#metatekst_btn)"]
+									}}
+								]
+							}
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_12_4", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter fra tænkeskrivning",
+						"onClick": {
+							"target": "#btn_12_4", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_12_4"},
+								"content": [
+									{"html" : "<div id='taenkeskrivning'></div>"}
+								]
+							},
+							"onStepReady": [
+								{
+									"external_function" : {
+										"functionCall": "collectDataFrom_taenkeskrivning(selector)",
+										"selector": "#taenkeskrivning"
+									}
+								}
+							]
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"text": "GÅ TILBAGE", 
+						"onClick": "goBack(.goBack)"
+					}},
+					{"btn": {
+						"attr" : {"id": "goForward_1", "class": "stepNav goForward btn btn-primary"},
+						"text": "GÅ VIDERE", 
+						"onClick": "goForward(.goForward)"
+					}},
+					{"progressBar": true}
+				]
+			}
+		},
+		{
+			"stepnummer_i_pl-noter": "13",
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_13", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "Side 13: json(general.header)"},
+					{"instruction": "Nu er du endelig klar til at skrive indledningen."},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "btn_13_1", "class": "infoBtn btn btn-primary"},
+						"text": "Hvad er en indledning?",
+						"onClick": {
+							"target": "#btn_13_1", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_13_1"},
+								"content": [
+									{"text" : {
+										"attr" : {"id": "text_13_1"},
+										"value": "html('#step_clipborad_13 .text_13_1', '#text_13_1')"
+									}}
+								]
+							}
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_13_2", "class": "infoBtn btn btn-primary"},
+						"text": "Hvordan + eksempel",
+						"onClick": {
+							"target": "#btn_13_2", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_13_2"},
+								"content": [
+									{"text" : {
+										"attr" : {"id": "text_13_2"},
+										"value": "html('#step_clipborad_13 .text_13_2', '#text_13_2')"
+									}}
+								]
+							}
+						}
+					}},
+					{"text" : "<p class='helperText red'>Mangler vi en tekst her? (Erwin + TLY)</p>"},
+					{"dropdown":{
+						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
+						"id":"Dropdown_13_1", "class":"Dropdown", "selected": "0",
+						"target": "#textArea_13_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
+						"action": "replace", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"options":[
+							{"value":"Sætningsstartere:"},
+				    		{"value":"Vi har alle været ude for...?"},
+				    		{"value":"Kan du huske, hvordan det var...?"},
+				    		{"value":"“.............” (sidetal, linjetal) Har X ret i sin provokerende påstand?"},
+				    		{"value":"På den ene side elsker X velfærdssamfundets sikkerhed. På den anden side hader X begrænsningerne..."},
+				    		{"value":"Siden den første X blev indført i 18xx..."}
+						]
+					}},
+					{"textArea": {
+						"attr" : {"id": "textArea_13_1"}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_13_3", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter til metateksten <span class='glyphicon glyphicon-pencil right edit'></span>",
+						"onClick": {
+							"target": "#btn_13_3", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_13_3"},
+								"content": [
+									{"text" : "<h3>Rediger dine noter til metateksten</h3>"},
+									{"textArea": {
+										"attr" : {"id": "metatekst", "class": "autoSaveOff"}
+									}},
+									{"btn": {
+										"attr" : {"id": "metatekst_btn", "class": "save save_hvad btn btn-info"},
+										"text": "GEM", 
+										"onClick": ["save(#metatekst_btn)", "close_template_userMsgBox(#metatekst_btn)"]
+									}}
+								]
+							}
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_13_4", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter fra tænkeskrivning",
+						"onClick": {
+							"target": "#btn_13_4", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_13_4"},
+								"content": [
+									{"html" : "<div id='taenkeskrivning'></div>"}
+								]
+							},
+							"onStepReady": [
+								{
+									"external_function" : {
+										"functionCall": "collectDataFrom_taenkeskrivning(selector)",
+										"selector": "#taenkeskrivning"
+									}
+								}
+							]
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"text": "GÅ TILBAGE", 
+						"onClick": "goBack(.goBack)"
+					}},
+					{"btn": {
+						"attr" : {"id": "goForward_1", "class": "stepNav goForward btn btn-primary"},
+						"text": "GÅ VIDERE", 
+						"onClick": "goForward(.goForward)"
+					}},
+					{"progressBar": true}
+				]
+			},
+			"onStepReady": [
+				{
+					"dynamicText": {
+						"NOTE": "options er valgfri, og er indstilligner (som f.eks typeSpeed) i dynamicText-objektet.",
+						"selector": ".instructionText",
+						"options": {"typeSpeed": 50},
+						"cmdObj": [
+					        {"wait": 500},
+					        {"add": " Indledningen har til hensigt at skabe interesse hos læseren og give læseren lyst til at læse din artikel."},
+					        {"wait": 2000},
+					        {"removeCursor": 300}
+						]
+					}
+				}
+			]
+		},
+		{
+			"stepnummer_i_pl-noter": "14",
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_14", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "Side 14: json(general.header)"},
+					{"instruction": "Rubrikken - En god rubrik er kort, fængende, veloplagt og oplysende. Rubrikken skal fange læserens opmærksomhed."},
+					{"html" : "<div class='Clear'></div>"},
+					{"text" : "<p class='helperText red'>Mangler vi en tekst eller andre elementer her? (Erwin + TLY)</p>"},
+					{"btn": {
+						"attr" : {"id": "btn_14_3", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter til metateksten <span class='glyphicon glyphicon-pencil right edit'></span>",
+						"onClick": {
+							"target": "#btn_14_3", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_14_3"},
+								"content": [
+									{"text" : "<h3>Rediger dine noter til metateksten</h3>"},
+									{"textArea": {
+										"attr" : {"id": "metatekst", "class": "autoSaveOff"}
+									}},
+									{"btn": {
+										"attr" : {"id": "metatekst_btn", "class": "save save_hvad btn btn-info"},
+										"text": "GEM", 
+										"onClick": ["save(#metatekst_btn)", "close_template_userMsgBox(#metatekst_btn)"]
+									}}
+								]
+							}
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_14_4", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter fra tænkeskrivning",
+						"onClick": {
+							"target": "#btn_14_4", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_14_4"},
+								"content": [
+									{"html" : "<div id='taenkeskrivning'></div>"}
+								]
+							},
+							"onStepReady": [
+								{
+									"external_function" : {
+										"functionCall": "collectDataFrom_taenkeskrivning(selector)",
+										"selector": "#taenkeskrivning"
+									}
+								}
+							]
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"text": "GÅ TILBAGE", 
+						"onClick": "goBack(.goBack)"
+					}},
+					{"btn": {
+						"attr" : {"id": "goForward_1", "class": "stepNav goForward btn btn-primary"},
+						"text": "GÅ VIDERE", 
+						"onClick": "goForward(.goForward)"
+					}},
+					{"progressBar": true}
+				]
+			},
+			"onStepReady": [
+				{
+					"dynamicText": {
+						"NOTE": "options er valgfri, og er indstilligner (som f.eks typeSpeed) i dynamicText-objektet.",
+						"selector": ".instructionText",
+						"options": {"typeSpeed": 50},
+						"cmdObj": [
+					        {"wait": 500},
+					        {"add": " Hvis du mangler inspiration, kan du læse dagens avis. Det er altid en god ide at inddrage emnet i overskriften."},
+					        {"wait": 2000},
+					        {"removeCursor": 300}
+						]
+					}
+				}
+			]
+		},
+		{
+			"stepnummer_i_pl-noter": "15",
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_15", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "Side 15: json(general.header)"},
+					{"instruction": "Underrubrikken/manchetten – Underrubrikken/manchetten skal uddybe artiklens emne og fokus, så læseren ved, hvad artiklen handler om."},
+					{"html" : "<div class='Clear'></div>"},
+					{"text" : "<p class='helperText red'>Mangler vi en tekst eller andre elementer her? (Erwin + TLY)</p>"},
+					{"btn": {
+						"attr" : {"id": "btn_15_3", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter til metateksten <span class='glyphicon glyphicon-pencil right edit'></span>",
+						"onClick": {
+							"target": "#btn_15_3", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_15_3"},
+								"content": [
+									{"text" : "<h3>Rediger dine noter til metateksten</h3>"},
+									{"textArea": {
+										"attr" : {"id": "metatekst", "class": "autoSaveOff"}
+									}},
+									{"btn": {
+										"attr" : {"id": "metatekst_btn", "class": "save save_hvad btn btn-info"},
+										"text": "GEM", 
+										"onClick": ["save(#metatekst_btn)", "close_template_userMsgBox(#metatekst_btn)"]
+									}}
+								]
+							}
+						}
+					}},
+					{"btn": {
+						"attr" : {"id": "btn_15_4", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter fra tænkeskrivning",
+						"onClick": {
+							"target": "#btn_15_4", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_15_4"},
+								"content": [
+									{"html" : "<div id='taenkeskrivning'></div>"}
+								]
+							},
+							"onStepReady": [
+								{
+									"external_function" : {
+										"functionCall": "collectDataFrom_taenkeskrivning(selector)",
+										"selector": "#taenkeskrivning"
+									}
+								}
+							]
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"text": "GÅ TILBAGE", 
+						"onClick": "goBack(.goBack)"
+					}},
+					{"btn": {
+						"attr" : {"id": "goForward_1", "class": "stepNav goForward btn btn-primary"},
+						"text": "GÅ VIDERE", 
+						"onClick": "goForward(.goForward)"
+					}},
+					{"progressBar": true}
+				]
+			},
+			"onStepReady": [
+				{
+					"dynamicText": {
+						"NOTE": "options er valgfri, og er indstilligner (som f.eks typeSpeed) i dynamicText-objektet.",
+						"selector": ".instructionText",
+						"options": {"typeSpeed": 50},
+						"cmdObj": [
+					        {"wait": 500},
+					        {"add": " Den skal, ligesom rubrikken, give læseren lyst til at læse videre."},
+					        {"wait": 2000},
+					        {"removeCursor": 300}
+						]
+					}
+				}
+			]
+		},
+		{
+			"stepnummer_i_pl-noter": "16",
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_16", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "Side 16: json(general.header)"},
+					{"instruction": ""},
+					{"html" : "<div class='Clear'></div>"},
+					{"text" : "<p class='helperText red'>Vi skal i fællesskab gennemgå opsætningen af word-dokumentet man downloader (Erwin + TLY + THAN)</p>"},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"text": "GÅ TILBAGE", 
+						"onClick": "goBack(.goBack)"
+					}},
+					{"btn": {
+						"attr" : {"id": "goForward_1", "class": "stepNav goForward btn btn-primary"},
+						"text": "DOWNLOAD", 
+						"onClick": "goForward(.goForward)"
+					}},
+					{"progressBar": true}
+				]
+			},
+			"onStepReady": [
+				{
+					"dynamicText": {
+						"NOTE": "options er valgfri, og er indstilligner (som f.eks typeSpeed) i dynamicText-objektet.",
+						"selector": ".instructionText",
+						"options": {"typeSpeed": 50},
+						"cmdObj": [
+					        {"wait": 500},
+					        {"add": "Du er nu klar til at downloade din tekst."},
 					        {"wait": 2000},
 					        {"removeCursor": 300}
 						]

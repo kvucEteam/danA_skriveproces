@@ -17,8 +17,12 @@ var tranferLookUp = {
 		markup: {from: "#textArea_7_1", to: [".workQuestion_data"]}
 	},
 	".save_hvordan_1": {
-		userData: {from: "#textArea_8_1", to: ["#textArea_6_2"]},
-		markup: {from: "#textArea_8_1", to: [".workQuestion_data"]}
+		userData: {from: "#textArea_8a_1", to: ["#textArea_6_2"]},
+		markup: {from: "#textArea_8a_1", to: [".workQuestion_data"]}
+	},
+	".save_hvordan_2": {
+		userData: {from: "#textArea_11_2", to: ["#textArea_6_3"]},
+		markup: {from: "#textArea_11_2", to: [".workQuestion_data"]}
 	}
 }
 
