@@ -188,6 +188,11 @@ writeProcessClass = {
 	microhint: function(arg) {
 		console.log('\nmicrohint - CALLED');
 		microhint($(arg.obj), arg.text , arg.multiple, arg.color);
+
+		// TLY wants microhints to fadeIn, 4/8-2017:
+		var lastMicrohint = $(".microhint:last");
+		lastMicrohint.hide();
+		lastMicrohint.fadeIn('slow');
 	},
 
 	goBack: function(arg) {
@@ -348,12 +353,12 @@ writeProcessClass = {
 
 					if (action == 'prepend') {
 						console.log(".change - A1");
-						$(targetArr[n]).val(value + $(targetArr[n]).val());
+						$(targetArr[n]).val(value + "\r" + $(targetArr[n]).val());
 					}
 
 					if (action == 'append') {
 						console.log(".change - A2");
-						$(targetArr[n]).val($(targetArr[n]).val() + value);
+						$(targetArr[n]).val($(targetArr[n]).val() + "\r" + value);
 					}
 
 					if ((action === 'undefined') || (action == 'replace')) {

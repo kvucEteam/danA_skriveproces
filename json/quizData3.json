@@ -87,7 +87,7 @@
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown1", "class":"Dropdown", "selected": "0",
 						"target": "#textArea_2_3", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
-						"action": "replace", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
 						"options":[
 							{"value":"Sætningsstartere:"},
 				    		{"value":"I denne artikel skal jeg undersøge..."},
@@ -102,7 +102,30 @@
 						"insertPreviousText": true
 					}},
 					{"btn": {
-						"attr" : {"id": "goBack_2", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "btn_2_1", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter til metateksten <span class='glyphicon glyphicon-pencil right edit'></span>",
+						"onClick": {
+							"target": "#btn_2_1", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_2_2"},
+								"content": [
+									{"text" : "<h3>Rediger dine noter til metateksten</h3>"},
+									{"textArea": {
+										"attr" : {"id": "metatekst", "class": "autoSaveOff"}
+									}},
+									{"btn": {
+										"attr" : {"id": "metatekst_btn", "class": "save save_hvad btn btn-info"},
+										"text": "GEM", 
+										"onClick": ["save(#metatekst_btn)", "close_template_userMsgBox(#metatekst_btn)"]
+									}}
+								]
+							}
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goBack_2", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
@@ -184,7 +207,30 @@
 						"attr" : {"id": "textArea_3_3"}
 					}},
 					{"btn": {
-						"attr" : {"id": "goBack_3", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "btn_3_2", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter til metateksten <span class='glyphicon glyphicon-pencil right edit'></span>",
+						"onClick": {
+							"target": "#btn_3_2", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_2_2"},
+								"content": [
+									{"text" : "<h3>Rediger dine noter til metateksten</h3>"},
+									{"textArea": {
+										"attr" : {"id": "metatekst", "class": "autoSaveOff"}
+									}},
+									{"btn": {
+										"attr" : {"id": "metatekst_btn", "class": "save save_hvad btn btn-info"},
+										"text": "GEM", 
+										"onClick": ["save(#metatekst_btn)", "close_template_userMsgBox(#metatekst_btn)"]
+									}}
+								]
+							}
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goBack_3", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
@@ -252,7 +298,30 @@
 						"attr" : {"id": "textArea_4_3"}
 					}},
 					{"btn": {
-						"attr" : {"id": "goBack_4", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "btn_4_2", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter til metateksten <span class='glyphicon glyphicon-pencil right edit'></span>",
+						"onClick": {
+							"target": "#btn_4_2", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_2_2"},
+								"content": [
+									{"text" : "<h3>Rediger dine noter til metateksten</h3>"},
+									{"textArea": {
+										"attr" : {"id": "metatekst", "class": "autoSaveOff"}
+									}},
+									{"btn": {
+										"attr" : {"id": "metatekst_btn", "class": "save save_hvad btn btn-info"},
+										"text": "GEM", 
+										"onClick": ["save(#metatekst_btn)", "close_template_userMsgBox(#metatekst_btn)"]
+									}}
+								]
+							}
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goBack_4", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
@@ -316,7 +385,30 @@
 						"attr" : {"id": "textArea_5_2"}
 					}},
 					{"btn": {
-						"attr" : {"id": "goBack_5", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "btn_5_2", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter til metateksten <span class='glyphicon glyphicon-pencil right edit'></span>",
+						"onClick": {
+							"target": "#btn_5_2", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_2_2"},
+								"content": [
+									{"text" : "<h3>Rediger dine noter til metateksten</h3>"},
+									{"textArea": {
+										"attr" : {"id": "metatekst", "class": "autoSaveOff"}
+									}},
+									{"btn": {
+										"attr" : {"id": "metatekst_btn", "class": "save save_hvad btn btn-info"},
+										"text": "GEM", 
+										"onClick": ["save(#metatekst_btn)", "close_template_userMsgBox(#metatekst_btn)"]
+									}}
+								]
+							}
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goBack_5", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
@@ -376,7 +468,7 @@
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown1", "class":"Dropdown", "selected": "0",
 						"target": "#textArea_6_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
-						"action": "replace", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
 						"options":[
 							{"value":"Sætningsstartere:"},
 				    		{"value":"Hvad er god ..., og hvad er dårlig...?"},
@@ -392,7 +484,7 @@
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown1", "class":"Dropdown", "selected": "0",
 						"target": "#textArea_6_2", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
-						"action": "replace", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
 						"options":[
 							{"value":"Sætningsstartere:"},
 				    		{"value":"Hvordan karakteriserer (forfatter) emnet i sin tekst...?"},
@@ -407,7 +499,7 @@
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown1", "class":"Dropdown", "selected": "0",
 						"target": "#textArea_6_3", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
-						"action": "replace", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
 						"options":[
 							{"value":"Sætningsstartere:"},
 				    		{"value":"Hvilke problemer er der med måden X karakteriserer emnet på?"},
@@ -419,7 +511,30 @@
 						"attr" : {"id": "textArea_6_3"}
 					}},
 					{"btn": {
-						"attr" : {"id": "goBack_6", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "btn_6_2", "class": "infoBtn btn btn-primary"},
+						"text": "Dine noter til metateksten <span class='glyphicon glyphicon-pencil right edit'></span>",
+						"onClick": {
+							"target": "#btn_6_2", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+							"template": "template_userMsgBox",
+							"template_userMsgBox": {
+								"attr": {"id": "templ_userMsgBox_2_2"},
+								"content": [
+									{"text" : "<h3>Rediger dine noter til metateksten</h3>"},
+									{"textArea": {
+										"attr" : {"id": "metatekst", "class": "autoSaveOff"}
+									}},
+									{"btn": {
+										"attr" : {"id": "metatekst_btn", "class": "save save_hvad btn btn-info"},
+										"text": "GEM", 
+										"onClick": ["save(#metatekst_btn)", "close_template_userMsgBox(#metatekst_btn)"]
+									}}
+								]
+							}
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goBack_6", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
@@ -563,7 +678,7 @@
 					}},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
-						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
@@ -739,7 +854,7 @@
 					}},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
-						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
@@ -816,7 +931,7 @@
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_8b_1", "class":"Dropdown", "selected": "0",
 						"target": "#textArea_8b_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
-						"action": "replace", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
 						"options":[
 							{"value":"Sætningsstartere:"},
 				    		{"value":"Det er således karakteristisk for hele dette emne..."},
@@ -875,7 +990,7 @@
 					}},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
-						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
@@ -904,7 +1019,7 @@
 			]
 		},
 		{
-			"stepnummer_i_pl-noter": "9",
+			"stepnummer_i_pl-noter": 9,
 			"template": "template_step",
 			"template_step": {
 				"attr" : {"id": "step_9", "class": "step"},
@@ -952,7 +1067,7 @@
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_9_1", "class":"Dropdown", "selected": "0",
 						"target": "#textArea_9_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
-						"action": "replace", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
 						"options":[
 							{"value":"Sætningsstartere:"},
 				    		{"value":"I forbindelse med..."},
@@ -1009,7 +1124,7 @@
 					}},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
-						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
@@ -1023,7 +1138,7 @@
 			}
 		},
 		{
-			"stepnummer_i_pl-noter": "10",
+			"stepnummer_i_pl-noter": 10,
 			"template": "template_step",
 			"template_step": {
 				"attr" : {"id": "step_10", "class": "step"},
@@ -1071,7 +1186,7 @@
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_10_1", "class":"Dropdown", "selected": "0",
 						"target": "#textArea_10_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
-						"action": "replace", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
 						"options":[
 							{"value":"Sætningsstartere:"},
 				    		{"value":"Men betyder det, at X...?"},
@@ -1129,7 +1244,7 @@
 					}},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
-						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
@@ -1143,7 +1258,7 @@
 			}
 		},
 		{
-			"stepnummer_i_pl-noter": "11",
+			"stepnummer_i_pl-noter": 11,
 			"template": "template_step",
 			"template_step": {
 				"attr" : {"id": "step_11", "class": "step"},
@@ -1191,7 +1306,7 @@
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_11_1", "class":"Dropdown", "selected": "0",
 						"target": "#textArea_11_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
-						"action": "replace", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
 						"options":[
 							{"value":"Sætningsstartere:"},
 				    		{"value":"Sætter man tekst Y i relation til tekst X fremgår bliver det imidlertid tydeligt..."},
@@ -1275,7 +1390,7 @@
 					}},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
-						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
@@ -1304,7 +1419,7 @@
 			]
 		},
 		{
-			"stepnummer_i_pl-noter": "12",
+			"stepnummer_i_pl-noter": 12,
 			"template": "template_step",
 			"template_step": {
 				"attr" : {"id": "step_12", "class": "step"},
@@ -1352,7 +1467,7 @@
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_12_1", "class":"Dropdown", "selected": "0",
 						"target": "#textArea_12_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
-						"action": "replace", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
 						"options":[
 							{"value":"Sætningsstartere:"},
 				    		{"value":"Konkluderende kan man altså fremhæve...?"},
@@ -1410,7 +1525,7 @@
 					}},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
-						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
@@ -1424,7 +1539,7 @@
 			}
 		},
 		{
-			"stepnummer_i_pl-noter": "13",
+			"stepnummer_i_pl-noter": 13,
 			"template": "template_step",
 			"template_step": {
 				"attr" : {"id": "step_13", "class": "step"},
@@ -1472,7 +1587,7 @@
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_13_1", "class":"Dropdown", "selected": "0",
 						"target": "#textArea_13_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
-						"action": "replace", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'apppend'",
+						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
 						"options":[
 							{"value":"Sætningsstartere:"},
 				    		{"value":"Vi har alle været ude for...?"},
@@ -1531,7 +1646,7 @@
 					}},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
-						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
@@ -1560,7 +1675,7 @@
 			]
 		},
 		{
-			"stepnummer_i_pl-noter": "14",
+			"stepnummer_i_pl-noter": 14,
 			"template": "template_step",
 			"template_step": {
 				"attr" : {"id": "step_14", "class": "step"},
@@ -1569,7 +1684,10 @@
 					{"header": "Side 14: json(general.header)"},
 					{"instruction": "Rubrikken - En god rubrik er kort, fængende, veloplagt og oplysende. Rubrikken skal fange læserens opmærksomhed."},
 					{"html" : "<div class='Clear'></div>"},
-					{"text" : "<p class='helperText red'>Mangler vi en tekst eller andre elementer her? (Erwin + TLY)</p>"},
+					{"text" : "<p class='helperText red'>Mangler vi tekst og elementer her? (Erwin + TLY)</p>"},
+					{"textArea": 
+						{"attr" : {"id": "textArea_14_1"}
+					}},
 					{"btn": {
 						"attr" : {"id": "btn_14_3", "class": "infoBtn btn btn-primary"},
 						"text": "Dine noter til metateksten <span class='glyphicon glyphicon-pencil right edit'></span>",
@@ -1616,7 +1734,7 @@
 					}},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
-						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
@@ -1645,7 +1763,7 @@
 			]
 		},
 		{
-			"stepnummer_i_pl-noter": "15",
+			"stepnummer_i_pl-noter": 15,
 			"template": "template_step",
 			"template_step": {
 				"attr" : {"id": "step_15", "class": "step"},
@@ -1654,7 +1772,10 @@
 					{"header": "Side 15: json(general.header)"},
 					{"instruction": "Underrubrikken/manchetten – Underrubrikken/manchetten skal uddybe artiklens emne og fokus, så læseren ved, hvad artiklen handler om."},
 					{"html" : "<div class='Clear'></div>"},
-					{"text" : "<p class='helperText red'>Mangler vi en tekst eller andre elementer her? (Erwin + TLY)</p>"},
+					{"text" : "<p class='helperText red'>Mangler vi tekst og elementer her? (Erwin + TLY)</p>"},
+					{"textArea": 
+						{"attr" : {"id": "textArea_15_1"}
+					}},
 					{"btn": {
 						"attr" : {"id": "btn_15_3", "class": "infoBtn btn btn-primary"},
 						"text": "Dine noter til metateksten <span class='glyphicon glyphicon-pencil right edit'></span>",
@@ -1701,7 +1822,7 @@
 					}},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
-						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
@@ -1730,7 +1851,7 @@
 			]
 		},
 		{
-			"stepnummer_i_pl-noter": "16",
+			"stepnummer_i_pl-noter": 16,
 			"template": "template_step",
 			"template_step": {
 				"attr" : {"id": "step_16", "class": "step"},
@@ -1742,7 +1863,7 @@
 					{"text" : "<p class='helperText red'>Vi skal i fællesskab gennemgå opsætningen af word-dokumentet man downloader (Erwin + TLY + THAN)</p>"},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
-						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-primary"},
+						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
 						"onClick": "goBack(.goBack)"
 					}},
