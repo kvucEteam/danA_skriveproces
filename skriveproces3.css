@@ -245,7 +245,7 @@ textarea {
     height: 100%;
     position: fixed;
     width: 100%;
-    z-index: 100;
+    z-index: 101;
 }
 
 .step_clipborad {
@@ -289,4 +289,67 @@ textarea {
 
 .red{
     color: #F00;
+}
+
+.download{
+    margin-left: 15px;
+}
+
+.glyphicons-download-alt{
+    margin-left: 10px;
+}
+
+#download_answer{
+    margin-right: 10px;
+}
+
+.MsgBox_bgr{
+    z-index: 101;
+}
+
+
+/*******************************************************/
+
+
+
+#summeryContainer span {
+    margin-right: 10px;
+}
+
+#summeryContainer h1,
+#summeryContainer h3,
+#summeryContainer span,
+#summeryContainer p,
+#summeryContainer i  {
+    cursor: pointer;
+    background-color: 
+    /*display: inline-block;*/
+    /*padding-right: 20px;*/
+}
+
+/*
+#summeryContainer .glyphicon{
+    z-index: -1;
+    position: relative;
+    left: -20px;
+}
+*/
+
+.contentWrap {
+    display: inline-block;
+}
+
+.contentWrap i {
+    margin-bottom: 13px;
+}
+
+#author{
+
+}
+
+.glyphicons-thumbs-up{
+    font-size: 150%;
+    position: relative;
+    top: 0px;
+    margin-left: 3px;
 }

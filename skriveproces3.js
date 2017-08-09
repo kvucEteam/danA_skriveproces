@@ -91,161 +91,201 @@ function collectDataFrom_taenkeskrivning(selector) {
 }
 
 
+function hideContent(content){
+	$('.MsgBox_bgr').addClass('hideContent').attr('data-hideContent', content.target);
 
-//################################################################################################################
-// 
-// 				FUNKTIONER TIL SKRIVEGUIDE MED ERWIN PHLAN	-	16/6-2017
-//
-//################################################################################################################
+	var targetArr = content.target.split(' ');
 
-
-var JST = {};
-
-var alalysis_intro = ''+
-	'<div class="text_chapter">'+
-		'<h4>Hvad er en indledning?</h4>'+
-		'<p>Indledningens grundlæggende funktion er at skabe interesse hos læseren. Men hvordan gør man'+
-		'dette? Der findes mange måder at skrive en indledning på. Én af de mest anvendte'+
-		'indledningsversioner er kendt som ’tragt-indledningen’. Denne type indledning starter oftest med'+
-		'en generel påstand eller et opsigtsvækkende citat fra primærteksten, hvis hensigt er at få læseren'+
-		'til at undre sig. Ideen er så, at jo længere ind i indledningen læseren kommer, des mere konkret'+
-		'bliver emnet (den røde tråd) og formålet med opgaven.</p>'+
-			
-		'<div>'+
-			'<h4>Eksempel på indledningens anslag:</h4>'+
-			'<p>Vi kender det alle sammen. Der er ting, vi kan tillade os at sige i det offentlige rum, og der er ting, vi ikke kan tillade os at sige. Hvis vi overskrider grænsen for, hvad der anses for at være god samtalekultur, får vi på puklen. Det var det, som skete for det tidligere medlem af Folketinget Søren Krarup fra Dansk Folkeparti, da han i programmet ”Debatten” kaldte den nyvalgte franske præsident Emmanuel Macron for en ”lille bøssedreng”. Reaktionerne på diverse sociale medier vidner om, hvor langt over stregen Krarup rent faktisk gik.</p>'+
-		'</div>'+
-		'<div>'+
-			'<ul>'+
-				'<li>En konkret situation</li>'+
-				'<li>Et citat (fulgt af kommentar der forklarer hvad du vil med det)</li>'+
-				'<li>Et aktuelt perspektiv</li>'+
-				'<li>En personlig oplevelse (hvem kan tjekke om den er sand?!)</li>'+
-				'<li>En påstand</li>'+
-				'<li>En direkte læserhenvendelse</li>'+
-			'<ul>'+
-		'</div>'+
-		
-		'<div>'+
-			'<h4>Eksempel på introduktion af emnet:</h4>'+
-			'<p>Det er tankevækkende, at verdenssamfundet endnu ikke er gået til grunde, hvis man tagerklodens befolkningsantal i betragtning. Tænk på, hvor let det er at misforstå hinanden.Tænk på, hvor let det kan være at fortale sig. Tænk på, hvor mange samtaler, der finder sted i netop dette øjeblik. Men hvad er det, som gør, vi ikke fare mere i flæsket på hinanden, end vi gør? Et af svarene på dette spørgsmål kunne være: samtalekulturen. I et demokratisk samfund som vores er vi afhængige af en god og hensynsfuld samtalekultur.</p>'+
-		'</div>'+
-		'<div>'+
-			'<p>Emnet set i et bredere perspektiv...</p>'+
-			'<ul>'+
-				'<li>historisk</li>'+
-				'<li>samfundsmæssigt</li>'+
-				'<li>kulturelt</li>'+
-				'<li>politisk</li>'+
-			'<ul>'+
-		'</div>'+
-
-		'<div>'+
-			'<h4>Eksempel på præsentation af primærteksten:</h4>'+
-			'<p>Et firma, som deler denne mening, er mobilselsskabet Call me. Den 17. april 2015 offentliggjorde de reklamevideoen Hvilken stemme giver du videre? Tal ordentligt, det koster ikke noget!, der viser, hvordan dårlig samtalekultur går i arv fra forældre til børn. Karakteristisk for reklamefilmen er, at børnenes stemmer og kropssprog er blevet udskiftet med voksenstemmer og dertilhørende mimik, hvilket gør, at filmen formidler sit budskab effektivt.</p>'+
-		'</div>'+
-		'<div>'+
-			'<p>Præsenter nu primærteksten som et eksempel på det emne, din opgave behandler.</p>'+
-			'<ul>'+
-				'<li>I en god præsentation af primærteksten (og tekster generelt) oplyses der altid de mere faktuelle informationer, såsom: ”titel”, årstal, udgivelsessted, skribentens navn og profession.</li>'+
-			'<ul>'+
-		'</div>'+
-
-		'<div>'+
-			'<h4>Eksempel på indledningens afslutning::</h4>'+
-			'<p>Umiddelbart er samtalekultur et ret bredt begreb, og der findes mange måder at tale sammen på. Så hvad kendetegner god og dårlig samtalekultur? Og hvilken form for samtalekultur er udbredt i det offentlige rum i dag, samt hvilket ansvar har vi selv, når det kommer til samtalekulturen i Danmark?</p>'+
-		'</div>'+
-		'<div>'+
-			'<ul>'+
-				'<li>Slut din indledning af med at skrive to eller tre spørgsmål til emnet, som din introducerende artikel vil undersøge. Spørgsmålene fungerer som retning for opgavens fokus, men også som en måde at gøre læseren nysgerrig. Husk altid, besvare disse spørgsmål i løbet af din opgave og til sidst i konklusionen. En god ide er at formulere det første spørgsmål som et ’hvad-spørgsmål’ og det andet som et ’hvordan-spørgsmål’ eller ’hvilke-spørgsmål’. Med et ’hvad- spørgsmål’ har du mulighed for at introducere læseren for den væsentligste fagterminologi og viden inden for emnet. ’Hvordan-spørgsmålet’ eller ’hvilket-spørgsmålet’ besvarer du i dit analyseafsnit.</li>'+
-			'<ul>'+
-		'</div>'+
-	'</div>';
-
-
-var alalysis_how = 'alalysis_how';
-
-
-
-function template_test() {
-
-	var HTML = '';
-	HTML += '<h1>Den introducerende artikel</h1>';
-	HTML += '<h2>Indledning</h2>';
-	HTML += '<div id="alalysis_intro" class="btn btn-info">HVAD ER EN INDLEDNING</div>';
-	HTML += '<div id="alalysis_how" class="btn btn-info">HVORDAN + EKSEMPEL</div>';
-	HTML += '<p class="text">Svar på dit arbejdsspørgsmål...</p>';
-	// HTML += '<input type="text" class="" placeholder="" aria-describedby="sizing-addon2">';
-	HTML += '<textarea id="textInputTheme" val="" name="textareaFocus">';
-					if (JST.hasOwnProperty('TextTheme')) {
-						HTML += JST.TextTheme;
-					}			
-	HTML += '</textarea>';
-	return HTML;
+	for (var n in targetArr) {
+		$(targetArr[n]).hide();
+	}
 }
 
 
-$( document ).on('click', "#alalysis_intro", function(event){
-	UserMsgBox('body', alalysis_intro);
+$( document ).on('click', ".hideContent", function(event){
+	var target = $(this).attr('data-hideContent');
+
+	var targetArr = target.split(' ');
+
+	for (var n in targetArr) {
+		$(targetArr[n]).fadeIn('slow');
+	}
+
+	$('.hideContent').remove();
 });
 
 
-$( document ).on('click', "#alalysis_how", function(event){
-	UserMsgBox('body', JSON.stringify(alalysis_how));
+
+
+//#########################################################################################################################################################################
+
+
+
+
+$( document ).on('click', "#summeryContainer h1, #summeryContainer h3, #summeryContainer span, #summeryContainer p, #summeryContainer i", function(event){
+	console.log('editText - api: ' + JSON.stringify(wpc.api));
+	
+	window.sthis = this;
+	window.sid = $(this).attr('data-id').replace('#', '');
+
+	var HTML = '<textarea id="'+sid+'" class="autoSaveOff"></textarea>';
+	HTML += '<span class="save summerySave btn btn-info">GEM</span>';
+	wpc.template_userMsgBox({id: "summeryTemplate"}, HTML);
 });
 
 
+$( document ).on('click', ".summerySave", function(event){
+	var value = $('#'+sid).val();
+	$(sthis).text(value);
+	wpc.api.userData['#'+sid] = value;
+	wpc.close_template_userMsgBox(null);
+	osc.save('apiData', wpc.api);
+});
 
 
+function contentOf(parentTag, userDataId) {
+	// return '<'+parentTag+' data-id="'+userDataId+'">'+((wpc.api.userData.hasOwnProperty(userDataId))? wpc.api.userData[userDataId] : '')+'</'+parentTag+'>';
 
-var OLD_alalysis_intro = ''+
-	'<div class="text_chapter">'+
-		'<h4>Hvad er en indledning?</h4>'+
-		'<p>Indledningens grundlæggende funktion er at skabe interesse hos læseren. Men hvordan gør man'+
-		'dette? Der findes mange måder at skrive en indledning på. Én af de mest anvendte'+
-		'indledningsversioner er kendt som ’tragt-indledningen’. Denne type indledning starter oftest med'+
-		'en generel påstand eller et opsigtsvækkende citat fra primærteksten, hvis hensigt er at få læseren'+
-		'til at undre sig. Ideen er så, at jo længere ind i indledningen læseren kommer, des mere konkret'+
-		'bliver emnet (den røde tråd) og formålet med opgaven.</p>'+
-		'<table>'+
-			'<tr>'+
-				'<td>'+
-					'<h4>Indledningens anslag:</h4>'+
-					'<b>Eksempel:</b><br>'+
-					'Vi kender det alle sammen. Der er ting, vi kan tillade os at sige i det offentlige rum, og der er '+
-					'ting, vi ikke kan tillade os at sige. Hvis vi overskrider grænsen for, hvad der anses for at '+
-					'være god samtalekultur, får vi på puklen. Det var det, som skete for det tidligere medlem af '+
-					'Folketinget Søren Krarup fra Dansk Folkeparti, da han i programmet ”Debatten” kaldte den '+
-					'nyvalgte franske præsident Emmanuel Macron for en ”lille bøssedreng”. Reaktionerne på '+
-					'diverse sociale medier vidner om, hvor langt over stregen Krarup rent faktisk gik. '+
-				'</td>'+
-				'<td>'+
-					'<p>En konkret situation</p>'+
-					'<p>Et citat (fulgt af kommentar der forklarer hvad du vil med det)</p>'+
-					'<p>Et aktuelt perspektiv</p>'+
-					'<p>En personlig oplevelse (hvem kan tjekke om den er sand?!)</p>'+
-					'<p>En påstand</p>'+
-					'<p>En direkte læserhenvendelse</p>'+
-				'</td>'+
-			'</tr>'+
-			'<tr>'+
-				'<td>'+
-					'<p>Introduktion af emnet:</p>'+
-					'<b>Eksempel:</b><br>'+
-					'Det er tankevækkende, at verdenssamfundet endnu ikke er gået til grunde, hvis man tagerklodens befolkningsantal i betragtning. Tænk på, hvor let det er at misforstå hinanden.Tænk på, hvor let det kan være at fortale sig. Tænk på, hvor mange samtaler, der finder sted i netop dette øjeblik. Men hvad er det, som gør, vi ikke fare mere i flæsket på hinanden, end vi gør? Et af svarene på dette spørgsmål kunne være: samtalekulturen. I et demokratisk samfund som vores er vi afhængige af en god og hensynsfuld samtalekultur.'+
-				'</td>'+
-				'<td>'+
-					'<p>En konkret situation</p>'+
-					'<p>Et citat (fulgt af kommentar der forklarer hvad du vil med det)</p>'+
-					'<p>Et aktuelt perspektiv</p>'+
-					'<p>En personlig oplevelse (hvem kan tjekke om den er sand?!)</p>'+
-					'<p>En påstand</p>'+
-					'<p>En direkte læserhenvendelse</p>'+
-				'</td>'+
-			'</tr>'+
-		'</table>'+
-	'</div>';
+	// return '<div class="contentWrap"> <span class="glyphicon glyphicon-pencil"></span> <'+parentTag+' data-id="'+userDataId+'">'+((wpc.api.userData.hasOwnProperty(userDataId))? wpc.api.userData[userDataId] : '')+'</'+parentTag+'> </div>';
+	return '<div class="contentWrap"> <'+parentTag+' data-id="'+userDataId+'">'+((wpc.api.userData.hasOwnProperty(userDataId))? wpc.api.userData[userDataId] : '')+'</'+parentTag+'> </div>';
+}
 
+
+function contentOf2(parentTag, userDataId) {
+	
+	return '<'+parentTag+'>'+((wpc.api.userData.hasOwnProperty(userDataId))? wpc.api.userData[userDataId] : '')+'</'+parentTag+'>';
+}
+
+
+// FRA ERWIN'S SKRIVEGUIDE
+function summery(selector) {
+	console.log('\nEXTERNAL FUNCTION summery - CALLED');
+
+	var HTML = '';
+
+	HTML += '<div id="summeryContainer">';
+
+	// HTML += 	'<div class="contentWrap">'+contentOf('h1','#textArea_10_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  	// Step 10: Overskrift
+	// HTML += 	'<div class="contentWrap">'+contentOf('span','#inputField_1_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  	// Step 1: Titel
+	// HTML += 	'<div class="contentWrap">'+contentOf('span','#inputField_1_2')+'<span class="glyphicon glyphicon-pencil"></span></div>';  	// Step 1: Forfatter
+	// HTML += 	'<div class="contentWrap">'+contentOf('span','#inputField_1_3')+'<span class="glyphicon glyphicon-pencil"></span></div>';  	// Step 1: Årstal
+	// HTML += 	'<div class="contentWrap">'+contentOf('h3','#textArea_10_2')+'<span class="glyphicon glyphicon-pencil"></span></div>';  	// Step 10: Indledning
+	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_2_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 2: Formulér ca. 10 linjer hvori du viser, at "Den grimme ælling" er et eventyr. 
+	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_3_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 3: Citat
+	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_4_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 4: Forklar hvorfor dit citat viser, at teksten tilhører genren eventyr.
+	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_5_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 5: Beskriv kort miljøet, som det fremstilles i eventyrets første 15 linjer.
+	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_6_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 6: Find et citat fra et andet sted i teksten, som du synes står i kontrast til begyndelsen, hvad angår miljøet.
+	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_7_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 7: Forklar dit citat, idet du fremhæver enkelte ord fra det valgte tekststykke, som tydeliggør kontrasten.
+	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_8_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 8: Forklar nu med dine egne ord, hvad H.C. Andersen mener med eventyrets morale, og hvordan hele eventyret er med til at gøre denne pointe tydelig.
+	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_9_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 9: Afslutning
+
+	HTML += 	contentOf('h1','#textArea_14_1');  		// Step 14: Rubrik
+	HTML += 	contentOf('h3','#textArea_15_1');  		// Step 15: Underrubrik
+	HTML += 	'<h4>Indledning</h4>';
+	HTML += 	contentOf('p','#textArea_13_1');  		// Step 13: Indledning
+	HTML += 	'<h4>Mellemrubrik</h4>';
+	HTML += 	'<textarea id="textArea_16_1"></textarea>'; 
+	HTML += 	'<h4>Indtroduktion</h4>';
+	HTML += 	contentOf('p','#textArea_7_2');  		// Step 13: Indledning 
+	HTML += 	'<h4>Analyse</h4>';
+	HTML += 	'<h5><b>Anslag for analyseafsnit</b></h5>';
+	HTML += 	contentOf('p','#textArea_8a_2');  		// Step 13: Indledning 
+	HTML += 	'<h5><b>Besvarelse af hvordan/hvilke-spørgsmål</b></h5>';
+	HTML += 	contentOf('p','#textArea_8a_3'); 
+	HTML += 	'<h5><b>karakteristik el. undersøgelse</b></h5>';
+	HTML += 	contentOf('p','#textArea_8b_1'); 
+	HTML += 	'<h5><b>Begreber</b></h5>';
+	HTML += 	contentOf('p','#textArea_9_1'); 
+	HTML += 	'<h5><b>Primærtekstens svage led</b></h5>';
+	HTML += 	contentOf('p','#textArea_10_1'); 
+	HTML += 	'<h4>Mellemrubrik</h4>';
+	HTML += 	'<textarea id="textArea_16_2"></textarea>';  
+	HTML += 	'<h4>Perspektiverende diskussion</h4>';
+	HTML += 	contentOf('p','#textArea_11_1'); 
+	HTML += 	'<h4>Mellemrubrik</h4>';
+	HTML += 	'<textarea id="textArea_16_3"></textarea>'; 
+	HTML += 	'<h4>Afslutning</h4>';
+	HTML += 	contentOf('p','#textArea_12_1'); 
+
+
+	HTML += '</div>';
+	
+	$(selector).html(HTML);
+
+	// $('#summeryContainer h1, #summeryContainer h3, #summeryContainer span, #summeryContainer p').wrap("<span class='glyphicon glyphicon-pencil'></span>");
+}
+
+
+function download() {
+	console.log('\nEXTERNAL FUNCTION download - CALLED');
+
+	var HTML = wordTemplate();
+	// var HTML = "TEST DOWNLOAD"; 
+	
+	var converted = htmlDocx.asBlob(HTML);
+    console.log("EXTERNAL FUNCTION download - converted: " + JSON.stringify(converted));
+	saveAs(converted, 'Min analyse - den grimme ælling.docx');
+}
+
+
+function wordTemplate() {
+	var HTML = '';
+	HTML += '<!DOCTYPE html>';
+	HTML += '<html>';
+	HTML += 	'<head>';
+	HTML += 	'<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';  // Fixes issue with danish characters on Internet Explore 
+	HTML += 		'<style type="text/css">';
+	HTML += 			'body {font-family: arial;}';
+	HTML += 			'h1 {}';
+	HTML += 			'h2 {}';
+	// HTML += 			'h3 {font-style: italic; color: #717272;}';
+	// HTML += 			'h4 {color: #56bfc5;}';
+	HTML += 			'h5 {}';
+	HTML += 			'h6 {}';
+	HTML += 			'.selected {color: #56bfc5; width: 25%;}';
+	HTML += 			'p {font-size: 14px; margin-bottom: 5px}';
+	HTML += 			'table {padding: 8px; width: 100%;}';
+	HTML += 			'td {width: 25%;}';
+	HTML += 			'ul {font-size: 14px;}';
+	HTML += 			'#author div {display: inline-block;}';
+	HTML += 			'.instruction {color: #999;}';
+	HTML += 		'</style>';
+	HTML += 	'</head>';
+	HTML += 	'<body>';
+	
+	HTML += 	contentOf('h1','#textArea_14_1');  		// Step 14: Rubrik
+	HTML += 	contentOf('h3','#textArea_15_1');  		// Step 15: Underrubrik
+	HTML += 	'<h4>Indledning</h4>';
+	HTML += 	contentOf('p','#textArea_13_1');  		// Step 13: Indledning
+	HTML += 	'<h4>Mellemrubrik</h4>';
+	HTML += 	contentOf('p','#textArea_16_1');
+	HTML += 	'<h4>Indtroduktion</h4>';
+	HTML += 	contentOf('p','#textArea_7_2');  		// Step 13: Indledning 
+	HTML += 	'<h4>Analyse</h4>';
+	HTML += 	'<h5><b>Anslag for analyseafsnit</b></h5>';
+	HTML += 	contentOf('p','#textArea_8a_2');  		// Step 13: Indledning 
+	HTML += 	'<h5><b>Besvarelse af hvordan/hvilke-spørgsmål</b></h5>';
+	HTML += 	contentOf('p','#textArea_8a_3'); 
+	HTML += 	'<h5><b>karakteristik el. undersøgelse</b></h5>';
+	HTML += 	contentOf('p','#textArea_8b_1'); 
+	HTML += 	'<h5><b>Begreber</b></h5>';
+	HTML += 	contentOf('p','#textArea_9_1'); 
+	HTML += 	'<h5><b>Primærtekstens svage led</b></h5>';
+	HTML += 	contentOf('p','#textArea_10_1'); 
+	HTML += 	'<h4>Mellemrubrik</h4>';
+	HTML += 	contentOf('p','#textArea_16_2');
+	HTML += 	'<h4>Perspektiverende diskussion</h4>';
+	HTML += 	contentOf('p','#textArea_11_1'); 
+	HTML += 	'<h4>Mellemrubrik</h4>';
+	HTML += 	contentOf('p','#textArea_16_3');
+	HTML += 	'<h4>Afslutning</h4>';
+	HTML += 	contentOf('p','#textArea_12_1'); 
+
+	HTML += 	'</body>';
+	HTML += '</html>';
+	// document.write(HTML);
+	return HTML;
+}
 
 
 

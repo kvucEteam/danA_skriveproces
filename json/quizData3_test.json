@@ -220,7 +220,7 @@
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
 					{"header": "json(general.header) - stepNo: 2"},
-					{"instruction": "json(general.instruction)"},
+					{"instruction": "json(general.instruction)"}, 
 					{"explanation": "json(general.explanation)"},
 					{"breadCrumbs": {"navigation": true}},
 					{"text" : "<p>Dette er eet enkelt inputField-text</p>"},

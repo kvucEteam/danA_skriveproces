@@ -53,6 +53,7 @@ writeProcessClass = {
 		console.log('main - jsonData: ' + JSON.stringify(jsonData));
 		console.log('main - Object.keys(jsonData): ' + Object.keys(jsonData));
 
+		this.delay_remove(); // Remove previous delay if set...
 		$('.microhint').remove(); // Remove all previous microhints if any...
 
 		if (typeof(DTO)!=='undefined') {
@@ -81,6 +82,7 @@ writeProcessClass = {
 
 		this.getData();  // This fetches api.userData from previous steps and inserts it in the JSON data.
 		this.html();
+		this.repeat_make();
 
 		this.wpObj.jsonData_sanitized = JSON.parse( JSON.stringify( jsonData ));					// Add a copy of jsonData in wpObj.
 		this.wpObj.jsonData_sanitized = this.removeAllJsonStrValues(this.wpObj.jsonData_sanitized); // Remove all string values.
@@ -114,16 +116,23 @@ writeProcessClass = {
 				console.log('onStepReady - func: ' + func +', argObj: '+JSON.stringify(argObj)+'');
 
 				if (func == 'external_function') {
+					console.log('onStepReady - A1');
 
 					this.externalFunctionCaller(argObj);
 
 				} else {
+					console.log('onStepReady - A2');
+
 					try {
+						console.log('onStepReady - A3');
+
 						eval('argObj='+JSON.stringify(argObj));
 						eval('this.'+func+'(argObj)');
 					}
 
 					catch(err) {
+						console.log('onStepReady - A4');
+
 						// alert('ERROR: \n\tonStepReady - currentStepNo: ' + this.api.currentStepNo + ', eval('+func+'()) has an error!');
 						console.log('\n==================\n\tERROR: \n\tonStepReady - currentStepNo: ' + this.api.currentStepNo + ', eval('+func+'()) has an error! \n==================\n');
 					}
@@ -131,18 +140,22 @@ writeProcessClass = {
 			}
 
 			if (typeof(onStepReadyObj[n]) === 'string') {  // save() is currently the only method that can be called this way...
-				console.log('onStepReady - A1');
+				console.log('onStepReady - A5');
 
 				var c = this.cmdStrToCmdAndArg(onStepReadyObj[n]);
 				var func = c.cmd;
 				console.log('onStepReady - func: ' + func + ', c.arg: ' + c.arg);
 
 				try {
+					console.log('onStepReady - A6');
+
 					eval('argObj='+JSON.stringify(c.arg));
 					eval('this.'+func+'(argObj)');
 				}
 
 				catch(err) {
+					console.log('onStepReady - A7');
+
 					// alert('ERROR: \n\tonStepReady - currentStepNo: ' + this.api.currentStepNo + ', eval('+func+'()) has an error!');
 					console.log('\n==================\n\tERROR: \n\tonStepReady - currentStepNo: ' + this.api.currentStepNo + ', eval('+func+'()) has an error! \n==================\n');
 				}
@@ -182,6 +195,13 @@ writeProcessClass = {
 			Tthis.onStepReady(delayObj.execute);
 
 		}, delayObj.wait);
+	},
+
+	// This removes a delay, so when a new step is initiated, the previous delayed function calls will not be executed.
+	delay_remove: function() {
+		if (this.wpObj.hasOwnProperty('timer')) {
+			clearTimeout(this.wpObj.timer);
+		}
 	},
 
 	// NOTE: this microhint-function exists only inside the "scope" of writeProcessClass, and therefore does not interfere with the microhint function of the global scope!
@@ -358,7 +378,7 @@ writeProcessClass = {
 
 					if (action == 'append') {
 						console.log(".change - A2");
-						$(targetArr[n]).val($(targetArr[n]).val() + "\r" + value);
+						$(targetArr[n]).val($(targetArr[n]).val() + (($(targetArr[n]).val().length>0)? "\r" : '') + value);
 					}
 
 					if ((action === 'undefined') || (action == 'replace')) {
@@ -386,6 +406,8 @@ writeProcessClass = {
 					}
 				}
 			}
+
+			Tthis.save(null);
 		});
 
 		$( document ).on('click', ".CloseClass", function(event){
@@ -701,7 +723,7 @@ writeProcessClass = {
 
 		// IMPORTANT: 
 		// In this exercise, the user has to download a word-document in the last step. This is not possible when using Safari - this is why this if-clause has been added.
-		if ((this.isUseragentSafari()) && (typeof(safariUserHasAgreed) === 'undefined')){
+		if (((this.isUseragentSafari()) && (typeof(safariUserHasAgreed) === 'undefined'))){
 
 			window.safariUserHasAgreed = false;
 
@@ -717,11 +739,12 @@ writeProcessClass = {
 		}
 
 		function helper_msgBoxFadeout(jqThis) {
+			console.log('returnLastStudentSession - helper_msgBoxFadeout - CALLED');
 			$(".MsgBox_bgr_safari").fadeOut(200, function() {
 	            $(jqThis).remove();
 	        });
 	        safariUserHasAgreed = true;
-	        returnLastStudentSession();
+	        Tthis.returnLastStudentSession();
 		}
 		
 		if ((apiData !== null) && (typeof(apiData) !== 'undefined')){
@@ -1446,6 +1469,9 @@ writeProcessClass = {
 			case 'template_div':
 		        HTML += this.template_div(attr, templateContentHtml);
 		        break;
+		    case 'template_noWrap':
+		        HTML += this.template_noWrap(attr, templateContentHtml);
+		        break;
 		    case 'template_step':
 		        HTML += this.template_step(attr, templateContentHtml);
 		        break;
@@ -1464,10 +1490,27 @@ writeProcessClass = {
 		
 	},
 
+	// This template does not wrap the content in a tag. The template is intended for setting "onClick" event-litseners on glyphicons etc.
+	template_noWrap: function(attr, templateContentHtml) {
+		console.log('\ntemplate_noWrap - CALLED - attr: ' + JSON.stringify(attr) + ', templateContentHtml: ' + templateContentHtml);
+
+		// IMPORTANT:
+		// ==========
+		// The following commands cannot be used in conjunction with microhints, because texts inside microhints has to be present at microhint-"runtime" - otherwise the height of the hint will be off.  
+		// Therefore all text inside the microhint has to be present at the time of the call. Make placeholder-tags for single and short variables, that does not alter the dimensions of the microhint...
+		// this.insertUserData();  // Insert previously saved data...
+		// this.getData();
+		// this.html(); // Get very long text from HTML...
+
+		var HTML = templateContentHtml;
+		return HTML;
+	},
+
+
 	template_userMsgBox: function(attr, templateContentHtml) {
 		console.log('\ntemplate_userMsgBox - CALLED - attr: ' + JSON.stringify(attr) + ', templateContentHtml: ' + templateContentHtml);
 
-		attr = this.addClassIfNotExist(attr, "template_userMsgBox");
+		attr = this.addClassIfNotExist(attr, "template_microhint");
 
 		var HTML = '';
 		HTML += '<div ' + this.generateAttrStr(attr) + '>';
@@ -1599,19 +1642,28 @@ writeProcessClass = {
 		        HTML += this.inputField(content);
 		        break;
 		    case 'instruction':
-		        HTML += instruction(content);  // This requires shared_functions.js to be available!
-		        HTML += '<div class="Clear"></div>';
+		        // HTML += instruction(content);  // This requires shared_functions.js to be available!
+		        // HTML += '<div class="Clear"></div>';
+		        HTML += this.instruction(content);
 		        break;
 		    case 'instruction_8col':
 		        HTML += instruction_8col(content);  // This requires shared_functions.js to be available!
 		        break;
 		    case 'link':
-		        // HTML += '<a href=></a>';
+		        // HTML += '<a href=></a>';   
+		        // HTML += this.link();
+		        break;
+		    case 'microhint':
+		        this.microhint(content);
+		        HTML += '';  // <---- The microhint function does not return any markup, so in order not to terminate the HTML string, an empty string is concatenated...
 		        break;
 		    case 'progressBar':
 		        HTML += this.returnProgressBar(content);
 		        break;
 		    case 'repeat':  // <--- This repeats e.g. an inputfield, with the purpose of being able add or remove inputfields dynamically with "+"/"-" btns.
+		        HTML += this.repeat_set(content);
+		        break;
+		    case 'sound':
 		        // code block
 		        break;
 		    case 'sound':
@@ -1620,10 +1672,17 @@ writeProcessClass = {
 		    case 'text': // This is meant as a quick way of getting som text into the template - maybe wrapped in p-tags...
 		        HTML += this.text(content);
 		        break;
+		    case 'tag':
+		        // code block
+		        HTML += this.tag(content);
+		        break;
 		    case 'textArea':
 		        // code block
 		        HTML += this.textArea(content);
 		        break;
+		    case 'userMsgBox':
+		    	this.userMsgBox(content);
+		    	break;
 		    case 'video':
 		        HTML += this.video(content);
             break;
@@ -1636,6 +1695,176 @@ writeProcessClass = {
 		console.log('generateContentType - HTML: ' + HTML);
 
 		return HTML;
+	},
+
+	// UserMsgBox(TargetSelector, UserMsg)
+	userMsgBox: function(content) {
+		console.log('\nuserMsgBox - CALLED');
+
+		console.log('userMsgBox - content: ' + JSON.stringify(content));
+
+		if (typeof(content)==='object') {  
+			console.log('userMsgBox - A0');
+			var TargetSelector = (content.hasOwnProperty('target'))? content.target : 'body';
+			var UserMsg = (content.hasOwnProperty('text'))? content.text : '';
+			console.log('userMsgBox - TargetSelector: ' + TargetSelector + ', UserMsg: ' + UserMsg);
+
+			UserMsgBox(TargetSelector, UserMsg);
+    	} 
+
+	},
+
+
+	tag: function(content) {
+		console.log('\ntag - CALLED');
+
+		console.log('tag - content: ' + JSON.stringify(content));
+
+		var HTML = '';
+		if (typeof(content)==='object') {  
+			console.log('tag - A0');
+			HTML += '<'+content.tagName+((content.hasOwnProperty('attr'))? ' '+this.generateAttrStr(content.attr) : '')+'>';
+        	HTML += (((content.hasOwnProperty('endTag')) && (!content.endTag)) || (!content.hasOwnProperty('text')))? '' : content.text;
+        	HTML += ((content.hasOwnProperty('endTag')) && (!content.endTag))? '' : '</'+content.tagName+'>';
+    	} else {
+    		console.log('tag - A1');
+    		HTML += content;
+    	}
+    	console.log('tag - HTML: ' + HTML);
+
+        return HTML;
+	},
+
+
+	instruction: function(content) {
+		console.log('\ninstruction - CALLED');
+
+		var HTML = '';
+		if (typeof(content)==='object') {  
+			console.log('instruction - A0');
+        	HTML += instruction(content.value);  // This requires shared_functions.js to be available!
+    	} else {
+    		console.log('instruction - A1');
+    		HTML += instruction(content);
+    	}
+    	HTML += '<div class="Clear"></div>';
+
+        return HTML;
+	},
+
+	// This method is the first part of the repeat-functionality, and work together with the repeat_make() method. 
+	// This method sets the content-object to memory. 
+	repeat_set: function(content) {
+		console.log('\nrepeat_set - CALLED');
+
+		if (!this.wpObj.hasOwnProperty('repeat')) {
+			this.wpObj.repeat = [];
+		}
+		this.wpObj.repeat.push(content);
+
+		if (!content.hasOwnProperty('attr')){
+			content.attr = {};
+		} 
+		content.attr.id = 'repeatContainer_'+this.wpObj.repeat.length;
+		var HTML = '';
+		HTML += '<div '+this.generateAttrStr(content.attr)+((content.hasOwnProperty('min'))? ' data-min="'+content.min+'"' : '')+((content.hasOwnProperty('max'))? ' data-max="'+content.max+'"' : '')+ '>';
+		HTML += '</div>';
+		console.log('repeat_set - HTML: ' + HTML);
+
+
+		console.log('repeat_set - this.wpObj.repeat: ' + JSON.stringify(this.wpObj.repeat));
+
+		return HTML;
+	},
+
+	// This method is the second part of the repeat-functionality, and work together with the repeat_set() method. 
+	// This method repeat the content from the content-object in the DOM. 
+	repeat_make: function() {
+		console.log('\nrepeat_make - CALLED');
+
+    	var a = this.api.currentStepNo+1;
+
+    	var HTML = '';
+    	for (var n in this.wpObj.repeat) {
+    		console.log('repeat_make - n: ' + n);
+
+    		var content = this.wpObj.repeat[n];
+
+    		var init = (content.hasOwnProperty('init'))? init : 1;
+
+    		for (var i = 0; i <= init; i++) {
+    			console.log('repeat_make - i: ' + i);
+    		
+	    		if (content.hasOwnProperty('target')) {
+	    			console.log('repeat_make - A0');
+
+	    			var targetArr = content.target.split(' ');
+	    			console.log('repeat_make - targetArr: ' + targetArr);
+
+	    			for (var k in targetArr) {
+	    				$(targetArr[k]).clone().attr('id', 'repeat_'+a+'_'+n+'_'+k).appendTo('#repeatContainer_'+String(k+1));
+	    			}
+	    		}
+
+    		};
+
+    		HTML += (content.hasOwnProperty('after'))? content.after : '';
+    		
+    	}
+
+
+		// var stepObj = jsonData.step[this.api.currentStepNo];
+
+		// var stepObjStr = JSON.stringify(stepObj);
+		// console.log('repeat_make - stepObjStr: ' + stepObjStr);
+
+		// var pos_start = stepObjStr.indexOf('html(');
+
+		// var count = 0;
+
+		// while ((pos_start!==-1) && (count < 25)) {
+		// 	console.log('repeat_make - A0');
+
+		// 	console.log('repeat_make - count: ' + count);
+
+		// 	var pos_end = stepObjStr.indexOf(')"', pos_start);
+
+		// 	if (pos_end!==-1) {
+		// 		console.log('repeat_make - A1');
+
+		// 		var argArr = stepObjStr.substring(pos_start+6, pos_end).replace(/\'/g, '').split(',');
+		// 		console.log('repeat_make - argArr: ' + JSON.stringify(argArr));
+
+		// 		if (argArr.length == 2) {
+		// 			console.log('repeat_make - A2');
+
+		// 			var source = argArr[0].trim();
+		// 			var target = argArr[1].trim();
+		// 			console.log('repeat_make - source: "' + source + '", target: "' + target + '"');
+
+		// 			// $(argArr[1].trim()).html($(argArr[0].trim()).html());
+
+		// 			// if (argArr[0].trim()) 
+		// 			// $(argArr[0].trim()).before('<h4 class="step_clipborad_header">'+argArr[0].trim()+'</h4>');
+
+					
+		// 			$(target).html($(source).html());
+
+		// 			$(source).before('<h4 class="step_clipborad_header">'+source+'</h4>');
+					
+
+		// 		} else {
+		// 			console.log('repeat_make - A3');
+
+		// 			alert('FEJL FRA: "html('+stepObjStr.substring(pos_start+6, pos_end)+')", som ikke rummer det rigtige antal selectors, som skal være 2.');
+		// 		}
+		// 	}
+
+		// 	pos_start = stepObjStr.indexOf('html(', pos_end); 
+		// 	console.log('repeat_make - pos_start: ' + pos_start);
+
+		// 	++count;
+		// }    	
 	},
 
 

@@ -298,7 +298,7 @@ textarea {
     color: #F00;
 }
 
-.narrow{
+.small{
     height: 40px;
 }
 
@@ -350,14 +350,8 @@ textarea {
     margin-bottom: 13px;
 }
 
-#author span{
-    margin-right: 0px;
-}
+#author{
 
-
-.glyphicon-info-sign:hover{
-    cursor: pointer;
-    opacity: 0.7;
 }
 
 .glyphicons-thumbs-up{

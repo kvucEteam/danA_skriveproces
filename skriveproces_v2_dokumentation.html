@@ -1,0 +1,84 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Skriveproces</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" href="../library/css/styles.css" type="text/css" />
+
+        <!-- <link rel="stylesheet" href="vid_skriv.css" type="text/css" /> --> 
+
+        <link rel="stylesheet" href="skriveproces_v2_dokumentation.css" type="text/css" />
+
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div id="interface">
+                
+            </div>
+
+            <div class="hidden">
+
+                <h1> DETTE ER SKJULT INDHOLD, SOM HENTES IND DYNAMISK I SKRIVEGUIDEN</h1>
+
+                
+                <div id="step_clipborad_2" class="step_clipborad border_red">
+
+                    <div class="text_2_1 border_blue text_clipborad">
+                        <h3>Hvad er tænkeskrivning?</h3>
+                        <p>
+                            Tænkeskrivning er et værktøj til at få så mange af dine tanker ned på papir som muligt, før du starter på at skrive selve artiklen. Her skal du ikke være bekymret for, om det, du skriver, er skrevet i et korrekt og fejlfrit dansk, men i stedet koncentrere dig om at indsamle så meget viden som muligt, samt gøre dig tanker om, hvad emnet er, hvad de udleverede tekster handler om, og hvilke begreber fra lærebøgerne, du kan anvende.
+                        </p>
+                    </div>
+
+
+                </div>
+
+                <div id="step_clipborad_3" class="step_clipborad border_red">
+
+                    <div class="text_3_1 border_blue text_clipborad">
+                        <h3>Hvad er et resumé?</h3>
+                        <p>
+                            Et resumé er en kort gengivelse af handling eller de væsentligste synspunkter i en tekst. Her udelades detaljer, og det er kun de store linjer, som der fokuseres på. 
+                        </p>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <script src="../library/vendor_scripts.js"></script>
+        <script src="../library/custom_scripts.js"></script>
+        <script src="html-docx.js">
+        </script>
+        <script src="filesaver.js"></script>
+        <script type="text/javascript"> 
+            getAjaxData("GET", "json/skriveproces_v2_dokumentation.json", false, "json"); 
+        </script>
+        <script src="dynamicTextClass.js"></script>    
+        <script src="writeProcessClass.js"></script> 
+        <script src="skriveproces_v2_dokumentation.js"></script> 
+
+        <script type="text/javascript">
+            window.osc = Object.create(objectStorageClass);
+            osc.init('studentSession_skriveproces_v2_dokumentation');
+            osc.exist('apiData');
+
+            var wpc = Object.create(writeProcessClass);
+            // wpc.init("#interface");  // <------  Selectoren "#interface" vælges som default, hvis man ikke vælger en anden klasse eller id som container for skriveguiden. 
+            wpc.returnLastStudentSession();
+        </script>
+        
+        <script type="text/javascript">
+        $(document).ready(function() {
+            one_line_footer();
+        });
+        </script>
+    </body>
+
+</html>
+

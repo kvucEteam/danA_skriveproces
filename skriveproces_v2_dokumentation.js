@@ -79,8 +79,8 @@ function summery(selector) {
 
 	HTML += 	contentOf('h1','#textArea_10_1');  		// Step 10: Overskrift
 	HTML += 	'<div id="author">';
-	HTML += 		contentOf('span','#inputField_1_1')+' af ';  	// Step 1: Titel
-	HTML += 		contentOf('span','#inputField_1_2')+', ';  	// Step 1: Forfatter
+	HTML += 		contentOf('span','#inputField_1_1');  	// Step 1: Titel
+	HTML += 		contentOf('span','#inputField_1_2');  	// Step 1: Forfatter
 	HTML += 		contentOf('span','#inputField_1_3');  	// Step 1: Årstal
 	HTML += 	'</div>';
 	HTML += 	'<h4>Indledning:</h4>';
@@ -99,9 +99,9 @@ function summery(selector) {
 	HTML += 	contentOf('p','#textArea_6_1');
 	HTML += 	'<h4>Citatforklaring:</h4>';
 	HTML += 	contentOf('p','#textArea_7_1');  		// Step 7: Forklar dit citat, idet du fremhæver enkelte ord fra det valgte tekststykke, som tydeliggør kontrasten.
-	HTML += 	'<h4>Morale og fortolkning:</h4>';
+	HTML += 	'<h4>Morale:</h4>';
 	HTML += 	contentOf('p','#textArea_8_1');  		// Step 8: Forklar nu med dine egne ord, hvad H.C. Andersen mener med eventyrets morale, og hvordan hele eventyret er med til at gøre denne pointe tydelig.
-	HTML += 	'<h4>Afslutning og perspektivering:</h4>';
+	HTML += 	'<h4>Afslutning:</h4>';
 	HTML += 	contentOf('p','#textArea_9_1');  		// Step 9: Afslutning
 
 
@@ -151,37 +151,37 @@ function wordTemplate() {
 	HTML += 	'<body>';
 
 	HTML += 	'<div class="instruction">';
-	HTML += 		'<h3>Til det videre arbejde</h3>';
+	HTML += 		'<h3>Instruktioner</h3>';
 	HTML += 		'<p>';
-	HTML += 			'Inden du går i gang med det videre arbejde, skal du kopiere og gemme dette dokument i sin nuværende form. Vi vil nemlig gerne have, at du til sidst afleverer både dokumentet, som det ser ud nu og din endeligt gennemarbejde tekst. Du skal med andre ord til sidst uploade og aflevere to udgaver af din tekst. Det skal du, da vi gerne vil kunne give dig feedback på både den første del af din skriveproces og på det færdige resultat.';
+	HTML += 	   	 	'Inden du går i gang med redigeringarbejdet skal du kopiere og gemme dette dokument som det er, så du til sidst kan aflevere både dette dokument som det ser ud inden gennemskrivningen samt den færdige tekst. Det skal du gøre, så din lærer kan give dig feedback både på analysearbejdet, og på den færdige tekst.';
 	HTML += 		'</p>';
 	HTML += 		'<p>';
-	HTML += 			'I det videre arbejde skal du være opmærksom på det følgende:';
+	HTML += 	    	'Du har nu lavet en stor del af arbejdet til din analyse af ”Den grimme ælling”, og det er samlet her i et worddokument. Du skal nu arbejde med teksten, så den ender med at blive en god og gennemskrevet tekst. Derfor skal du nu arbejde med følgende ting:';
 	HTML += 		'</p>';
 	HTML += 		'<ul>';
-	HTML += 			'<li>';
-	HTML += 				'Læs dine afsnit igennem. Gør teksten så klar, præcis og sammenhængende som muligt.';
-	HTML += 			'</li>';
-	HTML += 			'<li>';
-	HTML += 				'Skriv nogle gode og logiske overgange imellem de forskellige afsnit. Som en del af dette arbejde skal du sørge for at ændre afsnittenes overskrifter, så de tydeligere knytter an til tekstens indhold og gør din læseren interesseret i det, de skal læse.';
-	HTML += 			'</li>';
-	HTML += 			'<li>';
-	HTML += 				'Kig på din indledning og afrunding, og overvej, om de fungerer godt eller om de skal forbedres.';
-	HTML += 			'</li>';
-	HTML += 			'<li>';
-	HTML += 				'Kig på dit sprog. Er det godt og levende og med så få formuleringsmæssige uklarheder og stavefejl som muligt?';
-	HTML += 			'</li>' ;
+	HTML += 	    	'<li>';
+	HTML += 	        	'Du skal læse dine afsnit igennem, og gøre teksten så klar, præcis og sammenhængende som muligt, således at dine gode pointer står tydeligt frem.';
+	HTML += 	    	'</li>';
+	HTML += 	    	'<li>';
+	HTML += 	        	'Du skal skabe nogle gode og logiske overgange imellem de forskellige afsnit. Forsøg i den forbindelse, om du kan skabe en logisk rød tråd fra begyndelsen af opgaven til slutningen.';
+	HTML += 	    	'</li>';
+	HTML += 	    	'<li>';
+	HTML += 	        	'Du skal kigge på din indledning og afrunding, og overveje, om de fungerer godt eller om de skal forbedres.';
+	HTML += 	    	'</li>';
+	HTML += 	    	'<li>';
+	HTML += 	        	'Kig på dit sprog, er det godt og levende og med så få formuleringsmæssige uklarheder og stavefejl som muligt?';
+	HTML += 	    	'</li>';
 	HTML += 		'</ul>';
 	HTML += 	'</div>';
 	HTML += 	'<hr>';
 	HTML += 	'<br>';
 	
 	HTML += 	contentOf2('h1','#textArea_10_1');  		// Step 10: Overskrift
-	HTML += 	'<div id="author">';
-	HTML += 		contentOf2('span','#inputField_1_1')+' af ';  	// Step 1: Titel
+	// HTML += 	'<div id="author">';
+	HTML += 		contentOf2('span','#inputField_1_1')+', ';  	// Step 1: Titel
 	HTML += 		contentOf2('span','#inputField_1_2')+', ';  	// Step 1: Forfatter
 	HTML += 		contentOf2('span','#inputField_1_3');  			// Step 1: Årstal
-	HTML += 	'</div>';
+	// HTML += 	'</div>';
 	HTML += 	'<h4>Indledning:</h4>';
 	HTML += 	contentOf2('p','#textArea_10_2');  		// Step 10: Indledning
 	HTML += 	'<h4>Genre begrundelse:</h4>';

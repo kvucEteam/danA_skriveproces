@@ -39,14 +39,14 @@
 							{
 								"microhint": {
 									"obj": "#processBar", 
-									"text": "Her ser du et overblik over din progression. Du skal igennem 17 sider, inden du kan downloade dit arbejde som en wordfil.", 
+									"text": "Her ser du et overblik over din progression. Du skal igennem 15XX sider, inden du kan downloade dit arbejde som en wordfil.", 
 									"multiple": true, 
 									"color": "#000"
 							}},
 							{
 								"userMsgBox": {
 									"target": "body", 
-									"text": "<h4>Obs</h4> Vær opmærksom på, at dit arbejde er tilknyttet den browser, som du bruger lige nu. Det vil sige, at du ikke kan arbejde videre på en anden computer/browser. Hvis du sletter din historik i browseren, så sletter du også alt dit arbejde."
+									"text": "<h4>Obs</h4> Vær opmærksom på, at dit arbejde er tilknyttet den browser, som du bruger lige nu. Det vil sige, at du ikke kan arbejde videre på en anden computer/browser. Hvis du sletter din cache, så sletter du også alt dit arbejde."
 							}}
 						]
 					}
@@ -1861,9 +1861,10 @@
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
 					{"header": "Side 16: json(general.header)"},
-					{"instruction": "Du er nu klar til at downloade din tekst."},
+					{"instruction": ""},
 					{"html" : "<div class='Clear'></div>"},
-					{"html" : "<div class='Clear'></div><div id='summery'></div>"},
+					{"text" : "<p class='helperText red'>Vi skal i fællesskab gennemgå opsætningen af word-dokumentet man downloader (Erwin + TLY + THAN)</p>"},
+					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
 						"attr" : {"id": "goBack_1", "class": "stepNav goBack btn btn-info"},
 						"text": "GÅ TILBAGE", 
@@ -1878,21 +1879,19 @@
 				]
 			},
 			"onStepReady": [
-				{"dynamicText": {
+				{
+					"dynamicText": {
 						"NOTE": "options er valgfri, og er indstilligner (som f.eks typeSpeed) i dynamicText-objektet.",
 						"selector": ".instructionText",
 						"options": {"typeSpeed": 50},
 						"cmdObj": [
 					        {"wait": 500},
-					        {"add": " Du kan rette i din tekst ved at klikke på det du har skevet."},
+					        {"add": "Du er nu klar til at downloade din tekst."},
 					        {"wait": 2000},
 					        {"removeCursor": 300}
 						]
-				}},
-				{"external_function" : {
-					"functionCall": "summery(selector)",
-					"selector": "#summery"
-				}}
+					}
+				}
 			]
 		}
 	]

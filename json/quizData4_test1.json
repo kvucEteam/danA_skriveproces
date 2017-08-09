@@ -1,0 +1,196 @@
+{
+	"general": {
+		"header": "Guidet skriveproces - skriv en skønlitterær analyse af H.C. Andersens ”Den grimme ælling” fra 1843.",
+		"instruction": "Dette er instruction tekst"
+	},
+	"step": [
+		{
+			"stepNo": 1,
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_1", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "json(general.header)"},
+					{"instruction": "Du skal nu lave forarbejdet til en analyse af H.C. Andersens ”Den grimme ælling” fra 1843."},
+					{"text" : "<p>Som en del af forarbejdet skal du udfylde felterne forneden.</p>"},
+					{"inputField": {
+						"attr" : {"id": "inputField_1_1", "class": "inputField inputField_group", "placeholder": "Skriv titlen her..."},
+						"errMsg": {
+							"errType": "microhint",
+							"microhint": {
+									"obj": "#inputField_1_1", 
+									"text": "Du skal skrive titlen før du går videre", 
+									"multiple": true, 
+									"color": "#000"
+							},
+							"userMsgBox": {
+								"NOTE": "Denne userMsgBox er blot en demo",
+								"target": "body",
+								"text": "Du skal udfylde dette text-felt"
+							},
+							"errTrigger": ["event(onClick).class=goForward"],
+							"errCondition": ["empty(#inputField_1_1)"]
+						}
+					}},
+					{"inputField": {
+						"attr" : {"id": "inputField_1_2", "class": "inputField inputField_group", "placeholder": "Skriv forfatteren her..."},
+						"errMsg": {
+							"errType": "microhint",
+							"microhint": {
+									"obj": "#inputField_1_2", 
+									"text": "Du skal skrive forfatteren før du går videre", 
+									"multiple": true, 
+									"color": "#000"
+							},
+							"userMsgBox": {
+								"NOTE": "Denne userMsgBox er blot en demo",
+								"target": "body",
+								"text": "Du skal udfylde dette text-felt"
+							},
+							"errTrigger": ["event(onClick).class=goForward"],
+							"errCondition": ["empty(#inputField_1_2)"]
+						}
+					}},
+					{"inputField": {
+						"attr" : {"id": "inputField_1_3", "class": "inputField inputField_group", "placeholder": "Skriv årstallet her..."},
+						"errMsg": {
+							"errType": "microhint",
+							"microhint": {
+									"obj": "#inputField_1_3", 
+									"text": "Du skal skrive årstallet før du går videre", 
+									"multiple": true, 
+									"color": "#000"
+							},
+							"userMsgBox": {
+								"NOTE": "Denne userMsgBox er blot en demo",
+								"target": "body",
+								"text": "Du skal udfylde dette text-felt"
+							},
+							"errTrigger": ["event(onClick).class=goForward"],
+							"errCondition": ["empty(#inputField_1_3)"]
+						}
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goForward_1", "class": "navBtn goForward btn btn-primary"},
+						"text": "GÅ VIDERE", 
+						"onClick": ["save(.goForward)", "goForward(.goForward)"]
+					}},
+					{"progressBar": true}
+				]
+			}
+		},
+		{
+			"stepNo": 2,
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_2", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "json(general.header)"},
+					{"instruction": "html('#step_clipborad_2 .text_2_1', '.instructionText')"},
+					{"text" : {
+						"attr" : {"id": "text_2_1"},
+						"value": "html('#step_clipborad_2 .text_2_2', '#text_2_1')"
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"dropdown":{
+						"NOTE": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
+						"id":"Dropdown1", "class":"Dropdown", "selected": "0",
+						"target": "#textArea_2_1 #inputField_1 #inputField_2 .explanationText", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
+						"action": "append", "NOTE": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
+						"options":[
+							{"value": "Sætningsstartere:"},
+				    		{"value": "Et tegn på, at denne tekst er et eventyr er..."},
+				    		{"value": "Et træk, der tydeligt viser, at dette er et eventyr er det, at..."},
+				    		{"value": "Når der i teksten står/sker... peger det i retning af, at det er et eventyr, fordi"}
+						]
+					}},
+					{"textArea": {
+						"attr" : {"id": "textArea_2_1"}
+					}},
+					{"btn": {
+						"attr" : {"id": "goBack_1", "class": "navBtn goBack btn btn-primary"},
+						"text": "GÅ TILBAGE", 
+						"onClick": "goBack(.goBack)"
+					}},
+					{"btn": {
+						"attr" : {"id": "goForward_2", "class": "navBtn goForward btn btn-primary"},
+						"text": "GÅ VIDERE", 
+						"onClick": "goForward(.goForward)"
+					}},
+					{"progressBar": true}
+				]
+			},
+			"onStepReady": [
+				{
+					"dynamicText": {
+						"NOTE": "options er valgfri, og er indstilligner (som f.eks typeSpeed) i dynamicText-objektet.",
+						"selector": ".instructionText",
+						"options": {"typeSpeed": 50},
+						"cmdObj": [
+					        {"wait": 500},
+					        {"add": "Det første du skal undersøge er tekstens genre, og du skal bruge kap. 3.6. i Håndbog til dansk."},
+					        {"wait": 2000},
+					        {"removeCursor": 300}
+						]
+					}
+				}
+			]
+		},
+		{
+			"stepNo": 3,
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_3", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "json(general.header)"},
+					{"instruction": "Du skal nu finde et citat i ”Den grimme ælling” som viser, at det er et eventyr. "},
+					{"html" : "<div class='Clear'></div>"},
+					{"text" : "<p class='helperText ttt'>Citat 1:</p>"},
+					{"textArea": {
+						"attr" : {"id": "textArea_3_1", "class": "ttt"}
+					}},
+					{"repeat": {
+						"NOTE": "Klasserne 'repeat_add' og 'repeat_remove' er reserveret til hhv tilføj og fjern kopier.",
+						"attr": {"id": "citat_3"}, 
+						"target": ".ttt",  "NOTE_1": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick og dropdown",
+						"before": "", "NOTE_2": "HTML der insættes FØR repeatede targets",
+						"after": "",  "NOTE_3": "HTML der insættes EFTER repeatede targets",
+						"init": 2, "NOTE_4": "Antal kopier af targets ved initialisering af step'et",
+						"min": 1,  "NOTE_5": "Minimum antal kopier af targets. Default er 1. Hvis man ønsker at kunne fjerne alle kopier af targets, så skal man angive det med nul.",
+						"max": 10, "NOTE_6": "Maximum antal kopier af targets. Default er ingen begrænsninger på antallet af kopier."
+					}},
+					{"btn": {
+						"attr" : {"id": "goBack_3", "class": "navBtn goBack btn btn-primary"},
+						"text": "GÅ TILBAGE", 
+						"onClick": "goBack(.goBack)"
+					}},
+					{"btn": {
+						"attr" : {"id": "goForward_3", "class": "navBtn goForward btn btn-primary"},
+						"text": "GÅ VIDERE", 
+						"onClick": "goForward(.goForward)"
+					}},
+					{"progressBar": true}
+				]
+			},
+			"onStepReady": [
+				{
+					"dynamicText": {
+						"NOTE": "options er valgfri, og er indstilligner (som f.eks typeSpeed) i dynamicText-objektet.",
+						"selector": ".instructionText",
+						"options": {"typeSpeed": 50},
+						"cmdObj": [
+					        {"wait": 500},
+					        {"add": " Indsæt citatet i tekstfeltet. Sæt sidetal og linjetal i parentes efter citatet."},
+					        {"wait": 2000},
+					        {"removeCursor": 300}
+						]
+					}
+				}
+			]
+		}
+	]
+}
