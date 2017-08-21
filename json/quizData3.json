@@ -16,7 +16,7 @@
 					{"XXX_header": "XXX_html('#step_clipborad_0 .instruction', 'h1')"},
 					{"video": {
 						"attr": {"id": "video_1", "class": "video embed-responsive embed-responsive-16by9 col-xs-12 col-md-12"},
-						"url": "https://www.youtube.com/embed/kT9CkbyZpTQ"}
+						"url": "https://www.youtube.com/embed/-Go7min716I"}
 					},
 					{"btn": {
 						"attr" : {"id": "goForward_1", "class": "right stepNav goForward btn btn-primary"}, 
@@ -168,7 +168,7 @@
 							{
 								"microhint": {
 									"obj": "#btn_2_1", 
-									"text": "Du kan rette din metatekst løbende her.", 
+									"text": "Du kan rette din metatekst her.", 
 									"multiple": true, 
 									"color": "#000"
 							}}
@@ -473,7 +473,7 @@
 							}
 						}
 					}},
-					{"text" : "<p class='helperText'>Din skitse til et hvad-spørgsmål skrives her. Taksonomisk niveau: Redegørende. Spørgsmålet skal du selv besvare i det introducerende afsnit.</p>"},
+					{"text" : "<p class='helperText'>Din skitse til et hvad-spørgsmål skrives her. Taksonomisk niveau: Redegørende. Spørgsmålet skal du selv besvare i dit introduktionsafsnit.</p>"},
 					{"dropdown":{
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown1", "class":"Dropdown", "selected": "0",
@@ -580,7 +580,7 @@
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
 					{"header": "Side 7: json(general.header)"},
-					{"instruction": "Introduktionsafsnittet. Byg videre på indledningen og skab sammenhæng mellem afsnittene."},
+					{"instruction": "Introduktionsafsnittet. Introducer emnet for din læser. Kom med konkrete eksempler på, hvad der karakteriserer dit emne bedst."},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
 						"attr" : {"id": "btn_7_1", "class": "infoBtn btn btn-primary"},
@@ -745,7 +745,7 @@
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
 					{"header": "Side 8a: json(general.header)"},
-					{"instruction": "Analyse af primærteksten - Læs først “Hvad er et analyseafsnit” og skriv anslaget til dit afsnit."},
+					{"instruction": "Analyse af primærteksten - Læs først “Hvad er et analyseafsnit” og skriv dernæst anslaget til dit afsnit."},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
 						"attr" : {"id": "btn_8a_1", "class": "infoBtn btn btn-primary"},
@@ -781,7 +781,7 @@
 							}
 						}
 					}},
-					{"text" : "<p class='helperText'>Skriv nu et anslag for dit analyseafsnit</p>"},
+					{"text" : "<p class='helperText'>Skriv nu et anslag til dit analyseafsnit</p>"},
 					{"textArea": {
 						"attr" : {"id": "textArea_8a_2"}
 					}},
@@ -893,7 +893,7 @@
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
 					{"header": "Side 8b: json(general.header)"},
-					{"instruction": "Nu skal du karakterisere eller undersøge. Dette er det vigtigste i din opgave."},
+					{"instruction": "Analyse af primærteksten - Nu skal du karakterisere eller undersøge. Dette er det vigtigste i din opgave. Genbesøg din tænkeskrivning, udvælg de bedste citater og anvend dem i dette afsnit."},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
 						"attr" : {"id": "btn_8b_1", "class": "infoBtn btn btn-primary"},
@@ -929,7 +929,7 @@
 							}
 						}
 					}},
-					{"text" : "<p class='helperText red'>Mangler vi en tekst her? (Erwin + TLY)</p>"},
+					{"text" : "<p class='helperText'>Lav nu din karakteristik eller undersøgelse her.</p>"},
 					{"dropdown":{
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_8b_1", "class":"Dropdown", "selected": "0",
@@ -1013,7 +1013,7 @@
 						"options": {"typeSpeed": 50},
 						"cmdObj": [
 					        {"wait": 500},
-					        {"add": " Genbesøg din tænkeskrivning, udvælg de bedste citater og anvend dem i dette afsnit."},
+					        {"add": " Husk altid at kommentere et citat."},
 					        {"wait": 2000},
 					        {"removeCursor": 300}
 						]
@@ -1065,7 +1065,7 @@
 							}
 						}
 					}},
-					{"text" : "<p class='helperText red'>Mangler vi en tekst her? (Erwin + TLY)</p>"},
+					{"text" : "<p class='helperText'>Brug nu begreberne på dine citater. Husk at kommentere citaterne.</p>"},
 					{"dropdown":{
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_9_1", "class":"Dropdown", "selected": "0",
@@ -1184,7 +1184,7 @@
 							}
 						}
 					}},
-					{"text" : "<p class='helperText red'>Mangler vi en tekst her? (Erwin + TLY)</p>"},
+					{"text" : "<p class='helperText'>Skriv nu et afsnit, hvor du kritiserer primærteksten og runder dit analyseafsnit af.</p>"},
 					{"dropdown":{
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_10_1", "class":"Dropdown", "selected": "0",
@@ -1192,6 +1192,7 @@
 						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
 						"options":[
 							{"value":"Sætningsstartere:"},
+							{"value":"Man kan kritisere X for..."},
 				    		{"value":"Men betyder det, at X...?"},
 				    		{"value":"Der er visse problemer, når det kommer til fremstillingen af Y... i X,  hvilket man i høj grad kan sætte spørgsmålstegn ved..."},
 				    		{"value":"I forhold til det, så synes jeg/han/ hun, at..."},
@@ -1304,27 +1305,6 @@
 							}
 						}
 					}},
-					{"text" : "<p class='helperText red'>Mangler vi en tekst her? (Erwin + TLY)</p>"},
-					{"dropdown":{
-						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
-						"id":"Dropdown_11_1", "class":"Dropdown", "selected": "0",
-						"target": "#textArea_11_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
-						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
-						"options":[
-							{"value":"Sætningsstartere:"},
-				    		{"value":"Sætter man tekst Y i relation til tekst X fremgår bliver det imidlertid tydeligt..."},
-				    		{"value":"Betragter man problemstillingen fra et mere overordnet perspektiv..."},
-				    		{"value":"Emnet kan også relateres til..."},
-				    		{"value":"På den ene side mener X, at... På en anden side mener han, at..."},
-				    		{"value":"Det er en væsentlig pointe i teksten, at..."},
-				    		{"value":"Den væsentligste forskel på Xs og Ys holdninger er, at..."},
-				    		{"value":"Set i et andet perspektiv kan man sige..."},
-				    		{"value":"Der er to modstridende synspunkter i debatten..."}
-						]
-					}},
-					{"textArea": {
-						"attr" : {"id": "textArea_11_1"}
-					}},
 					{"html" : {
 						"attr" : {"id": "html_11_1"},
 						"value": "<div class='workQuestion'>DIT ARBEJDSSPØRGSMÅL: <span class='workQuestion_data'> getData(#textArea_6_3, .workQuestion_data) </span><span class='glyphicon glyphicon-pencil right edit'></span></div>",
@@ -1346,6 +1326,27 @@
 								]
 							}
 						}
+					}},
+					{"text" : "<p class='helperText'>Skriv nu dit perspektiverende afsnit.</p>"},
+					{"dropdown":{
+						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
+						"id":"Dropdown_11_1", "class":"Dropdown", "selected": "0",
+						"target": "#textArea_11_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
+						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
+						"options":[
+							{"value":"Sætningsstartere:"},
+				    		{"value":"Sætter man tekst Y i relation til tekst X fremgår bliver det imidlertid tydeligt..."},
+				    		{"value":"Betragter man problemstillingen fra et mere overordnet perspektiv..."},
+				    		{"value":"Emnet kan også relateres til..."},
+				    		{"value":"På den ene side mener X, at... På en anden side mener han, at..."},
+				    		{"value":"Det er en væsentlig pointe i teksten, at..."},
+				    		{"value":"Den væsentligste forskel på Xs og Ys holdninger er, at..."},
+				    		{"value":"Set i et andet perspektiv kan man sige..."},
+				    		{"value":"Der er to modstridende synspunkter i debatten..."}
+						]
+					}},
+					{"textArea": {
+						"attr" : {"id": "textArea_11_1"}
 					}},
 					{"btn": {
 						"attr" : {"id": "btn_11_3", "class": "infoBtn btn btn-primary"},
@@ -1429,7 +1430,7 @@
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
 					{"header": "Side 12: json(general.header)"},
-					{"instruction": "Afslutning – En god afslutning indeholder alt de vigtigste pointer fra din opgave i en komprimeret udgave."},
+					{"instruction": "Afslutning – En god afslutning indeholder alle de vigtigste pointer fra din opgave i en komprimeret udgave."},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
 						"attr" : {"id": "btn_12_1", "class": "infoBtn btn btn-primary"},
@@ -1465,7 +1466,7 @@
 							}
 						}
 					}},
-					{"text" : "<p class='helperText red'>Mangler vi en tekst her? (Erwin + TLY)</p>"},
+					{"text" : "<p class='helperText'>Skriv nu din afslutning.</p>"},
 					{"dropdown":{
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_12_1", "class":"Dropdown", "selected": "0",
@@ -1585,7 +1586,7 @@
 							}
 						}
 					}},
-					{"text" : "<p class='helperText red'>Mangler vi en tekst her? (Erwin + TLY)</p>"},
+					{"text" : "<p class='helperText'>Skriv nu din indledning.</p>"},
 					{"dropdown":{
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_13_1", "class":"Dropdown", "selected": "0",
@@ -1687,7 +1688,7 @@
 					{"header": "Side 14: json(general.header)"},
 					{"instruction": "Rubrikken - En god rubrik er kort, fængende, veloplagt og oplysende. Rubrikken skal fange læserens opmærksomhed."},
 					{"html" : "<div class='Clear'></div>"},
-					{"text" : "<p class='helperText red'>Mangler vi tekst og elementer her? (Erwin + TLY)</p>"},
+					{"text" : "<p class='helperText'>Skriv nu din rubrik.</p>"},
 					{"textArea": 
 						{"attr" : {"id": "textArea_14_1"}
 					}},
@@ -1757,7 +1758,7 @@
 						"options": {"typeSpeed": 50},
 						"cmdObj": [
 					        {"wait": 500},
-					        {"add": " Hvis du mangler inspiration, kan du læse dagens avis. Det er altid en god ide at inddrage emnet i overskriften."},
+					        {"add": " Det er altid en god ide at inddrage emnet i overskriften."},
 					        {"wait": 2000},
 					        {"removeCursor": 300}
 						]
@@ -1773,9 +1774,9 @@
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
 					{"header": "Side 15: json(general.header)"},
-					{"instruction": "Underrubrikken/manchetten – Underrubrikken/manchetten skal uddybe artiklens emne og fokus, så læseren ved, hvad artiklen handler om."},
+					{"instruction": "Underrubrikken/manchetten – En underrubrik skal uddybe artiklens emne og fokus, så læseren ved, hvad artiklen handler om."},
 					{"html" : "<div class='Clear'></div>"},
-					{"text" : "<p class='helperText red'>Mangler vi tekst og elementer her? (Erwin + TLY)</p>"},
+					{"text" : "<p class='helperText'>Skriv nu din underrubrik/manchet.</p>"},
 					{"textArea": 
 						{"attr" : {"id": "textArea_15_1"}
 					}},

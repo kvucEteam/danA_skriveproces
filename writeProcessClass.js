@@ -23,7 +23,7 @@ writeProcessClass = {
 	},
 
 	wpObj: {  // Internal system variables.
-		// currentStepNo: 1,   // The current step the student is in.
+		// currentStepNo: 1,   // The current step the student is in. 
 		eventLookup: {'onClick': 'click'},   // This "translates" diffrent event-names into JQuery standard event-names.
 		err_eventTriggered: false	// This is true if an error event is triggered.
 	},
@@ -1533,7 +1533,7 @@ writeProcessClass = {
 	},
 
 	template_div: function(attr, templateContentHtml) {
-		console.log('\ntemplate_step - CALLED - attr: ' + JSON.stringify(attr) + ', templateContentHtml: ' + templateContentHtml);
+		console.log('\ntemplate_div - CALLED - attr: ' + JSON.stringify(attr) + ', templateContentHtml: ' + templateContentHtml);
 
 		attr = this.addClassIfNotExist(attr, "template_div");
 
@@ -1541,7 +1541,7 @@ writeProcessClass = {
 		HTML += '<div ' + this.generateAttrStr(attr) + '>';
 		HTML += 	templateContentHtml;
 		HTML += '</div>';
-		console.log('template_step - HTML: ' + HTML);
+		console.log('template_div - HTML: ' + HTML);
 		
 		return HTML;
 	},
@@ -1568,23 +1568,25 @@ writeProcessClass = {
 	//		className: A string containing the name og the class
 	addClassIfNotExist: function (attrObj, className) {
 		if (typeof(attrObj)!=='undefined') {  // If "attr" is defined...
-			console.log('template_step - A0');
+			console.log('\naddClassIfNotExist - CALLED');
+
+			console.log('addClassIfNotExist - A0');
 			
 			if (attrObj.hasOwnProperty('class')) {		// If "attr" has the property "class"...
-				console.log('template_step - A1');
+				console.log('addClassIfNotExist - A1');
 
 				var attrArr = attrObj.class.split(' '); 
 
 				if (!this.elementInArray(attrArr, className)){  // If "attr" has the property "class", but "template_step" is not a member of the set of classes...
-					console.log('template_step - A2');
+					console.log('addClassIfNotExist - A2');
 					attrObj.class += ' '+className;  // ... add "template_step" to the set of classes
 				}
 			} else { // If "attr" is defined, but the "class"-property is not defined, the define it and make "template_step" a member of the class
-				console.log('template_step - A3');
+				console.log('addClassIfNotExist - A3');
 				attrObj.class = className;
 			}
 		} else { // If "attr" is not defined, then define it...
-			console.log('template_step - A4');
+			console.log('addClassIfNotExist - A4');
 			var attrObj = {class: className};
 		}
 

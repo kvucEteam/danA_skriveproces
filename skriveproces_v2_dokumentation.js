@@ -13,6 +13,291 @@
 //
 //################################################################################################################
 
+
+markKeyWords = {
+	thisClass: 'mkw_this',
+	dollarClass: 'mkw_dollar',
+	parenthesisClass: 'mkw_parenthesis',
+	selectorClass: 'mkw_selector',
+	delimiter: '(_#_)',
+	
+	thisMarker: function (str) {
+		str.replace(/this./g, '<span class="'+thisClass+'">this</span>.');
+	},
+	stringMarker: function (str) {
+		var mArr = HTML.match(/('#\w+'|"#\w+"|'.\w+'|".\w+")/g);
+	},
+	jqSelector: function (str) {
+		console.log('\njqSelector - CALLED');
+
+		console.log('\njqSelector - str 1:' + str);
+		
+		var posStart = str.indexOf('$(');
+		while (posStart!==-1) {
+			var posEnd = str.indexOf(')', posStart);
+			if (posEnd!==-1) {
+				var Tstr = str.substring(posStart, posEnd+1);
+				var TTstr = Tstr;
+				var selector = str.substring(posStart+2, posEnd);
+				Tstr = Tstr.replace(/\$/g, '<span class="'+this.dollarClass+'">$</span>');
+				Tstr = Tstr.replace(/\(/g, '<span class="'+this.parenthesisClass+'">(</span>');
+				Tstr = Tstr.replace(/\)/g, '<span class="'+this.parenthesisClass+'">)</span>');
+				Tstr = Tstr.replace(selector, '<span class="'+this.selectorClass+'">'+selector+'</span>');
+
+				str = str.replace(TTstr, Tstr);
+			}
+			posStart = str.indexOf('$(', posEnd+1);
+		}
+		console.log('jqSelector - str 2:' + str);
+	},
+	helper_positionOfParenthesis: function(str, parenthisisObj, startParenthisisPosition) {
+		console.log('\nhelper_positionOfParenthesis - CALLED');
+
+		console.log('helper_positionOfParenthesis - str:' + str + ', parenthisisObj: ' + JSON.stringify(parenthisisObj) + ', startParenthisisPosition: ' + startParenthisisPosition);
+
+		var posStart = str.indexOf(parenthisisObj.start, startParenthisisPosition);
+		var TposStart = posStart;
+		var TposEnd = posStart;
+
+		var count = 0;
+		// var posEnd = str.indexOf(parenthisisObj.end, posStart);
+		// var TposEnd = posEnd;
+
+		while ((TposStart!==-1)) {
+			console.log('helper_positionOfParenthesis - count:' + count);
+
+			console.log('helper_positionOfParenthesis - TposStart 1:' + TposStart + ', TposEnd 1: ' + TposEnd);
+
+			TposStart = str.indexOf(parenthisisObj.start, TposStart+1);
+			TposEnd = str.indexOf(parenthisisObj.end, TposEnd+1);
+			console.log('helper_positionOfParenthesis - TposStart 2:' + TposStart + ', TposEnd 2: ' + TposEnd);
+			
+			if ((TposStart===-1) || ((TposEnd!==-1) && (TposEnd < TposStart))) {
+				console.log('helper_positionOfParenthesis - A0');
+				break;
+			}
+
+			TposStart = str.indexOf(parenthisisObj.start, TposStart+1);
+
+			++count;
+		}
+		console.log('helper_positionOfParenthesis - END - posStart:' + posStart + ', TposEnd: ' + TposEnd);
+
+		return {"start": posStart, "end": TposEnd};
+	},
+	helper_returnInnerArg: function(str, parenthisisObj, startParenthisisPosition){
+		console.log('\nhelper_returnInnerArg - CALLED');
+
+		console.log('helper_returnInnerArg - str:' + str + ', parenthisisObj: ' + JSON.stringify(parenthisisObj));
+
+		var posStart = str.indexOf(parenthisisObj.start, startParenthisisPosition);
+		var TposStart = posStart;
+		var innerArg = null;
+
+		if ((TposStart!==-1)) {
+
+			var TposEnd = this.helper_positionOfParenthesis(str, parenthisisObj, posStart).end;
+			console.log('helper_returnInnerArg - TposStart 1:' + TposStart + ', TposEnd 1: ' + TposEnd);
+			
+			if ((TposEnd!==-1) && (TposStart < TposEnd)) {
+				console.log('helper_returnInnerArg - A0');
+				innerArg = str.substring(posStart+1, TposEnd);
+			}
+		}
+		console.log('helper_returnInnerArg - innerArg:' + innerArg);
+
+		return innerArg;
+	},
+	helper_outerParenthesis: function(obj1, obj2) {
+		console.log('\nhelper_outerParenthesis - CALLED');
+
+		if ((obj1.start < obj2.start) && (obj2.end < obj1.end)) {
+			return obj1;
+		}
+
+		if ((obj2.start < obj1.start) && (obj1.end < obj2.end)) {
+			return obj2;
+		}
+
+		return false;
+	},
+	TEST_helper_outerParenthesis: function(str) {
+		console.log('\nTEST_helper_outerParenthesis - CALLED');
+
+		var pPos1 = this.helper_positionOfParenthesis(str, {start: '(', end: ')'}, 0);
+		var pPos2 = this.helper_positionOfParenthesis(str, {start: '[', end: ']'}, 0);
+		var pPos3 = this.helper_positionOfParenthesis(str, {start: '{', end: '}'}, 0);
+
+		console.log('TEST_helper_outerParenthesis - helper_outerParenthesis(pPos1, pPos2): ' + JSON.stringify( this.helper_outerParenthesis(pPos1, pPos2) ));
+		console.log('TEST_helper_outerParenthesis - helper_outerParenthesis(pPos2, pPos1): ' + JSON.stringify( this.helper_outerParenthesis(pPos2, pPos1) ));
+		console.log('TEST_helper_outerParenthesis - BOOL - helper_outerParenthesis(pPos2, pPos1): ' + ((this.helper_outerParenthesis(pPos1, pPos2))? true : false));
+	},
+	findCodePiece: function(str){
+		console.log('\nfindCodePiece - CALLED');
+
+		console.log('findCodePiece - str 1:' + str );
+
+		var mArr = str.match(/(\w+\(|\w+\[|\w+\{)/g);
+		console.log('findCodePiece - mArr:' + mArr);
+
+		var posStart = 0;
+		var parenthisisObj;
+
+		var posArr = [];
+
+		for (var n in mArr) {
+			console.log('findCodePiece - mArr['+n+']:' + JSON.stringify(mArr[n]) );
+
+			var posEnd = null;
+
+			if (mArr[n].indexOf('(')!==-1) {
+				console.log('findCodePiece - A0');
+				parenthisisObj = {start: '(', end: ')'};
+			}
+			
+			if (mArr[n].indexOf('[')!==-1) {
+				console.log('findCodePiece - A1');
+				parenthisisObj = {start: '[', end: ']'};
+			}
+
+			if (mArr[n].indexOf('{')!==-1) {
+				console.log('findCodePiece - A2');
+				parenthisisObj = {start: '{', end: '}'};
+			}
+
+			// FIND START AND END POSITIONS:
+			posStart = str.indexOf(mArr[n], posStart);
+			posEnd = this.helper_positionOfParenthesis(str, parenthisisObj, posStart).end;
+			console.log('findCodePiece - posStart:' + posStart + ', posEnd: ' + posEnd);
+
+			posArr.push({start: posStart, end: posEnd});
+
+			// REMOVE SPACES:
+			if ((posStart!==-1) && (posEnd!==-1)) {
+				console.log('findCodePiece - A3');
+
+				var Tstr = str.substring(posStart, posEnd+1);
+				var Tstr_escaped = Tstr.replace('(', '\\(').replace(')', '\\)');
+				var Tstr_noSpace = Tstr.replace(/ /g, '');
+				console.log('findCodePiece - Tstr:' + Tstr + ', Tstr_escaped: ' + Tstr_escaped + ', Tstr_noSpace: ' + Tstr_noSpace);
+				var reg = new RegExp(Tstr_escaped, 'g');
+				console.log('findCodePiece - reg:' + reg );
+				str = str.replace(reg, Tstr_noSpace);
+			}
+		}
+
+		console.log('findCodePiece - str 2:' + str );
+
+		var codeArr = [];
+
+		for (var n in posArr) {
+			console.log('findCodePiece - posArr['+n+']:' + JSON.stringify(posArr[n]) );
+
+			posStart = str.lastIndexOf(' ', posArr[n].start);
+			console.log('findCodePiece - posStart:' + posStart );
+			if (posStart===-1) {
+				console.log('findCodePiece - A4a');
+				posStart = 0;
+			} else {
+				console.log('findCodePiece - A4b');
+				posStart = posStart + 1;
+			}
+
+			posEnd = str.indexOf(' ', posArr[n].end);
+			console.log('findCodePiece - posEnd:' + posEnd );
+			if (posEnd===-1) {
+				console.log('findCodePiece - A5');
+				posEnd = str.length-1;
+			}
+
+			if (str.substring(posEnd-1, posEnd)=='.') {
+				console.log('findCodePiece - A6');
+				posEnd = posEnd-1;
+			}
+
+			console.log('findCodePiece - posStart:' + posStart + ', posEnd: ' + posEnd);
+			var code = str.substring(posStart, posEnd);
+			codeArr.push(code);
+		}
+		console.log('findCodePiece - codeArr:' + JSON.stringify(codeArr) );
+	}
+}
+
+var mkw = Object.create(markKeyWords);
+mkw.jqSelector('Dette er en test $(".test") for at se om det virker!');
+
+mkw.helper_positionOfParenthesis('XXX() XXX()', {start: '(', end: ')'}, 0);
+mkw.helper_positionOfParenthesis('XXX((...)(...)) XXX()', {start: '(', end: ')'}, 0);
+mkw.helper_positionOfParenthesis('XXX(XXX(...)) XXX()', {start: '(', end: ')'}, 0);
+mkw.helper_positionOfParenthesis('Dette er en test $(".test") for at se om det virker!', {start: '(', end: ')'}, 0);
+mkw.helper_positionOfParenthesis('Dette er en test $(".test" for at se om det virker!', {start: '(', end: ')'}, 0);
+mkw.helper_positionOfParenthesis('Dette er en test $".test" for at se om det virker!', {start: '(', end: ')'}, 0);
+mkw.helper_positionOfParenthesis('Dette er en test function1(function2(), xxx) for at se om det virker!', {start: '(', end: ')'}, 0);
+mkw.helper_positionOfParenthesis('Dette er en test function1(function2(), xxx) for at se om det virker!', {start: '(', end: ')'}, 35);
+
+mkw.helper_returnInnerArg('Dette er en test function1(function2(), xxx) for at se om det virker!', {start: '(', end: ')'}, 0);
+
+mkw.TEST_helper_outerParenthesis('Dette er en test function1(rteyr[]rty)....');
+mkw.TEST_helper_outerParenthesis('Dette er en test function1()....');
+
+mkw.findCodePiece('function.test(x1, x2) asd ewer function.test(x1, x2) function[x2 ] function{ x3} yii iiy');
+
+
+// 012345678901234567890123456789012345678901234567890123456789
+//           |         |         |         |         |
+// XXX((...)(...)) XXX()
+// XXX(XXX(...)) XXX()
+// function.test(x1, x2) asd ewer function.test(x1, x2) function[x2 ] function{ x3} yii iiy
+// asd ewer function.test(x1, x2) function[x2] function{x3} yii iiy
+// Dette er en test function1(rteyr[]rty)
+// Dette er en test $(".test") for at se om det virker!
+// Dette er en test function1(function2(), xxx) for at se om det virker!
+
+
+function colorSelector(selector, colorScheme) {
+	console.log('\nEXTERNAL FUNCTION colorSelector - CALLED');
+
+	console.log('\nEXTERNAL FUNCTION colorSelector - selector: "'+selector+'", colorScheme: ' + colorScheme);
+
+	$(selector).each(function( index, element ) {
+
+		var HTML = $(element).html();
+	
+		// var HTML = selector;
+		console.log('\nEXTERNAL FUNCTION colorSelector - HTML 1: ' + HTML + ', index: ' + index);
+
+		// switch(colorScheme) {
+		// 	case 'code':
+		// 		var mArr = HTML.match(/('#\w+'|"#\w+"|'.\w+'|".\w+")/g);
+		// 		console.log('\nEXTERNAL FUNCTION colorSelector - mArr: ' + mArr);
+
+		// 		if (mArr!==null) {
+		// 			for (var n in mArr) {
+		// 				console.log('\nEXTERNAL FUNCTION colorSelector - mArr['+n+']: ' + mArr[n]);
+		// 				HTML = HTML.replace(mArr[n], '<span class=@code_arg@>'+mArr[n]+'</span>');
+		// 			}
+		// 		}
+
+		//         HTML = HTML.replace('this', '<span class=@code_this@>this</span>');
+
+		//         console.log('\nEXTERNAL FUNCTION colorSelector - HTML 2: ' + HTML);
+
+		//         HTML = HTML.replace(/@/g, '"');
+
+		//         break;
+		//     default:
+		//         console.log('\n==================\n\tERROR: \n\thandler_errCondition - currentStepNo: ' + this.api.currentStepNo + ', function: "' + c.cmd + '" does not exist!\n==================\n');
+		// }
+		// console.log('\nEXTERNAL FUNCTION colorSelector - HTML: ' + HTML);
+
+		// $(selector).html(HTML);
+
+	});
+}
+
+// colorSelector("this.api.userData['.id']", 'code');
+
+
 function external_template1(dataObj1, dataObj2) {
 	console.log('\nexternal_template1 - EXTERNAL TEST-TEMPLATE CALLED!')
 	console.log('external_template1 - dataObj1: ' + JSON.stringify(dataObj1));

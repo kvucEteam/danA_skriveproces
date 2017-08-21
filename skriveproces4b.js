@@ -152,32 +152,6 @@ function wordTemplate() {
 	HTML += 		'</style>';
 	HTML += 	'</head>';
 	HTML += 	'<body>';
-
-	HTML += 	'<div class="instruction">';
-	HTML += 		'<h3>Til det videre arbejde</h3>';
-	HTML += 		'<p>';
-	HTML += 			'Inden du går i gang med det videre arbejde, skal du kopiere og gemme dette dokument i sin nuværende form. Vi vil nemlig gerne have, at du til sidst afleverer både dokumentet, som det ser ud nu og din endeligt gennemarbejde tekst. Du skal med andre ord til sidst uploade og aflevere to udgaver af din tekst. Det skal du, da vi gerne vil kunne give dig feedback på både den første del af din skriveproces og på det færdige resultat.';
-	HTML += 		'</p>';
-	HTML += 		'<p>';
-	HTML += 			'I det videre arbejde skal du være opmærksom på det følgende:';
-	HTML += 		'</p>';
-	HTML += 		'<ul>';
-	HTML += 			'<li>';
-	HTML += 				'Læs dine afsnit igennem. Gør teksten så klar, præcis og sammenhængende som muligt.';
-	HTML += 			'</li>';
-	HTML += 			'<li>';
-	HTML += 				'Skriv nogle gode og logiske overgange imellem de forskellige afsnit. Som en del af dette arbejde skal du sørge for at ændre afsnittenes overskrifter, så de tydeligere knytter an til tekstens indhold og gør din læseren interesseret i det, de skal læse.';
-	HTML += 			'</li>';
-	HTML += 			'<li>';
-	HTML += 				'Kig på din indledning og afrunding, og overvej, om de fungerer godt eller om de skal forbedres.';
-	HTML += 			'</li>';
-	HTML += 			'<li>';
-	HTML += 				'Kig på dit sprog. Er det godt og levende og med så få formuleringsmæssige uklarheder og stavefejl som muligt?';
-	HTML += 			'</li>' ;
-	HTML += 		'</ul>';
-	HTML += 	'</div>';
-	HTML += 	'<hr>';
-	HTML += 	'<br>';
 	
 	HTML += 	contentOf2('h1','#textArea_10_1');  		// Step 10: Overskrift
 	HTML += 	'<div id="author">';
@@ -203,14 +177,6 @@ function wordTemplate() {
 	HTML += 	contentOf2('p','#textArea_8_1');  		// Step 8: Forklar nu med dine egne ord, hvad H.C. Andersen mener med eventyrets morale, og hvordan hele eventyret er med til at gøre denne pointe tydelig.
 	HTML += 	'<h4>Afslutning:</h4>';
 	HTML += 	contentOf2('p','#textArea_9_1');  		// Step 9: Afslutning
-
-	HTML += 	'<br>';
-	HTML += 	'<hr>';
-	HTML += 	'<div class="instruction">';
-	HTML += 		'<p>';
-	HTML += 	    	'Når du er færdig med at gennemskrive og rette skal du både aflevere dit oprindelige dokument samt den færdige tekst. Begge tekster skal uploades i Moodle der hvor du begyndte på opgaven.';
-	HTML += 		'</p>';
-	HTML += 	'</div>';
 
 	HTML += 	'</body>';
 	HTML += '</html>';

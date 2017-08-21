@@ -127,8 +127,10 @@ $( document ).on('click', "#summeryContainer h1, #summeryContainer h3, #summeryC
 	
 	window.sthis = this;
 	window.sid = $(this).attr('data-id').replace('#', '');
+	window.sheading = $(this).attr('data-heading');
 
-	var HTML = '<textarea id="'+sid+'" class="autoSaveOff"></textarea>';
+	var HTML = '<h4>'+sheading+'</h4>';
+	HTML += '<textarea id="'+sid+'" class="autoSaveOff"></textarea>';
 	HTML += '<span class="save summerySave btn btn-info">GEM</span>';
 	wpc.template_userMsgBox({id: "summeryTemplate"}, HTML);
 });
@@ -143,11 +145,11 @@ $( document ).on('click', ".summerySave", function(event){
 });
 
 
-function contentOf(parentTag, userDataId) {
+function contentOf(parentTag, userDataId, heading) {
 	// return '<'+parentTag+' data-id="'+userDataId+'">'+((wpc.api.userData.hasOwnProperty(userDataId))? wpc.api.userData[userDataId] : '')+'</'+parentTag+'>';
 
 	// return '<div class="contentWrap"> <span class="glyphicon glyphicon-pencil"></span> <'+parentTag+' data-id="'+userDataId+'">'+((wpc.api.userData.hasOwnProperty(userDataId))? wpc.api.userData[userDataId] : '')+'</'+parentTag+'> </div>';
-	return '<div class="contentWrap"> <'+parentTag+' data-id="'+userDataId+'">'+((wpc.api.userData.hasOwnProperty(userDataId))? wpc.api.userData[userDataId] : '')+'</'+parentTag+'> </div>';
+	return '<div class="contentWrap"> <'+parentTag+' data-id="'+userDataId+'" data-heading="'+heading+'">'+((wpc.api.userData.hasOwnProperty(userDataId))? wpc.api.userData[userDataId] : '')+'</'+parentTag+'> </div>';
 }
 
 
@@ -179,33 +181,33 @@ function summery(selector) {
 	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_8_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 8: Forklar nu med dine egne ord, hvad H.C. Andersen mener med eventyrets morale, og hvordan hele eventyret er med til at gøre denne pointe tydelig.
 	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_9_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 9: Afslutning
 
-	HTML += 	contentOf('h1','#textArea_14_1');  		// Step 14: Rubrik
-	HTML += 	contentOf('h3','#textArea_15_1');  		// Step 15: Underrubrik
+	HTML += 	contentOf('h1','#textArea_14_1', 'Rubrik');  		// Step 14: Rubrik
+	HTML += 	contentOf('h3','#textArea_15_1', 'Underrubrik');  		// Step 15: Underrubrik
 	HTML += 	'<h4>Indledning</h4>';
-	HTML += 	contentOf('p','#textArea_13_1');  		// Step 13: Indledning
+	HTML += 	contentOf('p','#textArea_13_1', 'Indledning');  		// Step 13: Indledning
 	HTML += 	'<h4>Mellemrubrik</h4>';
 	HTML += 	'<textarea id="textArea_16_1"></textarea>'; 
 	HTML += 	'<h4>Indtroduktion</h4>';
-	HTML += 	contentOf('p','#textArea_7_2');  		// Step 13: Indledning 
+	HTML += 	contentOf('p','#textArea_7_2', 'Indtroduktion');  		// Step 13: Indledning 
 	HTML += 	'<h4>Analyse</h4>';
 	HTML += 	'<h5><b>Anslag for analyseafsnit</b></h5>';
-	HTML += 	contentOf('p','#textArea_8a_2');  		// Step 13: Indledning 
+	HTML += 	contentOf('p','#textArea_8a_2', 'Anslag for analyseafsnit');  		// Step 13: Indledning 
 	HTML += 	'<h5><b>Besvarelse af hvordan/hvilke-spørgsmål</b></h5>';
-	HTML += 	contentOf('p','#textArea_8a_3'); 
+	HTML += 	contentOf('p','#textArea_8a_3', 'Besvarelse af hvordan/hvilke-spørgsmål'); 
 	HTML += 	'<h5><b>karakteristik el. undersøgelse</b></h5>';
-	HTML += 	contentOf('p','#textArea_8b_1'); 
+	HTML += 	contentOf('p','#textArea_8b_1', 'karakteristik el. undersøgelse'); 
 	HTML += 	'<h5><b>Begreber</b></h5>';
-	HTML += 	contentOf('p','#textArea_9_1'); 
+	HTML += 	contentOf('p','#textArea_9_1', 'Begreber'); 
 	HTML += 	'<h5><b>Primærtekstens svage led</b></h5>';
-	HTML += 	contentOf('p','#textArea_10_1'); 
+	HTML += 	contentOf('p','#textArea_10_1', 'Primærtekstens svage led'); 
 	HTML += 	'<h4>Mellemrubrik</h4>';
 	HTML += 	'<textarea id="textArea_16_2"></textarea>';  
 	HTML += 	'<h4>Perspektiverende diskussion</h4>';
-	HTML += 	contentOf('p','#textArea_11_1'); 
+	HTML += 	contentOf('p','#textArea_11_1', 'Perspektiverende diskussion'); 
 	HTML += 	'<h4>Mellemrubrik</h4>';
 	HTML += 	'<textarea id="textArea_16_3"></textarea>'; 
 	HTML += 	'<h4>Afslutning</h4>';
-	HTML += 	contentOf('p','#textArea_12_1'); 
+	HTML += 	contentOf('p','#textArea_12_1', 'Afslutning'); 
 
 
 	HTML += '</div>';
@@ -253,33 +255,33 @@ function wordTemplate() {
 	HTML += 	'</head>';
 	HTML += 	'<body>';
 	
-	HTML += 	contentOf('h1','#textArea_14_1');  		// Step 14: Rubrik
-	HTML += 	contentOf('h3','#textArea_15_1');  		// Step 15: Underrubrik
+	HTML += 	contentOf('h1','#textArea_14_1', 'Rubrik');  		// Step 14: Rubrik
+	HTML += 	contentOf('h3','#textArea_15_1', 'Underrubrik');  		// Step 15: Underrubrik
 	HTML += 	'<h4>Indledning</h4>';
-	HTML += 	contentOf('p','#textArea_13_1');  		// Step 13: Indledning
+	HTML += 	contentOf('p','#textArea_13_1', 'Indledning');  		// Step 13: Indledning
 	HTML += 	'<h4>Mellemrubrik</h4>';
-	HTML += 	contentOf('p','#textArea_16_1');
+	HTML += 	contentOf('p','#textArea_16_1', 'Mellemrubrik');
 	HTML += 	'<h4>Indtroduktion</h4>';
-	HTML += 	contentOf('p','#textArea_7_2');  		// Step 13: Indledning 
+	HTML += 	contentOf('p','#textArea_7_2', 'Indtroduktion');  		// Step 13: Indledning 
 	HTML += 	'<h4>Analyse</h4>';
 	HTML += 	'<h5><b>Anslag for analyseafsnit</b></h5>';
-	HTML += 	contentOf('p','#textArea_8a_2');  		// Step 13: Indledning 
+	HTML += 	contentOf('p','#textArea_8a_2', 'Anslag for analyseafsnit');  		// Step 13: Indledning 
 	HTML += 	'<h5><b>Besvarelse af hvordan/hvilke-spørgsmål</b></h5>';
-	HTML += 	contentOf('p','#textArea_8a_3'); 
+	HTML += 	contentOf('p','#textArea_8a_3', 'Besvarelse af hvordan/hvilke-spørgsmål'); 
 	HTML += 	'<h5><b>karakteristik el. undersøgelse</b></h5>';
-	HTML += 	contentOf('p','#textArea_8b_1'); 
+	HTML += 	contentOf('p','#textArea_8b_1', 'karakteristik el. undersøgelse'); 
 	HTML += 	'<h5><b>Begreber</b></h5>';
-	HTML += 	contentOf('p','#textArea_9_1'); 
+	HTML += 	contentOf('p','#textArea_9_1', 'Begreber'); 
 	HTML += 	'<h5><b>Primærtekstens svage led</b></h5>';
-	HTML += 	contentOf('p','#textArea_10_1'); 
+	HTML += 	contentOf('p','#textArea_10_1', 'Primærtekstens svage led'); 
 	HTML += 	'<h4>Mellemrubrik</h4>';
-	HTML += 	contentOf('p','#textArea_16_2');
+	HTML += 	contentOf('p','#textArea_16_2', 'Mellemrubrik');
 	HTML += 	'<h4>Perspektiverende diskussion</h4>';
-	HTML += 	contentOf('p','#textArea_11_1'); 
+	HTML += 	contentOf('p','#textArea_11_1', 'Perspektiverende diskussion'); 
 	HTML += 	'<h4>Mellemrubrik</h4>';
-	HTML += 	contentOf('p','#textArea_16_3');
+	HTML += 	contentOf('p','#textArea_16_3', 'Mellemrubrik');
 	HTML += 	'<h4>Afslutning</h4>';
-	HTML += 	contentOf('p','#textArea_12_1'); 
+	HTML += 	contentOf('p','#textArea_12_1', 'Afslutning'); 
 
 	HTML += 	'</body>';
 	HTML += '</html>';
