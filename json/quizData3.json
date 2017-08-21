@@ -1576,7 +1576,7 @@
 					"dynamicText": {
 						"NOTE": "options er valgfri, og er indstilligner (som f.eks typeSpeed) i dynamicText-objektet.",
 						"selector": ".instructionText",
-						"options": {"typeSpeed": 50},
+						"options": {"typeSpeed": 50}, 
 						"cmdObj": [
 					        {"wait": 500},
 					        {"add": " – En god afslutning indeholder alle de vigtigste pointer fra din opgave i en komprimeret udgave."},
