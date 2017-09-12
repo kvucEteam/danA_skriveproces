@@ -189,6 +189,8 @@ function summery(selector) {
 	HTML += 	'<textarea id="textArea_16_1"></textarea>'; 
 	HTML += 	'<h4>Indtroduktion</h4>';
 	HTML += 	contentOf('p','#textArea_7_2', 'Indtroduktion');  		// Step 13: Indledning 
+	HTML += 	'<h4>Mellemrubrik</h4>';
+	HTML += 	'<textarea id="textArea_16_2"></textarea>'; 
 	HTML += 	'<h4>Analyse</h4>';
 	HTML += 	'<h5><b>Anslag for analyseafsnit</b></h5>';
 	HTML += 	contentOf('p','#textArea_8a_2', 'Anslag for analyseafsnit');  		// Step 13: Indledning 
@@ -201,11 +203,11 @@ function summery(selector) {
 	HTML += 	'<h5><b>Primærtekstens svage led</b></h5>';
 	HTML += 	contentOf('p','#textArea_10_1', 'Primærtekstens svage led'); 
 	HTML += 	'<h4>Mellemrubrik</h4>';
-	HTML += 	'<textarea id="textArea_16_2"></textarea>';  
+	HTML += 	'<textarea id="textArea_16_3"></textarea>';  
 	HTML += 	'<h4>Perspektiverende diskussion</h4>';
 	HTML += 	contentOf('p','#textArea_11_1', 'Perspektiverende diskussion'); 
 	HTML += 	'<h4>Mellemrubrik</h4>';
-	HTML += 	'<textarea id="textArea_16_3"></textarea>'; 
+	HTML += 	'<textarea id="textArea_16_4"></textarea>'; 
 	HTML += 	'<h4>Afslutning</h4>';
 	HTML += 	contentOf('p','#textArea_12_1', 'Afslutning'); 
 
@@ -263,6 +265,8 @@ function wordTemplate() {
 	HTML += 	contentOf('p','#textArea_16_1', 'Mellemrubrik');
 	HTML += 	'<h4>Indtroduktion</h4>';
 	HTML += 	contentOf('p','#textArea_7_2', 'Indtroduktion');  		// Step 13: Indledning 
+	HTML += 	'<h4>Mellemrubrik</h4>';
+	HTML += 	contentOf('p','#textArea_16_2', 'Mellemrubrik');
 	HTML += 	'<h4>Analyse</h4>';
 	HTML += 	'<h5><b>Anslag for analyseafsnit</b></h5>';
 	HTML += 	contentOf('p','#textArea_8a_2', 'Anslag for analyseafsnit');  		// Step 13: Indledning 
@@ -275,11 +279,11 @@ function wordTemplate() {
 	HTML += 	'<h5><b>Primærtekstens svage led</b></h5>';
 	HTML += 	contentOf('p','#textArea_10_1', 'Primærtekstens svage led'); 
 	HTML += 	'<h4>Mellemrubrik</h4>';
-	HTML += 	contentOf('p','#textArea_16_2', 'Mellemrubrik');
+	HTML += 	contentOf('p','#textArea_16_3', 'Mellemrubrik');
 	HTML += 	'<h4>Perspektiverende diskussion</h4>';
 	HTML += 	contentOf('p','#textArea_11_1', 'Perspektiverende diskussion'); 
 	HTML += 	'<h4>Mellemrubrik</h4>';
-	HTML += 	contentOf('p','#textArea_16_3', 'Mellemrubrik');
+	HTML += 	contentOf('p','#textArea_16_4', 'Mellemrubrik');
 	HTML += 	'<h4>Afslutning</h4>';
 	HTML += 	contentOf('p','#textArea_12_1', 'Afslutning'); 
 
