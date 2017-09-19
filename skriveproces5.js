@@ -58,6 +58,11 @@ function contentOf2(parentTag, userDataId) {
 }
 
 
+var step5_text = $('#step_clipborad_5 .text_5_1').html();
+console.log('external_template1 - step5_text: ' + step5_text);
+
+
+
 // FRA ERWIN'S SKRIVEGUIDE
 function summery(selector) {
 	console.log('\nEXTERNAL FUNCTION summery - CALLED');
@@ -65,47 +70,14 @@ function summery(selector) {
 	var HTML = '';
 
 	HTML += '<div id="summeryContainer">';
+	
+	// HTML += 	step5_text;
 
-	// HTML += 	'<div class="contentWrap">'+contentOf('h1','#textArea_10_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  	// Step 10: Overskrift
-	// HTML += 	'<div class="contentWrap">'+contentOf('span','#inputField_1_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  	// Step 1: Titel
-	// HTML += 	'<div class="contentWrap">'+contentOf('span','#inputField_1_2')+'<span class="glyphicon glyphicon-pencil"></span></div>';  	// Step 1: Forfatter
-	// HTML += 	'<div class="contentWrap">'+contentOf('span','#inputField_1_3')+'<span class="glyphicon glyphicon-pencil"></span></div>';  	// Step 1: Årstal
-	// HTML += 	'<div class="contentWrap">'+contentOf('h3','#textArea_10_2')+'<span class="glyphicon glyphicon-pencil"></span></div>';  	// Step 10: Indledning
-	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_2_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 2: Formulér ca. 10 linjer hvori du viser, at "Den grimme ælling" er et eventyr. 
-	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_3_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 3: Citat
-	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_4_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 4: Forklar hvorfor dit citat viser, at teksten tilhører genren eventyr.
-	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_5_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 5: Beskriv kort miljøet, som det fremstilles i eventyrets første 15 linjer.
-	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_6_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 6: Find et citat fra et andet sted i teksten, som du synes står i kontrast til begyndelsen, hvad angår miljøet.
-	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_7_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 7: Forklar dit citat, idet du fremhæver enkelte ord fra det valgte tekststykke, som tydeliggør kontrasten.
-	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_8_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 8: Forklar nu med dine egne ord, hvad H.C. Andersen mener med eventyrets morale, og hvordan hele eventyret er med til at gøre denne pointe tydelig.
-	// HTML += 	'<div class="contentWrap">'+contentOf('p','#textArea_9_1')+'<span class="glyphicon glyphicon-pencil"></span></div>';  		// Step 9: Afslutning
+	HTML += 	'<h4>Opgave 1:</h4>';
+	HTML += 	contentOf('p','#textArea_3_1', 'Opgave 1');  		
 
-	HTML += 	contentOf('h1','#textArea_10_1', 'Overskrift');  		// Step 10: Overskrift
-	HTML += 	'<div id="author">';
-	HTML += 		contentOf('span','#inputField_1_1', 'Titel')+' af ';  	// Step 1: Titel
-	HTML += 		contentOf('span','#inputField_1_2', 'Forfatter')+', ';  	// Step 1: Forfatter
-	HTML += 		contentOf('span','#inputField_1_3', 'Årstal');  	// Step 1: Årstal
-	HTML += 	'</div>';
-	HTML += 	'<h4>Indledning:</h4>';
-	HTML += 	contentOf('p','#textArea_10_2', 'Indledning');  		// Step 10: Indledning
-	HTML += 	'<h4>Genre begrundelse:</h4>';
-	HTML += 	contentOf('p','#textArea_2_1', 'Genre begrundelse');  		// Step 2: Formulér ca. 10 linjer hvori du viser, at "Den grimme ælling" er et eventyr. 
-	HTML += 	'<h4>Citat der begrunder genre:</h4>';
-	// HTML += 	contentOf('i','#textArea_3_1');  		// Step 3: Citat
-	HTML += 	contentOf('p','#textArea_3_1', 'Citat der begrunder genre');  
-	HTML += 	'<h4>Begrundelse for valg af citat:</h4>';
-	HTML += 	contentOf('p','#textArea_4_1', 'Begrundelse for valg af citat');  		// Step 4: Forklar hvorfor dit citat viser, at teksten tilhører genren eventyr.
-	HTML += 	'<h4>Miljøbeskrivelse:</h4>';
-	HTML += 	contentOf('p','#textArea_5_1', 'Miljøbeskrivelse');  		// Step 5: Beskriv kort miljøet, som det fremstilles i eventyrets første 15 linjer.
-	HTML += 	'<h4>Citat om kontrast i miljøet:</h4>';
-	// HTML += 	contentOf('i','#textArea_6_1');  		// Step 6: Find et citat fra et andet sted i teksten, som du synes står i kontrast til begyndelsen, hvad angår miljøet.
-	HTML += 	contentOf('p','#textArea_6_1', 'Citat om kontrast i miljøet');
-	HTML += 	'<h4>Citatforklaring:</h4>';
-	HTML += 	contentOf('p','#textArea_7_1', 'Citatforklaring');  		// Step 7: Forklar dit citat, idet du fremhæver enkelte ord fra det valgte tekststykke, som tydeliggør kontrasten.
-	HTML += 	'<h4>Morale og fortolkning:</h4>';
-	HTML += 	contentOf('p','#textArea_8_1', 'Morale og fortolkning');  		// Step 8: Forklar nu med dine egne ord, hvad H.C. Andersen mener med eventyrets morale, og hvordan hele eventyret er med til at gøre denne pointe tydelig.
-	HTML += 	'<h4>Afslutning og perspektivering:</h4>';
-	HTML += 	contentOf('p','#textArea_9_1', 'Afslutning og perspektivering');  		// Step 9: Afslutning
+	HTML += 	'<h4>Opgave 2:</h4>';
+	HTML += 	contentOf('p','#textArea_4_1', 'Opgave 2');  		
 
 
 	HTML += '</div>';
@@ -124,7 +96,7 @@ function download() {
 	
 	var converted = htmlDocx.asBlob(HTML);
     console.log("EXTERNAL FUNCTION download - converted: " + JSON.stringify(converted));
-	saveAs(converted, 'Min analyse - den grimme ælling.docx');
+	saveAs(converted, 'Min analyse - globryllup.docx');
 }
 
 
@@ -146,71 +118,56 @@ function wordTemplate() {
 	HTML += 			'p {font-size: 14px; margin-bottom: 5px}';
 	HTML += 			'table {padding: 8px; width: 100%;}';
 	HTML += 			'td {width: 25%;}';
-	HTML += 			'ul {font-size: 14px;}';
+	// HTML += 			'ul {font-size: 14px;}';
 	HTML += 			'#author div {display: inline-block;}';
 	HTML += 			'.instruction {color: #999;}';
+	HTML += 			'.instruction2 {background-color: #acefed; padding: 10px 10px 10px 10px; margin-bottom: 25px; font-size: 14px;}';  // g2
+	HTML += 			'.preText {background-color: #e7e6e2; padding: 10px 10px 10px 10px; margin-bottom: 25px}';
+	HTML +=				'.marginAjust {padding-bottom: -10px}';
 	HTML += 		'</style>';
 	HTML += 	'</head>';
 	HTML += 	'<body>';
 
-	HTML += 	'<div class="instruction">';
+	HTML += 	'<table class="instruction2">';
 	HTML += 		'<h3>Til det videre arbejde</h3>';
-	HTML += 		'<p>';
-	HTML += 			'Inden du går i gang med det videre arbejde, skal du kopiere og gemme dette dokument i sin nuværende form. Vi vil nemlig gerne have, at du til sidst afleverer både dokumentet, som det ser ud nu og din endeligt gennemarbejde tekst. Du skal med andre ord til sidst uploade og aflevere to udgaver af din tekst. Det skal du, da vi gerne vil kunne give dig feedback på både den første del af din skriveproces og på det færdige resultat.';
-	HTML += 		'</p>';
-	HTML += 		'<p>';
-	HTML += 			'I det videre arbejde skal du være opmærksom på det følgende:';
-	HTML += 		'</p>';
+	// HTML += 		'<p>';
+	HTML += 			'Du skal nu skabe en sammenhængende opgave ved hjælp af din analyse og den eksemplariske besvarelse. Du skal derfor gøre følgende:';
+	// HTML += 		'</p>';
 	HTML += 		'<ul>';
 	HTML += 			'<li>';
-	HTML += 				'Læs dine afsnit igennem. Gør teksten så klar, præcis og sammenhængende som muligt.';
+	HTML += 				'Skab en sammenhæng fra der hvor den eksemplariske opgave slutter til der hvor din del begynder';
 	HTML += 			'</li>';
 	HTML += 			'<li>';
-	HTML += 				'Skriv nogle gode og logiske overgange imellem de forskellige afsnit. Som en del af dette arbejde skal du sørge for at ændre afsnittenes overskrifter, så de tydeligere knytter an til tekstens indhold og gør din læseren interesseret i det, de skal læse.';
+	HTML += 				'Gennemskriv dine analyseafsnit, så de er sammenhængende og uden sproglige fejl';
 	HTML += 			'</li>';
 	HTML += 			'<li>';
-	HTML += 				'Kig på din indledning og afrunding, og overvej, om de fungerer godt eller om de skal forbedres.';
+	HTML += 				'Formuler mellemrubrikker til dine to afsnit samt en til to mellemrubrikker i eksempelanalysen';
 	HTML += 			'</li>';
 	HTML += 			'<li>';
-	HTML += 				'Kig på dit sprog. Er det godt og levende og med så få formuleringsmæssige uklarheder og stavefejl som muligt?';
+	HTML += 				'Udskift den nuværende rubrik (Analyse af Globryllup Helle Helle) med en rubrik du selv formulerer. Rubrikken skal være både dækkende og den skal indfange din læser';
 	HTML += 			'</li>' ;
 	HTML += 		'</ul>';
-	HTML += 	'</div>';
-	HTML += 	'<hr>';
+	HTML += 	'</table>';
+	// HTML += 	'<hr>';
 	HTML += 	'<br>';
 	
-	HTML += 	contentOf2('h1','#textArea_10_1');  		// Step 10: Overskrift
-	HTML += 	'<div id="author">';
-	HTML += 		contentOf2('span','#inputField_1_1')+' af ';  	// Step 1: Titel
-	HTML += 		contentOf2('span','#inputField_1_2')+', ';  	// Step 1: Forfatter
-	HTML += 		contentOf2('span','#inputField_1_3');  			// Step 1: Årstal
-	HTML += 	'</div>';
-	HTML += 	'<h4>Indledning:</h4>';
-	HTML += 	contentOf2('p','#textArea_10_2');  		// Step 10: Indledning
-	HTML += 	'<h4>Genre begrundelse:</h4>';
-	HTML += 	contentOf2('p','#textArea_2_1');  		// Step 2: Formulér ca. 10 linjer hvori du viser, at "Den grimme ælling" er et eventyr. 
-	HTML += 	'<h4>Citat der begrunder genre:</h4>';
-	HTML += 	contentOf2('p','#textArea_3_1');  		// Step 3: Citat
-	HTML += 	'<h4>Begrundelse for valg af citat:</h4>';
-	HTML += 	contentOf2('p','#textArea_4_1');  		// Step 4: Forklar hvorfor dit citat viser, at teksten tilhører genren eventyr.
-	HTML += 	'<h4>Miljøbeskrivelse:</h4>';
-	HTML += 	contentOf2('p','#textArea_5_1');  		// Step 5: Beskriv kort miljøet, som det fremstilles i eventyrets første 15 linjer.
-	HTML += 	'<h4>Citat om kontrast i miljøet:</h4>';
-	HTML += 	contentOf2('p','#textArea_6_1');  		// Step 6: Find et citat fra et andet sted i teksten, som du synes står i kontrast til begyndelsen, hvad angår miljøet.
-	HTML += 	'<h4>Citatforklaring:</h4>';
-	HTML += 	contentOf2('p','#textArea_7_1');  		// Step 7: Forklar dit citat, idet du fremhæver enkelte ord fra det valgte tekststykke, som tydeliggør kontrasten.
-	HTML += 	'<h4>Morale:</h4>';
-	HTML += 	contentOf2('p','#textArea_8_1');  		// Step 8: Forklar nu med dine egne ord, hvad H.C. Andersen mener med eventyrets morale, og hvordan hele eventyret er med til at gøre denne pointe tydelig.
-	HTML += 	'<h4>Afslutning:</h4>';
-	HTML += 	contentOf2('p','#textArea_9_1');  		// Step 9: Afslutning
+	HTML += 	'<table class="preText">';
+	HTML += 		step5_text;
+	HTML += 	'</table>';
+
+	HTML += 	'<h4>Mellemrubrik:</h4>';
+	HTML += 	contentOf('p','#textArea_3_1', 'Citater');  		
+
+	HTML += 	'<h4>Mellemrubrik:</h4>';
+	HTML += 	contentOf('p','#textArea_4_1', 'Begreberne face og facework');  		
 
 	HTML += 	'<br>';
-	HTML += 	'<hr>';
-	HTML += 	'<div class="instruction">';
-	HTML += 		'<p>';
-	HTML += 	    	'Når du er færdig med at gennemskrive og rette skal du både aflevere dit oprindelige dokument samt den færdige tekst. Begge tekster skal uploades i Moodle der hvor du begyndte på opgaven.';
-	HTML += 		'</p>';
-	HTML += 	'</div>';
+	// HTML += 	'<hr>';
+	HTML += 	'<table class="instruction2 marginAjust">';
+	// HTML += 		'<p>';
+	HTML += 	    	'Afsluttende sætning: Upload nu din opgave i Moodle under opgave 6.3.';
+	// HTML += 		'</p>';
+	HTML += 	'</table>';
 
 	HTML += 	'</body>';
 	HTML += '</html>';
