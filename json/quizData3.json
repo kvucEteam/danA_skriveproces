@@ -580,7 +580,7 @@
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
 					{"header": "json(general.header): Introduktionsafsnit"},
-					{"instruction": "Introducer emnet for din læser. Kom med konkrete eksempler på, hvad der karakteriserer dit emne bedst."},
+					{"instruction": "Introducer emnet for din læser."},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
 						"attr" : {"id": "btn_7_1", "class": "infoBtn btn btn-primary"},
