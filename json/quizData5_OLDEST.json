@@ -11,13 +11,18 @@
 				"attr" : {"id": "step_1", "class": "step"},
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
-					{"header": "json(general.header)"},
+					{"header": "STEP 1: json(general.header)"},
 					{"instruction": "html('#step_clipborad_1 .text_1_1', '.instructionText')"},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
 						"attr" : {"id": "goForward_1", "class": "stepNav goForward btn btn-primary"},
 						"text": "GÅ I GANG", 
 						"onClick": ["save(.goForward)", "goForward(.goForward)"]
+					}},
+					{"tag": {
+						"attr" : {"id": "download_answer", "class": "right stepNav btn btn-info", "href": "https://mit.kvuc.dk/pluginfile.php/5306/question/questiontext/244488/1/911451/Helle%20Helle%20-%20Globryllup.%20Teksten%2C%20som%20analyseres%20i%20modeleksemplet.pdf", "target": "_blank"}, 
+						"tagName": "a", 
+						"text": "Hent ”Globryllup” <span class='glyphicons glyphicons-download-alt'></span>"
 					}},
 					{"progressBar": true} 
 				]
@@ -51,7 +56,7 @@
 				"attr" : {"id": "step_1", "class": "step"},
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
-					{"header": "json(general.header)"},
+					{"header": "STEP 2: json(general.header)"},
 					{"instruction": "html('#step_clipborad_2 .text_2_1', '.instructionText')"},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
@@ -74,7 +79,7 @@
 						"selector": ".instructionText",
 						"options": {"typeSpeed": 50},
 						"cmdObj": [
-					        {"wait": 10000},
+					        {"wait": 500},
 					        {"add": "Nu er du klar til næste spørgsmål."},
 					        {"wait": 2000},
 					        {"removeCursor": 300}
@@ -90,9 +95,22 @@
 				"attr" : {"id": "step_2", "class": "step"},
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
-					{"header": "Opgave 1: json(general.header)"},
+					{"header": "STEP 3: json(general.header)"},
 					{"instruction": "html('#step_clipborad_3 .text_3_1', '.instructionText')"},
 					{"html" : "<div class='Clear'></div>"},
+					{"text" : "<p class='helperText red'>Jeg har placeret en sætningsstarter, som mangler indhold</p>"},
+					{"dropdown":{
+						"NOTE": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
+						"id":"Dropdown3_1", "class":"Dropdown", "selected": "0",
+						"target": "#textArea_3_1", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
+						"action": "append", "NOTE": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
+						"options":[
+							{"value": "Sætningsstartere:"},
+				    		{"value": "Sætning 1..."},
+				    		{"value": "Sætning 2..."},
+				    		{"value": "Sætning 3..."}
+						]
+					}},
 					{"textArea": {
 						"attr" : {"id": "textArea_3_1"}
 					}},
@@ -116,7 +134,7 @@
 						"selector": ".instructionText",
 						"options": {"typeSpeed": 50},
 						"cmdObj": [
-					        {"wait": 10000},
+					        {"wait": 500},
 					        {"add": " Inddrag mindst to citater til at underbygge din beskrivelse (8-10 linjer)."},
 					        {"wait": 2000},
 					        {"removeCursor": 300}
@@ -132,9 +150,22 @@
 				"attr" : {"id": "step_2", "class": "step"},
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
-					{"header": "Opgave 2: json(general.header)"},
+					{"header": "STEP 4: json(general.header)"},
 					{"instruction": "Med udgangspunkt i to udvalgte passager skal du nu beskrive, hvordan de to samtaleprincipper samarbejds- og høflighedsprincipperne er på spil i novellen. (10 linjer)."},
 					{"html" : "<div class='Clear'></div>"},
+					{"text" : "<p class='helperText red'>Jeg har placeret en sætningsstarter, som mangler indhold</p>"},
+					{"dropdown":{
+						"NOTE": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
+						"id":"Dropdown4_1", "class":"Dropdown", "selected": "0",
+						"target": "#textArea_4_1", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
+						"action": "append", "NOTE": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
+						"options":[
+							{"value": "Sætningsstartere:"},
+				    		{"value": "Sætning 1..."},
+				    		{"value": "Sætning 2..."},
+				    		{"value": "Sætning 3..."}
+						]
+					}},
 					{"textArea": {
 						"attr" : {"id": "textArea_4_1"}
 					}},
@@ -158,7 +189,7 @@
 						"selector": ".instructionText",
 						"options": {"typeSpeed": 50},
 						"cmdObj": [
-					        {"wait": 8000},
+					        {"wait": 500},
 					        {"add": " Inddrag desuden begreberne face og facework."},
 					        {"wait": 2000},
 					        {"removeCursor": 300}
@@ -174,7 +205,7 @@
 				"attr" : {"id": "step_11", "class": "step"},
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
-					{"header": "json(general.header)"},
+					{"header": "STEP 5: json(general.header)"},
 					{"instruction": "Du er nu klar til at gennemgå din analyse og downloade den for videre arbejde."},
 					{"html" : "<div class='Clear'></div><div id='summery'></div>"},
 					{"btn": {
