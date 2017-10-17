@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Den introducerende artikel hovedside</title>
+    <!-- http://www.robotstxt.org/meta.html -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../library/css/styles.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <style type="text/css">
+        .red{color: red;}
+        .row{margin-left: -15px;}  /* Dette quick-fix skal revideres pga allignment issues. */
+        .removeTopMargin{margin-top: 0px;}
+        .addBottomMargin_20px{margin-bottom: 20px;}
+    </style>
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        
+        <h1>Skriveguide til den introducerende artikel</h1>
+
+        <div id="temp_instruction_text">  <!-- Denne tekst indsætte via "instriction()" funktionen fra shared_functions.js forneden  -->
+<!-- 
+            Her finder du en oversigt over skriveguides til den introducerende artikel. Du kan starte din skriveproces med tænkeskrivning - eller gå direkte til Skriveguiden. Skriveprocessen og formativ feedback, noget mere tekst fra Erwin her. 
+  -->           
+            Du har fået til opgave at skrive en introducerende artikel. Her finder du en oversigt over tre forskellige skriveguider, der alle har til formål at hjælpe dig med at skrive den bedst mulige introducerende artikel. Du vælger selv kombinationen af de forskellige skriveguider. Du kan fx starte med tænkeskrivningen for at komme godt ned i stoffet, eller du kan gå direkte i gang med at skrive den introducerende artikel, hvis du på nuværende tidspunkt har et godt overblik over eksamensteksterne. 
+            <span id="dynamicText"></span><span class="cursor">|</span>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <h4>TÆNKESKRIVNING</h4>
+<!-- 
+                <p>Du kan starte din skriveproces med tænkeskrivning. Download og brug dine noter i skriveguiden. </p>
+ -->
+                <p>
+                    Tænkeskrivning er et værktøj til at få så mange af dine tanker ned på papir som muligt, før du starter på at skrive selve artiklen. Her skal du ikke være bekymret for, om det, du skriver, er skrevet i et korrekt og fejlfrit dansk, men i stedet koncentrere dig om at indsamle så meget viden som muligt, samt gøre dig tanker om, hvad emnet er, hvad de udleverede tekster handler om, og hvilke begreber fra lærebøgerne, du kan anvende. Når du er færdig med tænkeskrivningen kan du downloade den og anvende den, mens du arbejder med skriveguiden til den introducerende artikel.
+                </p>
+                <div class="btn btn-lg btn-primary">SKRIV DIG VARM </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <h4>SKRIVEGUIDE til den introducerende artikel</h4>
+<!-- 
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque congue tempor justo, vel ornare mi ornare non. Nunc consequat posuere massa.</p>
+  -->
+                <p>
+                    I denne skriveguide vil du få hjælp til udarbejdelse af struktur, indledning, introduktionsafsnit, analyseafsnit, perspektiverende diskussion og afslutning. Du vil også blive vist, hvordan du skriver en rubrik, underrubrik og mellemrubrikker. Alle trin er suppleret med eksempler. 
+                </p>               
+                <div class="btn btn-lg btn-primary">SKRIV ARTIKLEN</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <h4>METATEKST</h4>
+<!-- 
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque congue tempor justo, vel ornare mi ornare non. Nunc consequat posuere massa.</p>
+ -->  
+                <p>
+                    Når du skriver en introducerende artikel, skal du også skrive en metatekst. En metatekst er en tekst om teksten. Det vil sige en tekst, hvor du skriver om, hvad du har gjort rent formidlingsmæssigt, men også hvorfor du har gjort det.
+                </p>              
+                <div class="btn btn-lg btn-primary">SKRIV METATEKST</div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="embed-responsive embed-responsive-16by9 addBottomMargin_20px">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/-Go7min716I?iv_load_policy=3&amp;modestbranding=1&amp;showinfo=0&amp;autohide=1&amp;rel=0" allowfullscreen="1" frameborder="0"></iframe>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <h4 class="removeTopMargin">ALT I EN</h4>
+                <p>Her finder du en samlet guide, hvis du har overskud og tid.</p>
+                <div class="btn btn-lg btn-primary">SKRIV ARTIKLEN</div>
+            </div>
+        </div>
+
+    </div>
+    <script src="../library/vendor_scripts.js"></script>
+    <script src="../library/custom_scripts.js"></script>
+    <script src="dynamicTextClass.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        one_line_footer();
+
+        $('.container-fluid h1').after(instruction($('#temp_instruction_text').html()));
+        $('#temp_instruction_text').remove();
+
+        var DTO = Object.create(dynamicTextClass); 
+        var cmdObj =  [ // This is a small default demo of how to use the dynamicTextClass program.
+            {"wait": 500},
+            {"add": " Udarbejdelsen af din metatekst, anbefaler vi, finder sted, mens du skriver din introducerende artikel."},
+            {"wait": 3000},
+            {"removeCursor": 300}
+        ];
+        DTO.init('#dynamicText', cmdObj);
+
+    });
+    </script>
+</body>
+
+</html>
