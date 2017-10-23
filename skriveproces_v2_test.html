@@ -1,0 +1,164 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Skriveprocesværktøj</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" href="../library/css/styles.css" type="text/css" />
+
+        <!-- <link rel="stylesheet" href="vid_skriv.css" type="text/css" /> --> 
+
+        <link rel="stylesheet" href="skriveproces_v2_test.css" type="text/css" />
+
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div id="interface">
+                
+            </div>
+
+            <div class="hidden">
+
+                <h1> DETTE ER SKJULT INDHOLD, SOM HENTES IND DYNAMISK I SKRIVEGUIDEN</h1>
+
+
+                <div id="step_clipborad_0" class="step_clipborad border_red">
+
+                    <div class="text_0_1 border_blue text_clipborad">
+                        <h2>Indholdsfortegnelse:</h2>
+                        <h3 class="toc">1. Introduktion: hvorfor denne guide?</h3>
+                        <h3 class="toc">2. JSON styret indhold</h3>
+                        <h4 class="toc ml40">2.1 JSON struktur</h4>
+                        <h4 class="toc ml40">2.2 Reserveret JSON keywords</h4>
+                        <h4 class="toc ml40">2.3 JSON funktioner</h4>
+                    </div>
+
+                </div>
+
+
+                <div id="step_clipborad_1" class="step_clipborad border_red">
+
+                    <div class="text_1_1 border_blue text_clipborad">
+                        <h2>1. Introduktion: hvorfor denne guide?</h2>
+                        <p>
+                            Normalt dokumentere vi vores kode med bemærkninger i selve koden - hvilket ofter er forklaringer på hvad en kodestump eller en funktion gør - og ikke overordnet hvordan et objekt bruges. Da dette er et værktøj til os, og da det er et alsidigt værktøj, så er det vigtigt at få dokumenteret hvordan specifikke skriveguide problematikker løses med dette værktøj.
+                        </p>
+                        <p>
+                            Værktøjet kan spare meget tid i udviklingsprocessen, så længe de skridt/steps i processen er understøttet af værktøjet. Hvis et step eller en funktionalitet ikke er understøttet af værktøjet, er der mulighed for at "bryde ud" skriveguide-værktøjet, og kode det ønskede step eller funktionalitet eksternt.
+                        </p>
+                        <p>
+                            Da værktøjet er blevet til i et skriveguideforløb i sommeren 2017 med Ester Monrad og Erwin Plahn, og da vi altid udvikler ift "need-to-have" funktionaliteter, så er der stadig mangler i dette værktøj - f.eks. understøttes lyd, billeder, faneopdelinger, drag-and-drop mv. ikke i skrivende stund - men skal tilføjes når behovet opstår. 
+                        </p>
+                    </div>
+
+
+                </div>
+
+                <div id="step_clipborad_2" class="step_clipborad border_red">
+
+                    <div class="text_2_1 border_blue text_clipborad">
+                        <h2>2. JSON styret indhold</h2>
+                        <p>
+                            Ideen bag dette værktøj er at "alt" indhold (dvs. markup og text) er styret via JSON scriptet. Alt indhold komme ind i ind i skriveguiden via en template der rummer et array med key-wordet <span class="json">"content"</span>, hvor i alt indholdet indsættes. Den nærmere forklaring følger herunder.
+                        </p>
+
+                        <h3>2.1 JSON struktur</h3>
+                        <p>
+                            <span class="note">Åben JSON-filen til denne dokumentationsguide, og kig efter de nævnte keywords og JSON-strukture efterhånden som de nævnes i denne dokumentation.</span> Åben evt. de skriveguides der allerede er lavet med dette værktøj og søg efter de nævnte keywords.
+                        </p>
+
+                        <h4>Templates</h4>
+                        <p>
+                            Roden af JSON dokumentet har to keys: <span class="json">"general"</span> og <span class="json">"step"</span>. Key-wordet <span class="json">"step"</span> er et reververet key-word - skriveguideværktøjet forventer at "step" eksistere i roden, og er af typen array. <span class="json">"step"</span> er en overordnet container for indholdet i det pågælende step i skriveguiden. <span class="json">"step"</span> kan (optional) rumme key-wordet <span class="json">"template"</span>, hvilket angiver hvilken template der skal anvendes. Templates er blot en "wrapper" hvori indholdet <span class="json">"content"</span> præsenteres i - p.t er <span class="json">template_step</span> og <span class="json">template_div</span> ens - og er blot et div-tag. P.t er der 5 typer af templates:
+                        </p>
+                            <ol>
+                                <li><span class="json">template_step</span>: Denne template er tænkt at den wrapper alle "standard" skriveguide-steps laves i. P.t. er dette blot et div-tag, men man kunne hen af vejen forestille sig at man gjorde noget mere ud af denne type </li> 
+                                <li><span class="json">template_div</span>: Dette blot et div-tag</li> 
+                                <li><span class="json">template_userMsgBox</span>: Dette indsætter indholdet i en userMsgBox. P.t. anvendes denne template type udelukkende til knapper der åbner et userMsgBox vindue med yderligere indhold eller mulighed for interaktion.</li>
+                                <li><span class="json">template_noWrap</span>: Dette er en template type der ikke laver et wrap omkring indholdet. Formålet er med denne type er at sætte en (eller flere) <span class="json">onClick</span> event-litsner på et eller flere tags.</li>
+                                <li><span class="json">template_external</span>: Dette er en template type er anvendes, hvis det ønskede step ikke kan laves med de øvrige templates. <span class="json">template_external</span> skal referer til en ekstern funktion der generere step'ets indhold - man koder selv det pågældende step. Man kan med fordel gøre brug af funktioner fra skriveguide-værktøjet via <span class="code">this.functionName.</span></li>
+                            </ol>
+
+                        <h4>Content</h4>
+                        <p>
+                            De fire først-nævnte templates tager indhold ind i templaten i form af kald til metoder/funktioner. Disse metoder placeres i arrayet <span class="json">"content"</span> i den rækkefølge man ønsker at de bliver vist. En side starter f.eks. typisk med en "instruction", så man placere derfor placere et kald til "instruction" metoden først i arrayet <span class="json">"content"</span>. Derefter kan man f.eks placere en "explanation" eller en "video" via kald til en af disse metoder. Hver metode udføre en en specifik opgave, hvorfor et kald til en metode fungere forskelligt og har derfor brug for forskellige indstillinger. Et kald til f.eks. video-metoden (som blot er en iframe og derfor har en attribute "src") har f.eks. behov for en <span class="json">"url"</span> key til den video man ønsker vist. En nærmere beskrivelse af hver metode, og deres keys i JSON skriptet, vil blive beskrevet ud for hver metode i filen "<span class="code">writeProcessClass.js</span>"
+                        </p>
+                        
+                        <h4>Events</h4>
+                        <p>
+                            I skrivende stund er der to typer af events, som begge p.t. (grundet "need-to-have") er standard "click"/"onClick" events:
+                        </p>
+                        <ul>
+                            <li><span class="event">error-events</span>: Dette er en type af "onClick" events der tiltænkt fejlbeskeder til kursisten - f.eks at et tekst-felt ikke er blevet udfyldt. Error-events wrappes i et <span class="json">"errMsg"</span> objekt, der rummer følende tre JSON-keys:
+                                <ul>
+                                    <li>
+                                        <span class="json">"errType"</span>, som fejlbeskeds-metoden som kursisten får, når fejlbetingelserne er opfyldt: f.eks et "microhint" eller "userMsgBox"
+                                    </li>
+                                    <li>
+                                        <span class="json">"errCondition"</span> er et array af string-betingelser som skal være opfyldt før fejlbeskeden udløses. F.eks. ["empty(.inputField)", "empty(#textarea_1)"] som her er betingelserne at klassen "inputfield" er tom <b>eller</b> at id'et textarea_1 er tom. Hvis blot en af betingelserne er opfyldt, så udløses "errMsg"'s "errType".
+                                    </li> 
+                                    <li>
+                                        <span class="json">"errTrigger"</span> er et array af string-kommandoer, som f.eks. ["event(onClick).class=goForward", "event(onClick).id=test"], der trigger fejlbeskeden til kursisten hvis <span class="json">"errCondition"</span> er opfyldt og kursisten trykker på klassen "goForward" eller id'et "test".
+                                    </li>
+                                </ul>
+                                <span class="json">"errMsg"</span> objektet kan indsættes et vilkårligt sted i JSON-skriptet, men for læsbarhedens skyld, er det en god ide at knytte det til een af de input-fields eller textareas som man ønsker fejlen skal fremkomme på. 
+                            </li>
+                            <li>
+                                <span class="json">"errType"</span>, som fejlbeskeds-metoden som kursisten får, når fejlbetingelserne er opfyldt: f.eks et "microhint" eller "userMsgBox"
+                            </li>
+                        </ul>
+
+                        <h4>Autosave og <span class="code">this.api.userData</span></h4>
+                        <p>
+                            Intastet brugerdata blev, i de tidligere skriveguides i Dansk og KS, gemt sammen med tekst fra lærere, interne program variable, JSON kald til funktioner og visse typer af markup. Dette kunne give potentielle begrænsninger (i meget store objekter) på den mængde data kursisten kunne indtaste, idet max datamængden er ca. 5 MB i "local storage". I dette værktøj gemmes indtastet brugerdata (næsten) eksklusivt i de tilgængelige 5 MB, hvilket gør at meget store opgaver kan skrives af kursisterne uden fare for tab af data hvis browseren lukkes.   
+                        </p>
+                        <p>
+                            Alle input- og textarea-tags får deres indtastet brugerdata gemt automatisk under tag'ets id. Dvs at gemt data tilgås via 
+                            <span class="code">this.api.userData['#id']</span> (dvs. data er gemt med "#" i this.api.userData).
+                        </p>
+
+                        <p>
+                            Hvis input- og textarea-tags er udstyret med klassen "<span class="code">autoSaveOff</span>", så bliver tekst ikke gemt automatisk. Her skal mam manuelt initiere en gem-handling - f.eks. via metoden "<span class="code">save()</span>" - mere hereom senere i denne dokumentation. Laver man sit step "uden for" værktøjet, så kan man gemme via "<span class="code">osc.save('apiData', this.api)</span>", hvis localStorage objektet er instantieret med objektnavnet "osc".
+                        </p>
+        
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <script src="../library/vendor_scripts.js"></script>
+        <script src="../library/custom_scripts.js"></script>
+        <script src="html-docx.js">
+        </script>
+        <script src="filesaver.js"></script>
+        <script type="text/javascript"> 
+            getAjaxData("GET", "json/skriveproces_v2_test.json", false, "json"); 
+        </script>
+        <script src="dynamicTextClass.js"></script>    
+        <script src="writeProcessClass.js"></script> 
+        <script src="skriveproces_v2_test.js"></script> 
+
+        <script type="text/javascript">
+            window.osc = Object.create(objectStorageClass);
+            osc.init('studentSession_skriveproces_v2_test');
+            osc.exist('apiData');
+
+            var wpc = Object.create(writeProcessClass);
+            // wpc.init("#interface");  // <------  Selectoren "#interface" vælges som default, hvis man ikke vælger en anden klasse eller id som container for skriveguiden. 
+            wpc.returnLastStudentSession();
+        </script>
+        
+        <script type="text/javascript">
+        $(document).ready(function() {
+            one_line_footer();
+        });
+        </script>
+    </body>
+
+</html>
+

@@ -1,0 +1,112 @@
+{
+	"general": {
+		"header": "Dokumentation i brugen af skriveguide-værktøjet.",
+		"explanation": "Dette er explanation tekst",
+		"instruction": "Dette er instruction tekst"
+	},
+	"step": [
+		{
+			"stepnummer": 0,
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_0", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "json(general.header)"},
+					{"html" : "<div class='Clear'></div>"},
+					{"text" : {
+						"attr" : {"id": "text_0_1"},
+						"value": "html('#step_clipborad_0 .text_0_1', '#text_0_1')"
+					}},
+					{"btn": {
+						"attr" : {"class": "right stepNav goForward btn btn-primary"}, 
+						"text": "GÅ VIDERE", 
+						"onClick": "goForward(.goForward)"
+					}},
+					{"progressBar": true}
+				]
+			},
+			"onStepReady": [
+				{
+					"external_function" : {
+						"functionCall": "colorSelector(selector, colorScheme)",
+						"selector": ".code",
+						"colorScheme": "code"
+					}
+				}
+			]
+		},
+		{
+			"stepnummer": 1,
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_0", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "Step 1: json(general.header)"},
+					{"html" : "<div class='Clear'></div>"},
+					{"text" : {
+						"attr" : {"id": "text_1_1"},
+						"value": "html('#step_clipborad_1 .text_1_1', '#text_1_1')"
+					}},
+					{"btn": {
+						"attr" : {"class": "stepNav goBack btn btn-primary"},
+						"text": "GÅ TILBAGE", 
+						"onClick": "goBack(.goBack)"
+					}},
+					{"btn": {
+						"attr" : {"class": "right stepNav goForward btn btn-primary"}, 
+						"text": "GÅ VIDERE", 
+						"onClick": "goForward(.goForward)"
+					}},
+					{"progressBar": true}
+				]
+			},
+			"onStepReady": [
+				{
+					"external_function" : {
+						"functionCall": "colorSelector(selector, colorScheme)",
+						"selector": ".code",
+						"colorScheme": "code"
+					}
+				}
+			]
+		},
+		{
+			"stepnummer": 2,
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_2", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "Step 2: json(general.header)"},
+					{"html" : "<div class='Clear'></div>"},
+					{"text" : {
+						"attr" : {"id": "text_2_1"},
+						"value": "html('#step_clipborad_2 .text_2_1', '#text_2_1')"
+					}},
+					{"btn": {
+						"attr" : {"class": "stepNav goBack btn btn-primary"},
+						"text": "GÅ TILBAGE", 
+						"onClick": "goBack(.goBack)"
+					}},
+					{"btn": {
+						"attr" : {"class": "right stepNav goForward btn btn-primary"}, 
+						"text": "GÅ VIDERE", 
+						"onClick": "goForward(.goForward)"
+					}},
+					{"progressBar": true}
+				]
+			},
+			"onStepReady": [
+				{
+					"external_function" : {
+						"functionCall": "colorSelector(selector, colorScheme)",
+						"selector": ".code",
+						"colorScheme": "code"
+					}
+				}
+			]
+		}
+	]
+}

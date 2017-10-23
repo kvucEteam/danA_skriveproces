@@ -82,7 +82,7 @@ writeProcessClass = {
 
 		this.getData();  // This fetches api.userData from previous steps and inserts it in the JSON data.
 		this.html();
-		this.repeat_make();
+		// this.repeat_make();   // COMMENTED OUT 17/10-2017
 
 		this.wpObj.jsonData_sanitized = JSON.parse( JSON.stringify( jsonData ));					// Add a copy of jsonData in wpObj.
 		this.wpObj.jsonData_sanitized = this.removeAllJsonStrValues(this.wpObj.jsonData_sanitized); // Remove all string values.
@@ -1662,9 +1662,9 @@ writeProcessClass = {
 		    case 'progressBar':
 		        HTML += this.returnProgressBar(content);
 		        break;
-		    case 'repeat':  // <--- This repeats e.g. an inputfield, with the purpose of being able add or remove inputfields dynamically with "+"/"-" btns.
-		        HTML += this.repeat_set(content);
-		        break;
+		    // case 'repeat':  // <--- This repeats e.g. an inputfield, with the purpose of being able add or remove inputfields dynamically with "+"/"-" btns.
+		    //     HTML += this.repeat_set(content);
+		    //     break;
 		    case 'sound':
 		        // code block
 		        break;
@@ -1687,6 +1687,8 @@ writeProcessClass = {
 		    	break;
 		    case 'video':
 		        HTML += this.video(content);
+		    case 'wrapper':   // ADDED 17/10-2017
+		        HTML += this.wrapper(content);
             break;
 
 
@@ -1697,6 +1699,51 @@ writeProcessClass = {
 		console.log('generateContentType - HTML: ' + HTML);
 
 		return HTML;
+	},
+
+	// ADDED 17/10-2017:
+	// {wrapper: {
+	// 		tagName: "div",
+	// 		attr: {"class": "test1 test2"},
+	// 		content: [
+	// 			{"text" : "<h4>Menu 1</h4>"},
+	// 			{"inputField": { 
+	// 				"attr" : {"id": "inputField_1", "class": "inputField", "placeholder": "Skriv i dette inputField..."}
+	// 			}
+	// 		]
+	// }}
+	wrapper: function(Tcontent) {   // ADDED 17/10-2017
+		console.log('\nwrapper - CALLED');
+
+		console.log('wrapper - Tcontent: ' + JSON.stringify(Tcontent));
+
+		var HTML = '';
+		if (typeof(Tcontent)==='object') {  
+			console.log('wrapper - A0');
+
+			if (Tcontent.hasOwnProperty('tagName')) { 
+				console.log('wrapper - A1');
+
+				HTML += '<'+Tcontent.tagName+((Tcontent.hasOwnProperty('attr'))? ' '+this.generateAttrStr(Tcontent.attr) : '')+'>';
+
+				if (Tcontent.hasOwnProperty('content')) { 
+					var TTcontent = Tcontent.content;
+
+					var contentType, content;
+					for (var n in TTcontent) {  // Copied from generateStepContent()
+						contentType = String(Object.keys(TTcontent[n]));
+						content = TTcontent[n][contentType];
+						console.log('generateStepContent - contentType: ' + contentType + ', content: ' + JSON.stringify(content));
+
+						HTML += this.generateContentType(contentType, content);
+					}
+				}
+
+				HTML += '</'+content.tagName+'>';
+			}
+    	} 
+
+    	return HTML;
 	},
 
 	// UserMsgBox(TargetSelector, UserMsg)
@@ -1754,120 +1801,122 @@ writeProcessClass = {
         return HTML;
 	},
 
-	// This method is the first part of the repeat-functionality, and work together with the repeat_make() method. 
-	// This method sets the content-object to memory. 
-	repeat_set: function(content) {
-		console.log('\nrepeat_set - CALLED');
+	// // COMMENTED OUT 17/10-2017
+	// // This method is the first part of the repeat-functionality, and work together with the repeat_make() method. 
+	// // This method sets the content-object to memory. 
+	// repeat_set: function(content) {
+	// 	console.log('\nrepeat_set - CALLED');
 
-		if (!this.wpObj.hasOwnProperty('repeat')) {
-			this.wpObj.repeat = [];
-		}
-		this.wpObj.repeat.push(content);
+	// 	if (!this.wpObj.hasOwnProperty('repeat')) {
+	// 		this.wpObj.repeat = [];
+	// 	}
+	// 	this.wpObj.repeat.push(content);
 
-		if (!content.hasOwnProperty('attr')){
-			content.attr = {};
-		} 
-		content.attr.id = 'repeatContainer_'+this.wpObj.repeat.length;
-		var HTML = '';
-		HTML += '<div '+this.generateAttrStr(content.attr)+((content.hasOwnProperty('min'))? ' data-min="'+content.min+'"' : '')+((content.hasOwnProperty('max'))? ' data-max="'+content.max+'"' : '')+ '>';
-		HTML += '</div>';
-		console.log('repeat_set - HTML: ' + HTML);
+	// 	if (!content.hasOwnProperty('attr')){
+	// 		content.attr = {};
+	// 	} 
+	// 	content.attr.id = 'repeatContainer_'+this.wpObj.repeat.length;
+	// 	var HTML = '';
+	// 	HTML += '<div '+this.generateAttrStr(content.attr)+((content.hasOwnProperty('min'))? ' data-min="'+content.min+'"' : '')+((content.hasOwnProperty('max'))? ' data-max="'+content.max+'"' : '')+ '>';
+	// 	HTML += '</div>';
+	// 	console.log('repeat_set - HTML: ' + HTML);
 
 
-		console.log('repeat_set - this.wpObj.repeat: ' + JSON.stringify(this.wpObj.repeat));
+	// 	console.log('repeat_set - this.wpObj.repeat: ' + JSON.stringify(this.wpObj.repeat));
 
-		return HTML;
-	},
+	// 	return HTML;
+	// },
 
-	// This method is the second part of the repeat-functionality, and work together with the repeat_set() method. 
-	// This method repeat the content from the content-object in the DOM. 
-	repeat_make: function() {
-		console.log('\nrepeat_make - CALLED');
+	// // COMMENTED OUT 17/10-2017
+	// // This method is the second part of the repeat-functionality, and work together with the repeat_set() method. 
+	// // This method repeat the content from the content-object in the DOM. 
+	// repeat_make: function() {
+	// 	console.log('\nrepeat_make - CALLED');
 
-    	var a = this.api.currentStepNo+1;
+ //    	var a = this.api.currentStepNo+1;
 
-    	var HTML = '';
-    	for (var n in this.wpObj.repeat) {
-    		console.log('repeat_make - n: ' + n);
+ //    	var HTML = '';
+ //    	for (var n in this.wpObj.repeat) {
+ //    		console.log('repeat_make - n: ' + n);
 
-    		var content = this.wpObj.repeat[n];
+ //    		var content = this.wpObj.repeat[n];
 
-    		var init = (content.hasOwnProperty('init'))? init : 1;
+ //    		var init = (content.hasOwnProperty('init'))? init : 1;
 
-    		for (var i = 0; i <= init; i++) {
-    			console.log('repeat_make - i: ' + i);
+ //    		for (var i = 0; i <= init; i++) {
+ //    			console.log('repeat_make - i: ' + i);
     		
-	    		if (content.hasOwnProperty('target')) {
-	    			console.log('repeat_make - A0');
+	//     		if (content.hasOwnProperty('target')) {
+	//     			console.log('repeat_make - A0');
 
-	    			var targetArr = content.target.split(' ');
-	    			console.log('repeat_make - targetArr: ' + targetArr);
+	//     			var targetArr = content.target.split(' ');
+	//     			console.log('repeat_make - targetArr: ' + targetArr);
 
-	    			for (var k in targetArr) {
-	    				$(targetArr[k]).clone().attr('id', 'repeat_'+a+'_'+n+'_'+k).appendTo('#repeatContainer_'+String(k+1));
-	    			}
-	    		}
+	//     			for (var k in targetArr) {
+	//     				$(targetArr[k]).clone().attr('id', 'repeat_'+a+'_'+n+'_'+k).appendTo('#repeatContainer_'+String(k+1));
+	//     			}
+	//     		}
 
-    		};
+ //    		};
 
-    		HTML += (content.hasOwnProperty('after'))? content.after : '';
+ //    		HTML += (content.hasOwnProperty('after'))? content.after : '';
     		
-    	}
+ //    	}
 
 
-		// var stepObj = jsonData.step[this.api.currentStepNo];
+	// 	// var stepObj = jsonData.step[this.api.currentStepNo];
 
-		// var stepObjStr = JSON.stringify(stepObj);
-		// console.log('repeat_make - stepObjStr: ' + stepObjStr);
+	// 	// var stepObjStr = JSON.stringify(stepObj);
+	// 	// console.log('repeat_make - stepObjStr: ' + stepObjStr);
 
-		// var pos_start = stepObjStr.indexOf('html(');
+	// 	// var pos_start = stepObjStr.indexOf('html(');
 
-		// var count = 0;
+	// 	// var count = 0;
 
-		// while ((pos_start!==-1) && (count < 25)) {
-		// 	console.log('repeat_make - A0');
+	// 	// while ((pos_start!==-1) && (count < 25)) {
+	// 	// 	console.log('repeat_make - A0');
 
-		// 	console.log('repeat_make - count: ' + count);
+	// 	// 	console.log('repeat_make - count: ' + count);
 
-		// 	var pos_end = stepObjStr.indexOf(')"', pos_start);
+	// 	// 	var pos_end = stepObjStr.indexOf(')"', pos_start);
 
-		// 	if (pos_end!==-1) {
-		// 		console.log('repeat_make - A1');
+	// 	// 	if (pos_end!==-1) {
+	// 	// 		console.log('repeat_make - A1');
 
-		// 		var argArr = stepObjStr.substring(pos_start+6, pos_end).replace(/\'/g, '').split(',');
-		// 		console.log('repeat_make - argArr: ' + JSON.stringify(argArr));
+	// 	// 		var argArr = stepObjStr.substring(pos_start+6, pos_end).replace(/\'/g, '').split(',');
+	// 	// 		console.log('repeat_make - argArr: ' + JSON.stringify(argArr));
 
-		// 		if (argArr.length == 2) {
-		// 			console.log('repeat_make - A2');
+	// 	// 		if (argArr.length == 2) {
+	// 	// 			console.log('repeat_make - A2');
 
-		// 			var source = argArr[0].trim();
-		// 			var target = argArr[1].trim();
-		// 			console.log('repeat_make - source: "' + source + '", target: "' + target + '"');
+	// 	// 			var source = argArr[0].trim();
+	// 	// 			var target = argArr[1].trim();
+	// 	// 			console.log('repeat_make - source: "' + source + '", target: "' + target + '"');
 
-		// 			// $(argArr[1].trim()).html($(argArr[0].trim()).html());
+	// 	// 			// $(argArr[1].trim()).html($(argArr[0].trim()).html());
 
-		// 			// if (argArr[0].trim()) 
-		// 			// $(argArr[0].trim()).before('<h4 class="step_clipborad_header">'+argArr[0].trim()+'</h4>');
+	// 	// 			// if (argArr[0].trim()) 
+	// 	// 			// $(argArr[0].trim()).before('<h4 class="step_clipborad_header">'+argArr[0].trim()+'</h4>');
 
 					
-		// 			$(target).html($(source).html());
+	// 	// 			$(target).html($(source).html());
 
-		// 			$(source).before('<h4 class="step_clipborad_header">'+source+'</h4>');
+	// 	// 			$(source).before('<h4 class="step_clipborad_header">'+source+'</h4>');
 					
 
-		// 		} else {
-		// 			console.log('repeat_make - A3');
+	// 	// 		} else {
+	// 	// 			console.log('repeat_make - A3');
 
-		// 			alert('FEJL FRA: "html('+stepObjStr.substring(pos_start+6, pos_end)+')", som ikke rummer det rigtige antal selectors, som skal være 2.');
-		// 		}
-		// 	}
+	// 	// 			alert('FEJL FRA: "html('+stepObjStr.substring(pos_start+6, pos_end)+')", som ikke rummer det rigtige antal selectors, som skal være 2.');
+	// 	// 		}
+	// 	// 	}
 
-		// 	pos_start = stepObjStr.indexOf('html(', pos_end); 
-		// 	console.log('repeat_make - pos_start: ' + pos_start);
+	// 	// 	pos_start = stepObjStr.indexOf('html(', pos_end); 
+	// 	// 	console.log('repeat_make - pos_start: ' + pos_start);
 
-		// 	++count;
-		// }    	
-	},
+	// 	// 	++count;
+	// 	// }    	
+	// },
 
 
 	htmlContent: function(content) {
