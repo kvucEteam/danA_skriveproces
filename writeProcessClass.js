@@ -457,7 +457,125 @@ writeProcessClass = {
 			// }
 		});
 
+
+		// // The purpose of the ".addWrapper" class is to copy the parent wrapper. IMPORTANT: The parent has to have the class "repeat".
+		// // All id's of input- and textarea-fields will be copied with the following prefix:
+		// // 		Original id: 	myId
+		// //		First copy: 	myId_copy_1
+		// //		Second copy: 	myId_copy_2
+		// // - and so on...
+		// $( document ).on('click', ".addWrapper", function(event){  // Added 23/10-2017
+		// 	console.log('.addWrapper - CALLED');
+
+		// 	var parentObj = $(this).parent();
+			
+		// 	var id;
+		// 	$('input', parentObj).each(function( index, element ) {
+		// 		id = $(element).attr('id');
+
+		// 		if (typeof(id)!=='undefined') {
+
+		// 			// Tthis.api.userData[id] = val;  // <--- Sådan tilgås gemt data!
+
+		// 		}
+		// 	});
+
+		// });
+
+		// // The purpose of the ".removeWrapper" class is to remove the parent wrapper if the id contains the substring "_copy_". IMPORTANT: The parent has to have the class "repeat".
+		// $( document ).on('click', ".removeWrapper", function(event){  // Added 23/10-2017
+		// 	console.log('.removeWrapper - CALLED');
+			
+		// });
+
+
+		// IMPORTANT: ONLY ONE INPUT-FIELD PR "data-wrapperClass" IS CURRENTLY SUPPORTED!
+		// The purpose of the ".addWrapper_btn" class is to copy the build on the id given in the "data-wrapperIdPrefix" attribute in a manner similar to https://www.vucdigital.dk/ks_synopsis_handout/synopsis.html
+		// All id's of input-fields will be copied with the following prefix:
+		// 		Original id: 	myId
+		//		First copy: 	myId_copy_1
+		//		Second copy: 	myId_copy_2
+		// - and so on...
+		$( document ).on('click', ".addWrapper_btn", function(event){  // Added 23/10-2017
+			console.log('\n.addWrapper_btn - CLICKED');
+
+			var wrapperClass = $(this).attr("data-wrapperClass");
+			var wrapperIdPrefix = $(this).attr("data-wrapperIdPrefix");
+
+			id = $('.'+wrapperClass + ' input').last().attr('id'); 
+			console.log('.addWrapper_btn - id: ' + id + ', wrapperClass: ' + wrapperClass + ', wrapperIdPrefix: ' + wrapperIdPrefix);
+
+			if (typeof(id)!=='undefined') {
+				console.log('.addWrapper_btn - A0');
+
+				if (id.indexOf(wrapperIdPrefix)!==-1) {
+					console.log('.addWrapper_btn - A1');
+
+					if (id.indexOf('_copy_')!==-1) {
+						console.log('.addWrapper_btn - A2');
+
+						var len = (wrapperIdPrefix+'_copy_').length;
+						var num = parseInt(id.substring(len))+1;
+						console.log('.addWrapper_btn - len: ' + len + ', num: ' + num);
+
+						var clone = $('.'+wrapperClass).last().clone();
+						$('input', clone).attr('id', wrapperIdPrefix+'_copy_'+num);
+
+						$('.'+wrapperClass).last().after(clone);
+
+						$('.'+wrapperClass+' input').last().val('');  // Delete any previous entered value
+
+						Tthis.addWrapperToJSON(id, wrapperIdPrefix+'_copy_'+num);
+
+					} else {
+						console.log('.addWrapper_btn - A3');
+
+						var clone = $('.'+wrapperClass).last().clone();
+						$('input', clone).attr('id', wrapperIdPrefix+'_copy_1');
+
+						$('.'+wrapperClass).last().after(clone);
+
+						$('.'+wrapperClass+' input').last().val('');   // Delete any previous entered value
+
+						Tthis.addWrapperToJSON(wrapperIdPrefix, wrapperIdPrefix+'_copy_1');
+					}
+
+					// osc.save('apiData', Tthis.api);
+				}
+			}
+
+			// Tthis.api.userData[id] = val;  // <--- Sådan tilgås gemt data! 
+		});
 	},
+
+
+	addWrapperToJSON: function(lastWrapperIdPrefix, lastWrapperIdPrefix_increment) {
+	    console.log('\naddWrapperToJSON - CALLED');
+		var stepObj = jsonData.step[this.api.currentStepNo];
+
+		var stepObjStr = JSON.stringify(stepObj);
+		console.log('addWrapperToJSON - stepObjStr: ' + stepObjStr);
+
+		if (stepObjStr.indexOf(lastWrapperIdPrefix)!==-1) {  
+			var content = stepObj.template_step.content;
+			for (var n in content) {
+				var contentStr = JSON.stringify(content[n]);
+				console.log('addWrapperToJSON - n: ' + n + ', contentStr: ' + contentStr);
+
+				if (contentStr.indexOf(lastWrapperIdPrefix)!==-1) { 
+					var newWrapper = contentStr.replace(lastWrapperIdPrefix, lastWrapperIdPrefix_increment);
+					console.log('addWrapperToJSON - n: ' + n + ', newWrapper: ' + newWrapper);
+					newWrapper = JSON.parse(newWrapper);
+					content.splice(n+1, 0, newWrapper);  // Insert newWrapper into the n+1 position of stepObj
+
+					// osc.save('apiData', Tthis.api);
+					break;
+				}
+			}
+			console.log('addWrapperToJSON - n: ' + n + ', content: ' + JSON.stringify(content));
+		}
+	},
+
 
 	// Insert api.userData from a privious step into JSON data
 	getData_OLD: function() {
@@ -1727,6 +1845,8 @@ writeProcessClass = {
 				HTML += '<'+Tcontent.tagName+((Tcontent.hasOwnProperty('attr'))? ' '+this.generateAttrStr(Tcontent.attr) : '')+'>';
 
 				if (Tcontent.hasOwnProperty('content')) { 
+					console.log('wrapper - A2');
+
 					var TTcontent = Tcontent.content;
 
 					var contentType, content;
@@ -1739,9 +1859,10 @@ writeProcessClass = {
 					}
 				}
 
-				HTML += '</'+content.tagName+'>';
+				HTML += '</'+Tcontent.tagName+'>';
 			}
     	} 
+    	console.log('wrapper - HTML: ' + HTML);
 
     	return HTML;
 	},

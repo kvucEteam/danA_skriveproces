@@ -14,6 +14,20 @@
 				"content": [
 					{"header": "json(general.header)"},
 					{"html" : "<div class='Clear'></div>"},
+					{"wrapper" : {
+						"tagName": "div",
+						"attr" : {"class": "test1 test2 border_red"},
+						"value": "html('#step_clipborad_0 .text_0_1', '#text_0_1')",
+						"content": [
+							{"html" : "<div class='Clear'>XXX</div>"},
+							{"html" : "<div class='Clear'>XXX</div>"},
+							{"btn": {
+								"attr" : {"class": "right stepNav goForward btn btn-primary"}, 
+								"text": "GÅ VIDERE", 
+								"onClick": "goForward(.goForward)"
+							}}
+						]
+					}},
 					{"text" : {
 						"attr" : {"id": "text_0_1"},
 						"value": "html('#step_clipborad_0 .text_0_1', '#text_0_1')"
