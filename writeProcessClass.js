@@ -19,7 +19,8 @@ writeProcessClass = {
 		},
 		// step: []		  	// The data associated with each step.
 		userData: {},		// The data collected. Data is stored with the element id (e.g. textarea id) as key, and the associated value as value. The reason why classes are not choosen as keys is because only one classname can be used for that element, if arbitrary classnames are allowed (assuming no delimited classnames like "dataKey_myClassName"). This then serverely limits the styling-possibilities for elements that need to data saved...
-		saveInterval: 5000	// When an inputfield or a textarea gets focus, the data is saved at each saveInterval (in milliseconds).
+		saveInterval: 5000,	// When an inputfield or a textarea gets focus, the data is saved at each saveInterval (in milliseconds).
+		jasonData: null     // In case the base/original jasonData is altered, the new/modified jasonData get to bestored here. This new/modified jasonData is used in localStorage.
 	},
 
 	wpObj: {  // Internal system variables.
@@ -573,6 +574,10 @@ writeProcessClass = {
 				}
 			}
 			console.log('addWrapperToJSON - n: ' + n + ', content: ' + JSON.stringify(content));
+
+			this.api.jsonData = jsonData;  // Add the altered jsonData for localStorage.  ADDED 2/11-2017
+
+			osc.save('apiData', this.api); // Do localStorage.  ADDED 2/11-2017
 		}
 	},
 
@@ -888,6 +893,9 @@ writeProcessClass = {
 		        console.log('returnLastStudentSession - apiData: ' + JSON.stringify(apiData));
 		       
 		        Tthis.api = apiData;	// Load the saved api-data into the program api variable...
+
+		        jsonData = Tthis.api.jsonData;  // Overwrite the old jsonData with the stored one.  ADDED 2/11-2017
+		        console.log('returnLastStudentSession - Tthis.api.jsonData: ' + jsonData);
 				
 		        Tthis.init(Tthis.api.selector);	// Generate markup for the last step the student used...
 
