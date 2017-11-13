@@ -91,11 +91,6 @@
 									"text": "Her ser du et overblik over din progression. Du skal igennem 11 trin, inden du kan downloade dit arbejde som en wordfil.", 
 									"multiple": true, 
 									"color": "#000"
-							}},
-							{
-								"userMsgBox": {
-									"target": "body", 
-									"text": "<h4>Obs</h4> Vær opmærksom på, at dit arbejde er tilknyttet den browser, som du bruger lige nu. Det vil sige, at du ikke kan arbejde videre på en anden computer/browser. Hvis du sletter din historik i browseren, så sletter du også alt dit arbejde."
 							}}
 						]
 					}

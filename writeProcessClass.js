@@ -19,8 +19,8 @@ writeProcessClass = {
 		},
 		// step: []		  	// The data associated with each step.
 		userData: {},		// The data collected. Data is stored with the element id (e.g. textarea id) as key, and the associated value as value. The reason why classes are not choosen as keys is because only one classname can be used for that element, if arbitrary classnames are allowed (assuming no delimited classnames like "dataKey_myClassName"). This then serverely limits the styling-possibilities for elements that need to data saved...
-		saveInterval: 5000,	// When an inputfield or a textarea gets focus, the data is saved at each saveInterval (in milliseconds).
-		jasonData: null     // In case the base/original jasonData is altered, the new/modified jasonData get to bestored here. This new/modified jasonData is used in localStorage.
+		saveInterval: 2000,	// When an inputfield or a textarea gets focus, the data is saved at each saveInterval (in milliseconds).
+		jsonData: null     // In case the base/original jsonData is altered, the new/modified jsonData get to bestored here. This new/modified jsonData is used in localStorage.
 	},
 
 	wpObj: {  // Internal system variables.
@@ -43,6 +43,8 @@ writeProcessClass = {
 		this.main();
 
 		this.static_setEventListener();  // Only set eventlitsners once...
+
+		saveTimerUsrMsg();  // initialize the saveTimerUsrMsg from shared_functions.js
 
 		console.log('init - api: ' + JSON.stringify(this.api));
 	},
@@ -540,13 +542,23 @@ writeProcessClass = {
 
 						Tthis.addWrapperToJSON(wrapperIdPrefix, wrapperIdPrefix+'_copy_1');
 					}
-
-					// osc.save('apiData', Tthis.api);
 				}
 			}
 
 			// Tthis.api.userData[id] = val;  // <--- Sådan tilgås gemt data! 
 		});
+
+		// // It has been desided that all "UserMsgBoxes" has to have an event-listner on the "esc"-key  ADDED 2/11-2017 
+		// $(document).keyup(function(e) {
+	 //        if (e.keyCode == 27) { // escape key maps to keycode `27`
+	 //        	console.log('.keyup - A0');
+	 //            $(".template_userMsgBox_class").fadeOut(200, function() {
+	 //            	// $("#objectStorageClass_yes").trigger('click');
+	 //            	$('.container-fluid').fadeIn('slow');  // Fade in all program-content.
+	 //                $(this).remove();
+	 //            });
+	 //        }
+	 //    });
 	},
 
 
@@ -558,7 +570,7 @@ writeProcessClass = {
 		console.log('addWrapperToJSON - stepObjStr: ' + stepObjStr);
 
 		if (stepObjStr.indexOf(lastWrapperIdPrefix)!==-1) {  
-			var content = stepObj.template_step.content;
+			var content = stepObj.template_step.content;   // <----- IMPORTANT: Only "template_step" can be used at this time - not template_div, template_userMsgBox, ect... If other emplate-types is to have the ".addWrapper_btn" functionality, then this has to be added.
 			for (var n in content) {
 				var contentStr = JSON.stringify(content[n]);
 				console.log('addWrapperToJSON - n: ' + n + ', contentStr: ' + contentStr);
@@ -567,15 +579,15 @@ writeProcessClass = {
 					var newWrapper = contentStr.replace(lastWrapperIdPrefix, lastWrapperIdPrefix_increment);
 					console.log('addWrapperToJSON - n: ' + n + ', newWrapper: ' + newWrapper);
 					newWrapper = JSON.parse(newWrapper);
-					content.splice(n+1, 0, newWrapper);  // Insert newWrapper into the n+1 position of stepObj
+					content.splice(parseInt(n)+1, 0, newWrapper);  // Insert newWrapper into the n+1 position of stepObj
 
 					// osc.save('apiData', Tthis.api);
 					break;
 				}
 			}
-			console.log('addWrapperToJSON - n: ' + n + ', content: ' + JSON.stringify(content));
 
 			this.api.jsonData = jsonData;  // Add the altered jsonData for localStorage.  ADDED 2/11-2017
+			console.log('addWrapperToJSON - LSX  - n: ' + n + ', this.api: ' + JSON.stringify(this.api, null, 4));
 
 			osc.save('apiData', this.api); // Do localStorage.  ADDED 2/11-2017
 		}
@@ -839,8 +851,7 @@ writeProcessClass = {
 		// osc.init('studentSession_7');
 		// osc.exist('apiData');
 
-		
-
+	
 		var apiData = osc.load('apiData');
 		console.log('returnLastStudentSession - apiData: ' + JSON.stringify(apiData));
 
@@ -881,21 +892,30 @@ writeProcessClass = {
 			$('.CloseClass').remove(); // <---- removes the "X" in the UserMsgBox.
 			$('.container-fluid').hide();  // Hide all program-content.
 
-		    $('#UserMsgBox, .MsgBox_bgr').off('click');
+		    // $('#UserMsgBox, .MsgBox_bgr').off('click');
+		    $('.MsgBox_bgr').addClass('template_userMsgBox_class').removeClass('MsgBox_bgr');
+			$('#UserMsgBox').attr('id', 'template_userMsgBox_id');
 
 		    $( document ).on('click', "#objectStorageClass_yes", function(event){
 		        console.log("objectStorageClass.init - objectStorageClass_yes - CLICK" );
-		        $(".MsgBox_bgr").fadeOut(200, function() {
+		        $(".template_userMsgBox_class").fadeOut(200, function() {
 		            $(this).remove();
 		            $('.container-fluid').fadeIn('slow');  // Fade in all program-content.
 		        });
 
-		        console.log('returnLastStudentSession - apiData: ' + JSON.stringify(apiData));
+		        console.log('returnLastStudentSession - LSX  - apiData: ' + JSON.stringify(apiData));
 		       
 		        Tthis.api = apiData;	// Load the saved api-data into the program api variable...
 
-		        jsonData = Tthis.api.jsonData;  // Overwrite the old jsonData with the stored one.  ADDED 2/11-2017
-		        console.log('returnLastStudentSession - Tthis.api.jsonData: ' + jsonData);
+		        if ((typeof(Tthis.api.jsonData)!=='undefined') && (typeof(Tthis.api.jsonData)==='object') && (Tthis.api.jsonData!==null)) { // Overwrite the old jsonData with the stored one.  ADDED 2/11-2017
+		        	console.log('returnLastStudentSession - LSX - A0');
+		        	jsonData = Tthis.api.jsonData
+		        } else {
+		        	console.log('returnLastStudentSession - LSX  - A1');
+		        	jsonData = jsonData;
+		        }  
+
+		        console.log('returnLastStudentSession - LSX - jsonData: ' + JSON.stringify(jsonData, null, 4));
 				
 		        Tthis.init(Tthis.api.selector);	// Generate markup for the last step the student used...
 
@@ -906,17 +926,39 @@ writeProcessClass = {
 		    	// osc.stopAutoSave('test1');
 		        console.log("objectStorageClass.init - objectStorageClass_no - CLICK" );
 		        osc.delete(osc.localStorageObjName);
-		        $(".MsgBox_bgr").fadeOut(200, function() {
+		        $(".template_userMsgBox_class").fadeOut(200, function() {
 		            $(this).remove();
-		            $('.container-fluid').fadeIn('slow');  // Fade in all program-content.
+		            $('.container-fluid').fadeIn('slow', function() {  // Fade in all program-content.
+		            	UserMsgBox("body", '<h4>Vi gemmer dit arbejde, men...</h4> Vær opmærksom på, at dit arbejde er tilknyttet den browser, som du bruger lige nu. Det vil sige, at du ikke kan arbejde videre på en anden computer/browser. Hvis du sletter din historik i browseren, så sletter du også alt dit arbejde.');  // ADDED 8/11-2017
+		    			// $('.MsgBox_bgr').addClass('template_userMsgBox_class').removeClass('MsgBox_bgr');
+						// $('#UserMsgBox').attr('id', 'template_userMsgBox_id');
+		            });  
 		        });
 
-		        Tthis.init(Tthis.api.selector);
+		        Tthis.init(Tthis.api.selector); 
 
 		    });
 		} else {
+
+			UserMsgBox("body", '<h4>Vi gemmer dit arbejde, men...</h4> Vær opmærksom på, at dit arbejde er tilknyttet den browser, som du bruger lige nu. Det vil sige, at du ikke kan arbejde videre på en anden computer/browser. Hvis du sletter din historik i browseren, så sletter du også alt dit arbejde.');  // ADDED 8/11-2017
+			// $('.MsgBox_bgr').addClass('template_userMsgBox_class').removeClass('MsgBox_bgr');
+			// $('#UserMsgBox').attr('id', 'template_userMsgBox_id');
+
 			Tthis.init(Tthis.api.selector);
 		}
+
+
+		// It has been desided that all "UserMsgBoxes" has to have an event-listner on the "esc"-key  ADDED 2/11-2017 
+		$(document).keyup(function(e) {
+	        if (e.keyCode == 27) { // escape key maps to keycode `27`
+	        	console.log('.keyup - A0');
+	            $(".template_userMsgBox_class").fadeOut(200, function() {
+	            	$("#objectStorageClass_yes").trigger('click');   // "yes" is default if "esc" is pressed at start of localStorage choice of realoading data...
+	            	$('.container-fluid').fadeIn('slow');  // Fade in all program-content.
+	                $(this).remove();
+	            });
+	        }
+	    });
 	},
 
 
