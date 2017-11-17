@@ -4,288 +4,293 @@
 //
 //################################################################################################################
 
-
 // Køb en portokode med Postnords mobil porto app
 // https://www.youtube.com/watch?v=a7eAlaJEFsQ
 
 
 writeProcessClass = {
 
-	api: {
+	api: { 
 		selector: '#interface', 	// The default selector of a tag in which the quiz is generated.
-		currentStepNo: 0,   // The current step the student is in.
+		currentStepNo: 0,   // The current step the student is in. 
 		microhint: {
-			fadeOut: 400  	// The time in milliseconds it takes for the microhint to fadeout.
+			fadeOut: 400  	// The time in milliseconds it takes for the microhint to fadeout. 
 		},
-		// step: []		  	// The data associated with each step.
+		// step: []		  	// The data associated with each step. 
 		userData: {},		// The data collected. Data is stored with the element id (e.g. textarea id) as key, and the associated value as value. The reason why classes are not choosen as keys is because only one classname can be used for that element, if arbitrary classnames are allowed (assuming no delimited classnames like "dataKey_myClassName"). This then serverely limits the styling-possibilities for elements that need to data saved...
-		saveInterval: 2000,	// When an inputfield or a textarea gets focus, the data is saved at each saveInterval (in milliseconds).
-		jsonData: null     // In case the base/original jsonData is altered, the new/modified jsonData get to bestored here. This new/modified jsonData is used in localStorage.
+		saveInterval: 2000,	// When an inputfield or a textarea gets focus, the data is saved at each saveInterval (in milliseconds). 
+		jsonData: null,     // In case the base/original jsonData is altered, the new/modified jsonData get to bestored here. This new/modified jsonData is used in localStorage. 
+		insertRotateCheckOnMobileDevices: true
 	},
 
-	wpObj: {  // Internal system variables.
-		// currentStepNo: 1,   // The current step the student is in. 
-		eventLookup: {'onClick': 'click'},   // This "translates" diffrent event-names into JQuery standard event-names.
-		err_eventTriggered: false	// This is true if an error event is triggered.
+	wpObj: {  // Internal system variables. 
+		// currentStepNo: 1,   // The current step the student is in.  
+		eventLookup: {'onClick': 'click touchend'},   // This "translates" diffrent event-names into JQuery standard event-names. 
+		err_eventTriggered: false	// This is true if an error event is triggered. 
 	},
 
-	init: function() {
+	init: function() { 
 
 		
-		if (arguments.length > 0) {
-			this.api.selector = arguments[0];
+		if (arguments.length > 0) { 
+			this.api.selector = arguments[0]; 
+		} 
+
+		var urlObj = ReturnURLPerameters(); // From shared_functions.js 
+		if (urlObj.hasOwnProperty('step')) { 
+			this.api.currentStepNo = parseInt(urlObj.step); 
 		}
+		this.main(); 
 
-		var urlObj = ReturnURLPerameters(); // From shared_functions.js
-		if (urlObj.hasOwnProperty('step')) {
-			this.api.currentStepNo = parseInt(urlObj.step);
+		this.static_setEventListener();  // Only set eventlitsners once... 
+
+		saveTimerUsrMsg();  // initialize the saveTimerUsrMsg from shared_functions.js 
+
+		console.log('init - api: ' + JSON.stringify(this.api)); 
+
+		if (this.api.insertRotateCheckOnMobileDevices) {
+			console.log('init - A0'); 
+			rotateCheck();
 		}
-		this.main();
-
-		this.static_setEventListener();  // Only set eventlitsners once...
-
-		saveTimerUsrMsg();  // initialize the saveTimerUsrMsg from shared_functions.js
-
-		console.log('init - api: ' + JSON.stringify(this.api));
 	},
 
 
-	main: function() {
-		console.log('main - CALLED');
-		// console.log('init - jsonData: ' + JSON.stringify(jsonData, null, 4));
-		console.log('main - jsonData: ' + JSON.stringify(jsonData));
-		console.log('main - Object.keys(jsonData): ' + Object.keys(jsonData));
+	main: function() { 
+		console.log('main - CALLED'); 
+		// console.log('init - jsonData: ' + JSON.stringify(jsonData, null, 4)); 
+		console.log('main - jsonData: ' + JSON.stringify(jsonData)); 
+		console.log('main - Object.keys(jsonData): ' + Object.keys(jsonData)); 
 
-		this.delay_remove(); // Remove previous delay if set...
-		$('.microhint').remove(); // Remove all previous microhints if any...
+		this.delay_remove(); // Remove previous delay if set... 
+		$('.microhint').remove(); // Remove all previous microhints if any... 
 
-		if (typeof(DTO)!=='undefined') {
-			console.log('main - DTO');
-			DTO.stopExec(0);  	 // VIRKER IKKE
-			// DTO = undefined;  // VIRKER IKKE
+		if (typeof(DTO)!=='undefined') { 
+			console.log('main - DTO'); 
+			DTO.stopExec(0);  	 // VIRKER IKKE 
+			// DTO = undefined;  // VIRKER IKKE 
 		}
 
-		jsonData = this.jsonPreProcessor(jsonData);
+		jsonData = this.jsonPreProcessor(jsonData); 
 
-		// var HTML = this.generateStepContent(this.api.currentStepNo);
-		var stepObj = jsonData.step[this.api.currentStepNo];
-		var HTML = this.generateStepContent(stepObj);
-		console.log('main - HTML: ' + HTML);
-		$(this.api.selector).html(HTML);
+		// var HTML = this.generateStepContent(this.api.currentStepNo); 
+		var stepObj = jsonData.step[this.api.currentStepNo]; 
+		var HTML = this.generateStepContent(stepObj); 
+		console.log('main - HTML: ' + HTML); 
+		$(this.api.selector).html(HTML); 
+ 
+		// this.static_setEventListener(); 
 
-		// this.static_setEventListener();
+		this.err_removeAllEventListeners();  // Remove all previous eventListeners from the previous step, before setting new ones... 
+		this.err_setEventListener();		 // Set error eventListeners 
+		// this.err_removeAllEventListeners(); // TEST 
 
-		this.err_removeAllEventListeners();  // Remove all previous eventListeners from the previous step, before setting new ones...
-		this.err_setEventListener();		 // Set error eventListeners
-		// this.err_removeAllEventListeners(); // TEST
+		this.onClick_removeAllEventListeners(); 
+		this.onClick_setEventListener();	 // Set onClick eventListeners 
+		// this.onClick_removeAllEventListeners(); // TEST 
+ 
+		this.getData();  // This fetches api.userData from previous steps and inserts it in the JSON data. 
+		this.html(); 
+		// this.repeat_make();   // COMMENTED OUT 17/10-2017 
 
-		this.onClick_removeAllEventListeners();
-		this.onClick_setEventListener();	 // Set onClick eventListeners
-		// this.onClick_removeAllEventListeners(); // TEST
-
-		this.getData();  // This fetches api.userData from previous steps and inserts it in the JSON data.
-		this.html();
-		// this.repeat_make();   // COMMENTED OUT 17/10-2017
-
-		this.wpObj.jsonData_sanitized = JSON.parse( JSON.stringify( jsonData ));					// Add a copy of jsonData in wpObj.
-		this.wpObj.jsonData_sanitized = this.removeAllJsonStrValues(this.wpObj.jsonData_sanitized); // Remove all string values.
+		this.wpObj.jsonData_sanitized = JSON.parse( JSON.stringify( jsonData ));					// Add a copy of jsonData in wpObj. 
+		this.wpObj.jsonData_sanitized = this.removeAllJsonStrValues(this.wpObj.jsonData_sanitized); // Remove all string values. 
 		
-		console.log('main - jsonData_sanitized: ' + JSON.stringify(this.wpObj.jsonData_sanitized));
-		console.log('main - jsonData: ' + JSON.stringify(jsonData));
+		console.log('main - jsonData_sanitized: ' + JSON.stringify(this.wpObj.jsonData_sanitized)); 
+		console.log('main - jsonData: ' + JSON.stringify(jsonData)); 
 
 		// this.err_removeAllEventListeners();  // <---- OK 4/7-2017
 
 		// this.generateContentType('text', 'test');
 
-		var stepObj = jsonData.step[this.api.currentStepNo];
-		if (stepObj.hasOwnProperty('onStepReady')) {
-			this.onStepReady(stepObj.onStepReady);
+		var stepObj = jsonData.step[this.api.currentStepNo];  
+		if (stepObj.hasOwnProperty('onStepReady')) { 
+			this.onStepReady(stepObj.onStepReady); 
 		}
 	},
 
 
-	onStepReady: function(onStepReadyObj) {
-		console.log('\nonStepReady - CALLED');
+	onStepReady: function(onStepReadyObj) { 
+		console.log('\nonStepReady - CALLED'); 
 
-		var func, argObj;
+		var func, argObj; 
 
-		for (var n in onStepReadyObj) {
+		for (var n in onStepReadyObj) { 
 
-			if (typeof(onStepReadyObj[n]) === 'object') {
-				console.log('onStepReady - A0');
+			if (typeof(onStepReadyObj[n]) === 'object') { 
+				console.log('onStepReady - A0'); 
 
-				func = String(Object.keys(onStepReadyObj[n]));
-				argObj = onStepReadyObj[n][func];
-				console.log('onStepReady - func: ' + func +', argObj: '+JSON.stringify(argObj)+'');
+				func = String(Object.keys(onStepReadyObj[n])); 
+				argObj = onStepReadyObj[n][func]; 
+				console.log('onStepReady - func: ' + func +', argObj: '+JSON.stringify(argObj)+''); 
 
-				if (func == 'external_function') {
-					console.log('onStepReady - A1');
+				if (func == 'external_function') { 
+					console.log('onStepReady - A1'); 
 
-					this.externalFunctionCaller(argObj);
+					this.externalFunctionCaller(argObj); 
 
-				} else {
-					console.log('onStepReady - A2');
+				} else { 
+					console.log('onStepReady - A2'); 
 
-					try {
-						console.log('onStepReady - A3');
+					try { 
+						console.log('onStepReady - A3'); 
 
-						eval('argObj='+JSON.stringify(argObj));
-						eval('this.'+func+'(argObj)');
+						eval('argObj='+JSON.stringify(argObj)); 
+						eval('this.'+func+'(argObj)'); 
 					}
 
-					catch(err) {
-						console.log('onStepReady - A4');
+					catch(err) { 
+						console.log('onStepReady - A4'); 
 
 						// alert('ERROR: \n\tonStepReady - currentStepNo: ' + this.api.currentStepNo + ', eval('+func+'()) has an error!');
-						console.log('\n==================\n\tERROR: \n\tonStepReady - currentStepNo: ' + this.api.currentStepNo + ', eval('+func+'()) has an error! \n==================\n');
-					}
+						console.log('\n==================\n\tERROR: \n\tonStepReady - currentStepNo: ' + this.api.currentStepNo + ', eval('+func+'()) has an error! \n==================\n'); 
+					} 
+				} 
+			} 
+
+			if (typeof(onStepReadyObj[n]) === 'string') {  // save() is currently the only method that can be called this way... 
+				console.log('onStepReady - A5'); 
+
+				var c = this.cmdStrToCmdAndArg(onStepReadyObj[n]); 
+				var func = c.cmd; 
+				console.log('onStepReady - func: ' + func + ', c.arg: ' + c.arg); 
+
+				try { 
+					console.log('onStepReady - A6'); 
+
+					eval('argObj='+JSON.stringify(c.arg)); 
+					eval('this.'+func+'(argObj)'); 
 				}
-			}
 
-			if (typeof(onStepReadyObj[n]) === 'string') {  // save() is currently the only method that can be called this way...
-				console.log('onStepReady - A5');
-
-				var c = this.cmdStrToCmdAndArg(onStepReadyObj[n]);
-				var func = c.cmd;
-				console.log('onStepReady - func: ' + func + ', c.arg: ' + c.arg);
-
-				try {
-					console.log('onStepReady - A6');
-
-					eval('argObj='+JSON.stringify(c.arg));
-					eval('this.'+func+'(argObj)');
-				}
-
-				catch(err) {
-					console.log('onStepReady - A7');
+				catch(err) { 
+					console.log('onStepReady - A7'); 
 
 					// alert('ERROR: \n\tonStepReady - currentStepNo: ' + this.api.currentStepNo + ', eval('+func+'()) has an error!');
-					console.log('\n==================\n\tERROR: \n\tonStepReady - currentStepNo: ' + this.api.currentStepNo + ', eval('+func+'()) has an error! \n==================\n');
-				}
-			}
-		}
+					console.log('\n==================\n\tERROR: \n\tonStepReady - currentStepNo: ' + this.api.currentStepNo + ', eval('+func+'()) has an error! \n==================\n'); 
+				} 
+			} 
+		}  
+	}, 
+
+
+	dynamicText: function(obj) { 
+		console.log('\ndynamicText - CALLED'); 
+
+		$(obj.selector).append('<span id="dynamicText"></span><span class="cursor">|</span>'); 
+
+		if (obj.hasOwnProperty('options')) { 
+			console.log('dynamicText - A0'); 
+
+			var keyArr = Object.keys(obj.options); 
+			for (var n in keyArr) { 
+				console.log('dynamicText - keyArr['+n+']: '+keyArr[n]); 
+				dynamicTextClass[keyArr[n]] = obj.options[keyArr[n]]; 
+			} 
+		} 
+		console.log('dynamicText - dynamicTextClass: '+JSON.stringify(dynamicTextClass, null, 4)); 
+
+		window.DTO = Object.create(dynamicTextClass);  
+		DTO.init('#dynamicText', obj.cmdObj); 
 	},
 
 
-	dynamicText: function(obj) {
-		console.log('\ndynamicText - CALLED');
+	delay: function(delayObj) { 
+		console.log('\ndelay - CALLED'); 
 
-		$(obj.selector).append('<span id="dynamicText"></span><span class="cursor">|</span>');
+		Tthis = this; 
 
-		if (obj.hasOwnProperty('options')) {
-			console.log('dynamicText - A0');
+		this.wpObj.timer = setTimeout(function(){  
 
-			var keyArr = Object.keys(obj.options);
-			for (var n in keyArr) {
-				console.log('dynamicText - keyArr['+n+']: '+keyArr[n]);
-				dynamicTextClass[keyArr[n]] = obj.options[keyArr[n]];
-			}
-		}
-		console.log('dynamicText - dynamicTextClass: '+JSON.stringify(dynamicTextClass, null, 4));
+			Tthis.onStepReady(delayObj.execute); 
 
-		window.DTO = Object.create(dynamicTextClass); 
-		DTO.init('#dynamicText', obj.cmdObj);
-	},
-
-
-	delay: function(delayObj) {
-		console.log('\ndelay - CALLED');
-
-		Tthis = this;
-
-		this.wpObj.timer = setTimeout(function(){ 
-
-			Tthis.onStepReady(delayObj.execute);
-
-		}, delayObj.wait);
+		}, delayObj.wait); 
 	},
 
 	// This removes a delay, so when a new step is initiated, the previous delayed function calls will not be executed.
-	delay_remove: function() {
-		if (this.wpObj.hasOwnProperty('timer')) {
-			clearTimeout(this.wpObj.timer);
-		}
-	},
+	delay_remove: function() { 
+		if (this.wpObj.hasOwnProperty('timer')) { 
+			clearTimeout(this.wpObj.timer); 
+		} 
+	}, 
 
 	// NOTE: this microhint-function exists only inside the "scope" of writeProcessClass, and therefore does not interfere with the microhint function of the global scope!
-	microhint: function(arg) {
-		console.log('\nmicrohint - CALLED');
-		microhint($(arg.obj), arg.text , arg.multiple, arg.color);
+	microhint: function(arg) { 
+		console.log('\nmicrohint - CALLED'); 
+		microhint($(arg.obj), arg.text , arg.multiple, arg.color); 
 
-		// TLY wants microhints to fadeIn, 4/8-2017:
-		var lastMicrohint = $(".microhint:last");
-		lastMicrohint.hide();
-		lastMicrohint.fadeIn('slow');
+		// TLY wants microhints to fadeIn, 4/8-2017: 
+		var lastMicrohint = $(".microhint:last"); 
+		lastMicrohint.hide(); 
+		lastMicrohint.fadeIn('slow'); 
 	},
 
-	goBack: function(arg) {
-		console.log('\ngoBack - CALLED - arg: ' + arg);
-		if (!this.wpObj.err_eventTriggered) {
-			this.api.currentStepNo -= (0 <= this.api.currentStepNo)? 1 : 0;
-			this.main();
-			this.insertUserData();	
-			osc.save('apiData', this.api);
+	goBack: function(arg) { 
+		console.log('\ngoBack - CALLED - arg: ' + arg); 
+		if (!this.wpObj.err_eventTriggered) { 
+			this.api.currentStepNo -= (0 <= this.api.currentStepNo)? 1 : 0; 
+			this.main(); 
+			this.insertUserData();	 
+			osc.save('apiData', this.api); 
+		} 
+		this.wpObj.err_eventTriggered = false;  // This ensures a reset to "false" at each click on .goBack 
+	}, 
+
+	goForward: function(arg) { 
+		console.log('\ngoForward - CALLED - arg: ' + arg); 
+		if (!this.wpObj.err_eventTriggered) { 
+			console.log('goForward - A0'); 
+			this.api.currentStepNo += (this.api.currentStepNo < jsonData.step.length-1)? 1 : 0; 
+			this.main(); 
+			this.insertUserData();	 
+			osc.save('apiData', this.api);  
 		}
-		this.wpObj.err_eventTriggered = false;  // This ensures a reset to "false" at each click on .goBack
-	},
+		this.wpObj.err_eventTriggered = false;  // This ensures a reset to "false" at each click on .goForward 
+	}, 
 
-	goForward: function(arg) {
-		console.log('\ngoForward - CALLED - arg: ' + arg);
-		if (!this.wpObj.err_eventTriggered) {
-			console.log('goForward - A0');
-			this.api.currentStepNo += (this.api.currentStepNo < jsonData.step.length-1)? 1 : 0;
-			this.main();
-			this.insertUserData();	
-			osc.save('apiData', this.api);
-		}
-		this.wpObj.err_eventTriggered = false;  // This ensures a reset to "false" at each click on .goForward
-	},
+	noErrMsg: function() { 
 
-	noErrMsg: function() {
-
-	},
+	}, 
 
 
-	cmdStrToCmdAndArg: function(cmdStr) {
-		console.log('\ncmdStrToCmdAndArg - CALLED - cmdStr: ' + cmdStr);
+	cmdStrToCmdAndArg: function(cmdStr) { 
+		console.log('\ncmdStrToCmdAndArg - CALLED - cmdStr: ' + cmdStr); 
 
-		cmdStr = cmdStr.replace(/ /g, '');
-		var pos_start = cmdStr.indexOf('(');
-		var pos_end = cmdStr.indexOf(')');
-		var cmd, arg;
-		if ((pos_start!==-1) && (pos_end!==-1) && (pos_start < pos_end)) {
-			arg = cmdStr.substring(pos_start+1, pos_end);
-			cmd = cmdStr.substring(0, pos_start);
-			console.log('cmdStrToCmdAndArg - cmd: ' + cmd + ', arg: ' + arg);
-		} else {
-			alert('FEJL FRA cmdStrToCmdAndArg: "'+cmdStr+'" er ikke en valid funktion');
-		}
+		cmdStr = cmdStr.replace(/ /g, ''); 
+		var pos_start = cmdStr.indexOf('('); 
+		var pos_end = cmdStr.indexOf(')'); 
+		var cmd, arg; 
+		if ((pos_start!==-1) && (pos_end!==-1) && (pos_start < pos_end)) { 
+			arg = cmdStr.substring(pos_start+1, pos_end); 
+			cmd = cmdStr.substring(0, pos_start); 
+			console.log('cmdStrToCmdAndArg - cmd: ' + cmd + ', arg: ' + arg); 
+		} else { 
+			alert('FEJL FRA cmdStrToCmdAndArg: "'+cmdStr+'" er ikke en valid funktion'); 
+		} 
 
-		return {cmd: cmd, arg: arg};
-	},
+		return {cmd: cmd, arg: arg}; 
+	}, 
 
 
-	getIdOfDomElement: function(path) {			
-		console.log('\ngetIdOfDomElement - CALLED - path: ' + path );
+	getIdOfDomElement: function(path) {			 
+		console.log('\ngetIdOfDomElement - CALLED - path: ' + path ); 
 
 		if ((path.indexOf('this.')===-1)) {  // Prevent use of e.g. "empty(this.parent)" untill a robust solution for finding a complete path to "this.parent" is found!
 			
 			if (path.match(/^\.\w+$/)!==null) {  // CSS class
-				console.log('getIdOfDomElement - A0');
+				console.log('getIdOfDomElement - A0'); 
 
 				return path; // Return class		 		
 			}
 
 			if (path.match(/^#\w+$/)!==null) {  // CSS id
-				console.log('getIdOfDomElement - A1');
+				console.log('getIdOfDomElement - A1'); 
 
-				return path; // Return id
+				return path; // Return id 
 			}
 
 			// var jsonValue = this.getJsonValue(jsonData, path);
 			// console.log('getIdOfDomElement > getJsonValue - jsonValue: ' + JSON.stringify(jsonValue));
 
-			return null;
+			return null; 
 		}
 	},
 
@@ -309,135 +314,135 @@ writeProcessClass = {
 	},
 
 
-	empty: function(selector) {    
-		console.log('\nempty - CALLED - selector: ' + selector);
+	empty: function(selector) {     
+		console.log('\nempty - CALLED - selector: ' + selector); 
 
-		if (selector !== null) {  
-			console.log('empty - A0');
+		if (selector !== null) {   
+			console.log('empty - A0'); 
 		
-			if ($(selector).length > 0) {
-				console.log('empty - A1');
+			if ($(selector).length > 0) { 
+				console.log('empty - A1'); 
 
-				if ($(selector).val().length == 0) {
-					console.log('empty - A2');
+				if ($(selector).val().length == 0) { 
+					console.log('empty - A2'); 
 
 					// this.invokeErrMsg(selector);
-					return true;
-				}
-			} else {
+					return true; 
+				} 
+			} else { 
 				// alert("FEJL FRA empty: "+'"'+selector+'"'+" er ikke et element i DOM'en!");
-				console.log('\n==================\n\tERROR: \n\tempty - selector: "' + selector + '", does not exist!\n==================\n');
-			}
-		}
+				console.log('\n==================\n\tERROR: \n\tempty - selector: "' + selector + '", does not exist!\n==================\n'); 
+			} 
+		} 
 
-		return false;
+		return false; 
 	},
 
 
-	invokeErrMsg: function(selector) {
+	invokeErrMsg: function(selector) {  
 		console.log('\ninvokeErrMsg - CALLED - selector: ' + selector);
 
-		var stepObj = jsonData.step[this.api.currentStepNo];
-		console.log('invokeErrMsg - stepObj: ' + JSON.stringify(stepObj));
+		var stepObj = jsonData.step[this.api.currentStepNo]; 
+		console.log('invokeErrMsg - stepObj: ' + JSON.stringify(stepObj)); 
 
-	},
+	}, 
 
-	static_setEventListener: function() {
+	static_setEventListener: function() { 
 
-		var Tthis = this;
+		var Tthis = this; 
 
-		$( document ).on('click', ".microhint", function(event){
-			console.log('microhint - api: ' + JSON.stringify(Tthis.api));
-			$(this).fadeOut( Tthis.api.microhint.fadeOut, function() {
-				$(this).remove();
-			});
-        });
+		$( document ).on('click touchend', ".microhint", function(event){  // touchend added d. 15/11-2017 
+			console.log('microhint - api: ' + JSON.stringify(Tthis.api)); 
+			$(this).fadeOut( Tthis.api.microhint.fadeOut, function() { 
+				$(this).remove(); 
+			}); 
+        }); 
 
 
-        $(document).on('change', 'select.dropdown', function(){
-			var tagName = $(this).prop("tagName");
-			console.log(".change - tagName: " + tagName);
+        $(document).on('change', 'select.dropdown', function(){ 
+			var tagName = $(this).prop("tagName"); 
+			console.log(".change - tagName: " + tagName); 
 
-			var value = $(this).val();
-			console.log(".change - value: " + value);
+			var value = $(this).val(); 
+			console.log(".change - value: " + value); 
 
-			var action = String($(this).attr('data-action'));
-			var target = $(this).attr('data-target');
-			var targetArr = target.split(' ');
-			console.log(".change - target: " + target + ', targetArr: ' + targetArr + ', action: ' + action);
+			var action = String($(this).attr('data-action')); 
+			var target = $(this).attr('data-target'); 
+			var targetArr = target.split(' '); 
+			console.log(".change - target: " + target + ', targetArr: ' + targetArr + ', action: ' + action); 
 
-			var TtagName;
-			for (var n in targetArr) {
-				TtagName = String($(targetArr[n]).prop("tagName").toLowerCase().trim());
-				console.log(".change - TtagName: _" + TtagName + '_ $('+targetArr[n]+').val(): ' + $(targetArr[n]).val());
+			var TtagName; 
+			for (var n in targetArr) { 
+				TtagName = String($(targetArr[n]).prop("tagName").toLowerCase().trim()); 
+				console.log(".change - TtagName: _" + TtagName + '_ $('+targetArr[n]+').val(): ' + $(targetArr[n]).val()); 
 
-				if (Tthis.elementInArray(['input', 'textarea'], TtagName)) {  
-					console.log(".change - A0");
+				if (Tthis.elementInArray(['input', 'textarea'], TtagName)) {   
+					console.log(".change - A0"); 
 
-					if (action == 'prepend') {
-						console.log(".change - A1");
-						$(targetArr[n]).val(value + "\r" + $(targetArr[n]).val());
+					if (action == 'prepend') { 
+						console.log(".change - A1"); 
+						$(targetArr[n]).val(value + "\r" + $(targetArr[n]).val()); 
 					}
 
-					if (action == 'append') {
-						console.log(".change - A2");
-						$(targetArr[n]).val($(targetArr[n]).val() + (($(targetArr[n]).val().length>0)? "\r" : '') + value);
+					if (action == 'append') { 
+						console.log(".change - A2"); 
+						$(targetArr[n]).val($(targetArr[n]).val() + (($(targetArr[n]).val().length>0)? "\r" : '') + value); 
+					} 
+
+					if ((action === 'undefined') || (action == 'replace')) { 
+						console.log(".change - A3");  
+						$(targetArr[n]).val(value);  
+					} 
+				} 
+
+				if (Tthis.elementInArray(['div', 'span'], TtagName)) { 
+					console.log(".change - A4"); 
+
+					if (action == 'prepend') { 
+						console.log(".change - A5"); 
+						$(targetArr[n]).prepend(value); 
 					}
 
-					if ((action === 'undefined') || (action == 'replace')) {
-						console.log(".change - A3");
-						$(targetArr[n]).val(value);
-					}
-				}
-
-				if (Tthis.elementInArray(['div', 'span'], TtagName)) {
-					console.log(".change - A4");
-
-					if (action == 'prepend') {
-						console.log(".change - A5");
-						$(targetArr[n]).prepend(value);
+					if (action == 'append') { 
+						console.log(".change - A6"); 
+						$(targetArr[n]).append(value); 
 					}
 
-					if (action == 'append') {
-						console.log(".change - A6");
-						$(targetArr[n]).append(value);
-					}
+					if ((action === 'undefined') || (action == 'replace')) { 
+						console.log(".change - A7"); 
+						$(targetArr[n]).text(value); 
+					} 
+				} 
+			} 
 
-					if ((action === 'undefined') || (action == 'replace')) {
-						console.log(".change - A7");
-						$(targetArr[n]).text(value);
-					}
-				}
-			}
-
-			Tthis.save(null);
+			Tthis.save(null); 
 		});
 
-		$( document ).on('click', ".CloseClass", function(event){
-			console.log('.CloseClass - CALLED - callOrder');
-			if (typeof(Tthis.wpObj.err_eventTriggered)==='undefined') {
-				console.log('.CloseClass - A0');
-				$('.template_userMsgBox_class').remove();
-			} else if (!Tthis.wpObj.err_eventTriggered){
-				console.log('.CloseClass - A1');
-				$('.template_userMsgBox_class').remove();
-			}
-		});
+		$( document ).on('click touchend', ".CloseClass", function(event){  // touchend added d. 15/11-2017 
+			console.log('.CloseClass - CALLED - callOrder'); 
+			if (typeof(Tthis.wpObj.err_eventTriggered)==='undefined') { 
+				console.log('.CloseClass - A0'); 
+				$('.template_userMsgBox_class').remove(); 
+			} else if (!Tthis.wpObj.err_eventTriggered){ 
+				console.log('.CloseClass - A1'); 
+				$('.template_userMsgBox_class').remove(); 
+			} 
+		}); 
 
-		// AutoSave": Save data at some timeinterval when focusin. 
-		// IMPORTANT: the class ".autoSaveOff" given to an element will switch off the "autoSave" for that element. The intended use is with the template_userMsgBox and the "save()" method.
-		// $( document ).on('focusin', "input, textarea", function(event){ 
+		// AutoSave": Save data at some timeinterval when focusin.  
+		// IMPORTANT: the class ".autoSaveOff" given to an element will switch off the "autoSave" for that element. The intended use is with the template_userMsgBox and the "save()" method. 
+		// $( document ).on('focusin', "input, textarea", function(event){  
 		$( document ).on('focusin', this.api.selector+' input, '+this.api.selector+' textarea', function(event){  // By adding the api.selector, all other inputfields will not be added.  
-			console.log('focusin - CALLED');
+			console.log('focusin - CALLED'); 
 
-			var jqThis = this;
+			var jqThis = this; 
 
-			if (!$(this).hasClass('autoSaveOff')) {
-				window.wpcSaveTimer = setInterval(function(){ 
-					Tthis.saveData(jqThis, Tthis);
-				}, Tthis.api.saveInterval);
-			}
-		});
+			if (!$(this).hasClass('autoSaveOff')) { 
+				window.wpcSaveTimer = setInterval(function(){  
+					Tthis.saveData(jqThis, Tthis); 
+				}, Tthis.api.saveInterval); 
+			} 
+		}); 
 
 		// Save data on focusout:
 		// IMPORTANT: the class ".autoSaveOff" given to an element will switch off the "autoSave" for that element. The intended use is with the template_userMsgBox and the "save()" method.
@@ -492,58 +497,58 @@ writeProcessClass = {
 		// });
 
 
-		// IMPORTANT: ONLY ONE INPUT-FIELD PR "data-wrapperClass" IS CURRENTLY SUPPORTED!
-		// The purpose of the ".addWrapper_btn" class is to copy the build on the id given in the "data-wrapperIdPrefix" attribute in a manner similar to https://www.vucdigital.dk/ks_synopsis_handout/synopsis.html
-		// All id's of input-fields will be copied with the following prefix:
-		// 		Original id: 	myId
-		//		First copy: 	myId_copy_1
-		//		Second copy: 	myId_copy_2
-		// - and so on...
-		$( document ).on('click', ".addWrapper_btn", function(event){  // Added 23/10-2017
-			console.log('\n.addWrapper_btn - CLICKED');
+		// IMPORTANT: ONLY ONE INPUT-FIELD PR "data-wrapperClass" IS CURRENTLY SUPPORTED! 
+		// The purpose of the ".addWrapper_btn" class is to copy the build on the id given in the "data-wrapperIdPrefix" attribute in a manner similar to https://www.vucdigital.dk/ks_synopsis_handout/synopsis.html 
+		// All id's of input-fields will be copied with the following prefix: 
+		// 		Original id: 	myId 
+		//		First copy: 	myId_copy_1 
+		//		Second copy: 	myId_copy_2 
+		// - and so on... 
+		$( document ).on('click touchend', ".addWrapper_btn", function(event){  // Added 23/10-2017   // touchend added d. 15/11-2017  
+			console.log('\n.addWrapper_btn - CLICKED');  
 
-			var wrapperClass = $(this).attr("data-wrapperClass");
-			var wrapperIdPrefix = $(this).attr("data-wrapperIdPrefix");
+			var wrapperClass = $(this).attr("data-wrapperClass");  
+			var wrapperIdPrefix = $(this).attr("data-wrapperIdPrefix");  
 
-			id = $('.'+wrapperClass + ' input').last().attr('id'); 
-			console.log('.addWrapper_btn - id: ' + id + ', wrapperClass: ' + wrapperClass + ', wrapperIdPrefix: ' + wrapperIdPrefix);
+			id = $('.'+wrapperClass + ' input').last().attr('id');   
+			console.log('.addWrapper_btn - id: ' + id + ', wrapperClass: ' + wrapperClass + ', wrapperIdPrefix: ' + wrapperIdPrefix); 
 
-			if (typeof(id)!=='undefined') {
-				console.log('.addWrapper_btn - A0');
+			if (typeof(id)!=='undefined') { 
+				console.log('.addWrapper_btn - A0'); 
 
-				if (id.indexOf(wrapperIdPrefix)!==-1) {
-					console.log('.addWrapper_btn - A1');
+				if (id.indexOf(wrapperIdPrefix)!==-1) { 
+					console.log('.addWrapper_btn - A1'); 
 
-					if (id.indexOf('_copy_')!==-1) {
-						console.log('.addWrapper_btn - A2');
+					if (id.indexOf('_copy_')!==-1) { 
+						console.log('.addWrapper_btn - A2'); 
 
-						var len = (wrapperIdPrefix+'_copy_').length;
-						var num = parseInt(id.substring(len))+1;
-						console.log('.addWrapper_btn - len: ' + len + ', num: ' + num);
+						var len = (wrapperIdPrefix+'_copy_').length; 
+						var num = parseInt(id.substring(len))+1; 
+						console.log('.addWrapper_btn - len: ' + len + ', num: ' + num); 
 
-						var clone = $('.'+wrapperClass).last().clone();
-						$('input', clone).attr('id', wrapperIdPrefix+'_copy_'+num);
+						var clone = $('.'+wrapperClass).last().clone(); 
+						$('input', clone).attr('id', wrapperIdPrefix+'_copy_'+num); 
 
-						$('.'+wrapperClass).last().after(clone);
+						$('.'+wrapperClass).last().after(clone); 
 
-						$('.'+wrapperClass+' input').last().val('');  // Delete any previous entered value
+						$('.'+wrapperClass+' input').last().val('');  // Delete any previous entered value 
 
-						Tthis.addWrapperToJSON(id, wrapperIdPrefix+'_copy_'+num);
+						Tthis.addWrapperToJSON(id, wrapperIdPrefix+'_copy_'+num); 
 
-					} else {
-						console.log('.addWrapper_btn - A3');
+					} else { 
+						console.log('.addWrapper_btn - A3'); 
 
-						var clone = $('.'+wrapperClass).last().clone();
-						$('input', clone).attr('id', wrapperIdPrefix+'_copy_1');
+						var clone = $('.'+wrapperClass).last().clone(); 
+						$('input', clone).attr('id', wrapperIdPrefix+'_copy_1'); 
 
-						$('.'+wrapperClass).last().after(clone);
+						$('.'+wrapperClass).last().after(clone); 
 
-						$('.'+wrapperClass+' input').last().val('');   // Delete any previous entered value
+						$('.'+wrapperClass+' input').last().val('');   // Delete any previous entered value 
 
-						Tthis.addWrapperToJSON(wrapperIdPrefix, wrapperIdPrefix+'_copy_1');
-					}
-				}
-			}
+						Tthis.addWrapperToJSON(wrapperIdPrefix, wrapperIdPrefix+'_copy_1'); 
+					} 
+				} 
+			} 
 
 			// Tthis.api.userData[id] = val;  // <--- Sådan tilgås gemt data! 
 		});
@@ -842,110 +847,112 @@ writeProcessClass = {
 		return ((navigator.userAgent.indexOf('Safari')!==-1) && (navigator.userAgent.indexOf('Chrome')===-1) && (navigator.userAgent.indexOf('Chromium')===-1))?true:false;  // Added 05-10-2016, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent
 	}, 
 
-	returnLastStudentSession: function() {
-		console.log('returnLastStudentSession - CALLED');
+	returnLastStudentSession: function() { 
+		console.log('returnLastStudentSession - CALLED'); 
 
-		var Tthis = this;
+		var Tthis = this; 
 
-		// window.osc = Object.create(objectStorageClass);
-		// osc.init('studentSession_7');
-		// osc.exist('apiData');
+		// window.osc = Object.create(objectStorageClass); 
+		// osc.init('studentSession_7'); 
+		// osc.exist('apiData'); 
 
 	
-		var apiData = osc.load('apiData');
-		console.log('returnLastStudentSession - apiData: ' + JSON.stringify(apiData));
+		var apiData = osc.load('apiData'); 
+		console.log('returnLastStudentSession - apiData: ' + JSON.stringify(apiData)); 
 
-		// IMPORTANT: 
-		// In this exercise, the user has to download a word-document in the last step. This is not possible when using Safari - this is why this if-clause has been added.
-		if (((this.isUseragentSafari()) && (typeof(safariUserHasAgreed) === 'undefined'))){
+		// IMPORTANT:  
+		// In this exercise, the user has to download a word-document in the last step. This is not possible when using Safari - this is why this if-clause has been added. 
+		if (((this.isUseragentSafari()) && (typeof(safariUserHasAgreed) === 'undefined'))){ 
 
-			window.safariUserHasAgreed = false;
+			window.safariUserHasAgreed = false; 
 
-			// Denne øvelse virker desværre ikke optimalt på Safari-platformen. Du vil ikke kunne downloade de udfyldte felter som wordfil til sidst i øvelsen.
-			UserMsgBox("body", '<h4>OBS</h4> <p>Du arbejder på en Mac og bruger browseren Safari. <br> Denne øvelse virker desværre ikke optimalt på Safari-platformen. Du vil ikke kunne downloade de udfyldte felter som wordfil til sidst i øvelsen.</p><br> <p>Brug i stedet <b>Chrome</b> (<a href="https://www.google.dk/chrome/browser/desktop/">Hent den her</a>) eller <b>Firefox</b>  (<a href="https://www.mozilla.org/da/firefox/new/">Hent den her</a>).</p><br> <p>Mvh <a href="https://www.vucdigital.dk">vucdigital.dk</a> </p>');
+			// Denne øvelse virker desværre ikke optimalt på Safari-platformen. Du vil ikke kunne downloade de udfyldte felter som wordfil til sidst i øvelsen. 
+			UserMsgBox("body", '<h4>OBS</h4> <p>Du arbejder på en Mac og bruger browseren Safari. <br> Denne øvelse virker desværre ikke optimalt på Safari-platformen. Du vil ikke kunne downloade de udfyldte felter som wordfil til sidst i øvelsen.</p><br> <p>Brug i stedet <b>Chrome</b> (<a href="https://www.google.dk/chrome/browser/desktop/">Hent den her</a>) eller <b>Firefox</b>  (<a href="https://www.mozilla.org/da/firefox/new/">Hent den her</a>).</p><br> <p>Mvh <a href="https://www.vucdigital.dk">vucdigital.dk</a> </p>'); 
 			
-			$('#UserMsgBox').addClass('UserMsgBox_safari');
-			$('.MsgBox_bgr').addClass('MsgBox_bgr_safari');
+			$('#UserMsgBox').addClass('UserMsgBox_safari'); 
+			$('.MsgBox_bgr').addClass('MsgBox_bgr_safari'); 
 
-			$( document ).on('click', ".UserMsgBox_safari, .MsgBox_bgr_safari", helper_msgBoxFadeout(this));
+			$( document ).on('click touchend', ".UserMsgBox_safari, .MsgBox_bgr_safari", helper_msgBoxFadeout(this));  // touchend added d. 15/11-2017 
 
-			return 0;
-		}
+			return 0; 
+		} 
 
-		function helper_msgBoxFadeout(jqThis) {
-			console.log('returnLastStudentSession - helper_msgBoxFadeout - CALLED');
-			$(".MsgBox_bgr_safari").fadeOut(200, function() {
-	            $(jqThis).remove();
-	        });
-	        safariUserHasAgreed = true;
-	        Tthis.returnLastStudentSession();
-		}
+		function helper_msgBoxFadeout(jqThis) { 
+			console.log('returnLastStudentSession - helper_msgBoxFadeout - CALLED'); 
+			$(".MsgBox_bgr_safari").fadeOut(200, function() { 
+	            $(jqThis).remove(); 
+	        }); 
+	        safariUserHasAgreed = true; 
+	        Tthis.returnLastStudentSession(); 
+		} 
 		
-		if ((apiData !== null) && (typeof(apiData) !== 'undefined')){
-			console.log('returnLastStudentSession - getTimeStamp: ' + osc.getTimeStamp());
-		// if (apiData !== null){
-			var HTML = '';
-			HTML += '<h4>OBS</h4> Du har lavet denne øvelse før og indtastet data allerede.';
-			HTML += '<div> <span id="objectStorageClass_yes" class="objectStorageClass btn btn-info">Jeg vil fortsætte, hvor jeg slap</span> <span id="objectStorageClass_no" class="objectStorageClass btn btn-info">Jeg vil starte forfra</span> </div>';
-			UserMsgBox("body", HTML);
+		if ((apiData !== null) && (typeof(apiData) !== 'undefined')){ 
+			console.log('returnLastStudentSession - getTimeStamp: ' + osc.getTimeStamp()); 
+		// if (apiData !== null){ 
+			var HTML = ''; 
+			HTML += '<h4>OBS</h4> Du har lavet denne øvelse før og indtastet data allerede.'; 
+			HTML += '<div> <span id="objectStorageClass_yes" class="objectStorageClass btn btn-info">Jeg vil fortsætte, hvor jeg slap</span> <span id="objectStorageClass_no" class="objectStorageClass btn btn-info">Jeg vil starte forfra</span> </div>'; 
+			UserMsgBox("body", HTML); 
 
-			$('.CloseClass').remove(); // <---- removes the "X" in the UserMsgBox.
-			$('.container-fluid').hide();  // Hide all program-content.
+			$('.CloseClass').remove(); // <---- removes the "X" in the UserMsgBox. 
+			$('.container-fluid').hide();  // Hide all program-content. 
 
-		    // $('#UserMsgBox, .MsgBox_bgr').off('click');
-		    $('.MsgBox_bgr').addClass('template_userMsgBox_class').removeClass('MsgBox_bgr');
-			$('#UserMsgBox').attr('id', 'template_userMsgBox_id');
+		    // $('#UserMsgBox, .MsgBox_bgr').off('click'); 
+		    $('.MsgBox_bgr').addClass('template_userMsgBox_class').removeClass('MsgBox_bgr'); 
+			$('#UserMsgBox').attr('id', 'template_userMsgBox_id'); 
 
-		    $( document ).on('click', "#objectStorageClass_yes", function(event){
-		        console.log("objectStorageClass.init - objectStorageClass_yes - CLICK" );
-		        $(".template_userMsgBox_class").fadeOut(200, function() {
-		            $(this).remove();
-		            $('.container-fluid').fadeIn('slow');  // Fade in all program-content.
-		        });
+		    $( document ).on('click touchend', "#objectStorageClass_yes", function(event){    // touchend added d. 15/11-2017 
+		        console.log("objectStorageClass.init - objectStorageClass_yes - CLICK" ); 
+		        $(".template_userMsgBox_class").fadeOut(200, function() { 
+		            $(this).remove(); 
+		            $('.container-fluid').fadeIn('slow');  // Fade in all program-content. 
+		        }); 
 
-		        console.log('returnLastStudentSession - LSX  - apiData: ' + JSON.stringify(apiData));
+		        console.log('returnLastStudentSession - LSX  - apiData: ' + JSON.stringify(apiData)); 
 		       
-		        Tthis.api = apiData;	// Load the saved api-data into the program api variable...
+		        Tthis.api = apiData;	// Load the saved api-data into the program api variable... 
 
-		        if ((typeof(Tthis.api.jsonData)!=='undefined') && (typeof(Tthis.api.jsonData)==='object') && (Tthis.api.jsonData!==null)) { // Overwrite the old jsonData with the stored one.  ADDED 2/11-2017
-		        	console.log('returnLastStudentSession - LSX - A0');
-		        	jsonData = Tthis.api.jsonData
-		        } else {
-		        	console.log('returnLastStudentSession - LSX  - A1');
-		        	jsonData = jsonData;
-		        }  
+		        if ((typeof(Tthis.api.jsonData)!=='undefined') && (typeof(Tthis.api.jsonData)==='object') && (Tthis.api.jsonData!==null)) { // Overwrite the old jsonData with the stored one.  ADDED 2/11-2017 
+		        	console.log('returnLastStudentSession - LSX - A0'); 
+		        	jsonData = Tthis.api.jsonData 
+		        } else { 
+		        	console.log('returnLastStudentSession - LSX  - A1'); 
+		        	jsonData = jsonData; 
+		        }   
 
-		        console.log('returnLastStudentSession - LSX - jsonData: ' + JSON.stringify(jsonData, null, 4));
+		        console.log('returnLastStudentSession - LSX - jsonData: ' + JSON.stringify(jsonData, null, 4)); 
 				
-		        Tthis.init(Tthis.api.selector);	// Generate markup for the last step the student used...
+		        Tthis.init(Tthis.api.selector);	// Generate markup for the last step the student used... 
 
-		        Tthis.insertUserData();		// Insert the saved data (if any) into the markup...
+		        Tthis.insertUserData();		// Insert the saved data (if any) into the markup... 
 		    });
 
-		    $( document ).on('click', "#objectStorageClass_no", function(event){
+		    $( document ).on('click touchend', "#objectStorageClass_no", function(event){   // touchend added d. 15/11-2017 
 		    	// osc.stopAutoSave('test1');
-		        console.log("objectStorageClass.init - objectStorageClass_no - CLICK" );
-		        osc.delete(osc.localStorageObjName);
-		        $(".template_userMsgBox_class").fadeOut(200, function() {
-		            $(this).remove();
-		            $('.container-fluid').fadeIn('slow', function() {  // Fade in all program-content.
-		            	UserMsgBox("body", '<h4>Vi gemmer dit arbejde, men...</h4> Vær opmærksom på, at dit arbejde er tilknyttet den browser, som du bruger lige nu. Det vil sige, at du ikke kan arbejde videre på en anden computer/browser. Hvis du sletter din historik i browseren, så sletter du også alt dit arbejde.');  // ADDED 8/11-2017
+		        console.log("objectStorageClass.init - objectStorageClass_no - CLICK" ); 
+		        osc.delete(osc.localStorageObjName); 
+		        $(".template_userMsgBox_class").fadeOut(200, function() { 
+		            $(this).remove(); 
+		            $('.container-fluid').fadeIn('slow', function() {  // Fade in all program-content. 
+		            	UserMsgBox("body", '<h4>Vi gemmer dit arbejde, men...</h4> Vær opmærksom på, at dit arbejde er tilknyttet den browser, som du bruger lige nu. Det vil sige, at du ikke kan arbejde videre på en anden computer/browser. Hvis du sletter din historik i browseren, så sletter du også alt dit arbejde.');  // ADDED 8/11-2017 
 		    			// $('.MsgBox_bgr').addClass('template_userMsgBox_class').removeClass('MsgBox_bgr');
 						// $('#UserMsgBox').attr('id', 'template_userMsgBox_id');
-		            });  
-		        });
+		            });   
+		        }); 
 
-		        Tthis.init(Tthis.api.selector); 
+		        Tthis.init(Tthis.api.selector);  
 
-		    });
-		} else {
+		    }); 
+		} else { 
 
-			UserMsgBox("body", '<h4>Vi gemmer dit arbejde, men...</h4> Vær opmærksom på, at dit arbejde er tilknyttet den browser, som du bruger lige nu. Det vil sige, at du ikke kan arbejde videre på en anden computer/browser. Hvis du sletter din historik i browseren, så sletter du også alt dit arbejde.');  // ADDED 8/11-2017
-			// $('.MsgBox_bgr').addClass('template_userMsgBox_class').removeClass('MsgBox_bgr');
-			// $('#UserMsgBox').attr('id', 'template_userMsgBox_id');
+			UserMsgBox("body", '<h4>Vi gemmer dit arbejde, men...</h4> Vær opmærksom på, at dit arbejde er tilknyttet den browser, som du bruger lige nu. Det vil sige, at du ikke kan arbejde videre på en anden computer/browser. Hvis du sletter din historik i browseren, så sletter du også alt dit arbejde.');  // ADDED 8/11-2017 
+			// $('.MsgBox_bgr').addClass('template_userMsgBox_class').removeClass('MsgBox_bgr'); 
+			// $('#UserMsgBox').attr('id', 'template_userMsgBox_id'); 
 
-			Tthis.init(Tthis.api.selector);
-		}
+			Tthis.init(Tthis.api.selector); 
+		} 
+
+
 
 
 		// It has been desided that all "UserMsgBoxes" has to have an event-listner on the "esc"-key  ADDED 2/11-2017 
@@ -1083,37 +1090,37 @@ writeProcessClass = {
 							console.log('onClick_setEventListener - A12');
 							eventObj[selector].push(onClickObj[n]); 
 						}
-					}
+					} 
 
-					// this.wpObj.onClick_setEventListener_eventObj = eventObj;
+					// this.wpObj.onClick_setEventListener_eventObj = eventObj; 
 
-					console.log('onClick_setEventListener - eventObj 3: ' + JSON.stringify(eventObj));
+					console.log('onClick_setEventListener - eventObj 3: ' + JSON.stringify(eventObj)); 
 
 					// $( document ).on('click', selector, {Tthis: this, selector: selector, onClick_eventSpecs_no: n}, this.onClick_eventAction);  // NOTE: ".on()" and ".off()" has to have exactly similar arguments for ".off()" to work!
-				}
-			}
+				} 
+			} 
 
-			console.log('onClick_setEventListener - eventObj 4: ' + JSON.stringify(eventObj));
+			console.log('onClick_setEventListener - eventObj 4: ' + JSON.stringify(eventObj)); 
 
-			// if (!this.wpObj.hasOwnProperty('onClick_eventSpecs')) { // Test to see if onClick_eventSpecs is defined - if not then create it...
-			// 	console.log('onClick_setEventListener - A1');
-			// 	this.wpObj.onClick_eventSpecs = [];     			// IMPORTANT: "onClick_eventSpecs" is an array of the of UNIQUE 
-			// }
+			// if (!this.wpObj.hasOwnProperty('onClick_eventSpecs')) { // Test to see if onClick_eventSpecs is defined - if not then create it... 
+			// 	console.log('onClick_setEventListener - A1'); 
+			// 	this.wpObj.onClick_eventSpecs = [];     			// IMPORTANT: "onClick_eventSpecs" is an array of the of UNIQUE  
+			// } 
 
-			this.wpObj.onClick_eventSpecs = eventObj;
+			this.wpObj.onClick_eventSpecs = eventObj; 
 
 
-			for (var n in eventObj) {
-				selector = n;
-				console.log('onClick_setEventListener - selector 1: ' + selector);
+			for (var n in eventObj) { 
+				selector = n; 
+				console.log('onClick_setEventListener - selector 1: ' + selector); 
 
-				console.log('onClick_setEventListener - selector 2: ' + selector);
+				console.log('onClick_setEventListener - selector 2: ' + selector); 
 
-				$( document ).on('click', selector, {Tthis: this, selector: eventObj[n].selector, onClick_eventSpecs_no: n}, this.onClick_eventAction);  // NOTE: ".on()" and ".off()" has to have exactly similar arguments for ".off()" to work!
-			}
+				$( document ).on('click touchend', selector, {Tthis: this, selector: eventObj[n].selector, onClick_eventSpecs_no: n}, this.onClick_eventAction);  // NOTE: ".on()" and ".off()" has to have exactly similar arguments for ".off()" to work!  // touchend added d. 15/11-2017 
+			} 
 
-		}
-	},
+		} 
+	}, 
 
 
 	onClick_eventAction: function(event) {	// <-----------------------  DENNE FUNKTION SKAL OMSKRIVES MED err_setEventListener  3/7-2017
@@ -1186,22 +1193,22 @@ writeProcessClass = {
 	},   //  "transfereData(#save_7_1, #A, #B)"
 
 
-	onClick_removeAllEventListeners: function() {
-		console.log('onClick_removeAllEventListeners - CALLED');
+	onClick_removeAllEventListeners: function() { 
+		console.log('onClick_removeAllEventListeners - CALLED'); 
 
-		if (this.wpObj.hasOwnProperty('onClick_eventSpecs')) {  // Test to see if err_currentEventListeners is defined..
-			console.log('onClick_removeAllEventListeners - onClick_eventSpecs 1: ' + JSON.stringify(this.wpObj.onClick_eventSpecs));
-			var ev;
-			for (var n in this.wpObj.onClick_eventSpecs) {
-				ev = this.wpObj.onClick_eventSpecs[n];
-				console.log('onClick_removeAllEventListeners - ev: ' + JSON.stringify(ev));
+		if (this.wpObj.hasOwnProperty('onClick_eventSpecs')) {  // Test to see if err_currentEventListeners is defined.. 
+			console.log('onClick_removeAllEventListeners - onClick_eventSpecs 1: ' + JSON.stringify(this.wpObj.onClick_eventSpecs)); 
+			var ev; 
+			for (var n in this.wpObj.onClick_eventSpecs) { 
+				ev = this.wpObj.onClick_eventSpecs[n]; 
+				console.log('onClick_removeAllEventListeners - ev: ' + JSON.stringify(ev)); 
 
-				$( document ).off('click', ev.selector, this.onClick_eventAction);  // NOTE: ".on()" and ".off()" has to have exactly similar arguments for ".off()" to work!
-			}
-			this.wpObj.onClick_eventSpecs = [];
-			console.log('onClick_removeAllEventListeners - onClick_eventSpecs 2: ' + JSON.stringify(this.wpObj.onClick_eventSpecs));
-		}
-	},
+				$( document ).off('click touchend', ev.selector, this.onClick_eventAction);  // NOTE: ".on()" and ".off()" has to have exactly similar arguments for ".off()" to work!   // touchend added d. 15/11-2017 
+			} 
+			this.wpObj.onClick_eventSpecs = []; 
+			console.log('onClick_removeAllEventListeners - onClick_eventSpecs 2: ' + JSON.stringify(this.wpObj.onClick_eventSpecs)); 
+		} 
+	}, 
 
 
 	// VERY IMPORTANT:
