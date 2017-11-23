@@ -48,10 +48,10 @@ writeProcessClass = {
 
 		console.log('init - api: ' + JSON.stringify(this.api)); 
 
-		if (this.api.insertRotateCheckOnMobileDevices) {
-			console.log('init - A0'); 
-			rotateCheck();
-		}
+		// if (this.api.insertRotateCheckOnMobileDevices) {	
+		// 	console.log('init - insertRotateCheckOnMobileDevices: TRUE'); 
+		// 	rotateCheck();
+		// }
 	},
 
 
@@ -880,7 +880,8 @@ writeProcessClass = {
 		function helper_msgBoxFadeout(jqThis) { 
 			console.log('returnLastStudentSession - helper_msgBoxFadeout - CALLED'); 
 			$(".MsgBox_bgr_safari").fadeOut(200, function() { 
-	            $(jqThis).remove(); 
+	            $(jqThis).remove();
+	           // $(this).remove(); // Tilføjet d. 17/11-2017 - virker ikke!!!
 	        }); 
 	        safariUserHasAgreed = true; 
 	        Tthis.returnLastStudentSession(); 
@@ -934,6 +935,9 @@ writeProcessClass = {
 		        $(".template_userMsgBox_class").fadeOut(200, function() { 
 		            $(this).remove(); 
 		            $('.container-fluid').fadeIn('slow', function() {  // Fade in all program-content. 
+
+		            	// Tthis.rotateCheck();
+
 		            	UserMsgBox("body", '<h4>Vi gemmer dit arbejde, men...</h4> Vær opmærksom på, at dit arbejde er tilknyttet den browser, som du bruger lige nu. Det vil sige, at du ikke kan arbejde videre på en anden computer/browser. Hvis du sletter din historik i browseren, så sletter du også alt dit arbejde.');  // ADDED 8/11-2017 
 		    			// $('.MsgBox_bgr').addClass('template_userMsgBox_class').removeClass('MsgBox_bgr');
 						// $('#UserMsgBox').attr('id', 'template_userMsgBox_id');
@@ -944,6 +948,8 @@ writeProcessClass = {
 
 		    }); 
 		} else { 
+
+		    // Tthis.rotateCheck();
 
 			UserMsgBox("body", '<h4>Vi gemmer dit arbejde, men...</h4> Vær opmærksom på, at dit arbejde er tilknyttet den browser, som du bruger lige nu. Det vil sige, at du ikke kan arbejde videre på en anden computer/browser. Hvis du sletter din historik i browseren, så sletter du også alt dit arbejde.');  // ADDED 8/11-2017 
 			// $('.MsgBox_bgr').addClass('template_userMsgBox_class').removeClass('MsgBox_bgr'); 
@@ -966,6 +972,19 @@ writeProcessClass = {
 	            });
 	        }
 	    });
+	},
+
+	// rotateCheck() from shared_functions is only triggered for bootstrap extra-small devices (xs) - which are much smaller than the one plus two androide phone first used in test. We simply need the user to use widescreen mode on all mobile phones regardless of screen size... Therefore this function is commented out!!!
+	rotateCheck: function() {
+		console.log('\nrotateCheck - CALLED x');
+		if (!this.insertRotateCheckOnMobileDevices) {
+			console.log('rotateCheck - A0');
+			rotateCheck();  // Call rotateCheck from shared_functions
+			if ($('.MsgBox_bgr').length > 0) {  // If a userMsgBox is present, halt program execution...
+				console.log('rotateCheck - A1');
+				throw new Error("\n=====================================\nrotateCheck called - program halted!\n=====================================");
+			}
+		}
 	},
 
 
