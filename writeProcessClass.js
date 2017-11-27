@@ -974,6 +974,7 @@ writeProcessClass = {
 	    });
 	},
 
+	// MEFGET VIGTIGT 27/11-2017: Hvis denne funktion bliver taget i brug, så er der pt en bug i Safari på live server (ikke localhost)!
 	// rotateCheck() from shared_functions is only triggered for bootstrap extra-small devices (xs) - which are much smaller than the one plus two androide phone first used in test. We simply need the user to use widescreen mode on all mobile phones regardless of screen size... Therefore this function is commented out!!!
 	rotateCheck: function() {
 		console.log('\nrotateCheck - CALLED x');
