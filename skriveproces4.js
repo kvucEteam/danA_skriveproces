@@ -156,12 +156,16 @@ function wordTemplate() {
 	HTML += 	'<div class="instruction">';
 	HTML += 		'<h3>Til det videre arbejde</h3>';
 	HTML += 		'<p>';
-	HTML += 			'Inden du går i gang med det videre arbejde, skal du kopiere og gemme dette dokument i sin nuværende form. Vi vil nemlig gerne have, at du til sidst afleverer både dokumentet, som det ser ud nu og din endeligt gennemarbejde tekst. Du skal med andre ord til sidst uploade og aflevere to udgaver af din tekst. Det skal du, da vi gerne vil kunne give dig feedback på både den første del af din skriveproces og på det færdige resultat.';
+	HTML += 			'Inden du går i gang med det videre arbejde, skal du kopiere og gemme dette dokument i sin nuværende form. Vi vil nemlig gerne have, at du til sidst afleverer både dokumentet, som det ser ud nu og din endeligt gennemarbejde tekst. Du skal med andre ord aflevere to udgaver af din tekst. Det skal du, da vi gerne vil kunne give dig feedback på både den første del af din skriveproces og på det færdige resultat.';
 	HTML += 		'</p>';
 	HTML += 		'<p>';
-	HTML += 			'I det videre arbejde skal du være opmærksom på det følgende:';
+	HTML += 			'Opgaven træner dig i at blive bevidst om, hvad der skal til for at løfte teksten fra det indledende arbejde med skriveguiden, til at skrive med øje for den læser, som skal læse teksten.';
+	HTML += 		'</p>';
+	HTML += 		'<p>';
+	HTML += 			'Når du er færdig med at gennemskrive og rette dit rå-arbejde fra skriveguiden, skal de to udgaver af din tekst afleveres i ét samlet word-dokument.';
 	HTML += 		'</p>';
 	HTML += 		'<ul>';
+	HTML +=             'I det videre arbejde skal du være opmærksom på det følgende:';
 	HTML += 			'<li>';
 	HTML += 				'Læs dine afsnit igennem. Gør teksten så klar, præcis og sammenhængende som muligt.';
 	HTML += 			'</li>';
@@ -206,11 +210,11 @@ function wordTemplate() {
 
 	HTML += 	'<br>';
 	HTML += 	'<hr>';
-	HTML += 	'<div class="instruction">';
-	HTML += 		'<p>';
-	HTML += 	    	'Når du er færdig med at gennemskrive og rette skal du både aflevere dit oprindelige dokument samt den færdige tekst. Begge tekster skal uploades i Moodle der hvor du begyndte på opgaven.';
-	HTML += 		'</p>';
-	HTML += 	'</div>';
+	// HTML += 	'<div class="instruction">';
+	// HTML += 		'<p>';
+	// HTML += 	    	'Når du er færdig med at gennemskrive og rette skal du både aflevere dit oprindelige dokument samt den færdige tekst. Begge tekster skal uploades i Moodle der hvor du begyndte på opgaven.';
+	// HTML += 		'</p>';
+	// HTML += 	'</div>';
 
 	HTML += 	'</body>';
 	HTML += '</html>';
