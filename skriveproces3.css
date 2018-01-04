@@ -353,3 +353,7 @@ textarea {
     top: 0px;
     margin-left: 3px;
 }
+
+.emptyField {
+    color: #CCC;
+}

@@ -1454,7 +1454,7 @@
 				"attr" : {"id": "step_12", "class": "step"},
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
-					{"header": "Side 12: json(general.header): Afslutning"},
+					{"header": "json(general.header): Afslutning"},
 					{"instruction": "Afslutning"},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {

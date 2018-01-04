@@ -20,12 +20,16 @@ function external_template1(dataObj1, dataObj2) {
 }
 
 
-$( document ).on('click', "#summeryContainer h1, #summeryContainer h3, #summeryContainer span, #summeryContainer p, #summeryContainer i", function(event){
+// $( document ).on('click', "#summeryContainer h1, #summeryContainer h3, #summeryContainer span, #summeryContainer p, #summeryContainer i", function(event){   // COMMENTED OUT 02-01-2018
+$( document ).on('click', ".fieldData", function(event){																										// ADDED 02-01-2018
 	console.log('editText - api: ' + JSON.stringify(wpc.api));
 	
 	window.sthis = this;
 	window.sid = $(this).attr('data-id').replace('#', '');
 	window.sheading = $(this).attr('data-heading');
+	window.stagName = $(this).prop("tagName").toLowerCase();
+
+	console.log('CLICK summeryContainer - sid: ' + sid + ', sheading: ' + sheading);
 
 	var HTML = '<h4>'+sheading+'</h4>';
 	HTML += '<textarea id="'+sid+'" class="autoSaveOff"></textarea>';
@@ -35,20 +39,29 @@ $( document ).on('click', "#summeryContainer h1, #summeryContainer h3, #summeryC
 
 
 $( document ).on('click', ".summerySave", function(event){
-	var value = $('#'+sid).val();
-	$(sthis).text(value);
+	var value = $('#'+sid).val().trim();
+	if (value.length>0) { // If the user has entered some data...
+		$(sthis).text(value);
+	} else {
+		$(sthis).parent().replaceWith(contentOf(stagName, sid, sheading));
+	}
+
 	wpc.api.userData['#'+sid] = value;
 	wpc.close_template_userMsgBox(null);
 	osc.save('apiData', wpc.api);
+
+	console.log('CLICK summerySave - value: ' + value + ', sid: ' + sid);
 });
 
 
-
 function contentOf(parentTag, userDataId, heading) {
+console.log('contentOf - parentTag: ' + parentTag + ', userDataId: ' + userDataId + ', heading: ' + heading + ', wpc.api.userData.hasOwnProperty('+userDataId+'): ' + wpc.api.userData.hasOwnProperty(userDataId));
+
 	// return '<'+parentTag+' data-id="'+userDataId+'">'+((wpc.api.userData.hasOwnProperty(userDataId))? wpc.api.userData[userDataId] : '')+'</'+parentTag+'>';
 
 	// return '<div class="contentWrap"> <span class="glyphicon glyphicon-pencil"></span> <'+parentTag+' data-id="'+userDataId+'">'+((wpc.api.userData.hasOwnProperty(userDataId))? wpc.api.userData[userDataId] : '')+'</'+parentTag+'> </div>';
-	return '<div class="contentWrap"> <'+parentTag+' data-id="'+userDataId+'" data-heading="'+heading+'">'+((wpc.api.userData.hasOwnProperty(userDataId))? wpc.api.userData[userDataId] : '')+'</'+parentTag+'> </div>';
+	// return '<div class="contentWrap"> <'+parentTag+' data-id="'+userDataId+'" data-heading="'+heading+'">'+((wpc.api.userData.hasOwnProperty(userDataId))? wpc.api.userData[userDataId] : '')+'</'+parentTag+'> </div>';  					 // <----  COMMENTED OUT 02-01-2018
+	return '<div class="contentWrap"> <'+parentTag+' class="fieldData" data-id="'+userDataId+'" data-heading="'+heading+'">'+((wpc.api.userData.hasOwnProperty(userDataId) && (wpc.api.userData[userDataId]!==''))? wpc.api.userData[userDataId] : '<span class="emptyField">[Indsæt ' + heading.toLowerCase() + ']</span>')+'</'+parentTag+'> </div><div class="Clear"></div>';	// <------ ADDED 02-01-2018
 }
 
 

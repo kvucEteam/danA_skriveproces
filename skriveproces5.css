@@ -370,3 +370,7 @@ textarea {
 #download_answer {
     margin-right: 10px;
 }
+
+.emptyField {
+    color: #CCC;
+}
