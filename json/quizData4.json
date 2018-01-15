@@ -479,7 +479,24 @@
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
 					{"header": "json(general.header)"},
-					{"instruction": "Som det tredje fokuspunkt skal du kigge på eventyrets slutning. Her er eventyrets morale nemlig tydeligt formuleret i linje 280-281: <br> <br> <i></i> <br>  <br> Mange forstår denne morale som en kommentar til en diskussion om betydningen af arv og miljø for et menneskes opvækst og liv. Her skelner man mellem påvirkningen af den biologiske arv og det sociale miljø, og man overvejer, om det er arven eller miljøet, der får størst indflydelse på et menneskes liv."},
+					{"instruction": {
+						"value": "Som det tredje fokuspunkt skal du kigge på eventyrets slutning. Her er eventyrets morale <span id='morale' class='glyphicon glyphicon-info-sign'></span> nemlig tydeligt formuleret i linje 280-281: <br> <br> <i></i> <br>  <br> Mange forstår denne morale som en kommentar til en diskussion om betydningen af arv og miljø for et menneskes opvækst og liv. Her skelner man mellem påvirkningen af den biologiske arv og det sociale miljø, og man overvejer, om det er arven eller miljøet, der får størst indflydelse på et menneskes liv.",
+						"events": [
+							{"onClick": {
+								"target": "#morale", "NOTE": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for dropdowns",
+								"template": "template_noWrap",
+								"template_noWrap": {
+									"content": [
+										{"microhint": {
+											"obj": "#morale", 
+											"text": "Det er først og fremmest i eventyrgenren, at man møder tydelige moraler, som er den lærdom, et eventyr gerne vil give videre. <br><i>Kilde: ”Håndbog til dansk”</i>", 
+											"multiple": true, 
+											"color": "#000"
+										}}
+									]
+							}}}
+						]
+					}},
 					{"html" : "<div class='Clear'></div>"},
 					{"text" : {
 						"attr" : {"id": "text_8_1"},

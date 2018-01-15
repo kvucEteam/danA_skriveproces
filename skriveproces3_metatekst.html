@@ -1,0 +1,66 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Skriveproces</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="robots" content="noindex, nofollow" />
+        <link rel="stylesheet" href="../library/css/styles.css" type="text/css" />
+
+        <!-- <link rel="stylesheet" href="vid_skriv.css" type="text/css" /> --> 
+        <link rel="stylesheet" href="skriveproces3.css" type="text/css" />
+
+        <style type="text/css">
+            .download {
+                margin-left: 0px;
+            }
+        </style>
+
+
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div id="interface">
+                
+            </div>
+
+        </div>
+        <script src="../library/vendor_scripts.js"></script>
+        <script src="../library/custom_scripts.js"></script>
+        <script src="html-docx.js">
+        </script>
+        <script src="filesaver.js"></script>
+        <script type="text/javascript"> 
+            getAjaxData("GET", "json/quizData3_metatekst.json", false, "json"); 
+            // getAjaxData("GET", "json/quizData3_test.json", false, "json"); 
+        </script>
+        <script src="dynamicTextClass.js"></script>    
+        <script src="writeProcessClass.js"></script> 
+        <script src="skriveproces3_metatekst.js"></script> 
+<!-- 
+        <script type="text/javascript">
+            $('#interface').html(wpc.textArea({"attr" : {"id": "textArea_metatekst"}}));
+        </script>
+ -->
+
+        <script type="text/javascript">
+            window.osc = Object.create(objectStorageClass);
+            osc.init('studentSession_7_metatekst');
+            osc.exist('apiData');
+
+            var wpc = Object.create(writeProcessClass);
+            // wpc.init("#interface");
+            wpc.returnLastStudentSession();
+        </script>
+        
+        <script type="text/javascript">
+            $(document).ready(function() {
+                one_line_footer();
+            });
+        </script>
+    </body>
+
+</html>
+

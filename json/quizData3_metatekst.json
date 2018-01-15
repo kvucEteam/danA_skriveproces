@@ -1,0 +1,32 @@
+{
+	"general": {
+		"header": "Metatekst “den introducerende artikel”",
+		"explanation": "Dette er explanation tekst",
+		"instruction": "Dette er instruction tekst"
+	},
+	"step": [
+		{
+			"template": "template_step",
+			"template_step": {
+				"attr" : {"id": "step_", "class": "step"},
+				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
+				"content": [
+					{"header": "json(general.header)"},
+					{"instruction": "<p>Når du skriver en introducerende artikel, skal du også skrive en metatekst. En metatekst er en tekst om teksten. Det vil sige en tekst, hvor du skriver om, hvad du har gjort rent formidlingsmæssigt, men også hvorfor du har gjort det. Udarbejdelsen af din metatekst bør finde sted, mens du skriver din introducerende artikel.</p>"},
+					{"html" : "<div class='Clear'></div>"},
+					{"text" : "<p class='helperText'>Rediger dine noter til metateksten.</p>"},
+					{"textArea": {
+						"attr" : {"id": "textArea_1"},
+						"insertPreviousText": true
+					}},
+					{"html" : "<div class='Clear'></div>"},
+					{"btn": {
+						"attr" : {"id": "goForward_1", "class": "stepNav download btn btn-primary"},
+						"text": "DOWNLOAD<span class='glyphicons glyphicons-download-alt'></span>", 
+						"onClick": "download(.download)"
+					}}
+				]
+			}
+		}
+	]
+}

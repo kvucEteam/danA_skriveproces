@@ -1,23 +1,7 @@
-// 7/8-2017 Møde med Ester ang skriveguide - beslutninger:
-// =======================================================
-// - Den lange tekst i step 10 skal være den første tekst i WORD-dokumentet
-// - Ester ønsker samme advarsel som Erwin om browser
-// - Ester Ønsker microhint på progressbar der fortæller kursisten om progression ligesom Erwin
-// - Alle referancer med glyphicon skal være microhints  
 
 
 
-//################################################################################################################
-// 
-// 				TEST FUNKTIONER TIL SKRIVEGUIDE MED ESTER MONRAD	-	28/6-2017
-//
-//################################################################################################################
 
-function external_template1(dataObj1, dataObj2) {
-	console.log('\nexternal_template1 - EXTERNAL TEST-TEMPLATE CALLED!')
-	console.log('external_template1 - dataObj1: ' + JSON.stringify(dataObj1));
-	console.log('external_template1 - dataObj2: ' + JSON.stringify(dataObj2));
-}
 
 
 // $( document ).on('click', "#summeryContainer h1, #summeryContainer h3, #summeryContainer span, #summeryContainer p, #summeryContainer i", function(event){   // COMMENTED OUT 02-01-2018
@@ -65,18 +49,6 @@ console.log('contentOf - parentTag: ' + parentTag + ', userDataId: ' + userDataI
 }
 
 
-
-function contentOf2(parentTag, userDataId) {
-	
-	return '<'+parentTag+'>'+((wpc.api.userData.hasOwnProperty(userDataId))? wpc.api.userData[userDataId] : '')+'</'+parentTag+'>';
-}
-
-
-var step5_text = $('#step_clipborad_5 .text_5_1').html();
-console.log('external_template1 - step5_text: ' + step5_text);
-
-
-
 // FRA ERWIN'S SKRIVEGUIDE
 function summery(selector) {
 	console.log('\nEXTERNAL FUNCTION summery - CALLED');
@@ -84,14 +56,40 @@ function summery(selector) {
 	var HTML = '';
 
 	HTML += '<div id="summeryContainer">';
-	
-	// HTML += 	step5_text;
 
-	HTML += 	'<h4>Opgave 1:</h4>';
-	HTML += 	contentOf('p','#textArea_3_1', 'Opgave 1');  		
+	HTML += 	'<h1>Tænkeskrivning</h1>';
+	HTML += 	contentOf('p','#textArea_2_2', 'Emnet med egne ord');  
+	HTML += 	contentOf('h3','#textArea_2_3', 'Forventninger til dig');  
 
-	HTML += 	'<h4>Opgave 2:</h4>';
-	HTML += 	contentOf('p','#textArea_4_1', 'Opgave 2');  		
+	HTML += 	'<h4>Resumér</h4>';
+	HTML += 	'<h5><b>Resumé af primærteksten</b></h5>';
+	HTML += 	contentOf('p','#textArea_3_1', 'Resumé af primærteksten'); 
+	HTML += 	'<h5><b>Resumé af sekundærteksten</b></h5>';
+	HTML += 	contentOf('p','#textArea_3_2', 'Resumé af sekundærteksten'); 
+	HTML += 	'<h5><b>Resumé af tekster fundet på internettet</b></h5>';
+	HTML += 	contentOf('p','#textArea_3_3', 'Resumé af tekster fundet på internettet');  
+
+	HTML += 	'<h4>Citater</h4>';
+	HTML += 	'<h5><b>Citater fra primærteksten eller videoen</b></h5>';
+	HTML += 	contentOf('p','#textArea_4_1', 'Citater fra primærteksten eller videoen'); 
+	HTML += 	'<h5><b>Citater fra sekundærteksten eller videoen</b></h5>';
+	HTML += 	contentOf('p','#textArea_4_2', 'Citater fra sekundærteksten eller videoen'); 
+	HTML += 	'<h5><b>Citater fra tekster fundet på internettet</b></h5>';
+	HTML += 	contentOf('p','#textArea_4_3', 'Citater fra tekster fundet på internettet');  
+
+	HTML += 	'<h4>Begreber</h4>';
+	HTML += 	'<h5><b>Begreber fra lærebog</b></h5>';
+	HTML += 	contentOf('p','#textArea_5_1', 'Begreber fra lærebog'); 
+	HTML += 	'<h5><b>Begreber - de tre bedste</b></h5>';
+	HTML += 	contentOf('p','#textArea_5_2', 'Begreber - de tre bedste');
+
+	HTML += 	'<h4>Taksonomi</h4>';
+	HTML += 	'<h5><b>Redegørende spørgsmål</b></h5>';
+	HTML += 	contentOf('p','#textArea_6_1', 'Redegørende spørgsmål'); 
+	HTML += 	'<h5><b>Analyserende spørgsmål</b></h5>';
+	HTML += 	contentOf('p','#textArea_6_2', 'Analyserende spørgsmål'); 
+	HTML += 	'<h5><b>Perspektiverende/diskuterende spørgsmål</b></h5>';
+	HTML += 	contentOf('p','#textArea_6_3', 'Perspektiverende/diskuterende spørgsmål');  
 
 
 	HTML += '</div>';
@@ -110,7 +108,7 @@ function download() {
 	
 	var converted = htmlDocx.asBlob(HTML);
     console.log("EXTERNAL FUNCTION download - converted: " + JSON.stringify(converted));
-	saveAs(converted, 'Min analyse - globryllup.docx');
+	saveAs(converted, 'Tænkeskrivning.docx');
 }
 
 
@@ -132,65 +130,54 @@ function wordTemplate() {
 	HTML += 			'p {font-size: 14px; margin-bottom: 5px}';
 	HTML += 			'table {padding: 8px; width: 100%;}';
 	HTML += 			'td {width: 25%;}';
-	// HTML += 			'ul {font-size: 14px;}';
+	HTML += 			'ul {font-size: 14px;}';
 	HTML += 			'#author div {display: inline-block;}';
 	HTML += 			'.instruction {color: #999;}';
-	HTML += 			'.instruction2 {background-color: #acefed; padding: 10px 10px 10px 10px; margin-bottom: 25px; font-size: 14px;}';  // g2
-	HTML += 			'.preText {background-color: #e7e6e2; padding: 10px 10px 10px 10px; margin-bottom: 25px}';
-	HTML +=				'.marginAjust {padding-bottom: -10px}';
 	HTML += 		'</style>';
 	HTML += 	'</head>';
 	HTML += 	'<body>';
-
-	HTML += 	'<table class="instruction2">';
-	HTML += 		'<h3>Til det videre arbejde</h3>';
-	// HTML += 		'<p>';
-	HTML += 			'Du skal nu skabe en sammenhængende opgave ved hjælp af din analyse og den eksemplariske besvarelse. Du skal derfor gøre følgende:';
-	// HTML += 		'</p>';
-	HTML += 		'<ul>';
-	HTML += 			'<li>';
-	HTML += 				'Skab en sammenhæng fra der hvor den eksemplariske opgave slutter til der hvor din del begynder';
-	HTML += 			'</li>';
-	HTML += 			'<li>';
-	HTML += 				'Gennemskriv dine analyseafsnit, så de er sammenhængende og uden sproglige fejl';
-	HTML += 			'</li>';
-	HTML += 			'<li>';
-	HTML += 				'Formuler mellemrubrikker til dine to afsnit samt en til to mellemrubrikker i eksempelanalysen';
-	HTML += 			'</li>';
-	HTML += 			'<li>';
-	HTML += 				'Skriv en afslutning til din tekst, hvor du kort og præcist opsummerer dine hovedpointer fra analysen, og tilføjer en afsluttende sætning, så din tekst ikke slutter pludseligt og uden at der rundes af';
-	HTML += 			'</li>';
-	HTML += 			'<li>';
-	HTML += 				'Udskift den nuværende rubrik (Analyse af Globryllup Helle Helle) med en rubrik du selv formulerer. Rubrikken skal være både dækkende og den skal indfange din læser';
-	HTML += 			'</li>' ;
-	HTML += 		'</ul>';
-	HTML += 	'</table>';
-	// HTML += 	'<hr>';
-	HTML += 	'<br>';
 	
-	HTML += 	'<table class="preText">';
-	HTML += 		step5_text;
-	HTML += 	'</table>';
+	HTML += 	'<h1>Tænkeskrivning</h1>';
+	HTML += 	contentOf('p','#textArea_2_2', 'Emnet med egne ord');  
+	HTML += 	contentOf('h3','#textArea_2_3', 'Forvendtninger til dig');  
 
-	HTML += 	'<h4>Mellemrubrik:</h4>';
-	HTML += 	contentOf('p','#textArea_3_1', 'Citater');  		
+	HTML += 	'<h4>Resumér</h4>';
+	HTML += 	'<h5><b>Resumé af primærteksten</b></h5>';
+	HTML += 	contentOf('p','#textArea_3_1', 'Resumé af primærteksten'); 
+	HTML += 	'<h5><b>Resumé af sekundærteksten</b></h5>';
+	HTML += 	contentOf('p','#textArea_3_2', 'Resumé af sekundærteksten'); 
+	HTML += 	'<h5><b>Resumé af tekster fundet på internettet</b></h5>';
+	HTML += 	contentOf('p','#textArea_3_3', 'Resumé af tekster fundet på internettet');  
 
-	HTML += 	'<h4>Mellemrubrik:</h4>';
-	HTML += 	contentOf('p','#textArea_4_1', 'Begreberne face og facework');  		
+	HTML += 	'<h4>Citater</h4>';
+	HTML += 	'<h5><b>Citater fra primærteksten eller videoen</b></h5>';
+	HTML += 	contentOf('p','#textArea_4_1', 'Citater fra primærteksten eller videoen'); 
+	HTML += 	'<h5><b>Citater fra sekundærteksten eller videoen</b></h5>';
+	HTML += 	contentOf('p','#textArea_4_2', 'Citater fra sekundærteksten eller videoen'); 
+	HTML += 	'<h5><b>Citater fra tekster fundet på internettet</b></h5>';
+	HTML += 	contentOf('p','#textArea_4_3', 'Citater fra tekster fundet på internettet');  
 
-	HTML += 	'<br>';
-	// HTML += 	'<hr>';
-	HTML += 	'<table class="instruction2 marginAjust">';
-	// HTML += 		'<p>';
-	HTML += 	    	'Afsluttende sætning: Upload nu din opgave i Moodle under opgave 6.3.';
-	// HTML += 		'</p>';
-	HTML += 	'</table>';
+	HTML += 	'<h4>Begreber</h4>';
+	HTML += 	'<h5><b>Begreber fra lærebog</b></h5>';
+	HTML += 	contentOf('p','#textArea_5_1', 'Begreber fra lærebog'); 
+	HTML += 	'<h5><b>Begreber - de tre bedste</b></h5>';
+	HTML += 	contentOf('p','#textArea_5_2', 'Begreber - de tre bedste');
+
+	HTML += 	'<h4>Taksonomi</h4>';
+	HTML += 	'<h5><b>Redegørende spørgsmål</b></h5>';
+	HTML += 	contentOf('p','#textArea_6_1', 'Redegørende spørgsmål'); 
+	HTML += 	'<h5><b>Analyserende spørgsmål</b></h5>';
+	HTML += 	contentOf('p','#textArea_6_2', 'Analyserende spørgsmål'); 
+	HTML += 	'<h5><b>Perspektiverende/diskuterende spørgsmål</b></h5>';
+	HTML += 	contentOf('p','#textArea_6_3', 'Perspektiverende/diskuterende spørgsmål');  
 
 	HTML += 	'</body>';
 	HTML += '</html>';
 	// document.write(HTML);
 	return HTML;
 }
+
+
 
 
 
