@@ -489,7 +489,7 @@
 									"content": [
 										{"microhint": {
 											"obj": "#morale", 
-											"text": "Det er først og fremmest i eventyrgenren, at man møder tydelige moraler, som er den lærdom, et eventyr gerne vil give videre. <br><i>Kilde: ”Håndbog til dansk”</i>", 
+											"text": "Det er først og fremmest i eventyrgenren, at man møder tydelige moraler, som er den lærdom, et eventyr gerne vil give videre.</i>", 
 											"multiple": true, 
 											"color": "#000"
 										}}
