@@ -860,32 +860,36 @@ writeProcessClass = {
 		var apiData = osc.load('apiData'); 
 		console.log('returnLastStudentSession - apiData: ' + JSON.stringify(apiData)); 
 
-		// IMPORTANT:  
-		// In this exercise, the user has to download a word-document in the last step. This is not possible when using Safari - this is why this if-clause has been added. 
-		if (((this.isUseragentSafari()) && (typeof(safariUserHasAgreed) === 'undefined'))){ 
+		// COMMENTED OUT 18/1-2018, due to new HTML to word convertion by use of PHP
+		// =========================================================================
+		// // IMPORTANT:  
+		// // In this exercise, the user has to download a word-document in the last step. This is not possible when using Safari - this is why this if-clause has been added. 
+		// if (((this.isUseragentSafari()) && (typeof(safariUserHasAgreed) === 'undefined'))){ 
 
-			window.safariUserHasAgreed = false; 
+		// 	window.safariUserHasAgreed = false; 
 
-			// Denne øvelse virker desværre ikke optimalt på Safari-platformen. Du vil ikke kunne downloade de udfyldte felter som wordfil til sidst i øvelsen. 
-			UserMsgBox("body", '<h4>OBS</h4> <p>Du arbejder på en Mac og bruger browseren Safari. <br> Denne øvelse virker desværre ikke optimalt på Safari-platformen. Du vil ikke kunne downloade de udfyldte felter som wordfil til sidst i øvelsen.</p><br> <p>Brug i stedet <b>Chrome</b> (<a href="https://www.google.dk/chrome/browser/desktop/">Hent den her</a>) eller <b>Firefox</b>  (<a href="https://www.mozilla.org/da/firefox/new/">Hent den her</a>).</p><br> <p>Mvh <a href="https://www.vucdigital.dk">vucdigital.dk</a> </p>'); 
+		// 	// Denne øvelse virker desværre ikke optimalt på Safari-platformen. Du vil ikke kunne downloade de udfyldte felter som wordfil til sidst i øvelsen. 
+		// 	UserMsgBox("body", '<h4>OBS</h4> <p>Du arbejder på en Mac og bruger browseren Safari. <br> Denne øvelse virker desværre ikke optimalt på Safari-platformen. Du vil ikke kunne downloade de udfyldte felter som wordfil til sidst i øvelsen.</p><br> <p>Brug i stedet <b>Chrome</b> (<a href="https://www.google.dk/chrome/browser/desktop/">Hent den her</a>) eller <b>Firefox</b>  (<a href="https://www.mozilla.org/da/firefox/new/">Hent den her</a>).</p><br> <p>Mvh <a href="https://www.vucdigital.dk">vucdigital.dk</a> </p>'); 
 			
-			$('#UserMsgBox').addClass('UserMsgBox_safari'); 
-			$('.MsgBox_bgr').addClass('MsgBox_bgr_safari'); 
+		// 	$('#UserMsgBox').addClass('UserMsgBox_safari'); 
+		// 	$('.MsgBox_bgr').addClass('MsgBox_bgr_safari'); 
 
-			$( document ).on('click touchend', ".UserMsgBox_safari, .MsgBox_bgr_safari", helper_msgBoxFadeout(this));  // touchend added d. 15/11-2017 
+		// 	$( document ).on('click touchend', ".UserMsgBox_safari, .MsgBox_bgr_safari", helper_msgBoxFadeout(this));  // touchend added d. 15/11-2017 
 
-			return 0; 
-		} 
+		// 	return 0; 
+		// } 
 
-		function helper_msgBoxFadeout(jqThis) { 
-			console.log('returnLastStudentSession - helper_msgBoxFadeout - CALLED'); 
-			$(".MsgBox_bgr_safari").fadeOut(200, function() { 
-	            $(jqThis).remove();
-	           // $(this).remove(); // Tilføjet d. 17/11-2017 - virker ikke!!!
-	        }); 
-	        safariUserHasAgreed = true; 
-	        Tthis.returnLastStudentSession(); 
-		} 
+		// COMMENTED OUT 18/1-2018, due to new HTML to word convertion by use of PHP
+		// =========================================================================
+		// function helper_msgBoxFadeout(jqThis) { 
+		// 	console.log('returnLastStudentSession - helper_msgBoxFadeout - CALLED'); 
+		// 	$(".MsgBox_bgr_safari").fadeOut(200, function() { 
+	 //            $(jqThis).remove();
+	 //           // $(this).remove(); // Tilføjet d. 17/11-2017 - virker ikke!!!
+	 //        }); 
+	 //        safariUserHasAgreed = true; 
+	 //        Tthis.returnLastStudentSession(); 
+		// } 
 		
 		if ((apiData !== null) && (typeof(apiData) !== 'undefined')){ 
 			console.log('returnLastStudentSession - getTimeStamp: ' + osc.getTimeStamp()); 

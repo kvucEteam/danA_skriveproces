@@ -552,35 +552,37 @@ function returnLastStudentSession() {
 	console.log('returnLastStudentSession - TjsonData: ' + JSON.stringify(TjsonData));
 
 
-	// IMPORTANT: 
-	// In this exercise, the user has to download a word-document in the last step. This is not possible when using Safari - this is why this if-clause has been added.
-	if ((isUseragentSafari()) && (typeof(safariUserHasAgreed) === 'undefined')){
+	// COMMENTED OUT 18/1-2018, due to new HTML to word convertion by use of PHP
+	// =========================================================================
+	// // IMPORTANT: 
+	// // In this exercise, the user has to download a word-document in the last step. This is not possible when using Safari - this is why this if-clause has been added.
+	// if ((isUseragentSafari()) && (typeof(safariUserHasAgreed) === 'undefined')){
 
-		window.safariUserHasAgreed = false;
+	// 	window.safariUserHasAgreed = false;
 
-		UserMsgBox("body", '<h4>ADVARSEL</h4> <p>Du arbejder på en Mac og bruger browseren Safari. <br> Denne øvelse virker desværre ikke optimalt på Safari-platformen. Du vil ikke kunne downloade de udfyldte felter som wordfil til sidst i øvelsen.</p><br> <p>Brug i stedet <b>Chrome</b> (<a href="https://www.google.dk/chrome/browser/desktop/">Hent den her</a>) eller <b>Firefox</b>  (<a href="https://www.mozilla.org/da/firefox/new/">Hent den her</a>).</p><br> <p>Mvh <a href="https://www.vucdigital.dk">vucdigital.dk</a> </p>');
+	// 	UserMsgBox("body", '<h4>ADVARSEL</h4> <p>Du arbejder på en Mac og bruger browseren Safari. <br> Denne øvelse virker desværre ikke optimalt på Safari-platformen. Du vil ikke kunne downloade de udfyldte felter som wordfil til sidst i øvelsen.</p><br> <p>Brug i stedet <b>Chrome</b> (<a href="https://www.google.dk/chrome/browser/desktop/">Hent den her</a>) eller <b>Firefox</b>  (<a href="https://www.mozilla.org/da/firefox/new/">Hent den her</a>).</p><br> <p>Mvh <a href="https://www.vucdigital.dk">vucdigital.dk</a> </p>');
 		
-		$('#UserMsgBox').addClass('UserMsgBox_safari');
-		$('.MsgBox_bgr').addClass('MsgBox_bgr_safari');
+	// 	$('#UserMsgBox').addClass('UserMsgBox_safari');
+	// 	$('.MsgBox_bgr').addClass('MsgBox_bgr_safari');
 
-		$( document ).on('click', ".UserMsgBox_safari", function(event){
-			$(".UserMsgBox_safari").fadeOut(200, function() {
-	            $(this).remove();
-	        });
-			safariUserHasAgreed = true;
-	        returnLastStudentSession();
-		});
+	// 	$( document ).on('click', ".UserMsgBox_safari", function(event){
+	// 		$(".UserMsgBox_safari").fadeOut(200, function() {
+	//             $(this).remove();
+	//         });
+	// 		safariUserHasAgreed = true;
+	//         returnLastStudentSession();
+	// 	});
 
-		$( document ).on('click', ".MsgBox_bgr_safari", function(event){
-			$(".MsgBox_bgr_safari").fadeOut(200, function() {
-	            $(this).remove();
-	        });
-	        safariUserHasAgreed = true;
-	        returnLastStudentSession();
-		});
+	// 	$( document ).on('click', ".MsgBox_bgr_safari", function(event){
+	// 		$(".MsgBox_bgr_safari").fadeOut(200, function() {
+	//             $(this).remove();
+	//         });
+	//         safariUserHasAgreed = true;
+	//         returnLastStudentSession();
+	// 	});
 
-		return 0;
-	}
+	// 	return 0;
+	// }
 
 	
 	if ((TjsonData !== null) && (typeof(TjsonData) !== 'undefined')){
@@ -2330,6 +2332,9 @@ function step_10_template(){
 	HTML += 		'</div>';
 	HTML += 	'</div>';
 	HTML += '</div>';
+
+	HTML += download(); 	// <----- ADDED 18/1-2018 - HTML-to-Word-conversion by PHP
+
 	HTML = replaceWildcard2(HTML, jsonData.numOfChoosenWords);
 	// errObj.updateErrorObj("STEP 10 - jsonData.studentSelectedTexts", jsonData.studentSelectedTexts[jsonData.selectedTextIndexNum]);
 	return HTML;
@@ -2343,15 +2348,51 @@ $( document ).on('click', "#step_10_goBack", function(event){
 	// $(".headerField").focus();  // Sets the focus in the textarea when the template loades.
 });
 
-$( document ).on('click', "#step_10_download", function(event){
+// // COMMENTED OUT d. 18/1-2018
+// $( document ).on('click', "#step_10_download", function(event){
 	
-	var HTML = wordTemplate();
-	// console.log("step_10_download - wordTemplate: " + HTML);
-	// UserMsgBox("body", HTML);
+// 	var HTML = wordTemplate();
+// 	// console.log("step_10_download - wordTemplate: " + HTML);
+// 	// UserMsgBox("body", HTML);
 
-	var converted = htmlDocx.asBlob(HTML);
-    console.log("step_10_download - converted: " + JSON.stringify(converted));
-	saveAs(converted, 'Min analyse.docx');
+// 	var converted = htmlDocx.asBlob(HTML);
+//     console.log("step_10_download - converted: " + JSON.stringify(converted));
+// 	saveAs(converted, 'Min analyse.docx');
+// });
+
+
+// ADDED 18/1-2018 - HTML-to-Word-conversion by PHP
+// The btn #submit by input type="submit" has a diffrent CSS-style... therefore another btn .download is used and click on the #submit btn.
+function download() {  
+	var HTML = '';
+	HTML += '<form action="htmlToWord.php" method="post">';
+    HTML += 	'<input type="hidden" name="fileName" id="hiddenField" value="Min analyse" />';
+    HTML += 	'<input id="html" type="hidden" name="html" id="hiddenField" />';
+    HTML += 	'<input id="submit" type="submit" class="btn btn-info" value="Konverter" onclick="clearInterval(downloadTimer);">';  // <---- NOTE: The "downloadTimer" is cleared here!
+    HTML += '</form>';
+    // $('#interface').append(HTML);
+
+    return HTML;
+}
+
+// ADDED 18/1-2018 - HTML-to-Word-conversion by PHP
+// If this is not present, some browseres starts to download an empty htmlToWord.php file instead of the intended .docx file.
+$( document ).on('click', '#submit', function(){  
+    console.log('#submit - CLICKED - submit');
+    $('#html').val(wordTemplate());
+});
+
+// ADDED 18/1-2018 - HTML-to-Word-conversion by PHP
+// Some browsers need two clicks on the ".download" btn before the download starts. Therefore a timer is set to loop untill the variable "downloadTimer" is cleared.
+// $( document ).on('click', '.download', function(){   
+$( document ).on('click', '#step_10_download', function(){ 
+	console.log('.download - CLICKED - submit');
+    window.Tcount = 0;
+	window.downloadTimer = setInterval(function(){  // <---- NOTE: The "downloadTimer" is cleared inline in the input-tag "#submit"
+		$('#submit').trigger('click');
+		++Tcount;
+		console.log('download - CLICKED - Tcount: ' + Tcount);
+	}, 200);
 });
 
 

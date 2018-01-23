@@ -255,3 +255,8 @@ audio::-webkit-media-controls-panel {
 }
 
 /* SKJUL DOWNLOAD KNAPPEN SLUT*/
+
+
+#submit {
+    display: none;
+}

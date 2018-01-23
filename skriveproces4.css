@@ -354,6 +354,10 @@ textarea {
     margin-right: 0px;
 }
 
+#author div{
+    display: inline-block;
+}
+
 
 .glyphicon-info-sign:hover{
     cursor: pointer;
@@ -369,4 +373,8 @@ textarea {
 
 .emptyField {
     color: #CCC;
+}
+
+#submit {
+    display: none;
 }

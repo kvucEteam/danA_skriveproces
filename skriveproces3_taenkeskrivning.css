@@ -357,3 +357,7 @@ textarea {
 .emptyField {
     color: #CCC;
 }
+
+#submit {
+    display: none;
+}

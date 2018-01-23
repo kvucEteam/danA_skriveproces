@@ -254,16 +254,48 @@ function summery(selector) {
 }
 
 
-function download() {
-	console.log('\nEXTERNAL FUNCTION download - CALLED');
+// function download() {
+// 	console.log('\nEXTERNAL FUNCTION download - CALLED');
 
-	var HTML = wordTemplate();
-	// var HTML = "TEST DOWNLOAD"; 
+// 	var HTML = wordTemplate();
+// 	// var HTML = "TEST DOWNLOAD"; 
 	
-	var converted = htmlDocx.asBlob(HTML);
-    console.log("EXTERNAL FUNCTION download - converted: " + JSON.stringify(converted));
-	saveAs(converted, 'Min analyse - den grimme ælling.docx');
+// 	var converted = htmlDocx.asBlob(HTML);
+//     console.log("EXTERNAL FUNCTION download - converted: " + JSON.stringify(converted));
+// 	saveAs(converted, 'Min analyse - den grimme ælling.docx');
+// }
+
+
+// ADDED 18/1-2018 - HTML-to-Word-conversion by PHP
+// The btn #submit by input type="submit" has a diffrent CSS-style... therefore another btn .download is used and click on the #submit btn.
+function download() {  
+	var HTML = '';
+	HTML += '<form action="htmlToWord.php" method="post">';
+    HTML += 	'<input type="hidden" name="fileName" id="hiddenField" value="Den introducerende artikel" />';
+    HTML += 	'<input id="html" type="hidden" name="html" id="hiddenField" />';
+    HTML += 	'<input id="submit" type="submit" class="btn btn-info" value="Konverter" onclick="clearInterval(downloadTimer);">';  // <---- NOTE: The "downloadTimer" is cleared here!
+    HTML += '</form>';
+    $('#interface').append(HTML);
 }
+
+// ADDED 18/1-2018 - HTML-to-Word-conversion by PHP
+// If this is not present, some browseres starts to download an empty htmlToWord.php file instead of the intended .docx file.
+$( document ).on('click', '#submit', function(){  
+    console.log('#submit - CLICKED - submit');
+    $('#html').val(wordTemplate());
+});
+
+// ADDED 18/1-2018 - HTML-to-Word-conversion by PHP
+// Some browsers need two clicks on the ".download" btn before the download starts. Therefore a timer is set to loop untill the variable "downloadTimer" is cleared.
+$( document ).on('click', '.download', function(){    
+	console.log('.download - CLICKED - submit');
+    window.Tcount = 0;
+	window.downloadTimer = setInterval(function(){  // <---- NOTE: The "downloadTimer" is cleared inline in the input-tag "#submit"
+		$('#submit').trigger('click');
+		++Tcount;
+		console.log('download - CLICKED - Tcount: ' + Tcount);
+	}, 200);
+});
 
 
 function wordTemplate() {
