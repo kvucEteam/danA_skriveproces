@@ -1886,12 +1886,10 @@ writeProcessClass = {
 		    	break;
 		    case 'video':
 		        HTML += this.video(content);
+		        break;
 		    case 'wrapper':   // ADDED 17/10-2017
 		        HTML += this.wrapper(content);
-            break;
-
-
-		        break;
+            	break;
 		    default:
 		        console.log('\n==================\n\tERROR: \n\tgenerateContentType - currentStepNo: ' + this.api.currentStepNo + ', contentType: "' + contentType + '" does not exist!\n==================\n');
 		} 

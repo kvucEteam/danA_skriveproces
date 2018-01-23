@@ -217,5 +217,25 @@ function wordTemplate() {
 
 
 
+function testSwich(contentType) {
+	console.log('\ntestSwich - contentType: ' + contentType);
+	
+	switch(contentType) {
+		case 'video':
+		    console.log('testSwich - video 1');
 
+	    case 'wrapper':   // ADDED 17/10-2017
+	        console.log('testSwich - wrapper');
+        break;
+
+        	console.log('testSwich - video 2');
+	        break;
+	    default:
+	    	console.log('testSwich - default');
+	}
+}
+
+testSwich('video');
+testSwich('wrapper');
+testSwich('default');
 

@@ -49,7 +49,23 @@
 							}
 						}
 					}},
-					{"text" : "<p class='helperText'>Introducér emnet for læseren:</p>"},
+					{"text" : "<p class='helperText'>Din skitse til et hvad-spørgsmål skrives her. Taksonomisk niveau: Redegørende. Spørgsmålet skal du selv besvare lige herunder.</p>"},
+					{"dropdown":{
+						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
+						"id":"Dropdown1", "class":"Dropdown", "selected": "0",
+						"target": "#textArea_7_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
+						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
+						"options":[
+							{"value":"Sætningsstartere:"},
+				    		{"value":"Hvad er god ..., og hvad er dårlig...?"},
+				    		{"value":"Hvad kendetegner...?"},
+				    		{"value":"Hvad mener...?"}
+						]
+					}},
+					{"textArea": {
+						"attr" : {"id": "textArea_7_1"}
+					}},
+					{"text" : "<p class='helperText'>Skriv nu dit introduktionsafsnit, hvor du besvarer dit første arbejdsspørgsmål.</p>"},
 					{"textArea": {
 						"attr" : {"id": "textArea_7_2"}
 					}},
@@ -74,7 +90,7 @@
 						"selector": ".instructionText",
 						"options": {"typeSpeed": 50},
 						"cmdObj": [
-					        {"wait": 3000},
+					        {"wait": 2500},
 					        {"add": " Kom med konkrete eksempler på, hvad der karakteriserer dit emne bedst."},
 					        {"wait": 2000},
 					        {"removeCursor": 300}
@@ -83,7 +99,7 @@
 				},
 				{
 					"delay": {
-						"wait": 50,
+						"wait": 600,
 						"execute": [
 							{
 								"microhint": {
@@ -148,9 +164,28 @@
 							}
 						}
 					}},
-					{"text" : "<p class='helperText'>Skriv nu et anslag til dit analyseafsnit:</p>"},
+					{"text" : "<p class='helperText'>Skriv nu et anslag til dit analyseafsnit</p>"},
 					{"textArea": {
 						"attr" : {"id": "textArea_8a_2"}
+					}},
+					{"text" : "<p class='helperText'>Dit udkast til et hvordan/hvilke-spørgsmål 1. Taksonomisk niveau: Analyserende. Spørgsmålet skal du selv besvare lige herunder.</p>"},
+					{"dropdown":{
+						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
+						"id":"Dropdown1", "class":"Dropdown", "selected": "0",
+						"target": "#textArea_8a_1", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
+						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
+						"options":[
+							{"value":"Sætningsstartere:"},
+				    		{"value":"Hvordan karakteriserer (forfatter) emnet i sin tekst...?"},
+				    		{"value":"Hvordan fremstilles (emnet) i teksten...?"}
+						]
+					}},
+					{"textArea": {
+						"attr" : {"id": "textArea_8a_1"}
+					}},
+					{"text" : "<p class='helperText'>Besvar nu dit hvordan/hvilke-spørgsmål.</p>"},
+					{"textArea": {
+						"attr" : {"id": "textArea_8a_3"}
 					}},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
@@ -226,7 +261,7 @@
 							}
 						}
 					}},
-					{"text" : "<p class='helperText'>Lav nu din karakteristik eller undersøgelse:</p>"},
+					{"text" : "<p class='helperText'>Lav nu din karakteristik eller undersøgelse her.</p>"},
 					{"dropdown":{
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_8b_1", "class":"Dropdown", "selected": "0",
@@ -408,7 +443,7 @@
 							}
 						}
 					}},
-					{"text" : "<p class='helperText'>Skriv nu et afsnit, hvor du kritiserer primærteksten og runder dit analyseafsnit af:</p>"},
+					{"text" : "<p class='helperText'>Skriv nu et afsnit, hvor du kritiserer primærteksten og runder dit analyseafsnit af.</p>"},
 					{"dropdown":{
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_10_1", "class":"Dropdown", "selected": "0",
@@ -500,7 +535,23 @@
 							}
 						}
 					}},
-					{"text" : "<p class='helperText'>Skriv nu dit perspektiverende afsnit:</p>"},
+					{"text" : "<p class='helperText'>Dit udkast til et hvordan/hvilke-spørgsmål 2. Taksonomisk niveau: Perspektiverende/diskuterende. Spørgsmålet besvares i det perspektiverende afsnit.</p>"},
+					{"dropdown":{
+						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
+						"id":"Dropdown1", "class":"Dropdown", "selected": "0",
+						"target": "#textArea_11_2", "NOTE_2": "Alle id'er og klasser angives med mellemrum - ligesom i 'target' for onClick",
+						"action": "append", "NOTE_3": "'action' er valgfri: hvis 'action' ikke er i JSON, så er action = replace. Key 'action' kan have 3 værdier: 'prepend', 'replace' og 'append'",
+						"options":[
+							{"value":"Sætningsstartere:"},
+				    		{"value":"Hvilke problemer er der med måden X karakteriserer emnet på?"},
+				    		{"value":"Hvilke fællestræk er der mellem x og Y..."},
+				    		{"value":"Hvilke vigtige synspunkter overser X..."}
+						]
+					}},
+					{"textArea": {
+						"attr" : {"id": "textArea_11_2"}
+					}},
+					{"text" : "<p class='helperText'>Skriv nu dit perspektiverende afsnit.</p>"},
 					{"dropdown":{
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_11_1", "class":"Dropdown", "selected": "0",
@@ -558,7 +609,7 @@
 				"attr" : {"id": "step_12", "class": "step"},
 				"NOTE_1": "Årsagen til at content er et array er, at JSON ikke understøtter flere ens keys, som f.eks 'text' eller 'inputField'",
 				"content": [
-					{"header": "json(general.header): Afslutning"},
+					{"header": "Side 12: json(general.header): Afslutning"},
 					{"instruction": "Afslutning"},
 					{"html" : "<div class='Clear'></div>"},
 					{"btn": {
@@ -595,7 +646,7 @@
 							}
 						}
 					}},
-					{"text" : "<p class='helperText'>Skriv nu din afslutning:</p>"},
+					{"text" : "<p class='helperText'>Skriv nu din afslutning.</p>"},
 					{"dropdown":{
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_12_1", "class":"Dropdown", "selected": "0",
@@ -686,7 +737,7 @@
 							}
 						}
 					}},
-					{"text" : "<p class='helperText'>Skriv nu din indledning:</p>"},
+					{"text" : "<p class='helperText'>Skriv nu din indledning.</p>"},
 					{"dropdown":{
 						"NOTE_1": "Attributten 'target' er de target-selectors der får valget fra dropdownen indsat.",
 						"id":"Dropdown_13_1", "class":"Dropdown", "selected": "0",
@@ -744,7 +795,7 @@
 					{"header": "json(general.header): Rubrik"},
 					{"instruction": "Rubrikken - En god rubrik er kort, fængende, veloplagt og oplysende. Rubrikken skal fange læserens opmærksomhed."},
 					{"html" : "<div class='Clear'></div>"},
-					{"text" : "<p class='helperText'>Skriv nu din rubrik:</p>"},
+					{"text" : "<p class='helperText'>Skriv nu din rubrik.</p>"},
 					{"textArea": 
 						{"attr" : {"id": "textArea_14_1"}
 					}},
@@ -788,7 +839,7 @@
 					{"header": "json(general.header): Underrubrik"},
 					{"instruction": "Underrubrikken/manchetten – En underrubrik skal uddybe artiklens emne og fokus, så læseren ved, hvad artiklen handler om."},
 					{"html" : "<div class='Clear'></div>"},
-					{"text" : "<p class='helperText'>Skriv nu din underrubrik/manchet:</p>"},
+					{"text" : "<p class='helperText'>Skriv nu din underrubrik/manchet.</p>"},
 					{"textArea": 
 						{"attr" : {"id": "textArea_15_1"}
 					}},
