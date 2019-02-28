@@ -200,7 +200,7 @@ function wordTemplate() {
 	HTML += 	'<div class="instruction">';
 	HTML += 		'<h3>Til det videre arbejde</h3>';
 	HTML += 		'<p>';
-	HTML += 			'Inden du går i gang med det videre arbejde, skal du kopiere og gemme dette dokument i sin nuværende form. Vi vil nemlig gerne have, at du til sidst afleverer både dokumentet, som det ser ud nu og din endeligt gennemarbejde tekst. Du skal med andre ord aflevere to udgaver af din tekst. Det skal du, da vi gerne vil kunne give dig feedback på både den første del af din skriveproces og på det færdige resultat.';
+	HTML += 			'Inden du går i gang med det videre arbejde, skal du kopiere og gemme dette dokument i sin nuværende form. Vi vil nemlig gerne have, at du til sidst afleverer både dokumentet, som det ser ud nu og din endeligt gennemarbejdede tekst. Du skal med andre ord aflevere to udgaver af din tekst. Det skal du, da vi gerne vil kunne give dig feedback på både den første del af din skriveproces og på det færdige resultat.';
 	HTML += 		'</p>';
 	HTML += 		'<p>';
 	HTML += 			'Opgaven træner dig i at blive bevidst om, hvad der skal til for at løfte teksten fra det indledende arbejde med skriveguiden, til at skrive med øje for den læser, som skal læse teksten.';
